@@ -1,0 +1,2046 @@
+{
+  "inventory": {
+    "applications": {
+      "Amazon_Prime": 8,
+      "Download": 5,
+      "Netflix": 10
+    },
+    "calibration_eligible": 22,
+    "classifications": {
+      "dynamic_static": 18,
+      "quarantine_mobility": 1,
+      "steady_anchor": 4
+    },
+    "duplicate_rows": 1205,
+    "dynamic_replay_eligible": 18,
+    "raw_rows": 85166,
+    "static_trace_files": 23,
+    "unique_seconds": 83961
+  },
+  "policy": {
+    "max_sample_gap_seconds": 3,
+    "max_static_speed_p95_kph": 5.0,
+    "min_primary_radio_coverage": 0.75,
+    "min_rssi_coverage": 0.75,
+    "min_timestamp_coverage": 0.8,
+    "static_speed_warning_kph": 1.0,
+    "window_seconds": 180
+  },
+  "schema_version": 1,
+  "source": {
+    "archive": "5G-production-dataset.zip",
+    "archive_name": "5G-production-dataset.zip",
+    "archive_sha256": "abc729d696b5e0ba34a9c6ed35a851f2868d2b5071be5efb8a49691c23bb1a9b",
+    "commit": "ba876f77e9330ebd227b2497cf4f90b37d624abc",
+    "expected_archive_sha256": "abc729d696b5e0ba34a9c6ed35a851f2868d2b5071be5efb8a49691c23bb1a9b",
+    "input_type": "zip",
+    "official_archive_verified": true,
+    "ref": "v1.0.0",
+    "repository": "https://github.com/uccmisl/5Gdataset"
+  },
+  "traces": [
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": "Season3-TheExpanse",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 2292
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 2293,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-12-19T15:23:59",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 15.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -99.0,
+            "p50": -98.0,
+            "p90": -97.0,
+            "unique_values": 5
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -17.0,
+            "p50": -14.0,
+            "p90": -12.0,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -89.0,
+            "p50": -87.5,
+            "p90": -86.0,
+            "unique_values": 8
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 1.0,
+            "p50": 4.0,
+            "p90": 9.0,
+            "unique_values": 14
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-12-19T15:21:00",
+        "state_counts": {
+          "D": 125,
+          "I": 43
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Amazon_Prime/Static/Season3-TheExpanse/B_2019.12.19_15.00.47.csv",
+      "source_sha256": "6b5895c275b963b511cb050602c0eef5df3ab893c15af1b9c1c4c12e52e67aa6",
+      "trace_id": "98b9b98d701e5aa3",
+      "unique_seconds": 2292,
+      "wall_duration_seconds": 2478
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 12,
+      "classification": "dynamic_static",
+      "content": "Season3-TheExpanse",
+      "duplicate_rows": 3,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 4936,
+        "HSPA+": 2018,
+        "HSUPA": 14,
+        "UMTS": 21
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "source_contains_cell_changes",
+        "source_contains_non_5g",
+        "static_speed_warning"
+      ],
+      "raw_rows": 6992,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-12-23T11:14:05",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 9.0,
+            "p50": 11.0,
+            "p90": 14.0,
+            "unique_values": 7
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -101.0,
+            "p50": -101.0,
+            "p90": -100.0,
+            "unique_values": 3
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -16.0,
+            "p50": -13.0,
+            "p90": -11.0,
+            "unique_values": 8
+          },
+          "RSSI": {
+            "coverage": 0.7222222222222222,
+            "observed": 130,
+            "p10": -89.0,
+            "p50": -89.0,
+            "p90": -84.0,
+            "unique_values": 7
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -2.0,
+            "p50": 1.5,
+            "p90": 6.0,
+            "unique_values": 17
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 3.0,
+        "start": "2019-12-23T11:11:06",
+        "state_counts": {
+          "D": 122,
+          "I": 46
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Amazon_Prime/Static/Season3-TheExpanse/B_2019.12.23_10.30.35.csv",
+      "source_sha256": "f206c175517933f3d685f4830fad2366ee9f8faf802a008cc9ab2d825bd06f1c",
+      "trace_id": "ea48334e3dc57ed4",
+      "unique_seconds": 6989,
+      "wall_duration_seconds": 7550
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 2,
+      "classification": "dynamic_static",
+      "content": "Season3-TheExpanse",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 6126,
+        "LTE": 16
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "source_contains_cell_changes",
+        "source_contains_non_5g"
+      ],
+      "raw_rows": 6143,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-03T09:02:59",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9222222222222223,
+            "observed": 166,
+            "p10": 10.0,
+            "p50": 13.0,
+            "p90": 14.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.9222222222222223,
+            "observed": 166,
+            "p10": -100.0,
+            "p50": -100.0,
+            "p90": -99.0,
+            "unique_values": 5
+          },
+          "RSRQ": {
+            "coverage": 0.9222222222222223,
+            "observed": 166,
+            "p10": -13.0,
+            "p50": -11.0,
+            "p90": -10.0,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.0,
+            "observed": 0,
+            "p10": null,
+            "p50": null,
+            "p90": null,
+            "unique_values": 0
+          },
+          "SNR": {
+            "coverage": 0.9222222222222223,
+            "observed": 166,
+            "p10": -1.0,
+            "p50": 3.0,
+            "p90": 8.0,
+            "unique_values": 19
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 166,
+        "primary_radio_coverage": 0.9222222222222223,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-03T09:00:00",
+        "state_counts": {
+          "D": 154,
+          "I": 12
+        },
+        "timestamp_coverage": 0.9222222222222223
+      },
+      "source_path": "Amazon_Prime/Static/Season3-TheExpanse/B_2020.01.03_08.59.40.csv",
+      "source_sha256": "f084241161014bb71b28c1fa8a177a95cb2f8e0f0700d6e1d072a82edef5d4af",
+      "trace_id": "c672dae122ab5731",
+      "unique_seconds": 6142,
+      "wall_duration_seconds": 6698
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": "Season3-TheExpanse",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 5294
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi"
+      ],
+      "raw_rows": 5295,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-03T11:57:02",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": 9.0,
+            "p50": 12.0,
+            "p90": 14.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -100.0,
+            "p50": -99.0,
+            "p90": -98.0,
+            "unique_values": 4
+          },
+          "RSRQ": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -15.0,
+            "p50": -12.0,
+            "p90": -10.0,
+            "unique_values": 8
+          },
+          "RSSI": {
+            "coverage": 0.0,
+            "observed": 0,
+            "p10": null,
+            "p50": null,
+            "p90": null,
+            "unique_values": 0
+          },
+          "SNR": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -2.0,
+            "p50": 3.0,
+            "p90": 8.0,
+            "unique_values": 17
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 167,
+        "primary_radio_coverage": 0.9277777777777778,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-03T11:54:03",
+        "state_counts": {
+          "D": 154,
+          "I": 13
+        },
+        "timestamp_coverage": 0.9277777777777778
+      },
+      "source_path": "Amazon_Prime/Static/Season3-TheExpanse/B_2020.01.03_10.54.39.csv",
+      "source_sha256": "6e0123f812771517630c5214f05ef14cc102e09afa626d889423025a00d31e52",
+      "trace_id": "9879d08c2a797a39",
+      "unique_seconds": 5294,
+      "wall_duration_seconds": 5889
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "steady_anchor",
+      "content": "Season3-TheExpanse",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": false,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 2283
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "steady_radio_values"
+      ],
+      "raw_rows": 2284,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-05T15:23:01",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": 10.0,
+            "p50": 10.0,
+            "p90": 10.0,
+            "unique_values": 1
+          },
+          "RSRP": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": -100.0,
+            "p50": -100.0,
+            "p90": -100.0,
+            "unique_values": 1
+          },
+          "RSRQ": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": -13.0,
+            "p50": -13.0,
+            "p90": -13.0,
+            "unique_values": 1
+          },
+          "RSSI": {
+            "coverage": 0.0,
+            "observed": 0,
+            "p10": null,
+            "p50": null,
+            "p90": null,
+            "unique_values": 0
+          },
+          "SNR": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": -1.0,
+            "p50": -1.0,
+            "p90": -1.0,
+            "unique_values": 1
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 170,
+        "primary_radio_coverage": 0.9444444444444444,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-05T15:20:02",
+        "state_counts": {
+          "D": 139,
+          "I": 31
+        },
+        "timestamp_coverage": 0.9444444444444444
+      },
+      "source_path": "Amazon_Prime/Static/Season3-TheExpanse/B_2020.01.05_14.55.57.csv",
+      "source_sha256": "4e1299773dc666a5898e36e89bb24dd8c2c54e80c4b54c2619523e2a1a443a86",
+      "trace_id": "0544fbe595d5a3c9",
+      "unique_seconds": 2283,
+      "wall_duration_seconds": 2436
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "steady_anchor",
+      "content": "animated-Ninjago",
+      "duplicate_rows": 0,
+      "dynamic_replay_eligible": false,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 3739
+      },
+      "quality_flags": [
+        "incomplete_rssi",
+        "steady_radio_values"
+      ],
+      "raw_rows": 3739,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-06T09:59:04",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": 14.0,
+            "p50": 14.0,
+            "p90": 14.0,
+            "unique_values": 1
+          },
+          "RSRP": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -104.0,
+            "p50": -104.0,
+            "p90": -104.0,
+            "unique_values": 1
+          },
+          "RSRQ": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -13.0,
+            "p50": -13.0,
+            "p90": -13.0,
+            "unique_values": 1
+          },
+          "RSSI": {
+            "coverage": 0.0,
+            "observed": 0,
+            "p10": null,
+            "p50": null,
+            "p90": null,
+            "unique_values": 0
+          },
+          "SNR": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -5.0,
+            "p50": -5.0,
+            "p90": -5.0,
+            "unique_values": 1
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 169,
+        "primary_radio_coverage": 0.9388888888888889,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-06T09:56:05",
+        "state_counts": {
+          "D": 136,
+          "I": 33
+        },
+        "timestamp_coverage": 0.9388888888888889
+      },
+      "source_path": "Amazon_Prime/Static/animated-Ninjago/B_2020.01.06_09.55.13.csv",
+      "source_sha256": "22da99065775751c36d519bf860ff441e397adc23167c4869257bed5bbaa2a0a",
+      "trace_id": "5017155ccec50de6",
+      "unique_seconds": 3739,
+      "wall_duration_seconds": 4007
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "steady_anchor",
+      "content": "animated-Ninjago",
+      "duplicate_rows": 3,
+      "dynamic_replay_eligible": false,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 1544,
+        "HSPA+": 62,
+        "HSUPA": 5
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "source_contains_non_5g",
+        "steady_radio_values"
+      ],
+      "raw_rows": 1614,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-06T11:11:47",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": 14.0,
+            "p50": 14.0,
+            "p90": 14.0,
+            "unique_values": 1
+          },
+          "RSRP": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -97.0,
+            "p50": -97.0,
+            "p90": -97.0,
+            "unique_values": 1
+          },
+          "RSRQ": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -11.0,
+            "p50": -11.0,
+            "p90": -11.0,
+            "unique_values": 1
+          },
+          "RSSI": {
+            "coverage": 0.0,
+            "observed": 0,
+            "p10": null,
+            "p50": null,
+            "p90": null,
+            "unique_values": 0
+          },
+          "SNR": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -7.0,
+            "p50": -7.0,
+            "p90": -7.0,
+            "unique_values": 1
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 169,
+        "primary_radio_coverage": 0.9388888888888889,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-06T11:08:48",
+        "state_counts": {
+          "D": 131,
+          "I": 38
+        },
+        "timestamp_coverage": 0.9388888888888889
+      },
+      "source_path": "Amazon_Prime/Static/animated-Ninjago/B_2020.01.06_11.08.12.csv",
+      "source_sha256": "18f058c61bfc929e91d17f7bd9b83c38988a52bb4f320c1ecaddb0fb7a62b9c7",
+      "trace_id": "8918a157ff8020b1",
+      "unique_seconds": 1611,
+      "wall_duration_seconds": 1729
+    },
+    {
+      "app": "Amazon_Prime",
+      "calibration_eligible": true,
+      "cell_changes": 2,
+      "classification": "steady_anchor",
+      "content": "animated-Ninjago",
+      "duplicate_rows": 6,
+      "dynamic_replay_eligible": false,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 2606,
+        "HSPA+": 108,
+        "HSUPA": 4,
+        "LTE": 3857
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "source_contains_cell_changes",
+        "source_contains_non_5g",
+        "steady_radio_values"
+      ],
+      "raw_rows": 6581,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-06T13:24:30",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": 12.0,
+            "p50": 12.0,
+            "p90": 12.0,
+            "unique_values": 1
+          },
+          "RSRP": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": -100.0,
+            "p50": -100.0,
+            "p90": -100.0,
+            "unique_values": 1
+          },
+          "RSRQ": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": -14.0,
+            "p50": -14.0,
+            "p90": -14.0,
+            "unique_values": 1
+          },
+          "RSSI": {
+            "coverage": 0.0,
+            "observed": 0,
+            "p10": null,
+            "p50": null,
+            "p90": null,
+            "unique_values": 0
+          },
+          "SNR": {
+            "coverage": 0.9444444444444444,
+            "observed": 170,
+            "p10": 4.0,
+            "p50": 4.0,
+            "p90": 4.0,
+            "unique_values": 1
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 170,
+        "primary_radio_coverage": 0.9444444444444444,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-06T13:21:31",
+        "state_counts": {
+          "D": 141,
+          "I": 29
+        },
+        "timestamp_coverage": 0.9444444444444444
+      },
+      "source_path": "Amazon_Prime/Static/animated-Ninjago/B_2020.01.06_11.40.29.csv",
+      "source_sha256": "051a659c87f48eb8b4c3ddb68640a1beaf41dbf374a19df0f775ced3b648707c",
+      "trace_id": "586e06de07e8a2ae",
+      "unique_seconds": 6575,
+      "wall_duration_seconds": 7036
+    },
+    {
+      "app": "Download",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": null,
+      "duplicate_rows": 160,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 1983
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 2143,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-12-16T14:15:39",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 12.0,
+            "unique_values": 8
+          },
+          "RSRP": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": -97.0,
+            "p50": -96.0,
+            "p90": -94.0,
+            "unique_values": 5
+          },
+          "RSRQ": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": -17.0,
+            "p50": -15.0,
+            "p90": -11.0,
+            "unique_values": 10
+          },
+          "RSSI": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": -91.0,
+            "p50": -89.0,
+            "p90": -89.0,
+            "unique_values": 2
+          },
+          "SNR": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": 0.0,
+            "p50": 4.0,
+            "p90": 7.0,
+            "unique_values": 16
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 161,
+        "primary_radio_coverage": 0.8944444444444445,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-12-16T14:12:40",
+        "state_counts": {
+          "D": 161
+        },
+        "timestamp_coverage": 0.8944444444444445
+      },
+      "source_path": "Download/Static/B_2019.12.16_13.40.04.csv",
+      "source_sha256": "34040836e290bdca909f14c97af33c006275267b5397bc76724bd33c07e03769",
+      "trace_id": "d5c8cfbdaef26f64",
+      "unique_seconds": 1983,
+      "wall_duration_seconds": 2282
+    },
+    {
+      "app": "Download",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": null,
+      "duplicate_rows": 242,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 3080
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 3322,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-01-16T11:33:05",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 11.200000000000017,
+            "unique_values": 8
+          },
+          "RSRP": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -105.0,
+            "p50": -104.0,
+            "p90": -103.0,
+            "unique_values": 5
+          },
+          "RSRQ": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -18.0,
+            "p50": -16.0,
+            "p90": -12.799999999999983,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -101.0,
+            "p50": -101.0,
+            "p90": -101.0,
+            "unique_values": 3
+          },
+          "SNR": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -2.0,
+            "p50": 1.0,
+            "p90": 4.0,
+            "unique_values": 12
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 159,
+        "primary_radio_coverage": 0.8833333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-01-16T11:30:06",
+        "state_counts": {
+          "D": 158,
+          "I": 1
+        },
+        "timestamp_coverage": 0.8833333333333333
+      },
+      "source_path": "Download/Static/B_2020.01.16_10.43.34.csv",
+      "source_sha256": "2deb1791b38926426153e77438916468f97feec7659f73e81b7e609434fdacc2",
+      "trace_id": "378c89495d537086",
+      "unique_seconds": 3080,
+      "wall_duration_seconds": 3680
+    },
+    {
+      "app": "Download",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": null,
+      "duplicate_rows": 228,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 2920
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 3148,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-02-13T14:50:42",
+        "max_sample_gap_seconds": 3,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 13.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": -101.0,
+            "p50": -99.0,
+            "p90": -98.0,
+            "unique_values": 5
+          },
+          "RSRQ": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": -16.0,
+            "p50": -14.0,
+            "p90": -11.0,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": -105.0,
+            "p50": -105.0,
+            "p90": -105.0,
+            "unique_values": 2
+          },
+          "SNR": {
+            "coverage": 0.8944444444444445,
+            "observed": 161,
+            "p10": 3.0,
+            "p50": 6.0,
+            "p90": 8.0,
+            "unique_values": 13
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 161,
+        "primary_radio_coverage": 0.8944444444444445,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-02-13T14:47:43",
+        "state_counts": {
+          "D": 161
+        },
+        "timestamp_coverage": 0.8944444444444445
+      },
+      "source_path": "Download/Static/B_2020.02.13_13.57.29.csv",
+      "source_sha256": "d670a3463d683959094f47f6caacb70d65bd4081dc24d5b3a93b35f8a04495b1",
+      "trace_id": "6e56376f8430a3bc",
+      "unique_seconds": 2920,
+      "wall_duration_seconds": 3498
+    },
+    {
+      "app": "Download",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": null,
+      "duplicate_rows": 74,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 939
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 1013,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-02-14T13:26:09",
+        "max_sample_gap_seconds": 3,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.8777777777777778,
+            "observed": 158,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 12.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.8777777777777778,
+            "observed": 158,
+            "p10": -104.0,
+            "p50": -103.0,
+            "p90": -102.0,
+            "unique_values": 5
+          },
+          "RSRQ": {
+            "coverage": 0.8777777777777778,
+            "observed": 158,
+            "p10": -17.0,
+            "p50": -14.0,
+            "p90": -12.0,
+            "unique_values": 11
+          },
+          "RSSI": {
+            "coverage": 0.8777777777777778,
+            "observed": 158,
+            "p10": -105.0,
+            "p50": -105.0,
+            "p90": -103.0,
+            "unique_values": 3
+          },
+          "SNR": {
+            "coverage": 0.8777777777777778,
+            "observed": 158,
+            "p10": -4.0,
+            "p50": 0.0,
+            "p90": 4.0,
+            "unique_values": 15
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 158,
+        "primary_radio_coverage": 0.8777777777777778,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-02-14T13:23:10",
+        "state_counts": {
+          "D": 155,
+          "I": 3
+        },
+        "timestamp_coverage": 0.8777777777777778
+      },
+      "source_path": "Download/Static/B_2020.02.14_13.21.26.csv",
+      "source_sha256": "b8c494344734ff2dc34dd52a7833db96e9fc423731080b5a04e61058d8ad584b",
+      "trace_id": "c029943772ad455f",
+      "unique_seconds": 939,
+      "wall_duration_seconds": 1103
+    },
+    {
+      "app": "Download",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": null,
+      "duplicate_rows": 423,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 5568
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 5991,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2020-02-27T20:28:18",
+        "max_sample_gap_seconds": 3,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 12.200000000000017,
+            "unique_values": 10
+          },
+          "RSRP": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -99.0,
+            "p50": -97.0,
+            "p90": -96.0,
+            "unique_values": 6
+          },
+          "RSRQ": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -17.0,
+            "p50": -15.0,
+            "p90": -11.0,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -105.0,
+            "p50": -103.0,
+            "p90": -101.0,
+            "unique_values": 4
+          },
+          "SNR": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": 2.0,
+            "p50": 5.0,
+            "p90": 8.0,
+            "unique_values": 12
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 159,
+        "primary_radio_coverage": 0.8833333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2020-02-27T20:25:19",
+        "state_counts": {
+          "D": 159
+        },
+        "timestamp_coverage": 0.8833333333333333
+      },
+      "source_path": "Download/Static/B_2020.02.27_18.39.27.csv",
+      "source_sha256": "0d87594f6a7ebff6fa2c12301894f11d41e7e9283c272a94831dccb9068e70ec",
+      "trace_id": "1ba730f3759c6951",
+      "unique_seconds": 5568,
+      "wall_duration_seconds": 6654
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 5,
+      "classification": "dynamic_static",
+      "content": "Season3-StrangerThings",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 2579,
+        "LTE": 78
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "source_contains_cell_changes",
+        "source_contains_non_5g"
+      ],
+      "raw_rows": 2658,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-11-26T13:53:47",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": 10.0,
+            "p50": 12.0,
+            "p90": 14.0,
+            "unique_values": 8
+          },
+          "RSRP": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -104.0,
+            "p50": -101.0,
+            "p90": -100.0,
+            "unique_values": 8
+          },
+          "RSRQ": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -15.0,
+            "p50": -13.0,
+            "p90": -11.0,
+            "unique_values": 8
+          },
+          "RSSI": {
+            "coverage": 0.5888888888888889,
+            "observed": 106,
+            "p10": -87.0,
+            "p50": -84.0,
+            "p90": -83.0,
+            "unique_values": 7
+          },
+          "SNR": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -2.0,
+            "p50": 2.0,
+            "p90": 6.0,
+            "unique_values": 14
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 167,
+        "primary_radio_coverage": 0.9277777777777778,
+        "quality_eligible": true,
+        "speed_p95_kph": 1.0,
+        "start": "2019-11-26T13:50:48",
+        "state_counts": {
+          "D": 93,
+          "I": 74
+        },
+        "timestamp_coverage": 0.9277777777777778
+      },
+      "source_path": "Netflix/Static/Season3-StrangerThings/B_2019.11.26_13.50.48.csv",
+      "source_sha256": "8b45e6401ad46bc223ac72164ce674ccd770d41d85fcbe4b237beb3d745229c6",
+      "trace_id": "b3d3737b89de0369",
+      "unique_seconds": 2657,
+      "wall_duration_seconds": 2875
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 2,
+      "classification": "dynamic_static",
+      "content": "Season3-StrangerThings",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 2385,
+        "LTE": 338
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "source_contains_cell_changes",
+        "source_contains_non_5g"
+      ],
+      "raw_rows": 2724,
+      "selected_window": {
+        "cell_ids": [
+          "13"
+        ],
+        "end": "2019-11-28T09:45:24",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 9.0,
+            "p50": 9.0,
+            "p90": 11.0,
+            "unique_values": 6
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -90.0,
+            "p50": -89.0,
+            "p90": -88.0,
+            "unique_values": 6
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -16.0,
+            "p50": -14.0,
+            "p90": -11.0,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -71.0,
+            "p50": -69.0,
+            "p90": -68.0,
+            "unique_values": 6
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -6.0,
+            "p50": 1.0,
+            "p90": 6.0,
+            "unique_values": 17
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 1.0,
+        "start": "2019-11-28T09:42:25",
+        "state_counts": {
+          "D": 58,
+          "I": 110
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/Season3-StrangerThings/B_2019.11.28_09.21.45.csv",
+      "source_sha256": "920b559cd89d2712e4fe7dfa084ec46b456c2f268f87dafb2e3f12f9bba3b3c1",
+      "trace_id": "03c60d20f6ba6fb3",
+      "unique_seconds": 2723,
+      "wall_duration_seconds": 2935
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 7,
+      "classification": "dynamic_static",
+      "content": "Season3-StrangerThings",
+      "duplicate_rows": 5,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 6969,
+        "HSPA+": 206,
+        "HSUPA": 5,
+        "LTE": 5
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "source_contains_cell_changes",
+        "source_contains_non_5g"
+      ],
+      "raw_rows": 7190,
+      "selected_window": {
+        "cell_ids": [
+          "13"
+        ],
+        "end": "2019-12-03T08:10:35",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 10.0,
+            "p50": 14.0,
+            "p90": 15.0,
+            "unique_values": 6
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -81.0,
+            "p50": -81.0,
+            "p90": -80.0,
+            "unique_values": 6
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -13.0,
+            "p50": -10.0,
+            "p90": -10.0,
+            "unique_values": 8
+          },
+          "RSSI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -72.0,
+            "p50": -72.0,
+            "p90": -70.0,
+            "unique_values": 6
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -1.0,
+            "p50": 2.0,
+            "p90": 4.0,
+            "unique_values": 13
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-12-03T08:07:36",
+        "state_counts": {
+          "D": 52,
+          "I": 116
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/Season3-StrangerThings/B_2019.12.03_08.02.05.csv",
+      "source_sha256": "aceef6888b48442a67afe2aa94db20544682ac4b692b6c6c2ba7ffb9b6dbdd88",
+      "trace_id": "e6dc9af174051f0c",
+      "unique_seconds": 7185,
+      "wall_duration_seconds": 7753
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 3,
+      "classification": "dynamic_static",
+      "content": "Season3-StrangerThings",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 3217,
+        "LTE": 110
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "source_contains_cell_changes",
+        "source_contains_non_5g"
+      ],
+      "raw_rows": 3328,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-12-04T12:50:04",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": 9.0,
+            "p50": 11.0,
+            "p90": 14.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -104.0,
+            "p50": -100.0,
+            "p90": -98.0,
+            "unique_values": 9
+          },
+          "RSRQ": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -17.0,
+            "p50": -14.0,
+            "p90": -11.0,
+            "unique_values": 11
+          },
+          "RSSI": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -88.0,
+            "p50": -81.0,
+            "p90": -81.0,
+            "unique_values": 11
+          },
+          "SNR": {
+            "coverage": 0.9277777777777778,
+            "observed": 167,
+            "p10": -3.0,
+            "p50": 2.0,
+            "p90": 9.0,
+            "unique_values": 17
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 167,
+        "primary_radio_coverage": 0.9277777777777778,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-12-04T12:47:05",
+        "state_counts": {
+          "D": 69,
+          "I": 98
+        },
+        "timestamp_coverage": 0.9277777777777778
+      },
+      "source_path": "Netflix/Static/Season3-StrangerThings/B_2019.12.04_12.46.14.csv",
+      "source_sha256": "5310f5dbc4b52ffc913085acc3841fddb63cf9cdbda0302b88bd319ed22e2228",
+      "trace_id": "ed4f832c1ef9f131",
+      "unique_seconds": 3327,
+      "wall_duration_seconds": 3600
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 2,
+      "classification": "dynamic_static",
+      "content": "Season3-StrangerThings",
+      "duplicate_rows": 2,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 5982,
+        "LTE": 36
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "incomplete_rssi",
+        "source_contains_cell_changes",
+        "source_contains_non_5g"
+      ],
+      "raw_rows": 6020,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-12-06T11:17:11",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 11.0,
+            "p50": 12.0,
+            "p90": 14.0,
+            "unique_values": 6
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -103.0,
+            "p50": -101.0,
+            "p90": -99.0,
+            "unique_values": 6
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -15.0,
+            "p50": -11.0,
+            "p90": -10.0,
+            "unique_values": 10
+          },
+          "RSSI": {
+            "coverage": 0.5,
+            "observed": 90,
+            "p10": -87.0,
+            "p50": -87.0,
+            "p90": -84.0,
+            "unique_values": 8
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -3.0,
+            "p50": 4.0,
+            "p90": 11.0,
+            "unique_values": 18
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-12-06T11:14:12",
+        "state_counts": {
+          "D": 52,
+          "I": 116
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/Season3-StrangerThings/B_2019.12.06_09.55.13.csv",
+      "source_sha256": "aa08a732f76afa8e3262b49176bb0ce393fcec0c99b5121b4247f6825bd7af06",
+      "trace_id": "36136c5b56bfc346",
+      "unique_seconds": 6018,
+      "wall_duration_seconds": 6514
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": "Season3-StrangerThings",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 1814
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 1815,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-12-16T13:22:38",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 11.0,
+            "p50": 12.0,
+            "p90": 15.0,
+            "unique_values": 7
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -100.0,
+            "p50": -98.0,
+            "p90": -97.0,
+            "unique_values": 6
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -16.0,
+            "p50": -13.0,
+            "p90": -11.0,
+            "unique_values": 8
+          },
+          "RSSI": {
+            "coverage": 0.9111111111111111,
+            "observed": 164,
+            "p10": -91.0,
+            "p50": -80.0,
+            "p90": -80.0,
+            "unique_values": 14
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -3.0,
+            "p50": 0.0,
+            "p90": 5.0,
+            "unique_values": 15
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-12-16T13:19:39",
+        "state_counts": {
+          "D": 72,
+          "I": 96
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/Season3-StrangerThings/B_2019.12.16_13.03.47.csv",
+      "source_sha256": "997699d37ecde4da43f4496661c80fdd2d0d868754a9c8002c97246f6fdb6fda",
+      "trace_id": "706bde2b5e935178",
+      "unique_seconds": 1814,
+      "wall_duration_seconds": 1964
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": false,
+      "cell_changes": 16,
+      "classification": "quarantine_mobility",
+      "content": "animated-RickandMorty",
+      "duplicate_rows": 48,
+      "dynamic_replay_eligible": false,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 936,
+        "HSPA+": 30,
+        "HSUPA": 7,
+        "LTE": 70,
+        "UMTS": 7
+      },
+      "quality_flags": [
+        "duplicate_timestamps",
+        "source_contains_cell_changes",
+        "source_contains_non_5g",
+        "static_label_conflicts_with_speed"
+      ],
+      "raw_rows": 1098,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-11-23T14:35:56",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": 7.0,
+            "p50": 11.0,
+            "p90": 15.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -95.0,
+            "p50": -85.0,
+            "p90": -67.0,
+            "unique_values": 25
+          },
+          "RSRQ": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -17.0,
+            "p50": -14.0,
+            "p90": -12.0,
+            "unique_values": 11
+          },
+          "RSSI": {
+            "coverage": 0.8833333333333333,
+            "observed": 159,
+            "p10": -79.0,
+            "p50": -71.0,
+            "p90": -58.0,
+            "unique_values": 27
+          },
+          "SNR": {
+            "coverage": 0.9388888888888889,
+            "observed": 169,
+            "p10": -5.0,
+            "p50": 3.0,
+            "p90": 16.0,
+            "unique_values": 28
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 169,
+        "primary_radio_coverage": 0.9388888888888889,
+        "quality_eligible": true,
+        "speed_p95_kph": 15.0,
+        "start": "2019-11-23T14:32:57",
+        "state_counts": {
+          "D": 53,
+          "I": 116
+        },
+        "timestamp_coverage": 0.9388888888888889
+      },
+      "source_path": "Netflix/Static/animated-RickandMorty/B_2019.11.23_14.30.10.csv",
+      "source_sha256": "e9e55dd1ecbf3aa175f10be64f42ebb5592a9d3789660e5ff69b8f1d1375b318",
+      "trace_id": "b02d387204651291",
+      "unique_seconds": 1050,
+      "wall_duration_seconds": 1133
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": "animated-RickandMorty",
+      "duplicate_rows": 2,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 4699
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 4701,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-11-26T08:05:39",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 8.0,
+            "p50": 11.0,
+            "p90": 15.0,
+            "unique_values": 9
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -94.0,
+            "p50": -93.0,
+            "p90": -91.0,
+            "unique_values": 7
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -16.0,
+            "p50": -13.0,
+            "p90": -11.0,
+            "unique_values": 10
+          },
+          "RSSI": {
+            "coverage": 0.9111111111111111,
+            "observed": 164,
+            "p10": -72.0,
+            "p50": -71.0,
+            "p90": -70.0,
+            "unique_values": 8
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -9.0,
+            "p50": -1.0,
+            "p90": 4.0,
+            "unique_values": 18
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 1.0,
+        "start": "2019-11-26T08:02:40",
+        "state_counts": {
+          "D": 91,
+          "I": 77
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/animated-RickandMorty/B_2019.11.26_08.02.38.csv",
+      "source_sha256": "89fb9583882e3f11ac31e2382c6ef0d893e7778c4ce938dc1fb3de666cbba68f",
+      "trace_id": "2dc8c02567a09355",
+      "unique_seconds": 4699,
+      "wall_duration_seconds": 5062
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": "animated-RickandMorty",
+      "duplicate_rows": 1,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 1246
+      },
+      "quality_flags": [
+        "duplicate_timestamps"
+      ],
+      "raw_rows": 1247,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-11-26T09:30:16",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 7.0,
+            "p50": 8.0,
+            "p90": 10.0,
+            "unique_values": 7
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -93.0,
+            "p50": -92.0,
+            "p90": -91.0,
+            "unique_values": 6
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -16.0,
+            "p50": -14.0,
+            "p90": -13.0,
+            "unique_values": 9
+          },
+          "RSSI": {
+            "coverage": 0.8277777777777777,
+            "observed": 149,
+            "p10": -74.0,
+            "p50": -72.0,
+            "p90": -70.0,
+            "unique_values": 10
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -9.0,
+            "p50": 0.0,
+            "p90": 3.0,
+            "unique_values": 18
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-11-26T09:27:17",
+        "state_counts": {
+          "D": 71,
+          "I": 97
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/animated-RickandMorty/B_2019.11.26_09.27.10.csv",
+      "source_sha256": "90301389bf71219bae640a5a92dce61e56074f9606c6b7ab30ab2539a3156099",
+      "trace_id": "f609ac4f39a5c67b",
+      "unique_seconds": 1246,
+      "wall_duration_seconds": 1342
+    },
+    {
+      "app": "Netflix",
+      "calibration_eligible": true,
+      "cell_changes": 0,
+      "classification": "dynamic_static",
+      "content": "animated-RickandMorty",
+      "duplicate_rows": 0,
+      "dynamic_replay_eligible": true,
+      "invalid_timestamps": 0,
+      "mobility": "Static",
+      "network_mode_counts": {
+        "5G": 3827
+      },
+      "quality_flags": [],
+      "raw_rows": 3827,
+      "selected_window": {
+        "cell_ids": [
+          "11"
+        ],
+        "end": "2019-11-28T08:06:38",
+        "max_sample_gap_seconds": 2,
+        "metrics": {
+          "CQI": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": 8.0,
+            "p50": 10.0,
+            "p90": 13.0,
+            "unique_values": 8
+          },
+          "RSRP": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -92.0,
+            "p50": -90.0,
+            "p90": -89.0,
+            "unique_values": 8
+          },
+          "RSRQ": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -15.3,
+            "p50": -13.0,
+            "p90": -11.0,
+            "unique_values": 8
+          },
+          "RSSI": {
+            "coverage": 0.8,
+            "observed": 144,
+            "p10": -70.0,
+            "p50": -69.0,
+            "p90": -68.0,
+            "unique_values": 7
+          },
+          "SNR": {
+            "coverage": 0.9333333333333333,
+            "observed": 168,
+            "p10": -6.0,
+            "p50": 0.0,
+            "p90": 3.0,
+            "unique_values": 16
+          }
+        },
+        "network_modes": [
+          "5G"
+        ],
+        "observed_seconds": 168,
+        "primary_radio_coverage": 0.9333333333333333,
+        "quality_eligible": true,
+        "speed_p95_kph": 0.0,
+        "start": "2019-11-28T08:03:39",
+        "state_counts": {
+          "D": 96,
+          "I": 72
+        },
+        "timestamp_coverage": 0.9333333333333333
+      },
+      "source_path": "Netflix/Static/animated-RickandMorty/B_2019.11.28_08.02.19.csv",
+      "source_sha256": "9ede862eaa8358286101655808cda9060515aba9fb325575ac8d72c3acf81093",
+      "trace_id": "88f027729cf13aeb",
+      "unique_seconds": 3827,
+      "wall_duration_seconds": 4122
+    }
+  ]
+}

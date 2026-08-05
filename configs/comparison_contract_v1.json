@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "grain": ["execution_id", "ue", "direction", "channel_segment"],
+  "reference_targets": [
+    "rsrp_p10_dbm",
+    "rsrp_p50_dbm",
+    "rsrp_p90_dbm",
+    "rsrq_p10_db",
+    "rsrq_p50_db",
+    "rsrq_p90_db",
+    "snr_p10_db",
+    "snr_p50_db",
+    "snr_p90_db"
+  ],
+  "controls": [
+    "model_type",
+    "parameter",
+    "requested_value",
+    "applied_value"
+  ],
+  "outcomes": [
+    "latency_ms_p95",
+    "packet_loss_fraction",
+    "received_mbps"
+  ],
+  "diagnostics": [
+    "dl_mcs",
+    "dl_bler",
+    "ue_rsrp_dbm",
+    "ue_rsrq_db",
+    "ue_sinr_db"
+  ],
+  "split_unit": "source_trace_and_execution",
+  "notes": {
+    "cqi": "Observed radio feedback; never a direct RFsim control.",
+    "ping": "Reference RTT is not interchangeable with MGEN one-way latency.",
+    "missing_seconds": "Any interpolation must be recorded as a derived transformation."
+  }
+}

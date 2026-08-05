@@ -1,0 +1,12 @@
+schema_version: 1
+window_seconds: 180
+min_timestamp_coverage: 0.80
+min_primary_radio_coverage: 0.75
+max_sample_gap_seconds: 3
+max_static_speed_p95_kph: 5.0
+static_speed_warning_kph: 1.0
+min_rssi_coverage: 0.75
+primary_radio_metrics:
+  - RSRP
+  - RSRQ
+  - SNR

@@ -1,0 +1,10 @@
+{
+  "archive": "5G-production-dataset.zip",
+  "archive_sha256": "abc729d696b5e0ba34a9c6ed35a851f2868d2b5071be5efb8a49691c23bb1a9b",
+  "citation": "D. Raca, D. Leahy, C. J. Sreenan, and J. J. Quinlan, Beyond Throughput, The Next Generation: a 5G Dataset with Channel and Context Metrics, MMSys 2020.",
+  "commit": "ba876f77e9330ebd227b2497cf4f90b37d624abc",
+  "download_url": "https://raw.githubusercontent.com/uccmisl/5Gdataset/v1.0.0/5G-production-dataset.zip",
+  "record_url": "https://cora.ucc.ie/items/4574b0c6-f441-4323-a0dd-5deda43453ec",
+  "ref": "v1.0.0",
+  "repository": "https://github.com/uccmisl/5Gdataset"
+}
