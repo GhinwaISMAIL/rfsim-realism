@@ -81,6 +81,21 @@ PYTHONPATH=src uv run --locked rfsim-realism sweep-run \
   --point noise_power_dB-m25-r1
 ```
 
+Export a completed campaign into a portable, self-verifying directory with:
+
+```bash
+PYTHONPATH=src uv run --locked rfsim-realism sweep-export \
+  --state data/calibration_runs/awgn_campaign.json \
+  --config configs/awgn_calibration_v1.yaml \
+  --plan manifests/awgn_sweep_v1.json \
+  --output /absolute/path/to/awgn_campaign_export
+```
+
+The export contains only state-approved executions. It rechecks every archive,
+removes machine-specific paths from the portable campaign index, writes a flat
+results CSV, and adds a root checksum manifest plus a standalone verifier. The
+export command refuses incomplete campaigns and existing output directories.
+
 ## Repository boundaries
 
 - OAI configuration and channel-control helpers remain in `oai-5g-ric`.

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
+from .campaign_export import export_campaign
 from .fetch import fetch_archive
 from .report import build_report
 from .sweep import load_config, plan_document, run_campaign, write_json
@@ -35,6 +36,12 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--state", required=True)
     run.add_argument("--point", action="append")
     run.add_argument("--limit", type=int)
+
+    export = commands.add_parser("sweep-export")
+    export.add_argument("--state", required=True)
+    export.add_argument("--config", required=True)
+    export.add_argument("--plan", required=True)
+    export.add_argument("--output", required=True)
     return parser
 
 
@@ -67,6 +74,10 @@ def main() -> None:
             "completed": len(state["completed"]),
             "failures": len(state["failures"]),
         }, sort_keys=True))
+        return
+    if args.command == "sweep-export":
+        summary = export_campaign(args.state, args.config, args.plan, args.output)
+        print(json.dumps(summary, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))
