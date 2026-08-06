@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "campaign": "ucc_static_awgn_safe_v1",
+  "source_campaign": "ucc_static_awgn_grid_v2",
+  "selection": {
+    "description": "connected operating region established by boundary executions",
+    "excluded_controls": [
+      {
+        "ploss": -1,
+        "noise_power_dB": 1.0
+      },
+      {
+        "ploss": -2,
+        "noise_power_dB": 0.0
+      },
+      {
+        "ploss": -2,
+        "noise_power_dB": 1.0
+      }
+    ]
+  },
+  "points": [
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -1.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m1-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p0-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 1.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p1-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -1.0
+      },
+      "point_id": "ploss-m1_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -1.0,
+        "ploss": -1.0
+      },
+      "point_id": "ploss-m1_noise-m1-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": -1.0
+      },
+      "point_id": "ploss-m1_noise-p0-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -2.0
+      },
+      "point_id": "ploss-m2_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -1.0,
+        "ploss": -2.0
+      },
+      "point_id": "ploss-m2_noise-m1-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -1.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m1-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p0-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 1.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p1-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -1.0
+      },
+      "point_id": "ploss-m1_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -1.0,
+        "ploss": -1.0
+      },
+      "point_id": "ploss-m1_noise-m1-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": -1.0
+      },
+      "point_id": "ploss-m1_noise-p0-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -2.0
+      },
+      "point_id": "ploss-m2_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -1.0,
+        "ploss": -2.0
+      },
+      "point_id": "ploss-m2_noise-m1-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ]
+}
