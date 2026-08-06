@@ -1,0 +1,254 @@
+{
+  "campaign": "ucc_static_awgn_grid_v1",
+  "direction": "dl",
+  "experiment_type": "static_joint_awgn_grid",
+  "model_type": "AWGN",
+  "points": [
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p0-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 2.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 4.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p4-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-p0-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 2.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-p2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 4.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-p4-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-p0-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 2.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-p2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 4.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-p4-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p0-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 2.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 4.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-p4-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-p0-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 2.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-p2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 4.0,
+        "ploss": -3.0
+      },
+      "point_id": "ploss-m3_noise-p4-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 0.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-p0-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 2.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-p2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": 4.0,
+        "ploss": -7.0
+      },
+      "point_id": "ploss-m7_noise-p4-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ],
+  "provenance": {
+    "oai_source_commit": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "reference_trace_id": "8918a157ff8020b1",
+    "rsrp_offset_db": -56.0,
+    "ue_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "ue_image_digest": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f"
+  },
+  "quality_requirements": {
+    "clean_xapp_shutdown": true,
+    "max_ntp_jitter_ms": 1.0,
+    "max_ntp_offset_spread_ms": 5.0,
+    "max_radio_clock_lag_p95_s": 0.1,
+    "max_ue_radio_emit_lag_p95_s": 0.5,
+    "min_packet_clock_valid_fraction": 0.95,
+    "source_repository_commits_recorded": true,
+    "utc_clock_anchor": true,
+    "verified_channel_readback": true
+  },
+  "required_observations": [
+    "ue_rsrp_dbm",
+    "ue_rsrq_db",
+    "ue_sinr_db",
+    "dl_mcs",
+    "dl_bler",
+    "packet_latency_ms",
+    "packet_received"
+  ],
+  "run_seconds": 180.0,
+  "schema_version": 1,
+  "target": "ue1"
+}

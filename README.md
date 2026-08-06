@@ -81,6 +81,34 @@ PYTHONPATH=src uv run --locked rfsim-realism sweep-run \
   --point noise_power_dB-m25-r1
 ```
 
+## UCC static AWGN grid
+
+The UCC matching campaign uses complete 180-second static executions over
+`ploss = [0, -3, -7]` and `noise_power_dB = [-2, 0, 2, 4]`, with two
+executions per point. Both controls are set and read back before traffic starts.
+Dataset Contract V2 stores the requested and applied pair in one segment row,
+and rejects the row if either value disagrees.
+
+Generate the deterministic 24-point plan:
+
+```bash
+make grid-plan
+```
+
+Run one point before continuing the resumable campaign:
+
+```bash
+PYTHONPATH=src uv run --locked rfsim-realism grid-run \
+  --config configs/ucc_static_grid_v1.yaml \
+  --run-dir /absolute/path/to/traffic_profiles/run_name \
+  --dashboard-repo /absolute/path/to/traffic-generation-dashboard \
+  --state data/calibration_runs/ucc_static_grid_v1.json \
+  --point ploss-p0_noise-m2-r1
+```
+
+The runner restores `ploss = 0` and `noise_power_dB = -30` after every
+execution, including failed quality gates.
+
 ## Repository boundaries
 
 - OAI configuration and channel-control helpers remain in `oai-5g-ric`.

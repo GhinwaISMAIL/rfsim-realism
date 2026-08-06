@@ -5,6 +5,8 @@ import json
 
 from .fetch import fetch_archive
 from .report import build_report
+from .static_grid import plan_document as static_grid_plan
+from .static_grid import run_campaign as run_static_grid
 from .sweep import load_config, plan_document, run_campaign, write_json
 from .ucc_static import build_manifest, write_manifest
 
@@ -35,6 +37,18 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--state", required=True)
     run.add_argument("--point", action="append")
     run.add_argument("--limit", type=int)
+
+    grid_plan = commands.add_parser("grid-plan")
+    grid_plan.add_argument("--config", required=True)
+    grid_plan.add_argument("--output", required=True)
+
+    grid_run = commands.add_parser("grid-run")
+    grid_run.add_argument("--config", required=True)
+    grid_run.add_argument("--run-dir", required=True)
+    grid_run.add_argument("--dashboard-repo", required=True)
+    grid_run.add_argument("--state", required=True)
+    grid_run.add_argument("--point", action="append")
+    grid_run.add_argument("--limit", type=int)
     return parser
 
 
@@ -55,6 +69,26 @@ def main() -> None:
         return
     if args.command == "sweep-run":
         state = run_campaign(
+            args.config,
+            args.run_dir,
+            args.dashboard_repo,
+            args.state,
+            point_ids=set(args.point) if args.point else None,
+            limit=args.limit,
+        )
+        print(json.dumps({
+            "state": args.state,
+            "completed": len(state["completed"]),
+            "failures": len(state["failures"]),
+        }, sort_keys=True))
+        return
+    if args.command == "grid-plan":
+        output = write_json(
+            args.output, static_grid_plan(load_config(args.config)))
+        print(json.dumps({"plan": str(output)}, sort_keys=True))
+        return
+    if args.command == "grid-run":
+        state = run_static_grid(
             args.config,
             args.run_dir,
             args.dashboard_repo,
