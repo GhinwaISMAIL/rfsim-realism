@@ -1,0 +1,205 @@
+{
+  "campaign": "ucc_static_awgn_mapping_validation_v1",
+  "direction": "dl",
+  "experiment_type": "static_joint_awgn_grid",
+  "model_type": "AWGN",
+  "points": [
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -2.0
+      },
+      "point_id": "ploss-m2_noise-m2-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -2.0,
+        "ploss": -2.0
+      },
+      "point_id": "ploss-m2_noise-m2-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ],
+  "provenance": {
+    "evaluation_contract": {
+      "acceptance": {
+        "baseline_is_restored_after_every_attempt": true,
+        "both_executions_pass_all_quality_requirements": true,
+        "both_executions_pass_primary_metric_tolerances": true,
+        "failed_or_outage_executions_are_archived_separately": true,
+        "packet_metrics_are_reported_separately_for_dl": true
+      },
+      "application_metrics": {
+        "policy": "report locked-prediction errors and compare them with prior cross-execution error",
+        "prior_cross_execution_mae": {
+          "latency_ms_p95": 492.9223746061332,
+          "loss_rate": 0.024559385309949656,
+          "received_mbps": 0.0006118333333333336
+        },
+        "prior_cross_execution_max_absolute_error": {
+          "latency_ms_p95": 1059.5365285873413,
+          "loss_rate": 0.06787330316742081,
+          "received_mbps": 0.0017506222222222236
+        },
+        "selection_gate": false
+      },
+      "candidate_locked_before_new_executions": true,
+      "diagnostic_metrics": [
+        {
+          "acceptance_gate": false,
+          "metric": "ss_sinr_db_segment_mean",
+          "reason": "UCC SNR and OAI SS-SINR do not share a confirmed measurement definition",
+          "target_proxy": -7.0
+        }
+      ],
+      "execution_roles": {
+        "ploss-m2_noise-m2-r1": "validation",
+        "ploss-m2_noise-m2-r2": "test"
+      },
+      "primary_metrics": [
+        {
+          "absolute_tolerance": 3.0,
+          "metric": "ss_rsrp_dbm_segment_mean",
+          "requirement": "each_execution",
+          "target": -97.0
+        },
+        {
+          "absolute_tolerance": 2.0,
+          "metric": "ss_rsrq_db_segment_mean",
+          "requirement": "each_execution",
+          "target": -11.0
+        }
+      ],
+      "refit_before_both_executions_are_archived": false
+    },
+    "mapping_lock": {
+      "anchor_candidates_sha256": "3d4deb752d9e542f45547b15347557481049693b04c049f133b7f1b59be9515e",
+      "candidate": {
+        "applied_noise_power_dB": -2,
+        "applied_ploss": -2,
+        "predicted_target_error": {
+          "rsrp_db": 0.543566666667,
+          "rsrq_db": 0.399155555556,
+          "snr_proxy_db_diagnostic": 9.25152222222
+        },
+        "prediction": {
+          "latency_ms_p95": 1181.22200966,
+          "loss_rate": 0.0395467963188,
+          "received_mbps": 0.0233323111111,
+          "ss_rsrp_dbm_segment_mean": -96.4564333333,
+          "ss_rsrq_db_segment_mean": -10.6008444444,
+          "ss_sinr_db_segment_mean_diagnostic": 2.25152222222
+        },
+        "primary_rank": 1,
+        "source_state_executions": 2,
+        "target": {
+          "rsrp_dbm": -97.0,
+          "rsrq_db": -11.0,
+          "snr_db_diagnostic": -7.0,
+          "source_application": "Amazon_Prime",
+          "source_content": "animated-Ninjago"
+        },
+        "target_within_observed_primary_range": false
+      },
+      "candidate_policy": "observed_safe_states_only",
+      "comparison_contract_sha256": "a6d8972177f1db919b69cd559887d28d9b4b857dd2ba26b3becd46a484aba074",
+      "dataset_bundle_sha256": "29b6d97e43412704aec9c338b4def9fa616ca37c6b349352fb15c607f958733e",
+      "dataset_commit": "75ec06378d4537e469268ece278e5e83481150be",
+      "dataset_release_tag": "ucc-static-awgn-safe-v2",
+      "mapping_config_sha256": "1dd57a159df0509835d923bf9fb57cc0389166ea06b33534ea01d46c1a04616c",
+      "mapping_id": "ucc_static_awgn_safe_v2_mapping_v1",
+      "mapping_manifest_sha256": "3f48e050f289746a14fdf9eb3f1172e2bf5e882cbb5d8fc2233b73d08cebc188",
+      "model_kind": "empirical_safe_state_lookup",
+      "selection_manifest_sha256": "63ad100c8d651b7ea60c1417fd25ffa2eaf0570899115f254d8fff821e4eeaa3",
+      "ucc_manifest_sha256": "f87307e6c99734a2db0f7c531402c2cab19c3fd0e8e1f187008db0b4a6942f88"
+    },
+    "oai_source_commit": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "powder_profile": {
+      "commit": "0a8f9b6cbb7f9e0fad9b3138b8b4a9ec5d1781e5",
+      "minimum_reservation_minutes": 120,
+      "parameters": {
+        "cell_type": "d740",
+        "channel_initial_mode": "uniform",
+        "channel_type": "AWGN",
+        "core_type": "d430",
+        "num_cells": 1,
+        "ues_per_cell": 1
+      },
+      "refresh_hostnames_after_instantiation": true,
+      "repository": "GhinwaISMAIL/oai-5g-ric",
+      "reservation_hostnames": null,
+      "reuse_previous_hostnames": false,
+      "source_ref": "refs/heads/feature/rfsim-rsrp-calibration"
+    },
+    "reference_trace_id": "8918a157ff8020b1",
+    "rsrp_offset_db": -56.0,
+    "software_revisions": {
+      "dashboard": {
+        "branch": "feature/joint-channel-controls",
+        "commit": "9730db35d1639cba18722d45c3cb3adb40808ab5",
+        "repository": "GhinwaISMAIL/traffic-generation-dashboard"
+      },
+      "mgen": {
+        "branch": "feature/mgen-scenario-builder",
+        "commit": "72859769d95d6cc3e8ef3029ea202fa51d417cba",
+        "repository": "GhinwaISMAIL/multimodal-traffic-digital-twins"
+      },
+      "rfsim_realism": {
+        "branch": "feature/ucc-static-grid",
+        "commit": "d52f9b3658b8a6462f0a5b11e682a8a4819cd95b",
+        "repository": "GhinwaISMAIL/rfsim-realism"
+      }
+    },
+    "traffic_contract": {
+      "application_mode": "streaming",
+      "applications": [
+        "youtube"
+      ],
+      "designed_offered_mbps_dl": 0.0242910222222,
+      "input_sha256": {
+        "dn_dl_tx.mgn": "abc94554ebfb23446756a229d0a76bf763fef9c77c8697f3755172f36e369e4e",
+        "dn_ul_rx.mgn": "bdb67bdce39f0bc5f5777255f5ed3f34f0b66b64be75147eaaf91353a4988215",
+        "flow_batch_map.csv": "9ca428b85a5cdf05bb80d642316bf4264b9b8dbdf8ef2f4d6c711e155d086f30",
+        "manifest.csv": "a18c3ee6dd8f51bb19c4f5c20fbb21db554961b00a4cbd0512073752fedd1279",
+        "ue1_dl_rx.mgn": "2b6ab6bd8aa81c5be64942c80e0b590eabbd25ee011272f8539781139608a5f8",
+        "ue1_ul_tx.mgn": "74663870b664c830f627faba9a3967e6b25fc45a7f0ac4605ba14da30e94b634",
+        "ue1_youtube_dl_bursts.parquet": "184389137cbb124d2796e2d8299e1fe9fafa8c271c429f46f5439ead4d15f1d8",
+        "ue1_youtube_ul_bursts.parquet": "0332a80789a13dd38b9de11fc710e655d71c786f9bd4e7284cea2dfbab35f6ce"
+      },
+      "random_seed": 42,
+      "regenerate_traffic": false,
+      "reuse_existing_scripts": true,
+      "source_profile_id": "run_ucc_static_grid_20260806_170509",
+      "ue_class": "medium"
+    },
+    "ue_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "ue_image_digest": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "validation_study_role": "held_out_inverse_map_validation"
+  },
+  "quality_requirements": {
+    "clean_xapp_shutdown": true,
+    "max_ntp_jitter_ms": 1.0,
+    "max_ntp_offset_spread_ms": 5.0,
+    "max_radio_clock_lag_p95_s": 0.1,
+    "max_ue_radio_emit_lag_p95_s": 0.5,
+    "min_packet_clock_valid_fraction": 0.95,
+    "source_repository_commits_recorded": true,
+    "utc_clock_anchor": true,
+    "verified_channel_readback": true
+  },
+  "required_observations": [
+    "ue_rsrp_dbm",
+    "ue_rsrq_db",
+    "ue_sinr_db",
+    "dl_mcs",
+    "dl_bler",
+    "packet_latency_ms",
+    "packet_received"
+  ],
+  "run_seconds": 180.0,
+  "schema_version": 1,
+  "target": "ue1"
+}
