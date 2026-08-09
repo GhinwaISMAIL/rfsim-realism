@@ -4,6 +4,7 @@ import argparse
 import json
 
 from .fetch import fetch_archive
+from .mapping import run_static_mapping
 from .report import build_report
 from .static_grid import plan_document as static_grid_plan
 from .static_grid import run_campaign as run_static_grid
@@ -49,6 +50,15 @@ def _parser() -> argparse.ArgumentParser:
     grid_run.add_argument("--state", required=True)
     grid_run.add_argument("--point", action="append")
     grid_run.add_argument("--limit", type=int)
+
+    mapping = commands.add_parser("static-map")
+    mapping.add_argument("--dataset-dir", required=True)
+    mapping.add_argument("--selection-manifest", required=True)
+    mapping.add_argument("--campaign-state", required=True)
+    mapping.add_argument("--ucc-manifest", required=True)
+    mapping.add_argument("--comparison-contract", required=True)
+    mapping.add_argument("--config", required=True)
+    mapping.add_argument("--output", required=True)
     return parser
 
 
@@ -101,6 +111,18 @@ def main() -> None:
             "completed": len(state["completed"]),
             "failures": len(state["failures"]),
         }, sort_keys=True))
+        return
+    if args.command == "static-map":
+        result = run_static_mapping(
+            dataset_dir=args.dataset_dir,
+            selection_manifest=args.selection_manifest,
+            campaign_state=args.campaign_state,
+            ucc_manifest=args.ucc_manifest,
+            comparison_contract=args.comparison_contract,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

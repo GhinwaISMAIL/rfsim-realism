@@ -109,6 +109,33 @@ PYTHONPATH=src uv run --locked rfsim-realism grid-run \
 The runner restores `ploss = 0` and `noise_power_dB = -30` after every
 execution, including failed quality gates.
 
+## First static mapping
+
+The first mapping is deliberately restricted to the eight observed safe AWGN
+states. It uses the two verified applied controls as conditional pre-run inputs
+and treats RSRP, RSRQ, SINR, latency, loss, and received throughput as outputs.
+It does not use post-run radio observations in the input matrix.
+
+Application targets are reconstructed from `packet_outcomes`: segment p95 is
+the direct 0.95 quantile of valid received-packet latency, and DL remains
+separate from uncontrolled UL. Each execution is held out in turn and predicted
+from the other execution at the same verified state. This measures repeatability
+inside the safe grid; it is not evidence of generalization to an unobserved
+control state.
+
+Run the local mapping after the private Dataset V2 repository is available:
+
+```bash
+make static-map
+```
+
+The command verifies the dataset checksums and writes checksummed derived
+artifacts under `data/model_runs/`. Candidate matching uses RSRP and RSRQ and
+ranks only observed states. UCC SNR versus OAI SS-SINR is retained as a
+diagnostic proxy because the measurement definitions are not assumed equal.
+No POWDER reservation is required until candidate states are ready for new
+held-out validation executions.
+
 ## Repository boundaries
 
 - OAI configuration and channel-control helpers remain in `oai-5g-ric`.

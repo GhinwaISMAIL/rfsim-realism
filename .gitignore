@@ -13,6 +13,8 @@ data/calibration_runs/*
 !data/calibration_runs/.gitkeep
 data/curated/*
 !data/curated/.gitkeep
+data/model_runs/*
+!data/model_runs/.gitkeep
 
 reports/*.html
 reports/figures/*
