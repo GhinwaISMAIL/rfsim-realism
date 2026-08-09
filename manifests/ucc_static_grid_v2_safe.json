@@ -1,10 +1,24 @@
 {
   "schema_version": 1,
-  "campaign": "ucc_static_awgn_safe_v1",
+  "campaign": "ucc_static_awgn_safe_v2",
   "source_campaign": "ucc_static_awgn_grid_v2",
   "selection": {
-    "description": "connected operating region established by boundary executions",
+    "description": "connected operating region confirmed by two repeated executions per retained control state",
+    "required_repetitions": 2,
+    "boundary_evidence": {
+      "controls": {
+        "ploss": -1,
+        "noise_power_dB": 0.0
+      },
+      "accepted_execution": "mgen-20260806-184322",
+      "rejected_execution": "mgen-20260807-155441",
+      "decision": "exclude both repetitions because the repeated state caused radio outage and unclean xApp shutdown"
+    },
     "excluded_controls": [
+      {
+        "ploss": -1,
+        "noise_power_dB": 0.0
+      },
       {
         "ploss": -1,
         "noise_power_dB": 1.0
@@ -71,15 +85,6 @@
         "ploss": -1.0
       },
       "point_id": "ploss-m1_noise-m1-r1",
-      "repetition": 1,
-      "run_seconds": 180.0
-    },
-    {
-      "controls": {
-        "noise_power_dB": 0.0,
-        "ploss": -1.0
-      },
-      "point_id": "ploss-m1_noise-p0-r1",
       "repetition": 1,
       "run_seconds": 180.0
     },
@@ -152,15 +157,6 @@
         "ploss": -1.0
       },
       "point_id": "ploss-m1_noise-m1-r2",
-      "repetition": 2,
-      "run_seconds": 180.0
-    },
-    {
-      "controls": {
-        "noise_power_dB": 0.0,
-        "ploss": -1.0
-      },
-      "point_id": "ploss-m1_noise-p0-r2",
       "repetition": 2,
       "run_seconds": 180.0
     },
