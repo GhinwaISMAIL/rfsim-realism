@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "campaign": "ucc_static_tdl_c_safe_v1",
+  "source_campaigns": [
+    "ucc_static_tdl_c_control_grid_v1"
+  ],
+  "selection": {
+    "description": "repeatable TDL-C control states retained for conservative inverse RF matching",
+    "required_repetitions": 2,
+    "tolerances": {
+      "rsrp_absolute_difference_db": 3.0,
+      "rsrq_absolute_difference_db": 2.0
+    },
+    "retained_controls": [
+      {
+        "controls": {
+          "ploss": -10.0,
+          "noise_power_dB": -30.0
+        },
+        "execution_ids": [
+          "mgen-20260810-205955",
+          "mgen-20260810-214725"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 1.2488888888888852,
+          "rsrq_db": 0.2727166666666676
+        }
+      },
+      {
+        "controls": {
+          "ploss": -5.0,
+          "noise_power_dB": -30.0
+        },
+        "execution_ids": [
+          "mgen-20260810-205304",
+          "mgen-20260810-214141"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 1.2950851955307314,
+          "rsrq_db": 0.5484844196151446
+        }
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -5.0
+        },
+        "execution_ids": [
+          "mgen-20260810-212851",
+          "mgen-20260810-234314"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 2.9928555555555363,
+          "rsrq_db": 0.8929277777777767
+        }
+      }
+    ],
+    "excluded_controls": [
+      {
+        "controls": {
+          "ploss": -20.0,
+          "noise_power_dB": -30.0
+        },
+        "absolute_differences": {
+          "rsrp_db": 6.191772222222227,
+          "rsrq_db": 0.647316666666665
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      },
+      {
+        "controls": {
+          "ploss": -15.0,
+          "noise_power_dB": -30.0
+        },
+        "absolute_differences": {
+          "rsrp_db": 18.266766666666683,
+          "rsrq_db": 0.26298333333333446
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -20.0
+        },
+        "absolute_differences": {
+          "rsrp_db": 15.370000000000005,
+          "rsrq_db": 1.725844444444446
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -10.0
+        },
+        "absolute_differences": {
+          "rsrp_db": 10.760300000000015,
+          "rsrq_db": 0.5244333333333326
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -2.0
+        },
+        "absolute_differences": {
+          "rsrp_db": 4.012083333333322,
+          "rsrq_db": 1.1235944444444446
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      }
+    ],
+    "rejected_attempts": [
+      {
+        "execution_id": "mgen-20260810-221606",
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -5.0
+        },
+        "decision": "exclude because UE log collection failed and training_eligible was false"
+      }
+    ]
+  },
+  "points": [
+    {
+      "controls": {
+        "ploss": -10.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m10_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -5.0
+      },
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": -10.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m10_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -5.0
+      },
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ]
+}

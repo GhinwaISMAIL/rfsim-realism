@@ -12,9 +12,12 @@ STATIC_MAPPING_OUTPUT ?= data/model_runs/ucc_static_awgn_safe_v2_mapping_v1
 RF_DISTRIBUTION_CONFIG ?= configs/rf_distribution_analysis_v1.yaml
 RF_DISTRIBUTION_OUTPUT ?= data/model_runs/ucc_static_real_rf_catalog_v1
 RF_DISTRIBUTION_MAPPING ?=
+FAMILY_PRIMARY_DIR ?= ../rfsim-realism-data/model_runs/ucc_static_real_rf_catalog_v1_with_tdl_b_v2_support
+FAMILY_CANDIDATE_DIR ?= data/model_runs/ucc_static_real_rf_catalog_v1_with_tdl_c_support
+FAMILY_COMPARISON_OUTPUT ?= data/model_runs/ucc_static_tdl_b_tdl_c_family_comparison_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution family-compare test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -50,6 +53,14 @@ rf-distribution:
 		--manifest $(UCC_MANIFEST) $(if $(RF_DISTRIBUTION_MAPPING),--mapping-dir $(RF_DISTRIBUTION_MAPPING),) \
 		--config $(RF_DISTRIBUTION_CONFIG) \
 		--output $(RF_DISTRIBUTION_OUTPUT)
+
+family-compare:
+	$(UV) run --locked rfsim-realism family-compare \
+		--primary-dir $(FAMILY_PRIMARY_DIR) \
+		--candidate-dir $(FAMILY_CANDIDATE_DIR) \
+		--primary-label TDL_B \
+		--candidate-label TDL_C \
+		--output $(FAMILY_COMPARISON_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q

@@ -158,6 +158,33 @@ real observations are near -13 to -16 dB. Further TDL-B points in this region
 are therefore unlikely to expand support; the next calibration should compare
 a different channel family using the same one-cell, one-UE procedure.
 
+## TDL-C family decision
+
+The TDL-C comparison retained three repeatable states from sixteen complete
+executions. Under the same RSRP and RSRQ tolerances used for TDL-B, TDL-C
+represents 247 of 2,977 real observations, or 8.30 percent. TDL-B represents
+856 observations, or 28.75 percent, and is therefore the selected single
+family for the first realistic traffic-generation dataset.
+
+Of the 247 TDL-C-supported observations, 121 are also supported by TDL-B. The
+126 observations unique to TDL-C are Netflix observations and are all mapped
+to `(ploss = 0, noise_power_dB = -5)`. Combining the families would increase
+support from 28.75 to 32.99 percent, but that 4.23 percentage-point gain does
+not replace the simpler single-family design. The TDL-C campaign remains useful
+as complementary evidence and the `(0, -5)` state can be revisited in a later
+multi-family extension.
+
+Reproduce the checksummed comparison with:
+
+```bash
+make family-compare
+```
+
+The comparison verifies both input bundles, requires identical real
+observations, reports overlap and per-state contributions, and selects the
+single family with the larger representable count. Its output remains under
+`data/model_runs/` and belongs in the private data repository.
+
 ## Real RF scenario catalog
 
 Build a replay-ready catalog directly from the dynamic static UCC measurement

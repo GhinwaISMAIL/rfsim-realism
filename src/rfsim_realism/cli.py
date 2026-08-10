@@ -4,6 +4,7 @@ import argparse
 import json
 
 from .distribution import run_distribution_analysis
+from .family_compare import run_family_comparison
 from .fetch import fetch_archive
 from .mapping import run_static_mapping
 from .report import build_report
@@ -67,6 +68,13 @@ def _parser() -> argparse.ArgumentParser:
     distribution.add_argument("--mapping-dir")
     distribution.add_argument("--config", required=True)
     distribution.add_argument("--output", required=True)
+
+    family_compare = commands.add_parser("family-compare")
+    family_compare.add_argument("--primary-dir", required=True)
+    family_compare.add_argument("--candidate-dir", required=True)
+    family_compare.add_argument("--primary-label", required=True)
+    family_compare.add_argument("--candidate-label", required=True)
+    family_compare.add_argument("--output", required=True)
     return parser
 
 
@@ -139,6 +147,16 @@ def main() -> None:
             config_path=args.config,
             output_dir=args.output,
             mapping_dir=args.mapping_dir,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "family-compare":
+        result = run_family_comparison(
+            primary_dir=args.primary_dir,
+            candidate_dir=args.candidate_dir,
+            primary_label=args.primary_label,
+            candidate_label=args.candidate_label,
+            output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
         return
