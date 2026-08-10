@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "campaign": "ucc_static_tdl_b_control_grid_v1_safe",
+  "source_campaign": "ucc_static_tdl_b_control_grid_v1",
+  "selection": {
+    "description": "connected TDL-B operating region confirmed by two stable executions per retained control state",
+    "required_repetitions": 2,
+    "boundary_evidence": {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -2.0
+      },
+      "accepted_execution": "mgen-20260810-174557",
+      "rejected_attempts": [
+        "mgen-20260810-183149",
+        "mgen-20260810-184749"
+      ],
+      "decision": "exclude from the empirical mapping because a second stable execution could not be obtained"
+    },
+    "excluded_controls": [
+      {
+        "ploss": 0.0,
+        "noise_power_dB": -2.0
+      }
+    ]
+  },
+  "points": [
+    {
+      "controls": {"ploss": -5.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -10.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m10_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -15.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m15_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -20.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m20_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -20.0},
+      "point_id": "ploss-p0_noise-m20-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -10.0},
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -5.0},
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -5.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -10.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m10_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -15.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m15_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -20.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m20_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -20.0},
+      "point_id": "ploss-p0_noise-m20-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -10.0},
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -5.0},
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ]
+}

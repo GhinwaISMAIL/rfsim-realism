@@ -20,6 +20,7 @@ def _mapping_config() -> dict:
     return {
         "schema_version": 1,
         "name": "test_static_mapping",
+        "model_type": "AWGN",
         "direction": "dl",
         "conditional_pre_run_inputs": [
             "applied_ploss",
@@ -217,8 +218,37 @@ def test_mapping_rejects_post_run_radio_as_input():
     config = _mapping_config()
     config["conditional_pre_run_inputs"].append("ss_rsrp_dbm_segment_mean")
 
-    with pytest.raises(ValueError, match="verified AWGN controls"):
+    with pytest.raises(ValueError, match="verified RFsim controls"):
         validate_mapping_config(config)
+
+
+def test_static_mapping_accepts_configured_tdl_family(tmp_path):
+    paths = _fixture(tmp_path)
+    config = json.loads(paths["config"].read_text())
+    config["model_type"] = "TDL_B"
+    _write_json(paths["config"], config)
+    segments = pd.read_parquet(paths["dataset"] / "segment_training_table.parquet")
+    segments["model_type"] = "TDL_B"
+    segments.to_parquet(paths["dataset"] / "segment_training_table.parquet", index=False)
+    checksums = json.loads((paths["dataset"] / "SHA256SUMS.json").read_text())
+    checksums["segment_training_table.parquet"] = _sha256(
+        paths["dataset"] / "segment_training_table.parquet"
+    )
+    _write_json(paths["dataset"] / "SHA256SUMS.json", checksums)
+
+    result = run_static_mapping(
+        dataset_dir=paths["dataset"],
+        selection_manifest=paths["selection"],
+        campaign_state=paths["campaign"],
+        ucc_manifest=paths["ucc"],
+        comparison_contract=paths["contract"],
+        config_path=paths["config"],
+        output_dir=paths["output"],
+    )
+
+    assert result["states"] == 2
+    manifest = json.loads((paths["output"] / "mapping_manifest.json").read_text())
+    assert manifest["model_type"] == "TDL_B"
 
 
 def test_static_mapping_recomputes_packets_and_holds_out_executions(tmp_path):

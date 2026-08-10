@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
+from .distribution import run_distribution_analysis
 from .fetch import fetch_archive
 from .mapping import run_static_mapping
 from .report import build_report
@@ -59,6 +60,13 @@ def _parser() -> argparse.ArgumentParser:
     mapping.add_argument("--comparison-contract", required=True)
     mapping.add_argument("--config", required=True)
     mapping.add_argument("--output", required=True)
+
+    distribution = commands.add_parser("rf-distribution")
+    distribution.add_argument("--dataset", required=True)
+    distribution.add_argument("--manifest", required=True)
+    distribution.add_argument("--mapping-dir")
+    distribution.add_argument("--config", required=True)
+    distribution.add_argument("--output", required=True)
     return parser
 
 
@@ -121,6 +129,16 @@ def main() -> None:
             comparison_contract=args.comparison_contract,
             config_path=args.config,
             output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "rf-distribution":
+        result = run_distribution_analysis(
+            dataset=args.dataset,
+            manifest_path=args.manifest,
+            config_path=args.config,
+            output_dir=args.output,
+            mapping_dir=args.mapping_dir,
         )
         print(json.dumps(result, sort_keys=True))
         return

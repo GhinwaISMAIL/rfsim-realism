@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "name": "ucc_static_awgn_safe_v2_mapping_v1",
-  "model_type": "AWGN",
+  "name": "ucc_static_tdl_b_safe_v2_mapping_v1",
+  "model_type": "TDL_B",
   "direction": "dl",
   "conditional_pre_run_inputs": [
     "applied_ploss",

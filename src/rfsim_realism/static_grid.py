@@ -25,6 +25,7 @@ from .sweep import (
 )
 
 CONTROL_PARAMETERS = ("ploss", "noise_power_dB")
+SUPPORTED_MODEL_TYPES = {"AWGN", "TDL_A", "TDL_B", "TDL_C", "EPA", "EVA"}
 
 
 @dataclass(frozen=True)
@@ -47,21 +48,43 @@ def validate_config(config: dict[str, Any]) -> None:
         raise ValueError("schema_version must be 1")
     topology = config.get("topology") or {}
     if topology.get("cells") != 1 or topology.get("ues") != 1:
-        raise ValueError("the static AWGN grid requires one cell and one generated UE")
+        raise ValueError("the static channel grid requires one cell and one generated UE")
     channel = config.get("channel") or {}
-    if channel.get("model_type") != "AWGN" or channel.get("direction") != "dl":
-        raise ValueError("the static grid requires downlink AWGN")
+    model_type = str(channel.get("model_type") or "")
+    if model_type not in SUPPORTED_MODEL_TYPES:
+        raise ValueError(f"unsupported RFsim model type: {model_type or 'missing'}")
+    if channel.get("direction") != "dl":
+        raise ValueError("the static grid requires a downlink channel")
     baseline = channel.get("baseline") or {}
     grid = channel.get("grid") or {}
+    explicit_points = channel.get("points") or []
     for parameter in CONTROL_PARAMETERS:
         if parameter not in baseline:
             raise ValueError(f"missing baseline value for {parameter}")
-        values = grid.get(parameter) or []
-        if not values:
-            raise ValueError(f"the grid has no values for {parameter}")
-        if len({float(value) for value in values}) != len(values):
-            raise ValueError(f"the grid contains duplicate {parameter} values")
-    if any(float(value) > 0 for value in grid["ploss"]):
+    if bool(grid) == bool(explicit_points):
+        raise ValueError("configure exactly one of channel grid or channel points")
+    if grid:
+        for parameter in CONTROL_PARAMETERS:
+            values = grid.get(parameter) or []
+            if not values:
+                raise ValueError(f"the grid has no values for {parameter}")
+            if len({float(value) for value in values}) != len(values):
+                raise ValueError(f"the grid contains duplicate {parameter} values")
+        control_pairs = list(itertools.product(
+            grid["ploss"], grid["noise_power_dB"]
+        ))
+    else:
+        control_pairs = []
+        for index, point in enumerate(explicit_points):
+            if not isinstance(point, dict) or set(point) != set(CONTROL_PARAMETERS):
+                raise ValueError(
+                    f"channel point {index} must contain exactly ploss and noise_power_dB"
+                )
+            control_pairs.append(tuple(point[parameter] for parameter in CONTROL_PARAMETERS))
+        numeric_pairs = [tuple(float(value) for value in pair) for pair in control_pairs]
+        if len(set(numeric_pairs)) != len(numeric_pairs):
+            raise ValueError("channel points contain duplicate control pairs")
+    if any(float(ploss) > 0 for ploss, _ in control_pairs):
         raise ValueError("RFsim ploss is path gain; attenuation values must be non-positive")
     if int(config.get("repetitions", 0)) < 1:
         raise ValueError("repetitions must be positive")
@@ -86,12 +109,18 @@ def build_plan(config: dict[str, Any]) -> list[StaticGridPoint]:
     channel = config["channel"]
     run_seconds = float(config["timing"]["run_seconds"])
     points = []
+    grid = channel.get("grid") or {}
+    if grid:
+        control_pairs = list(itertools.product(
+            grid["ploss"], grid["noise_power_dB"]
+        ))
+    else:
+        control_pairs = [
+            tuple(point[parameter] for parameter in CONTROL_PARAMETERS)
+            for point in channel["points"]
+        ]
     for repetition in range(1, int(config["repetitions"]) + 1):
-        values = itertools.product(
-            channel["grid"]["ploss"],
-            channel["grid"]["noise_power_dB"],
-        )
-        for ploss, noise in values:
+        for ploss, noise in control_pairs:
             controls = {
                 "ploss": float(ploss),
                 "noise_power_dB": float(noise),
@@ -115,7 +144,7 @@ def plan_document(config: dict[str, Any]) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "campaign": config["name"],
-        "experiment_type": "static_joint_awgn_grid",
+        "experiment_type": "static_joint_channel_grid",
         "model_type": config["channel"]["model_type"],
         "direction": config["channel"]["direction"],
         "target": "ue1",
@@ -266,13 +295,25 @@ def prepare_run_config(
     if not math.isclose(duration, point.run_seconds, rel_tol=0, abs_tol=1e-9):
         raise ValueError(
             f"run duration is {duration:g}s; grid requires {point.run_seconds:g}s")
+    provenance = dict(config["provenance"])
+    model_type = str(config["channel"]["model_type"])
+    method = provenance.pop(
+        "method",
+        "rfsimulator_rsrp_reporting_offset" if model_type == "AWGN"
+        else f"rfsimulator_{model_type.lower()}",
+    )
+    changes_iq_samples = provenance.pop(
+        "changes_iq_samples", model_type != "AWGN")
+    changes_ss_sinr = provenance.pop(
+        "changes_ss_sinr", model_type != "AWGN")
+    experiment_role = provenance.pop("experiment_role", "ucc_static_grid")
     document["rf_calibration"] = {
         "schema_version": 1,
-        "method": "rfsimulator_rsrp_reporting_offset",
-        "changes_iq_samples": False,
-        "changes_ss_sinr": False,
-        **dict(config["provenance"]),
-        "experiment_role": "ucc_static_grid",
+        "method": method,
+        "changes_iq_samples": changes_iq_samples,
+        "changes_ss_sinr": changes_ss_sinr,
+        **provenance,
+        "experiment_role": experiment_role,
         "campaign": config["name"],
         "grid_point": {
             "point_id": point.point_id,
@@ -358,7 +399,9 @@ def validate_archive(
             f"found {len(candidates)}")
     segment = candidates.iloc[0]
     if int(segment["control_count"]) != len(CONTROL_PARAMETERS):
-        raise ValueError("joint segment does not contain both AWGN controls")
+        raise ValueError("joint segment does not contain both configured controls")
+    if str(segment.get("model_type") or "") != str(config["channel"]["model_type"]):
+        raise ValueError("joint segment has the wrong RFsim model type")
     if not math.isclose(
         float(segment["duration_s"]), point.run_seconds,
         rel_tol=0, abs_tol=1e-6,

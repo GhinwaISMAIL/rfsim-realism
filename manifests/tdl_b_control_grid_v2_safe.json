@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "campaign": "ucc_static_tdl_b_control_grid_v2_safe",
+  "source_campaigns": [
+    "ucc_static_tdl_b_control_grid_v1",
+    "ucc_static_tdl_b_joint_extension_v1"
+  ],
+  "selection": {
+    "description": "connected and repeatable TDL-B operating states retained for inverse RF matching",
+    "required_repetitions": 2,
+    "retained_extension": {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -7.0
+      },
+      "execution_ids": [
+        "mgen-20260810-193641",
+        "mgen-20260810-194833"
+      ],
+      "decision": "retain because both recovered-session executions passed all quality gates and their RSRP and RSRQ differences remain within the inverse-match tolerances"
+    },
+    "excluded_extension_controls": [
+      {
+        "controls": {
+          "ploss": -5.0,
+          "noise_power_dB": -10.0
+        },
+        "execution_ids": [
+          "mgen-20260810-190843",
+          "mgen-20260810-194235"
+        ],
+        "decision": "exclude because the two execution-level mean RSRP values differ by 5.44 dB, exceeding the 3 dB inverse-match tolerance"
+      },
+      {
+        "controls": {
+          "ploss": -10.0,
+          "noise_power_dB": -10.0
+        },
+        "execution_ids": [
+          "mgen-20260810-191409",
+          "mgen-20260810-195430"
+        ],
+        "decision": "retain as boundary evidence only because packet loss changed from 99.77 percent to zero and mean RSRP differed by 11.24 dB between repetitions"
+      }
+    ],
+    "rejected_attempts": [
+      {
+        "execution_id": "mgen-20260810-191953",
+        "controls": {
+          "ploss": -5.0,
+          "noise_power_dB": -7.0
+        },
+        "decision": "exclude because the pre-existing UE path outage produced no usable RIC rows and training_eligible was false"
+      }
+    ]
+  },
+  "points": [
+    {
+      "controls": {"ploss": -5.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -10.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m10_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -15.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m15_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -20.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m20_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -20.0},
+      "point_id": "ploss-p0_noise-m20-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -10.0},
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -5.0},
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -5.0, "noise_power_dB": -7.0},
+      "point_id": "ploss-m5_noise-m7-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -5.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -10.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m10_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -15.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m15_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -20.0, "noise_power_dB": -30.0},
+      "point_id": "ploss-m20_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -20.0},
+      "point_id": "ploss-p0_noise-m20-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -10.0},
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": 0.0, "noise_power_dB": -5.0},
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {"ploss": -5.0, "noise_power_dB": -7.0},
+      "point_id": "ploss-m5_noise-m7-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ]
+}

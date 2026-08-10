@@ -31,6 +31,7 @@ QUALITY_TRUE_FIELDS = (
     "noise_power_dB_agreement",
     "ue_radio_clock_valid",
 )
+SUPPORTED_MODEL_TYPES = {"AWGN", "TDL_A", "TDL_B", "TDL_C", "EPA", "EVA"}
 
 
 def _read_json(path: str | Path) -> dict[str, Any]:
@@ -69,8 +70,11 @@ def validate_mapping_config(config: dict[str, Any]) -> None:
         raise ValueError("mapping schema_version must be 1")
     if config.get("direction") != "dl":
         raise ValueError("the first static mapping must keep downlink separate")
+    model_type = str(config.get("model_type") or "AWGN")
+    if model_type not in SUPPORTED_MODEL_TYPES:
+        raise ValueError(f"unsupported RFsim model type: {model_type}")
     if tuple(config.get("conditional_pre_run_inputs") or ()) != CONTROL_COLUMNS:
-        raise ValueError("mapping inputs must be the two verified AWGN controls")
+        raise ValueError("mapping inputs must be the two verified RFsim controls")
     if int(config.get("minimum_repetitions_per_state", 0)) < 2:
         raise ValueError("at least two executions per state are required")
     if config.get("candidate_policy") != "observed_safe_states_only":
@@ -191,8 +195,11 @@ def select_training_segments(
         raise ValueError("expected exactly one downlink segment per selected execution")
     if not frame["parameter"].astype("string").eq("joint").all():
         raise ValueError("selected segments do not preserve the joint control state")
-    if not frame["model_type"].astype("string").eq("AWGN").all():
-        raise ValueError("selected segments are not all AWGN")
+    expected_model_type = str(config.get("model_type") or "AWGN")
+    if not frame["model_type"].astype("string").eq(expected_model_type).all():
+        raise ValueError(
+            f"selected segments are not all {expected_model_type}"
+        )
     if not frame["model_name"].astype("string").eq("rfsimu_channel_enB0").all():
         raise ValueError("selected segments use the wrong RFsim model")
     if not pd.to_numeric(frame["model_index"], errors="coerce").eq(0).all():
@@ -563,11 +570,15 @@ def run_static_mapping(
         str(name): int(count)
         for name, count in executions.groupby("split")["execution_id"].nunique().items()
     }
+    split_summary = ", ".join(
+        f"{name}={count}" for name, count in sorted(split_counts.items())
+    )
     mapping_manifest = {
         "schema_version": 1,
         "mapping_id": config["name"],
         "model_kind": "empirical_safe_state_lookup",
         "candidate_policy": config["candidate_policy"],
+        "model_type": str(config.get("model_type") or "AWGN"),
         "direction": config["direction"],
         "conditional_pre_run_inputs": list(config["conditional_pre_run_inputs"]),
         "pre_run_context": list(config.get("pre_run_context") or []),
@@ -593,11 +604,11 @@ def run_static_mapping(
             "mapping_config": _sha256(config_path),
         },
         "limitations": [
-            "two executions per retained control state",
+            f"{int(config['minimum_repetitions_per_state'])} executions per retained control state",
             "candidate ranking is restricted to observed safe states",
             "cross-execution validation measures repeatability within a known state",
             "UCC SNR and OAI SS-SINR are compared only as a diagnostic proxy",
-            "the stored 15/1 train-test split has no validation execution",
+            f"stored dataset split execution counts: {split_summary}",
             "new POWDER executions are required for held-out inverse-map validation",
         ],
     }

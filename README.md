@@ -45,7 +45,7 @@ measurements. Missing seconds remain explicit; they are not silently filled.
    checked configuration. Negative `ploss` values attenuate the signal.
 4. Learn the mapping from applied RFsim controls to observed radio statistics.
 5. Validate the mapping on held-out static reference traces.
-6. Add TDL channel families only after the AWGN mapping is stable.
+6. Compare TDL channel families after the AWGN mapping is stable.
 
 CQI, MCS, BLER, throughput, loss, and latency are observations. They are not
 used as direct RFsim controls.
@@ -135,6 +135,66 @@ ranks only observed states. UCC SNR versus OAI SS-SINR is retained as a
 diagnostic proxy because the measurement definitions are not assumed equal.
 No POWDER reservation is required until candidate states are ready for new
 held-out validation executions.
+
+## TDL-B calibration result
+
+The first TDL-B campaign retained seven control states with two complete
+executions per state. Against the 2,977 complete RF observations in the 18
+eligible UCC scenarios, those states represented 28.75 percent of observations,
+compared with 16.33 percent for the retained AWGN mapping.
+
+A joint-control extension then tested `(-5, -10)`, `(-10, -10)`, and
+`(-5, -7)` as `(ploss, noise_power_dB)` pairs, twice each. The `(-10, -10)`
+pair is boundary evidence because its repetitions changed from 99.77 percent
+packet loss to zero loss. The `(-5, -10)` pair remained connected but its two
+mean RSRP measurements differed by 5.44 dB. Only the repeatable `(-5, -7)` pair
+was added to the conservative mapping.
+
+The resulting eight-state TDL-B mapping still represents exactly 856 of 2,977
+observations, or 28.75 percent. The additional state changes nearest-state error
+values but adds no new representable observation. RSRQ remains the limiting
+metric: the retained TDL-B states remain near -10 to -11 dB while many uncovered
+real observations are near -13 to -16 dB. Further TDL-B points in this region
+are therefore unlikely to expand support; the next calibration should compare
+a different channel family using the same one-cell, one-UE procedure.
+
+## Real RF scenario catalog
+
+Build a replay-ready catalog directly from the dynamic static UCC measurement
+windows:
+
+```bash
+make rf-distribution
+```
+
+Each eligible trace window becomes one selectable RF scenario. The analyzer
+preserves the observed RSRP, RSRQ, and SNR triplets, their order, dwell times,
+and consecutive-second transitions. It never constructs a scenario by sampling
+the three metrics independently. Missing seconds remain explicit gaps and no
+transition is counted across them.
+
+The catalog contains exact scenario sequences, an equal-trace selection weight,
+pooled-time and equal-trace joint distributions, application-conditioned joint
+distributions, transitions, and dwell statistics. The same selected scenario
+can therefore be reused while UE count, traffic, scheduler settings, or network
+configuration changes.
+
+An empirical RFsim mapping can be added as an optional capability annotation:
+
+```bash
+make rf-distribution \
+  RF_DISTRIBUTION_MAPPING=data/model_runs/ucc_static_awgn_safe_v2_mapping_v1 \
+  RF_DISTRIBUTION_OUTPUT=data/model_runs/ucc_static_real_rf_catalog_v1_with_support
+```
+
+This annotation reports which real RF states the validated controls can replay.
+It does not remove unsupported measurements, alter scenario probabilities, or
+turn RFsim support into the definition of realism. UCC SNR and OAI SS-SINR stay
+separate because their measurement definitions are not assumed equivalent.
+
+The checksummed output is written under `data/model_runs/`, which remains local
+and ignored by Git. These local artifacts may contain source-derived data and
+must be published only to the private data repository.
 
 ## Repository boundaries
 

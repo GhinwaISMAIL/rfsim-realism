@@ -45,6 +45,47 @@ def test_grid_rejects_positive_ploss():
         build_plan(config)
 
 
+def test_explicit_points_do_not_expand_to_a_cartesian_grid():
+    config = load_config(config_path())
+    del config["channel"]["grid"]
+    config["channel"]["points"] = [
+        {"ploss": -5, "noise_power_dB": -7},
+        {"ploss": -10, "noise_power_dB": -12},
+    ]
+
+    points = build_plan(config)
+
+    assert len(points) == 4
+    assert [point.controls for point in points] == [
+        {"ploss": -5.0, "noise_power_dB": -7.0},
+        {"ploss": -10.0, "noise_power_dB": -12.0},
+        {"ploss": -5.0, "noise_power_dB": -7.0},
+        {"ploss": -10.0, "noise_power_dB": -12.0},
+    ]
+
+
+def test_static_grid_requires_one_control_point_source():
+    config = load_config(config_path())
+    config["channel"]["points"] = [
+        {"ploss": -5, "noise_power_dB": -7},
+    ]
+
+    with pytest.raises(ValueError, match="exactly one"):
+        build_plan(config)
+
+
+def test_static_grid_accepts_supported_tdl_family():
+    config = load_config(config_path())
+    config["channel"]["model_type"] = "TDL_B"
+
+    document = plan_document(config)
+    schedule = schedule_for(build_plan(config)[0], model_type="TDL_B")
+
+    assert document["experiment_type"] == "static_joint_channel_grid"
+    assert document["model_type"] == "TDL_B"
+    assert schedule["expected_model_type"] == "TDL_B"
+
+
 def test_schedule_keeps_both_controls_static_from_zero():
     point = build_plan(load_config(config_path()))[0]
 
@@ -106,6 +147,7 @@ def test_archive_gate_accepts_one_complete_joint_segment(tmp_path):
         "ue": "ue1",
         "direction": "dl",
         "parameter": "joint",
+        "model_type": "AWGN",
         "control_count": 2,
         "requested_ploss": 0.0,
         "applied_ploss": 0.0,

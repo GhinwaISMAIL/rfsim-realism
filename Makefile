@@ -9,9 +9,12 @@ STATIC_MAPPING_CONFIG ?= configs/static_mapping_v1.json
 STATIC_MAPPING_DATASET ?= ../rfsim-realism-data/datasets/ucc_static_awgn_safe_v2
 STATIC_MAPPING_CAMPAIGN ?= ../rfsim-realism-data/campaigns/ucc_static_awgn_safe_v2/campaign_state.json
 STATIC_MAPPING_OUTPUT ?= data/model_runs/ucc_static_awgn_safe_v2_mapping_v1
+RF_DISTRIBUTION_CONFIG ?= configs/rf_distribution_analysis_v1.yaml
+RF_DISTRIBUTION_OUTPUT ?= data/model_runs/ucc_static_real_rf_catalog_v1
+RF_DISTRIBUTION_MAPPING ?=
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -40,6 +43,13 @@ static-map:
 		--comparison-contract configs/comparison_contract_v1.json \
 		--config $(STATIC_MAPPING_CONFIG) \
 		--output $(STATIC_MAPPING_OUTPUT)
+
+rf-distribution:
+	$(UV) run --locked rfsim-realism rf-distribution \
+		--dataset $(UCC_ARCHIVE) \
+		--manifest $(UCC_MANIFEST) $(if $(RF_DISTRIBUTION_MAPPING),--mapping-dir $(RF_DISTRIBUTION_MAPPING),) \
+		--config $(RF_DISTRIBUTION_CONFIG) \
+		--output $(RF_DISTRIBUTION_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q
