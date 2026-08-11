@@ -1,0 +1,3 @@
+family,role,supported_observations,supported_fraction,unique_over_other_observations,unique_over_other_fraction
+TDL_A,primary,792,0.266039637219,129,0.0433322136379
+EVA,candidate,717,0.240846489755,54,0.018139066174

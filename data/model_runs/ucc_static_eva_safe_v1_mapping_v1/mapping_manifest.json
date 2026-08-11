@@ -1,0 +1,96 @@
+{
+  "application_outputs": [
+    "latency_ms_p95",
+    "loss_rate",
+    "received_mbps"
+  ],
+  "candidate_policy": "observed_safe_states_only",
+  "conditional_pre_run_inputs": [
+    "applied_ploss",
+    "applied_noise_power_dB"
+  ],
+  "cross_execution_validation": {
+    "evaluation_policy": "leave_one_execution_out_within_control_state",
+    "held_out_executions": 6,
+    "split_unit": "execution_id",
+    "targets": {
+      "latency_ms_p95": {
+        "mae": 65.76495170593262,
+        "max_absolute_error": 135.45143604278542,
+        "rmse": 85.76955390560002
+      },
+      "loss_rate": {
+        "mae": 0.0030097817908201654,
+        "max_absolute_error": 0.009029345372460496,
+        "rmse": 0.005213094981396169
+      },
+      "received_mbps": {
+        "mae": 8.237037037037039e-05,
+        "max_absolute_error": 0.00024711111111111114,
+        "rmse": 0.00014266966651974754
+      },
+      "ss_rsrp_dbm_segment_mean": {
+        "mae": 1.592674074074078,
+        "max_absolute_error": 2.9988055555555775,
+        "rmse": 1.8788373877723947
+      },
+      "ss_rsrq_db_segment_mean": {
+        "mae": 0.02873888888888961,
+        "max_absolute_error": 0.05138888888889248,
+        "rmse": 0.03577503051909427
+      },
+      "ss_sinr_db_segment_mean": {
+        "mae": 1.9395537037036992,
+        "max_absolute_error": 3.793733333333332,
+        "rmse": 2.3416042943430897
+      }
+    }
+  },
+  "dataset_files_verified": 6,
+  "direction": "dl",
+  "limitations": [
+    "2 executions per retained control state",
+    "candidate ranking is restricted to observed safe states",
+    "cross-execution validation measures repeatability within a known state",
+    "UCC SNR and OAI SS-SINR are compared only as a diagnostic proxy",
+    "stored dataset split execution counts: train=5, validation=1",
+    "new POWDER executions are required for held-out inverse-map validation"
+  ],
+  "mapping_id": "ucc_static_eva_safe_v1_mapping_v1",
+  "model_kind": "empirical_safe_state_lookup",
+  "model_type": "EVA",
+  "packet_percentile_rule": "quantile(packet latency_ms, 0.95)",
+  "packet_percentile_source": "packet_outcomes rows inside the half-open segment",
+  "post_run_radio_in_input_matrix": false,
+  "pre_run_context": [
+    "app_mix",
+    "designed_offered_mbps"
+  ],
+  "radio_outputs": [
+    "ss_rsrp_dbm_segment_mean",
+    "ss_rsrq_db_segment_mean",
+    "ss_sinr_db_segment_mean"
+  ],
+  "retained_control_states": 3,
+  "schema_version": 1,
+  "selected_executions": 6,
+  "source_sha256": {
+    "campaign_state": "8491bbabcdcd879c9a81ca5a5f261262aa53f311baea1d40f6808c794ad04493",
+    "comparison_contract": "a6d8972177f1db919b69cd559887d28d9b4b857dd2ba26b3becd46a484aba074",
+    "dataset_SHA256SUMS.json": "a3ad40d22b76b77578d9fddb6a3b3de3deba6d606207703f53a41569d4b018a5",
+    "mapping_config": "f06fc09f2373cc825e387876a3d47df3cff8a64cf7aa2ebba47a8a72d9df6cbd",
+    "selection_manifest": "900818d36a4ece604f27415f02330d94a8b2cbce9475ee2630237036c7595c07",
+    "ucc_manifest": "f87307e6c99734a2db0f7c531402c2cab19c3fd0e8e1f187008db0b4a6942f88"
+  },
+  "split_unit": "execution_id",
+  "steady_reference_anchors": 4,
+  "stored_metric_max_absolute_delta": {
+    "stored_latency_ms_p95_delta": 0.0,
+    "stored_loss_rate_delta": 0.0,
+    "stored_received_mbps_delta": 0.0
+  },
+  "stored_split_execution_counts": {
+    "train": 5,
+    "validation": 1
+  }
+}

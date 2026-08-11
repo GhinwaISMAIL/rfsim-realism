@@ -1,0 +1,4 @@
+app,observations,unique_real_rf_states,representable_observations,representable_fraction,rsrp_within_tolerance_fraction,rsrq_within_tolerance_fraction,in_observed_primary_range_fraction,rsrp_absolute_error_db_mean,rsrp_absolute_error_db_p95,rsrq_absolute_error_db_mean,rsrq_absolute_error_db_p95
+Amazon_Prime,669,227,335,0.500747384155,1,0.500747384155,0,0.939735301444,1.5865277778,2.36740415626,5.4619694444
+Download,798,303,125,0.15664160401,0.484962406015,0.258145363409,0,2.7718633145,4.5865277778,4.02086323096,7.4750888889
+Netflix,1510,590,257,0.170198675497,0.386092715232,0.43178807947,0,6.74205856696,19.5865277778,2.71795165744,6.4619694444

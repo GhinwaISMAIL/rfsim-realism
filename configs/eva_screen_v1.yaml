@@ -1,0 +1,58 @@
+schema_version: 1
+name: ucc_static_eva_screen_v1
+topology:
+  cells: 1
+  ues: 1
+channel:
+  model_type: EVA
+  direction: dl
+  baseline:
+    ploss: 0
+    noise_power_dB: -30
+  points:
+    - ploss: 0
+      noise_power_dB: -30
+    - ploss: -5
+      noise_power_dB: -30
+    - ploss: 0
+      noise_power_dB: -10
+    - ploss: 0
+      noise_power_dB: -5
+timing:
+  run_seconds: 180
+repetitions: 2
+provenance:
+  method: rfsimulator_eva
+  changes_iq_samples: true
+  changes_ss_sinr: true
+  experiment_role: eva_family_screen
+  rsrp_offset_db: -56.0
+  initial_channel_layout: uniform
+  standardized_profile: EVA
+  ue_image: ghinwa555/oai-nr-ue-chan:v5
+  ue_image_digest: sha256:a3a46d5eb2252c71bce25166e86c855d55caabf00ae58f47723669b3e2c8c862
+  gnb_image: ghinwa555/oai-gnb-e2-chan:v3
+  gnb_image_digest: sha256:e95099009cee3a301bf1bb6d17e480b04402f12e3fb9893bb45ec9d8506376a9
+  profile_source_commit: e6d5d9202ec4492b5c67b13aeaea7b415177ed9b
+  oai_source_commit: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  reference_trace_id: 8918a157ff8020b1
+  reference_distribution_id: ucc_static_dynamic_rf_distribution_v1
+  reference_distribution_manifest_sha256: d39ac17decd7c0375bdaae09c31ac07558d07bc7a11382897e7d34a3d90ac1d9
+required_observations:
+  - ue_rsrp_dbm
+  - ue_rsrq_db
+  - ue_sinr_db
+  - dl_mcs
+  - dl_bler
+  - packet_latency_ms
+  - packet_received
+quality_requirements:
+  verified_channel_readback: true
+  utc_clock_anchor: true
+  clean_xapp_shutdown: true
+  source_repository_commits_recorded: true
+  min_packet_clock_valid_fraction: 0.95
+  max_ntp_offset_spread_ms: 5.0
+  max_ntp_jitter_ms: 10.0
+  max_radio_clock_lag_p95_s: 0.1
+  max_ue_radio_emit_lag_p95_s: 0.5

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "campaign": "ucc_static_eva_safe_v1",
+  "source_campaigns": [
+    "ucc_static_eva_screen_v1"
+  ],
+  "selection": {
+    "description": "repeatable EVA control states retained for conservative inverse RF matching",
+    "required_repetitions": 2,
+    "tolerances": {
+      "rsrp_absolute_difference_db": 3.0,
+      "rsrq_absolute_difference_db": 2.0
+    },
+    "retained_controls": [
+      {
+        "controls": {
+          "ploss": -5.0,
+          "noise_power_dB": -30.0
+        },
+        "execution_ids": [
+          "mgen-20260811-030136",
+          "mgen-20260811-032440"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 0.9746055555555557,
+          "rsrq_db": 0.05138888888889248
+        }
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -10.0
+        },
+        "execution_ids": [
+          "mgen-20260811-030720",
+          "mgen-20260811-033028"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 2.9988055555555775,
+          "rsrq_db": 0.03462222222222344
+        }
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -5.0
+        },
+        "execution_ids": [
+          "mgen-20260811-031308",
+          "mgen-20260811-033617"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 0.8046111111111003,
+          "rsrq_db": 0.0002055555555529054
+        }
+      }
+    ],
+    "excluded_controls": [
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -30.0
+        },
+        "execution_ids": [
+          "mgen-20260811-025611",
+          "mgen-20260811-031857"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 16.817461111111115,
+          "rsrq_db": 0.03726111111110875
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      }
+    ],
+    "failed_preflights": []
+  },
+  "points": [
+    {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -10.0
+      },
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -5.0
+      },
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -10.0
+      },
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -5.0
+      },
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ]
+}

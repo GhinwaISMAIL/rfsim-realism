@@ -203,6 +203,26 @@ The TDL-A mapping, support catalog, and pairwise family comparisons are under
 `data/model_runs/`. The campaign plan, safe-state selection, and mapping
 configuration are under `manifests/` and `configs/`.
 
+## EVA family screening
+
+The EVA screen completed eight executions across four control states, with two
+repetitions per state. Three states met the 3 dB RSRP and 2 dB RSRQ
+repeatability limits: `(-5, -30)`, `(0, -10)`, and `(0, -5)` as
+`(ploss, noise_power_dB)`. The `(0, -30)` pair was excluded because its
+execution-level mean RSRP values differed by 16.82 dB.
+
+The conservative EVA mapping represents 717 of 2,977 real observations, or
+24.08 percent. This exceeds AWGN's 16.33 percent and TDL-C's 8.30 percent, but
+is below TDL-A's 26.60 percent and TDL-B's 28.75 percent. EVA adds 54
+observations beyond TDL-A, producing a combined support of 846 observations,
+or 28.42 percent.
+
+Every EVA-supported observation is already supported by TDL-B. TDL-B supports
+139 additional observations, so adding EVA would not extend the selected
+single-family design. EVA remains useful as independent family-screening
+evidence, while TDL-B remains the selected family for realistic dataset
+generation.
+
 ## Real RF scenario catalog
 
 Build a replay-ready catalog directly from the dynamic static UCC measurement

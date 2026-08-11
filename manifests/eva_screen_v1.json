@@ -1,0 +1,121 @@
+{
+  "campaign": "ucc_static_eva_screen_v1",
+  "direction": "dl",
+  "experiment_type": "static_joint_channel_grid",
+  "model_type": "EVA",
+  "points": [
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -5.0
+      },
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -10.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -5.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -5.0
+      },
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -10.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "noise_power_dB": -5.0,
+        "ploss": 0.0
+      },
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ],
+  "provenance": {
+    "changes_iq_samples": true,
+    "changes_ss_sinr": true,
+    "experiment_role": "eva_family_screen",
+    "gnb_image": "ghinwa555/oai-gnb-e2-chan:v3",
+    "gnb_image_digest": "sha256:e95099009cee3a301bf1bb6d17e480b04402f12e3fb9893bb45ec9d8506376a9",
+    "initial_channel_layout": "uniform",
+    "method": "rfsimulator_eva",
+    "oai_source_commit": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "profile_source_commit": "e6d5d9202ec4492b5c67b13aeaea7b415177ed9b",
+    "reference_distribution_id": "ucc_static_dynamic_rf_distribution_v1",
+    "reference_distribution_manifest_sha256": "d39ac17decd7c0375bdaae09c31ac07558d07bc7a11382897e7d34a3d90ac1d9",
+    "reference_trace_id": "8918a157ff8020b1",
+    "rsrp_offset_db": -56.0,
+    "standardized_profile": "EVA",
+    "ue_image": "ghinwa555/oai-nr-ue-chan:v5",
+    "ue_image_digest": "sha256:a3a46d5eb2252c71bce25166e86c855d55caabf00ae58f47723669b3e2c8c862"
+  },
+  "quality_requirements": {
+    "clean_xapp_shutdown": true,
+    "max_ntp_jitter_ms": 10.0,
+    "max_ntp_offset_spread_ms": 5.0,
+    "max_radio_clock_lag_p95_s": 0.1,
+    "max_ue_radio_emit_lag_p95_s": 0.5,
+    "min_packet_clock_valid_fraction": 0.95,
+    "source_repository_commits_recorded": true,
+    "utc_clock_anchor": true,
+    "verified_channel_readback": true
+  },
+  "required_observations": [
+    "ue_rsrp_dbm",
+    "ue_rsrq_db",
+    "ue_sinr_db",
+    "dl_mcs",
+    "dl_bler",
+    "packet_latency_ms",
+    "packet_received"
+  ],
+  "run_seconds": 180.0,
+  "schema_version": 1,
+  "target": "ue1"
+}

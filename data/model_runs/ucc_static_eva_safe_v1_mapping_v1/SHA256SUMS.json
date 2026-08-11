@@ -1,0 +1,8 @@
+{
+  "anchor_candidates.csv": "3acf46af3b9810ffc02bcd3626fc48c5f3cefbb6ce087e17458b5bc4054e2883",
+  "cross_execution_predictions.csv": "e29f9a0c589cd6f9604c7b4c1b952b6c443024cf8cc95aba835129cb9f6657c8",
+  "execution_metrics.csv": "d038193d3ad7754e0a998f6c116561078a9872c366e832684bc7c5996b1a7c64",
+  "mapping_manifest.json": "46c0a329a6bc5eb168a8a50a3804cb31af4c324176e62f13dd45845ab84486a9",
+  "state_mapping.csv": "6eac0644d51d424d638b6a0984aaf7ffe52e2046006e08430dba5fff12cd72f3",
+  "validation_metrics.json": "6d6448d07a81c5027ce70df3bcd2714517447dc825e9ffda80f131553d39bb7c"
+}

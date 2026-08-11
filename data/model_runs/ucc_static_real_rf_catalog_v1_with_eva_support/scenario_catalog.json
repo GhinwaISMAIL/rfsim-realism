@@ -1,0 +1,440 @@
+{
+  "catalog_id": "ucc_static_real_rf_catalog_v1",
+  "measurement_contract": {
+    "independent_metric_sampling": false,
+    "interpolation": false,
+    "joint_metrics": [
+      "RSRP_dBm",
+      "RSRQ_dB",
+      "SNR_dB"
+    ],
+    "state_definition": "observed_joint_triplet"
+  },
+  "replay_contract": {
+    "end_second_exclusive": true,
+    "gap_filling_policy": null,
+    "index_file": "scenario_index.csv",
+    "missing_seconds": "preserved_as_gaps",
+    "reuse_across_ue_counts_and_traffic_profiles": true,
+    "sequence_file": "scenario_sequences.csv",
+    "start_second_is_inclusive": true,
+    "time_origin": "selected_window_start"
+  },
+  "rfsim_support": {
+    "allow_extrapolation": false,
+    "bundle_files_verified": 6,
+    "bundle_sha256": "c0769bed03d15a58433f79aae9e470f11a04c2538680d7396a50aab394428491",
+    "in_observed_primary_range_fraction": 0.0,
+    "mapping_id": "ucc_static_eva_safe_v1_mapping_v1",
+    "minimum_representable_fraction": 0.95,
+    "policy": "nearest_observed_safe_state",
+    "representable_fraction": 0.2408464897547867,
+    "representable_observations": 717,
+    "role": "optional_replay_capability_annotation",
+    "rsrp_absolute_tolerance_db": 3.0,
+    "rsrp_within_tolerance_fraction": 0.5505542492442056,
+    "rsrq_absolute_tolerance_db": 2.0,
+    "rsrq_within_tolerance_fraction": 0.4007389989922741,
+    "safe_states": 3,
+    "status": "insufficient",
+    "uncovered_real_rf_states": 761,
+    "unrepresentable_observations": 2260
+  },
+  "scenarios": [
+    {
+      "application": "Netflix",
+      "content": "Season3-StrangerThings",
+      "joint_rf_states": 73,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-03c60d20f6ba6fb3",
+      "selected_window": {
+        "end": "2019-11-28T09:45:24",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-11-28T09:42:25"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 89,
+      "source": {
+        "path": "Netflix/Static/Season3-StrangerThings/B_2019.11.28_09.21.45.csv",
+        "sha256": "920b559cd89d2712e4fe7dfa084ec46b456c2f268f87dafb2e3f12f9bba3b3c1"
+      },
+      "trace_id": "03c60d20f6ba6fb3"
+    },
+    {
+      "application": "Download",
+      "content": "",
+      "joint_rf_states": 66,
+      "observed_segments": 21,
+      "scenario_id": "ucc-static-1ba730f3759c6951",
+      "selected_window": {
+        "end": "2020-02-27T20:28:18",
+        "missing_rf_seconds": 21,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 159,
+        "start": "2020-02-27T20:25:19"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 84,
+      "source": {
+        "path": "Download/Static/B_2020.02.27_18.39.27.csv",
+        "sha256": "0d87594f6a7ebff6fa2c12301894f11d41e7e9283c272a94831dccb9068e70ec"
+      },
+      "trace_id": "1ba730f3759c6951"
+    },
+    {
+      "application": "Netflix",
+      "content": "animated-RickandMorty",
+      "joint_rf_states": 80,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-2dc8c02567a09355",
+      "selected_window": {
+        "end": "2019-11-26T08:05:39",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-11-26T08:02:40"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 91,
+      "source": {
+        "path": "Netflix/Static/animated-RickandMorty/B_2019.11.26_08.02.38.csv",
+        "sha256": "89fb9583882e3f11ac31e2382c6ef0d893e7778c4ce938dc1fb3de666cbba68f"
+      },
+      "trace_id": "2dc8c02567a09355"
+    },
+    {
+      "application": "Netflix",
+      "content": "Season3-StrangerThings",
+      "joint_rf_states": 80,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-36136c5b56bfc346",
+      "selected_window": {
+        "end": "2019-12-06T11:17:11",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-12-06T11:14:12"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 88,
+      "source": {
+        "path": "Netflix/Static/Season3-StrangerThings/B_2019.12.06_09.55.13.csv",
+        "sha256": "aa08a732f76afa8e3262b49176bb0ce393fcec0c99b5121b4247f6825bd7af06"
+      },
+      "trace_id": "36136c5b56bfc346"
+    },
+    {
+      "application": "Download",
+      "content": "",
+      "joint_rf_states": 63,
+      "observed_segments": 22,
+      "scenario_id": "ucc-static-378c89495d537086",
+      "selected_window": {
+        "end": "2020-01-16T11:33:05",
+        "missing_rf_seconds": 21,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 159,
+        "start": "2020-01-16T11:30:06"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 85,
+      "source": {
+        "path": "Download/Static/B_2020.01.16_10.43.34.csv",
+        "sha256": "2deb1791b38926426153e77438916468f97feec7659f73e81b7e609434fdacc2"
+      },
+      "trace_id": "378c89495d537086"
+    },
+    {
+      "application": "Download",
+      "content": "",
+      "joint_rf_states": 60,
+      "observed_segments": 19,
+      "scenario_id": "ucc-static-6e56376f8430a3bc",
+      "selected_window": {
+        "end": "2020-02-13T14:50:42",
+        "missing_rf_seconds": 19,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 161,
+        "start": "2020-02-13T14:47:43"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 79,
+      "source": {
+        "path": "Download/Static/B_2020.02.13_13.57.29.csv",
+        "sha256": "d670a3463d683959094f47f6caacb70d65bd4081dc24d5b3a93b35f8a04495b1"
+      },
+      "trace_id": "6e56376f8430a3bc"
+    },
+    {
+      "application": "Netflix",
+      "content": "Season3-StrangerThings",
+      "joint_rf_states": 75,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-706bde2b5e935178",
+      "selected_window": {
+        "end": "2019-12-16T13:22:38",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-12-16T13:19:39"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 90,
+      "source": {
+        "path": "Netflix/Static/Season3-StrangerThings/B_2019.12.16_13.03.47.csv",
+        "sha256": "997699d37ecde4da43f4496661c80fdd2d0d868754a9c8002c97246f6fdb6fda"
+      },
+      "trace_id": "706bde2b5e935178"
+    },
+    {
+      "application": "Netflix",
+      "content": "animated-RickandMorty",
+      "joint_rf_states": 69,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-88f027729cf13aeb",
+      "selected_window": {
+        "end": "2019-11-28T08:06:38",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-11-28T08:03:39"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 91,
+      "source": {
+        "path": "Netflix/Static/animated-RickandMorty/B_2019.11.28_08.02.19.csv",
+        "sha256": "9ede862eaa8358286101655808cda9060515aba9fb325575ac8d72c3acf81093"
+      },
+      "trace_id": "88f027729cf13aeb"
+    },
+    {
+      "application": "Amazon_Prime",
+      "content": "Season3-TheExpanse",
+      "joint_rf_states": 74,
+      "observed_segments": 14,
+      "scenario_id": "ucc-static-9879d08c2a797a39",
+      "selected_window": {
+        "end": "2020-01-03T11:57:02",
+        "missing_rf_seconds": 13,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 167,
+        "start": "2020-01-03T11:54:03"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 89,
+      "source": {
+        "path": "Amazon_Prime/Static/Season3-TheExpanse/B_2020.01.03_10.54.39.csv",
+        "sha256": "6e0123f812771517630c5214f05ef14cc102e09afa626d889423025a00d31e52"
+      },
+      "trace_id": "9879d08c2a797a39"
+    },
+    {
+      "application": "Amazon_Prime",
+      "content": "Season3-TheExpanse",
+      "joint_rf_states": 71,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-98b9b98d701e5aa3",
+      "selected_window": {
+        "end": "2019-12-19T15:23:59",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-12-19T15:21:00"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 88,
+      "source": {
+        "path": "Amazon_Prime/Static/Season3-TheExpanse/B_2019.12.19_15.00.47.csv",
+        "sha256": "6b5895c275b963b511cb050602c0eef5df3ab893c15af1b9c1c4c12e52e67aa6"
+      },
+      "trace_id": "98b9b98d701e5aa3"
+    },
+    {
+      "application": "Netflix",
+      "content": "Season3-StrangerThings",
+      "joint_rf_states": 69,
+      "observed_segments": 14,
+      "scenario_id": "ucc-static-b3d3737b89de0369",
+      "selected_window": {
+        "end": "2019-11-26T13:53:47",
+        "missing_rf_seconds": 13,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 167,
+        "start": "2019-11-26T13:50:48"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 92,
+      "source": {
+        "path": "Netflix/Static/Season3-StrangerThings/B_2019.11.26_13.50.48.csv",
+        "sha256": "8b45e6401ad46bc223ac72164ce674ccd770d41d85fcbe4b237beb3d745229c6"
+      },
+      "trace_id": "b3d3737b89de0369"
+    },
+    {
+      "application": "Download",
+      "content": "",
+      "joint_rf_states": 72,
+      "observed_segments": 21,
+      "scenario_id": "ucc-static-c029943772ad455f",
+      "selected_window": {
+        "end": "2020-02-14T13:26:09",
+        "missing_rf_seconds": 22,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 158,
+        "start": "2020-02-14T13:23:10"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 87,
+      "source": {
+        "path": "Download/Static/B_2020.02.14_13.21.26.csv",
+        "sha256": "b8c494344734ff2dc34dd52a7833db96e9fc423731080b5a04e61058d8ad584b"
+      },
+      "trace_id": "c029943772ad455f"
+    },
+    {
+      "application": "Amazon_Prime",
+      "content": "Season3-TheExpanse",
+      "joint_rf_states": 66,
+      "observed_segments": 15,
+      "scenario_id": "ucc-static-c672dae122ab5731",
+      "selected_window": {
+        "end": "2020-01-03T09:02:59",
+        "missing_rf_seconds": 14,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 166,
+        "start": "2020-01-03T09:00:00"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 90,
+      "source": {
+        "path": "Amazon_Prime/Static/Season3-TheExpanse/B_2020.01.03_08.59.40.csv",
+        "sha256": "f084241161014bb71b28c1fa8a177a95cb2f8e0f0700d6e1d072a82edef5d4af"
+      },
+      "trace_id": "c672dae122ab5731"
+    },
+    {
+      "application": "Download",
+      "content": "",
+      "joint_rf_states": 67,
+      "observed_segments": 20,
+      "scenario_id": "ucc-static-d5c8cfbdaef26f64",
+      "selected_window": {
+        "end": "2019-12-16T14:15:39",
+        "missing_rf_seconds": 19,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 161,
+        "start": "2019-12-16T14:12:40"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 82,
+      "source": {
+        "path": "Download/Static/B_2019.12.16_13.40.04.csv",
+        "sha256": "34040836e290bdca909f14c97af33c006275267b5397bc76724bd33c07e03769"
+      },
+      "trace_id": "d5c8cfbdaef26f64"
+    },
+    {
+      "application": "Netflix",
+      "content": "Season3-StrangerThings",
+      "joint_rf_states": 51,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-e6dc9af174051f0c",
+      "selected_window": {
+        "end": "2019-12-03T08:10:35",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-12-03T08:07:36"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 84,
+      "source": {
+        "path": "Netflix/Static/Season3-StrangerThings/B_2019.12.03_08.02.05.csv",
+        "sha256": "aceef6888b48442a67afe2aa94db20544682ac4b692b6c6c2ba7ffb9b6dbdd88"
+      },
+      "trace_id": "e6dc9af174051f0c"
+    },
+    {
+      "application": "Amazon_Prime",
+      "content": "Season3-TheExpanse",
+      "joint_rf_states": 63,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-ea48334e3dc57ed4",
+      "selected_window": {
+        "end": "2019-12-23T11:14:05",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-12-23T11:11:06"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 89,
+      "source": {
+        "path": "Amazon_Prime/Static/Season3-TheExpanse/B_2019.12.23_10.30.35.csv",
+        "sha256": "f206c175517933f3d685f4830fad2366ee9f8faf802a008cc9ab2d825bd06f1c"
+      },
+      "trace_id": "ea48334e3dc57ed4"
+    },
+    {
+      "application": "Netflix",
+      "content": "Season3-StrangerThings",
+      "joint_rf_states": 81,
+      "observed_segments": 14,
+      "scenario_id": "ucc-static-ed4f832c1ef9f131",
+      "selected_window": {
+        "end": "2019-12-04T12:50:04",
+        "missing_rf_seconds": 13,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 167,
+        "start": "2019-12-04T12:47:05"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 88,
+      "source": {
+        "path": "Netflix/Static/Season3-StrangerThings/B_2019.12.04_12.46.14.csv",
+        "sha256": "5310f5dbc4b52ffc913085acc3841fddb63cf9cdbda0302b88bd319ed22e2228"
+      },
+      "trace_id": "ed4f832c1ef9f131"
+    },
+    {
+      "application": "Netflix",
+      "content": "animated-RickandMorty",
+      "joint_rf_states": 74,
+      "observed_segments": 13,
+      "scenario_id": "ucc-static-f609ac4f39a5c67b",
+      "selected_window": {
+        "end": "2019-11-26T09:30:16",
+        "missing_rf_seconds": 12,
+        "nominal_duration_seconds": 180,
+        "observed_rf_seconds": 168,
+        "start": "2019-11-26T09:27:17"
+      },
+      "selection_weight": 0.05555555555555555,
+      "sequence_runs": 90,
+      "source": {
+        "path": "Netflix/Static/animated-RickandMorty/B_2019.11.26_09.27.10.csv",
+        "sha256": "90301389bf71219bae640a5a92dce61e56074f9606c6b7ab30ab2539a3156099"
+      },
+      "trace_id": "f609ac4f39a5c67b"
+    }
+  ],
+  "schema_version": 1,
+  "selection_contract": {
+    "scenario_count": 18,
+    "scenario_unit": "selected_trace_window",
+    "selection_weight_sum": 1.0,
+    "trace_weighting": "equal_trace"
+  },
+  "source": {
+    "config_sha256": "6647c7bb44293104fe8a0d7f82611eeccce05027fb07f900692f9457ddc8b2f9",
+    "dataset": {
+      "archive_name": "5G-production-dataset.zip",
+      "archive_sha256": "abc729d696b5e0ba34a9c6ed35a851f2868d2b5071be5efb8a49691c23bb1a9b",
+      "official_archive_verified": true
+    },
+    "manifest_sha256": "f87307e6c99734a2db0f7c531402c2cab19c3fd0e8e1f187008db0b4a6942f88"
+  },
+  "status": "ready"
+}
