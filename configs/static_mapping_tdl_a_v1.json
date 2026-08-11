@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "name": "ucc_static_tdl_a_safe_v1_mapping_v1",
+  "model_type": "TDL_A",
+  "direction": "dl",
+  "conditional_pre_run_inputs": [
+    "applied_ploss",
+    "applied_noise_power_dB"
+  ],
+  "pre_run_context": [
+    "app_mix",
+    "designed_offered_mbps"
+  ],
+  "minimum_repetitions_per_state": 2,
+  "candidate_policy": "observed_safe_states_only",
+  "evaluation_policy": "leave_one_execution_out_within_control_state",
+  "inverse_matching": {
+    "selection_metrics": [
+      {
+        "reference_metric": "RSRP",
+        "observed_metric": "ss_rsrp_dbm_segment_mean",
+        "tolerance": 3.0
+      },
+      {
+        "reference_metric": "RSRQ",
+        "observed_metric": "ss_rsrq_db_segment_mean",
+        "tolerance": 2.0
+      }
+    ],
+    "diagnostic_metrics": [
+      {
+        "reference_metric": "SNR",
+        "observed_metric": "ss_sinr_db_segment_mean",
+        "reason": "UCC SNR and OAI SS-SINR are not assumed to share a measurement definition"
+      }
+    ]
+  }
+}

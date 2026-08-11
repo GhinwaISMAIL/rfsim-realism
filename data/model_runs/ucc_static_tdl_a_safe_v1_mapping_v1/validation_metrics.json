@@ -1,0 +1,37 @@
+{
+  "evaluation_policy": "leave_one_execution_out_within_control_state",
+  "held_out_executions": 6,
+  "split_unit": "execution_id",
+  "targets": {
+    "latency_ms_p95": {
+      "mae": 162.22255627314232,
+      "max_absolute_error": 241.91396236419678,
+      "rmse": 187.65692557040293
+    },
+    "loss_rate": {
+      "mae": 0.0015048908954100827,
+      "max_absolute_error": 0.004514672686230248,
+      "rmse": 0.0026065474906980845
+    },
+    "received_mbps": {
+      "mae": 3.829629629629669e-05,
+      "max_absolute_error": 6.177777777777865e-05,
+      "rmse": 4.7036453772995485e-05
+    },
+    "ss_rsrp_dbm_segment_mean": {
+      "mae": 1.2640129629629513,
+      "max_absolute_error": 1.3511111111111092,
+      "rmse": 1.2692939585371794
+    },
+    "ss_rsrq_db_segment_mean": {
+      "mae": 0.3045999999999995,
+      "max_absolute_error": 0.4168000000000003,
+      "rmse": 0.3155510101394064
+    },
+    "ss_sinr_db_segment_mean": {
+      "mae": 1.250781481481491,
+      "max_absolute_error": 1.5054888888888982,
+      "rmse": 1.2727890957432106
+    }
+  }
+}

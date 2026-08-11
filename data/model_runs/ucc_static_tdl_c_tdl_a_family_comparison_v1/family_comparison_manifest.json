@@ -1,0 +1,45 @@
+{
+  "analysis_id": "rfsim_family_support_comparison_v1",
+  "candidate": {
+    "bundle_sha256": "a8b9047098d4926fd684a4c8d894dff78e42165b028bee475882692cf44b4233",
+    "label": "TDL_A",
+    "mapping_id": "ucc_static_tdl_a_safe_v1_mapping_v1",
+    "verified_bundle_files": 14
+  },
+  "comparison_scope": "same real RF observations and identical declared tolerances",
+  "limitations": [
+    "support means simultaneous RSRP and RSRQ agreement within declared tolerances",
+    "the comparison is restricted to observed, repeatable RFsim control states",
+    "SNR and SS-SINR remain diagnostic and do not determine support",
+    "family selection does not change the empirical real RF scenario distribution"
+  ],
+  "outputs": [
+    "family_summary.csv",
+    "support_overlap.csv",
+    "state_contributions.csv",
+    "application_support.csv",
+    "support_assignments.csv"
+  ],
+  "primary": {
+    "bundle_sha256": "b8e4bef92dcb9e4a480c64a52818e7a4433494d4c46172909b7fe627fd628847",
+    "label": "TDL_C",
+    "mapping_id": "ucc_static_tdl_c_safe_v1_mapping_v1",
+    "verified_bundle_files": 14
+  },
+  "result": {
+    "both_supported_observations": 111,
+    "candidate_incremental_fraction_over_primary": 0.22875377897211957,
+    "candidate_only_observations": 681,
+    "candidate_supported_fraction": 0.2660396372186765,
+    "candidate_supported_observations": 792,
+    "observation_count": 2977,
+    "primary_only_observations": 136,
+    "primary_supported_fraction": 0.08296943231441048,
+    "primary_supported_observations": 247,
+    "recommendation_basis": "maximum representable observations under identical tolerances",
+    "recommended_single_family": "TDL_A",
+    "union_supported_fraction": 0.3117232112865301,
+    "union_supported_observations": 928
+  },
+  "schema_version": 1
+}

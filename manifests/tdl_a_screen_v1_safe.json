@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "campaign": "ucc_static_tdl_a_safe_v1",
+  "source_campaigns": [
+    "ucc_static_tdl_a_screen_v1"
+  ],
+  "selection": {
+    "description": "repeatable TDL-A control states retained for conservative inverse RF matching",
+    "required_repetitions": 2,
+    "tolerances": {
+      "rsrp_absolute_difference_db": 3.0,
+      "rsrq_absolute_difference_db": 2.0
+    },
+    "retained_controls": [
+      {
+        "controls": {
+          "ploss": -5.0,
+          "noise_power_dB": -30.0
+        },
+        "execution_ids": [
+          "mgen-20260811-010654",
+          "mgen-20260811-012949"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 1.1005555555555582,
+          "rsrq_db": 0.4168000000000003
+        }
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -30.0
+        },
+        "execution_ids": [
+          "mgen-20260811-010043",
+          "mgen-20260811-012407"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 1.3511111111111092,
+          "rsrq_db": 0.2757999999999985
+        }
+      },
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -10.0
+        },
+        "execution_ids": [
+          "mgen-20260811-011236",
+          "mgen-20260811-013532"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 1.3403722222221983,
+          "rsrq_db": 0.22119999999999962
+        }
+      }
+    ],
+    "excluded_controls": [
+      {
+        "controls": {
+          "ploss": 0.0,
+          "noise_power_dB": -5.0
+        },
+        "execution_ids": [
+          "mgen-20260811-011819",
+          "mgen-20260811-014115"
+        ],
+        "absolute_differences": {
+          "rsrp_db": 4.820372222222228,
+          "rsrq_db": 0.2555555555555564
+        },
+        "decision": "exclude because the execution-level mean RSRP difference exceeds 3 dB"
+      }
+    ],
+    "failed_preflights": [
+      {
+        "point_id": "ploss-p0_noise-m30-r1",
+        "decision": "retain the later successful execution; the initial attempt failed before traffic because the clock-spread gate did not pass and produced no accepted archive"
+      }
+    ]
+  },
+  "points": [
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-p0_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -10.0
+      },
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-p0_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": -5.0,
+        "noise_power_dB": -30.0
+      },
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    },
+    {
+      "controls": {
+        "ploss": 0.0,
+        "noise_power_dB": -10.0
+      },
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2,
+      "run_seconds": 180.0
+    }
+  ]
+}

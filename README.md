@@ -185,6 +185,24 @@ observations, reports overlap and per-state contributions, and selects the
 single family with the larger representable count. Its output remains under
 `data/model_runs/` and belongs in the private data repository.
 
+## TDL-A family screening
+
+The TDL-A screen completed eight executions across four control states, with
+two repetitions per state. Three states met the 3 dB RSRP and 2 dB RSRQ
+repeatability limits: `(-5, -30)`, `(0, -30)`, and `(0, -10)` as
+`(ploss, noise_power_dB)`. The `(0, -5)` pair remains boundary evidence
+because its execution-level mean RSRP values differed by 4.82 dB.
+
+The conservative TDL-A mapping represents 792 of 2,977 real observations, or
+26.60 percent. This is greater than AWGN's 16.33 percent and TDL-C's 8.30
+percent. However, all 792 TDL-A-supported observations are also supported by
+TDL-B. TDL-B represents 64 additional observations, for 856 total, so TDL-B
+remains the selected single family for the first realistic dataset.
+
+The TDL-A mapping, support catalog, and pairwise family comparisons are under
+`data/model_runs/`. The campaign plan, safe-state selection, and mapping
+configuration are under `manifests/` and `configs/`.
+
 ## Real RF scenario catalog
 
 Build a replay-ready catalog directly from the dynamic static UCC measurement

@@ -1,0 +1,10 @@
+family,role,mapped_control_state_id,mapped_ploss,mapped_noise_power_dB,assigned_observations,supported_observations,unique_over_other_observations
+TDL_B,primary,ploss=-10|noise_power_dB=-30,-10,-30,304,43,0
+TDL_B,primary,ploss=-5|noise_power_dB=-30,-5,-30,807,304,54
+TDL_B,primary,ploss=-5|noise_power_dB=-7,-5,-7,149,149,0
+TDL_B,primary,ploss=0|noise_power_dB=-10,0,-10,726,34,10
+TDL_B,primary,ploss=0|noise_power_dB=-20,0,-20,277,40,0
+TDL_B,primary,ploss=0|noise_power_dB=-5,0,-5,714,286,0
+TDL_A,candidate,ploss=-5|noise_power_dB=-30,-5,-30,446,115,0
+TDL_A,candidate,ploss=0|noise_power_dB=-10,0,-10,400,296,0
+TDL_A,candidate,ploss=0|noise_power_dB=-30,0,-30,2131,381,0

@@ -1,0 +1,6 @@
+support_partition,observations,fraction
+both,111,0.0372858582466
+primary_only,136,0.0456835740679
+candidate_only,681,0.228753778972
+neither,2049,0.688276788713
+union,928,0.311723211287
