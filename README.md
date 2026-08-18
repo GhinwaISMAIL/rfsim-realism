@@ -8,6 +8,25 @@ The first reference source is the UCC 5G production dataset. Raw source files
 remain unchanged and outside Git. A pinned source record, archive checksum,
 curation policy, and deterministic manifest make the analysis reproducible.
 
+## Current scientific direction
+
+The completed anchor-based campaign is preserved as a baseline. Its best
+single-family result was TDL-B, for which the old pointwise support rule covered
+28.75 percent of the retained real observations. That percentage is not treated
+as the final definition of RF realism.
+
+The current approach compares complete empirical distributions instead. For
+each stationary real trace, it ranks only RFsim states that were actually
+executed and passed the data-quality gates. The primary comparison is joint
+RSRP-RSRQ maximum mean discrepancy (MMD); marginal Wasserstein distances and
+complete-execution repeatability are retained as diagnostics. This is a
+likelihood-free calibration workflow: it does not require RFsim to expose a
+physical UE distance parameter or an analytically tractable likelihood.
+
+The method, assumptions, validation rules, and literature basis are recorded in
+`reports/DISTRIBUTION_CALIBRATION_METHOD.md`. The older technical report remains
+an unchanged historical record of the testbed and anchor campaign.
+
 ## Setup
 
 Open this directory in VS Code and install the recommended Python and Jupyter
@@ -39,16 +58,26 @@ measurements. Missing seconds remain explicit; they are not silently filled.
 
 ## Calibration order
 
-1. Capture trustworthy UE-side RSRP, RSRQ, and SINR with UTC timestamps.
-2. Run one cell and one UE with the AWGN model.
-3. Sweep RFsim path gain (`ploss`) and `noise_power_dB` separately using the
-   checked configuration. Negative `ploss` values attenuate the signal.
-4. Learn the mapping from applied RFsim controls to observed radio statistics.
-5. Validate the mapping on held-out static reference traces.
-6. Compare TDL channel families after the AWGN mapping is stable.
+1. Preserve the real stationary traces as joint, time-ordered observations.
+2. Accept only complete RFsim executions with verified applied controls and
+   valid measurement timing.
+3. Measure distributional repeatability between complete repetitions at every
+   executed RFsim state.
+4. Compare each real trace with each observed safe state using joint RSRP-RSRQ
+   MMD and marginal Wasserstein diagnostics.
+5. Rank observed states without claiming that an unexecuted control pair is
+   supported.
+6. Test any proposed new control on POWDER as a new held-out execution before
+   adding it to the calibration corpus.
+7. Expand to other traffic loads, UE counts, cells, or dynamic channels only
+   after the stationary one-cell, one-UE result is repeatable.
 
 CQI, MCS, BLER, throughput, loss, and latency are observations. They are not
 used as direct RFsim controls.
+
+The numeric RSRP and RSRQ scales in the calibration configuration balance the
+two coordinates; they are not hard support thresholds. A sensitivity analysis
+must be completed before a final scientific claim is made.
 
 ## Automated AWGN sweep
 
@@ -109,7 +138,13 @@ PYTHONPATH=src uv run --locked rfsim-realism grid-run \
 The runner restores `ploss = 0` and `noise_power_dB = -30` after every
 execution, including failed quality gates.
 
-## First static mapping
+## Completed anchor-based baseline
+
+The following mapping and family-screening sections record the completed first
+approach. They are retained for provenance, comparison, and reproducibility.
+They do not overwrite the current distribution-based method.
+
+### First static mapping
 
 The first mapping is deliberately restricted to the eight observed safe AWGN
 states. It uses the two verified applied controls as conditional pre-run inputs
@@ -136,7 +171,7 @@ diagnostic proxy because the measurement definitions are not assumed equal.
 No POWDER reservation is required until candidate states are ready for new
 held-out validation executions.
 
-## TDL-B calibration result
+### TDL-B calibration result
 
 The first TDL-B campaign retained seven control states with two complete
 executions per state. Against the 2,977 complete RF observations in the 18
@@ -158,7 +193,7 @@ real observations are near -13 to -16 dB. Further TDL-B points in this region
 are therefore unlikely to expand support; the next calibration should compare
 a different channel family using the same one-cell, one-UE procedure.
 
-## TDL-C family decision
+### TDL-C family decision
 
 The TDL-C comparison retained three repeatable states from sixteen complete
 executions. Under the same RSRP and RSRQ tolerances used for TDL-B, TDL-C
@@ -185,7 +220,7 @@ observations, reports overlap and per-state contributions, and selects the
 single family with the larger representable count. Its output remains under
 `data/model_runs/` and belongs in the private data repository.
 
-## TDL-A family screening
+### TDL-A family screening
 
 The TDL-A screen completed eight executions across four control states, with
 two repetitions per state. Three states met the 3 dB RSRP and 2 dB RSRQ
@@ -203,7 +238,7 @@ The TDL-A mapping, support catalog, and pairwise family comparisons are under
 `data/model_runs/`. The campaign plan, safe-state selection, and mapping
 configuration are under `manifests/` and `configs/`.
 
-## EVA family screening
+### EVA family screening
 
 The EVA screen completed eight executions across four control states, with two
 repetitions per state. Three states met the 3 dB RSRP and 2 dB RSRQ
@@ -260,6 +295,32 @@ separate because their measurement definitions are not assumed equivalent.
 The checksummed output is written under `data/model_runs/`, which remains local
 and ignored by Git. These local artifacts may contain source-derived data and
 must be published only to the private data repository.
+
+## Distribution calibration
+
+Run the first TDL-B distribution comparison after the private data repository
+is available next to this repository:
+
+```bash
+make distribution-calibrate
+```
+
+The command verifies the selected campaign records, applied controls, model
+family, quality flags, and minimum sample counts. It then writes:
+
+- per-scenario summaries of the real observations;
+- per-state summaries of the RFsim observations;
+- a complete ranking of every executed state for every real scenario;
+- complete-execution repeatability comparisons; and
+- a manifest containing method settings, limitations, source hashes, and output
+  checksums.
+
+The first version is deliberately diagnostic. A low MMD identifies a closer
+observed distribution, not a validated physical channel model. Candidate
+rankings cannot be accepted until repetition instability, distance sensitivity,
+and new held-out POWDER executions have been evaluated. The output belongs in
+the private data repository because it is derived from the real reference
+measurements.
 
 ## Repository boundaries
 

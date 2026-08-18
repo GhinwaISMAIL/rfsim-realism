@@ -1,0 +1,43 @@
+schema_version: 1
+name: ucc_static_tdl_b_distribution_calibration_v1
+
+candidate_policy: observed_safe_states_only
+holdout_unit: complete_execution
+expected_model_types:
+  - TDL_B
+
+real_scenario_column: trace_id
+real_context_columns:
+  - app
+  - content
+
+selection_metrics:
+  - name: RSRP
+    real_column: target_rsrp_dbm
+    simulated_column: ss_rsrp_dbm
+    scale: 3.0
+  - name: RSRQ
+    real_column: target_rsrq_db
+    simulated_column: ss_rsrq_db
+    scale: 2.0
+
+diagnostic_metrics:
+  - name: SNR_PROXY
+    real_column: target_snr_db
+    simulated_column: ss_sinr_db
+
+distance:
+  primary: rbf_mmd
+  kernel_bandwidth: 1.0
+  maximum_samples: 512
+  wasserstein_quantiles: 201
+
+minimum_samples_per_scenario: 120
+minimum_samples_per_execution: 120
+
+require_true:
+  - channel_schedule_enabled
+  - channel_state_success
+  - channel_verified
+require_false:
+  - channel_transition_partial

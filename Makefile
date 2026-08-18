@@ -15,9 +15,15 @@ RF_DISTRIBUTION_MAPPING ?=
 FAMILY_PRIMARY_DIR ?= ../rfsim-realism-data/model_runs/ucc_static_real_rf_catalog_v1_with_tdl_b_v2_support
 FAMILY_CANDIDATE_DIR ?= data/model_runs/ucc_static_real_rf_catalog_v1_with_tdl_c_support
 FAMILY_COMPARISON_OUTPUT ?= data/model_runs/ucc_static_tdl_b_tdl_c_family_comparison_v1
+DISTRIBUTION_CALIBRATION_CONFIG ?= configs/distribution_calibration_tdl_b_v1.yaml
+DISTRIBUTION_CALIBRATION_REAL ?= ../rfsim-realism-data/model_runs/ucc_static_real_rf_catalog_v1_with_tdl_b_v2_support/real_rf_observations.csv
+DISTRIBUTION_CALIBRATION_EXECUTIONS ?= ../rfsim-realism-data/tdl_b_executions
+DISTRIBUTION_CALIBRATION_SELECTION ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/selection_manifest.json
+DISTRIBUTION_CALIBRATION_CAMPAIGN ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/campaign_state.json
+DISTRIBUTION_CALIBRATION_OUTPUT ?= data/model_runs/ucc_static_tdl_b_distribution_calibration_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution family-compare test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate family-compare test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -53,6 +59,15 @@ rf-distribution:
 		--manifest $(UCC_MANIFEST) $(if $(RF_DISTRIBUTION_MAPPING),--mapping-dir $(RF_DISTRIBUTION_MAPPING),) \
 		--config $(RF_DISTRIBUTION_CONFIG) \
 		--output $(RF_DISTRIBUTION_OUTPUT)
+
+distribution-calibrate:
+	$(UV) run --locked rfsim-realism distribution-calibrate \
+		--real-observations $(DISTRIBUTION_CALIBRATION_REAL) \
+		--executions-root $(DISTRIBUTION_CALIBRATION_EXECUTIONS) \
+		--selection-manifest $(DISTRIBUTION_CALIBRATION_SELECTION) \
+		--campaign-state $(DISTRIBUTION_CALIBRATION_CAMPAIGN) \
+		--config $(DISTRIBUTION_CALIBRATION_CONFIG) \
+		--output $(DISTRIBUTION_CALIBRATION_OUTPUT)
 
 family-compare:
 	$(UV) run --locked rfsim-realism family-compare \

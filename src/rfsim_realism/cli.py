@@ -4,6 +4,7 @@ import argparse
 import json
 
 from .distribution import run_distribution_analysis
+from .distribution_calibration import run_distribution_calibration
 from .family_compare import run_family_comparison
 from .fetch import fetch_archive
 from .mapping import run_static_mapping
@@ -68,6 +69,14 @@ def _parser() -> argparse.ArgumentParser:
     distribution.add_argument("--mapping-dir")
     distribution.add_argument("--config", required=True)
     distribution.add_argument("--output", required=True)
+
+    distribution_calibration = commands.add_parser("distribution-calibrate")
+    distribution_calibration.add_argument("--real-observations", required=True)
+    distribution_calibration.add_argument("--executions-root", required=True)
+    distribution_calibration.add_argument("--selection-manifest", required=True)
+    distribution_calibration.add_argument("--campaign-state", required=True)
+    distribution_calibration.add_argument("--config", required=True)
+    distribution_calibration.add_argument("--output", required=True)
 
     family_compare = commands.add_parser("family-compare")
     family_compare.add_argument("--primary-dir", required=True)
@@ -147,6 +156,17 @@ def main() -> None:
             config_path=args.config,
             output_dir=args.output,
             mapping_dir=args.mapping_dir,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "distribution-calibrate":
+        result = run_distribution_calibration(
+            real_observations=args.real_observations,
+            executions_root=args.executions_root,
+            selection_manifest=args.selection_manifest,
+            campaign_state=args.campaign_state,
+            config_path=args.config,
+            output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
         return
