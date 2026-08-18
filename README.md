@@ -322,6 +322,46 @@ and new held-out POWDER executions have been evaluated. The output belongs in
 the private data repository because it is derived from the real reference
 measurements.
 
+## MMD–ABC implementation
+
+The next calibration stage is predeclared in
+`reports/MMD_ABC_CALIBRATION_DESIGN.md`. A paper-scale PMC-ABC loop is not
+operationally feasible when every simulator proposal requires a complete POWDER
+execution. The implemented workflow therefore separates deterministic proposal
+planning, independently archived simulator executions, execution-level MMD–ABC
+inference, and held-out posterior-predictive planning.
+
+Generate the first 24-execution sensitivity and stochasticity pilot plan with:
+
+```bash
+make mmd-abc-plan
+```
+
+The pilot keeps TDL-B fixed, infers only `ploss` over the predeclared operational
+range, and fixes `noise_power_dB=-30`. It uses three complete repetitions at each
+of eight proposed values. Planned values are not treated as evidence until they
+have been executed and passed the existing quality gates.
+
+The inference command consumes a completed or partial execution bank:
+
+```bash
+PYTHONPATH=src uv run --locked rfsim-realism mmd-abc-infer \
+  --real-observations /private/path/real_rf_observations.csv \
+  --executions-root /private/path/executions \
+  --proposal-plan manifests/mmd_abc_tdl_b_ploss_pilot_v1.json \
+  --campaign-state /private/path/campaign_state.json \
+  --config configs/mmd_abc_tdl_b_ploss_pilot_v1.yaml \
+  --output /private/path/model_runs/tdl_b_ploss_mmd_abc_pilot_v1
+```
+
+The primary metric uses pooled-real covariance whitening, a real-reference median
+kernel bandwidth, and unbiased joint RSRP/RSRQ MMD². Complete repetitions remain
+separate stochastic simulator draws. The pilot configuration is explicitly marked
+underpowered and cannot claim an established posterior. A posterior-predictive plan
+can be generated only from an output that passes the predeclared ABC sample-size,
+unique-parameter, and effective-sample gates. All real-derived inference and
+validation outputs belong in the private data repository.
+
 ## Repository boundaries
 
 - OAI configuration and channel-control helpers remain in `oai-5g-ric`.

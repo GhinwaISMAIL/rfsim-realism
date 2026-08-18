@@ -1,0 +1,436 @@
+{
+  "config_sha256": "40c251a357c22f7a4b44fda7af8aad37800d8bc597ad2f3ca5818d5513a93042",
+  "execution_count": 24,
+  "holdout_unit": "complete_execution",
+  "implementation": "execution_bank_rejection_abc",
+  "limitations": [
+    "planned controls are proposals and are not evidence until executed",
+    "the pilot is underpowered for a resolved continuous ABC posterior",
+    "every accepted row requires a complete quality-gated execution"
+  ],
+  "model": {
+    "family": "TDL_B",
+    "topology": {
+      "gnb_count": 1,
+      "ue_count": 1,
+      "ue_mobility": "stationary"
+    }
+  },
+  "plan_id": "ucc_static_tdl_b_ploss_mmd_abc_pilot_v1",
+  "points": [
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -10.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-001-r01",
+      "proposal_id": "proposal-001",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -10.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -10.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-001-r02",
+      "proposal_id": "proposal-001",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -10.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -10.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-001-r03",
+      "proposal_id": "proposal-001",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -10.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -8.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-002-r01",
+      "proposal_id": "proposal-002",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -8.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -8.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-002-r02",
+      "proposal_id": "proposal-002",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -8.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -8.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-002-r03",
+      "proposal_id": "proposal-002",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -8.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -7.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-003-r01",
+      "proposal_id": "proposal-003",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -7.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -7.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-003-r02",
+      "proposal_id": "proposal-003",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -7.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -7.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-003-r03",
+      "proposal_id": "proposal-003",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -7.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -5.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-004-r01",
+      "proposal_id": "proposal-004",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -5.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -5.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-004-r02",
+      "proposal_id": "proposal-004",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -5.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -5.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-004-r03",
+      "proposal_id": "proposal-004",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -5.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -4.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-005-r01",
+      "proposal_id": "proposal-005",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -4.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -4.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-005-r02",
+      "proposal_id": "proposal-005",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -4.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -4.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-005-r03",
+      "proposal_id": "proposal-005",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -4.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -2.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-006-r01",
+      "proposal_id": "proposal-006",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -2.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -2.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-006-r02",
+      "proposal_id": "proposal-006",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -2.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -2.5
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-006-r03",
+      "proposal_id": "proposal-006",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -2.5
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -1.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-007-r01",
+      "proposal_id": "proposal-007",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -1.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -1.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-007-r02",
+      "proposal_id": "proposal-007",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -1.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": -1.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-007-r03",
+      "proposal_id": "proposal-007",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": -1.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": 0.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-008-r01",
+      "proposal_id": "proposal-008",
+      "repetition": 1,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": 0.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": 0.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-008-r02",
+      "proposal_id": "proposal-008",
+      "repetition": 2,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": 0.0
+      }
+    },
+    {
+      "controls": {
+        "noise_power_dB": -30.0,
+        "ploss": 0.0
+      },
+      "model_family": "TDL_B",
+      "point_id": "proposal-008-r03",
+      "proposal_id": "proposal-008",
+      "repetition": 3,
+      "run_seconds": 180.0,
+      "stage": "one_parameter_sensitivity_and_stochasticity_pilot",
+      "theta": {
+        "ploss": 0.0
+      }
+    }
+  ],
+  "proposal_count": 8,
+  "proposals": [
+    {
+      "proposal_id": "proposal-001",
+      "theta": {
+        "ploss": -10.0
+      }
+    },
+    {
+      "proposal_id": "proposal-002",
+      "theta": {
+        "ploss": -8.5
+      }
+    },
+    {
+      "proposal_id": "proposal-003",
+      "theta": {
+        "ploss": -7.0
+      }
+    },
+    {
+      "proposal_id": "proposal-004",
+      "theta": {
+        "ploss": -5.5
+      }
+    },
+    {
+      "proposal_id": "proposal-005",
+      "theta": {
+        "ploss": -4.0
+      }
+    },
+    {
+      "proposal_id": "proposal-006",
+      "theta": {
+        "ploss": -2.5
+      }
+    },
+    {
+      "proposal_id": "proposal-007",
+      "theta": {
+        "ploss": -1.0
+      }
+    },
+    {
+      "proposal_id": "proposal-008",
+      "theta": {
+        "ploss": 0.0
+      }
+    }
+  ],
+  "schema_version": 1,
+  "seed": 20260818,
+  "stage": "one_parameter_sensitivity_and_stochasticity_pilot"
+}

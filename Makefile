@@ -21,9 +21,11 @@ DISTRIBUTION_CALIBRATION_EXECUTIONS ?= ../rfsim-realism-data/tdl_b_executions
 DISTRIBUTION_CALIBRATION_SELECTION ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/selection_manifest.json
 DISTRIBUTION_CALIBRATION_CAMPAIGN ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/campaign_state.json
 DISTRIBUTION_CALIBRATION_OUTPUT ?= data/model_runs/ucc_static_tdl_b_distribution_calibration_v1
+MMD_ABC_CONFIG ?= configs/mmd_abc_tdl_b_ploss_pilot_v1.yaml
+MMD_ABC_PLAN ?= manifests/mmd_abc_tdl_b_ploss_pilot_v1.json
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate family-compare test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -68,6 +70,11 @@ distribution-calibrate:
 		--campaign-state $(DISTRIBUTION_CALIBRATION_CAMPAIGN) \
 		--config $(DISTRIBUTION_CALIBRATION_CONFIG) \
 		--output $(DISTRIBUTION_CALIBRATION_OUTPUT)
+
+mmd-abc-plan:
+	$(UV) run --locked rfsim-realism mmd-abc-plan \
+		--config $(MMD_ABC_CONFIG) \
+		--output $(MMD_ABC_PLAN)
 
 family-compare:
 	$(UV) run --locked rfsim-realism family-compare \

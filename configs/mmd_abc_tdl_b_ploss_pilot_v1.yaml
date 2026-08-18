@@ -1,0 +1,115 @@
+schema_version: 1
+name: ucc_static_tdl_b_ploss_mmd_abc_pilot_v1
+stage: one_parameter_sensitivity_and_stochasticity_pilot
+implementation: execution_bank_rejection_abc
+seed: 20260818
+holdout_unit: complete_execution
+
+model:
+  family: TDL_B
+  topology:
+    gnb_count: 1
+    ue_count: 1
+    ue_mobility: stationary
+
+inferred_parameters:
+  - name: ploss
+    simulated_column: dl_ploss
+    verification_tolerance: 1.0e-9
+    prior:
+      distribution: uniform
+      lower: -10.0
+      upper: 0.0
+    proposal_values:
+      - -10.0
+      - -8.5
+      - -7.0
+      - -5.5
+      - -4.0
+      - -2.5
+      - -1.0
+      - 0.0
+
+fixed_parameters:
+  - name: noise_power_dB
+    value: -30.0
+    simulated_column: dl_noise_power_dB
+    verification_tolerance: 1.0e-9
+    include_in_execution_controls: true
+  - name: ds_tdl_seconds
+    value: 3.0e-8
+    include_in_execution_controls: false
+  - name: forgetf
+    value: 0.0
+    include_in_execution_controls: false
+  - name: offset_samples
+    value: 0
+    include_in_execution_controls: false
+
+real_scenario_column: trace_id
+real_context_columns:
+  - app
+  - content
+
+selection_metrics:
+  - name: RSRP
+    real_column: target_rsrp_dbm
+    simulated_column: ss_rsrp_dbm
+  - name: RSRQ
+    real_column: target_rsrq_db
+    simulated_column: ss_rsrq_db
+
+diagnostic_metrics:
+  - name: SNR_PROXY
+    real_column: target_snr_db
+    simulated_column: ss_sinr_db
+
+transform:
+  method: pooled_real_covariance_whitening
+  relative_eigenvalue_floor: 1.0e-8
+
+kernel:
+  name: rbf
+  estimator: unbiased_mmd_squared
+  bandwidth_source: pooled_real_reference_median_heuristic
+  bandwidth_multipliers:
+    - 0.5
+    - 1.0
+    - 2.0
+  maximum_reference_samples: 512
+  maximum_samples_per_distribution: 512
+
+execution:
+  independent_repetitions: 3
+  run_seconds: 180
+  observation_filename: ue_second_features.parquet
+  execution_id_column: execution_id
+  model_column: dl_model_type
+  minimum_samples_per_scenario: 120
+  minimum_samples_per_execution: 120
+  allow_partial_bank: true
+  require_true:
+    - channel_schedule_enabled
+    - channel_state_success
+    - channel_verified
+  require_false:
+    - channel_transition_partial
+
+abc:
+  acceptance_fraction: 0.05
+  minimum_total_simulations: 2000
+  minimum_accepted_samples: 100
+  minimum_unique_parameter_values: 5
+  minimum_effective_sample_size: 50
+  boundary_fraction: 0.1
+  pilot_only: true
+
+diagnostics:
+  wasserstein_quantiles: 201
+
+validation:
+  posterior_quantiles:
+    - 0.1
+    - 0.5
+    - 0.9
+  independent_repetitions_per_candidate: 3
