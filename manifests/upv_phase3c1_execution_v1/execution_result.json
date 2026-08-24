@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c1_deterministic_scalar_execution_result",
+  "recorded_at": "2026-08-24T16:19:41+02:00",
+  "execution_amendment_revision": "ad7051bfcdda3e322f8371455a11f43cbfdc20e3",
+  "evaluation_code_revision": "a10c9fe607ecd29e6036054e3d680674481af110",
+  "profile_execution_revision": "3c7a71656e0b7bd990ed7be7b9382ffb15fdce02",
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "cell_node": "pc03-meb.emulab.net",
+    "core_node": "pc829.emulab.net"
+  },
+  "raw_bundle": {
+    "remote_path": "/local/logs/phase3c1/phase3c1-scalar-20260824T141333Z",
+    "local_path": "data/model_runs/upv_phase3c1_scalar_v1",
+    "tracking_policy": "raw_and_generated_outputs_are_gitignored; checksums_are_committed",
+    "files": {
+      "deterministic_scalar_telemetry.csv": "12ce943762697fbc6f16b3f1151cdea8f8095ad47db6a07652813db71190b61b",
+      "execution_state.json": "78a898af7c9bdca54b8bf14b894c46272483e80b50ead2155dbe6d752e387c8e",
+      "local-1-attachment.json": "1da46e8484e133d53d5396a242872cacfbfe78b5bf3a0e64bdea8fa486459d55",
+      "local-1-control.json": "52dc3cc6acec8d5bb99088751a1ecccd458147e723acbfdb0846c0fffb3a6923",
+      "local-1-telemetry.csv": "df33a8f19818b55bd47f7eb8340148067f1a31f0f592be8b8e13a72f1a5acdfb",
+      "local-1-ue.log": "ffe751fce7c54a4d92e390581f54ffeb974ac69b3da6f34779ca21433808b0e3",
+      "local-2-attachment.json": "24351ea089b5a4ae8845296a5c9589a8a2fca3fcbd053772ac48ce39983aff50",
+      "local-2-control.json": "320fa7bfbcd31fe6f7105bc02dc25388e8b6abeff91f4b1c72115c2f36e71ad7",
+      "local-2-telemetry.csv": "6a07266a52a22c9efe63f38c1eaba91c573bb37d109fd3c570c0ca609d37f19c",
+      "local-2-ue.log": "0ddd2e2e0286c71ea8a90552298509f6dde3ea693090ef302616c3728b7a0fc5"
+    },
+    "remote_to_local_checksum_match": true
+  },
+  "execution": {
+    "completed": true,
+    "replays_completed": 2,
+    "matched_rows_per_replay": 50,
+    "missing_channel_rows_per_replay": 0,
+    "analysis_rows_per_segment": 7,
+    "continuous_attachment": true,
+    "debug_image_id": "sha256:8969f8c64578c18624bf8e367f7ea032725d2ae8eba9f6b27013bc3e198f632e",
+    "unique_channel_snapshots_per_replay": 1,
+    "raw_tap_energy_coefficient_of_variation": 0.0
+  },
+  "rollback": {
+    "passed": true,
+    "restored_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "ue_attached_address": "12.1.1.2/24",
+    "gnb_image": "ghinwa555/oai-gnb-e2-chan:v2",
+    "gnb_healthy": true,
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0
+  },
+  "evaluation": {
+    "path": "data/model_runs/upv_phase3c1_scalar_v1/deterministic_replay_evaluation.json",
+    "sha256": "d84a2dc2b4689e8c1cf45ccb064eb834c9fea60c9447450271102e27f3a23625",
+    "telemetry_sha256": "12ce943762697fbc6f16b3f1151cdea8f8095ad47db6a07652813db71190b61b",
+    "frozen_evaluator_used": true,
+    "thresholds_changed": false,
+    "deterministic_replay_gate_pass": true,
+    "replay_results": [
+      {
+        "replay_id": "local-1",
+        "float_rsrp_transfer_slope": 1.0014766785714277,
+        "float_rsrp_transfer_r_squared": 0.9999999621260782,
+        "float_rsrp_delta_max_abs_error_db": 0.005835999999995067,
+        "integer_rsrp_delta_max_abs_error_db": 0.0,
+        "repeated_level_hysteresis_max_abs_db": 0.0007129999999975212,
+        "attachment_fraction": 1.0,
+        "all_gates_pass": true
+      },
+      {
+        "replay_id": "local-2",
+        "float_rsrp_transfer_slope": 1.0014898571428572,
+        "float_rsrp_transfer_r_squared": 0.9999999822238494,
+        "float_rsrp_delta_max_abs_error_db": 0.005923500000001525,
+        "integer_rsrp_delta_max_abs_error_db": 0.0,
+        "repeated_level_hysteresis_max_abs_db": 0.0005980000000036512,
+        "attachment_fraction": 1.0,
+        "all_gates_pass": true
+      }
+    ]
+  },
+  "evaluator_serialization_correction": {
+    "first_write_attempt_created_output": false,
+    "observed_error": "NumPy boolean gate values were not JSON serializable",
+    "scientific_values_or_thresholds_changed": false,
+    "correction": "convert every gate result explicitly to the built-in bool type",
+    "regression_test_added": true,
+    "focused_tests_passed": 6,
+    "full_repository_tests_passed": 74,
+    "ruff_passed": true,
+    "revision": "a10c9fe607ecd29e6036054e3d680674481af110"
+  },
+  "interpretation": {
+    "supported": "On the pinned AWGN RFsim downlink path, runtime scalar path gain transfers to the parallel unquantized and standard integer RSRP measurements with approximately unit slope while the raw channel snapshot remains fixed.",
+    "not_supported": [
+      "absolute OAI-to-NEMO RSRP equivalence",
+      "route-scale or time-varying channel realism",
+      "physical propagation-loss inference",
+      "SINR calibration",
+      "ABC posterior inference"
+    ]
+  },
+  "decision": {
+    "deterministic_scalar_gate_state": "passed",
+    "next_authorized_step": "offline design and validation of one pinned time-varying trace",
+    "additional_powder_action_authorized": false,
+    "physical_radio_experiment_gate_state": "closed",
+    "abc_authorized": false,
+    "reservation_needed_now": false
+  }
+}
