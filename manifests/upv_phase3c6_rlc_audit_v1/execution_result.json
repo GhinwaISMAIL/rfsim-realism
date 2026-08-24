@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c6_vrtsim_min_rxtxtime_6_result",
+  "recorded_at": "2026-08-24T17:38:22+02:00",
+  "execution_amendment_revision": "d64d466",
+  "profile_revision": "3c2136648234e152fa302d48ddc97e0fb1c6422c",
+  "execution": {
+    "remote_output_directory": "/local/logs/phase3c6-passthrough-minrx6/phase3c4-vrtsim-20260824T153634Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c6_minrx6_v1/attempt-1",
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "command_exit_code": 1,
+    "execution_completed": false,
+    "accepted_repetitions": 0,
+    "failure_gate": "frozen_gnb_random_access_failure_marker",
+    "failure_message": "critical PBCH/PUSCH/RA/RLF/sync marker observed",
+    "thresholds_changed_during_execution": false,
+    "adaptive_retry_performed": false
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw_execution_outputs_are_gitignored; checksums_and_structured_result_are_committed",
+    "remote_to_local_bundle_copied": true,
+    "failure_logs_preserved_before_rollback": true,
+    "files": {
+      "execution_state.json": "dff0426c03223cf80a3697a3766cf19f020df95eb11d28982fe2d1a334474e48",
+      "log_parser_result.json": "f0c8e523dd55cf7e0b6724ca04f16f81c3122c5e870df2c0daabcf15378d3f74",
+      "vrtsim-1-attachment.json": "d97d21bb394529faac6f0b2ccd818889752b583771068432b6765555dfee61f8",
+      "vrtsim-1-gnb.log": "dd3919d76ec0cdf5a19992466e5c9a8e75428f126f949213539c49cb789aa874",
+      "vrtsim-1-ping.log": "69d1d0fd0dfb864c4d704082f07e836d90159181c9d183e0c331a645238f423c",
+      "vrtsim-1-ue.log": "e4e9c0d606052da8b8e3dba3972a3b203228d6a355b6ff984320617c76c77cfc"
+    }
+  },
+  "frozen_parser_result": {
+    "schema_version": 2,
+    "log_gate_pass": false,
+    "required_ue_marker_counts": {
+      "pbch_initial_success": 2,
+      "random_access_success": 2,
+      "rrc_connected": 6,
+      "registration_accept": 1
+    },
+    "failure_marker_counts": {
+      "gnb_pusch_ul_failure": 0,
+      "gnb_random_access_failure": 2,
+      "gnb_rlc_max_retx": 0,
+      "gnb_unhandled_rlf_indication": 0,
+      "gnb_actual_radio_link_failure": 0,
+      "ue_pbch_decode_error": 0,
+      "ue_random_access_failure": 0,
+      "ue_radio_link_failure": 0,
+      "ue_lost_sync": 0
+    },
+    "maximum_reported_ulsch_dtx_counter": 0
+  },
+  "observed_sequence": {
+    "first_pbch_and_random_access_success": true,
+    "gnb_first_attempt_msg4_failure": true,
+    "gnb_first_attempt_contention_resolution_timeout": true,
+    "ue_resynchronized": true,
+    "second_pbch_and_random_access_success": true,
+    "registration_accept_after_second_attempt": true,
+    "pdu_session_interface_created": true,
+    "first_icmp_reply_received": true,
+    "attachment_checks_before_stop": 1,
+    "attachment_fraction_before_stop": 1.0
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true
+  },
+  "controlled_comparison": {
+    "min_rxtxtime_3": {
+      "gnb_random_access_failure_markers": 0,
+      "gnb_rlc_max_retx_markers": 3,
+      "gnb_unhandled_rlf_indications": 3,
+      "first_icmp_reply_received": true,
+      "gate_pass": false
+    },
+    "min_rxtxtime_6": {
+      "gnb_random_access_failure_markers": 2,
+      "gnb_rlc_max_retx_markers_before_early_stop": 0,
+      "gnb_unhandled_rlf_indications_before_early_stop": 0,
+      "first_icmp_reply_received": true,
+      "gate_pass": false
+    },
+    "interpretation": "The official min_rxtxtime value changed the failure mode but did not produce a valid clean observation. Because the min-rxtxtime-6 run stopped early on recovered RA failures, it cannot establish that RLC max retransmissions would remain absent for 30 seconds."
+  },
+  "decision": {
+    "phase3c6_gate": "failed_closed",
+    "clean_vrtsim_passthrough_established": false,
+    "cirdb_replay_authorized": false,
+    "next_node_action_authorized": false,
+    "next_required_step": "offline investigation of VRTSIM startup and gNB RA/RLC scheduling behavior; do not tune additional runtime parameters without a new independently justified design",
+    "reservation_needed_for_next_step": false,
+    "reservation_can_be_released": true,
+    "physical_radio_experiment_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  },
+  "claim_limits": {
+    "measured_UPV_channel_replayed": false,
+    "vrtsim_cirdb_transport_validated": false,
+    "attachment_robustness_established": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
