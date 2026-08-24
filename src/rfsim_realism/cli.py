@@ -17,6 +17,7 @@ from .ucc_static import build_manifest, write_manifest
 from .upv_measurement_audit import run_measurement_equivalence_audit
 from .upv_phase3b import analyze_phase3b_support
 from .upv_phase3c import build_phase3c_plan, write_deterministic_replay_evaluation
+from .upv_phase3c2 import run_phase3c2_trace_validation
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -165,6 +166,14 @@ def _parser() -> argparse.ArgumentParser:
     phase3c_replay.add_argument("--telemetry", required=True)
     phase3c_replay.add_argument("--plan-dir", required=True)
     phase3c_replay.add_argument("--output", required=True)
+
+    phase3c2 = commands.add_parser("validate-upv-phase3c2-trace")
+    phase3c2.add_argument("--config", required=True)
+    phase3c2.add_argument("--phase3c1-result", required=True)
+    phase3c2.add_argument("--sample-rate-evidence", required=True)
+    phase3c2.add_argument("--oai-source", required=True)
+    phase3c2.add_argument("--output", required=True)
+    phase3c2.add_argument("--manifest-output", required=True)
     return parser
 
 
@@ -361,6 +370,17 @@ def main() -> None:
             output_path=args.output,
         )
         print(json.dumps({"evaluation": str(output)}, sort_keys=True))
+        return
+    if args.command == "validate-upv-phase3c2-trace":
+        result = run_phase3c2_trace_validation(
+            config_path=args.config,
+            phase3c1_result=args.phase3c1_result,
+            sample_rate_evidence=args.sample_rate_evidence,
+            oai_source=args.oai_source,
+            output_dir=args.output,
+            manifest_dir=args.manifest_output,
+        )
+        print(json.dumps(result, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

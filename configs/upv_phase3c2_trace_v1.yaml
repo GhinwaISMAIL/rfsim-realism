@@ -1,0 +1,183 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3c2_tdl_b_temporal_trace_v1
+stage: phase_3c2_offline_time_varying_trace_validation
+execution_authorized: false
+powder_action_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3c1_result_sha256: 491b6c933032f28f36803343f4ef4f03d51086f91ce655e087b6ba115971b68b
+  phase3c1_required_gate: deterministic_scalar_gate_state
+  phase3c1_required_gate_value: passed
+  phase3c1_sample_rate_log_sha256: ffe751fce7c54a4d92e390581f54ffeb974ac69b3da6f34779ca21433808b0e3
+  oai_expected_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+
+standard_model:
+  specification: 3GPP_TR_38.901
+  version: 17.0.0
+  source_url: https://www.etsi.org/deliver/etsi_tr/138900_138999/138901/17.00.00_60/tr_138901v170000p.pdf
+  profile: TDL-B
+  profile_table: 7.7.2-2
+  delay_scaling_clause: 7.7.3
+  fading_distribution: Rayleigh
+  doppler_spectrum: classical_Jakes
+  desired_rms_delay_spread_ns: 30.0
+  normalized_delays:
+    - 0.0000
+    - 0.1072
+    - 0.2155
+    - 0.2095
+    - 0.2870
+    - 0.2986
+    - 0.3752
+    - 0.5055
+    - 0.3681
+    - 0.3697
+    - 0.5700
+    - 0.5283
+    - 1.1021
+    - 1.2756
+    - 1.5474
+    - 1.7842
+    - 2.0169
+    - 2.8294
+    - 3.0219
+    - 3.6187
+    - 4.1067
+    - 4.2790
+    - 4.7834
+  powers_db:
+    - 0.0
+    - -2.2
+    - -4.0
+    - -3.2
+    - -9.8
+    - -1.2
+    - -3.4
+    - -5.2
+    - -7.6
+    - -3.0
+    - -8.9
+    - -9.0
+    - -4.8
+    - -5.7
+    - -7.5
+    - -1.9
+    - -7.6
+    - -12.2
+    - -9.8
+    - -11.4
+    - -14.9
+    - -9.2
+    - -11.3
+
+trace:
+  carrier_frequency_hz: 3319680000.0
+  speed_mps: 1.5
+  speed_interpretation: engineering_validation_speed_not_inferred_from_UPV
+  iq_sample_rate_hz: 46080000.0
+  iq_sample_rate_provenance: phase3c1_pinned_runtime_log
+  snapshot_interval_s: 0.002
+  duration_s: 300.0
+  random_seed: 20260824
+  sinusoids_per_physical_tap: 64
+  generation_chunk_snapshots: 4096
+  tx_antennas: 1
+  rx_antennas: 1
+  small_scale_formula: sum_of_isotropic_random_phasors_with_maximum_Doppler
+  small_scale_global_mean_power_normalization: true
+  per_snapshot_normalization: false
+
+large_scale:
+  constant_path_gain_db: 0.0
+  shadowing_model: spatial_AR1_exponential_correlation
+  shadowing_sigma_db: 3.0
+  shadowing_correlation_distance_m: 10.0
+  shadowing_global_center_and_scale: true
+  blockage_component: disabled_for_isolated_temporal_validation
+  antenna_pattern_component: disabled_for_isolated_temporal_validation
+
+discretization:
+  method: nearest_IQ_sample
+  collision_rule: coherent_sum_of_independent_physical_taps
+  expected_channel_length_samples: 8
+  continuous_profile_is_retained_in_metadata: true
+
+transport:
+  selected_candidate: VRTSIM_CIRDB
+  previous_provisional_candidate: VRTSIM_external_taps
+  selection_reason: >-
+    Runtime sample-rate evidence shows that nearest-sample discretization maps
+    the complete 23-component TDL-B profile into exactly eight delay bins, so
+    CIRDB can carry the full binned profile without truncation.
+  cirdb_model_id: 1
+  cirdb_model_mapping: 1_is_TDL-B
+  binary_dtype: little_endian_complex64
+  binary_layout: snapshot_link_tap
+  pair_order: 0
+  pinned_constraints:
+    cirdb_max_published_taps: 8
+    external_taps_max_taps: 100
+  compatibility_rule: discretized_channel_length_must_not_exceed_cirdb_max_published_taps
+  actual_replay_timing_and_drop_validation_complete: false
+
+validation:
+  finite_values_required: true
+  exact_snapshot_count_required: true
+  timestamp_max_abs_error_s: 1.0e-12
+  small_scale_mean_power_max_abs_error: 1.0e-6
+  binned_pdp_max_abs_error_db: 0.6
+  discretized_rms_delay_spread_relative_error_maximum: 0.05
+  acf_max_doppler_periods: 2.0
+  acf_mean_abs_error_maximum: 0.12
+  acf_imaginary_max_abs_maximum: 0.12
+  lag_one_autocorrelation_magnitude_minimum: 0.95
+  coherence_threshold: 0.5
+  coherence_time_ratio_range: [0.60, 1.50]
+  doppler_guard_fraction: 0.10
+  doppler_in_band_power_fraction_minimum: 0.98
+  doppler_99pct_edge_ratio_range: [0.75, 1.10]
+  shadowing_correlation_threshold: 0.36787944117144233
+  minimum_shadowing_correlation_lengths: 30.0
+  shadowing_correlation_distance_ratio_range: [0.50, 1.75]
+  changed_snapshot_fraction_minimum: 0.999
+  binary_roundtrip_exact_required: true
+
+source_assertions:
+  - path: radio/vrtsim/cirdb_provider.c
+    fact: CIRDB publishes at most eight delay-sample taps.
+    snippets:
+      - "#define MAX_L_PUBLISH 8"
+      - "G.L_out = (m.L <= MAX_L_PUBLISH ? (uint32_t)m.L : MAX_L_PUBLISH);"
+  - path: radio/vrtsim/cirdb_provider.c
+    fact: CIRDB advances snapshots from elapsed sample time and the stored snapshot interval.
+    snippets:
+      - "double steps_f = (ns_since_start * 1e-9) / dt_s;"
+      - "load_snapshot_and_publish(G, s);"
+  - path: radio/vrtsim/taps_client.cpp
+    fact: The alternative external-taps transport supports at most 100 delay-sample taps.
+    snippets:
+      - "#define MAX_TAPS_LEN 100"
+  - path: radio/vrtsim/cirdb_provider.h
+    fact: CIRDB model identifier one denotes TDL-B.
+    snippets:
+      - "1 (TDL-B)"
+
+claim_limits:
+  trace_is_measured_UPV_channel: false
+  speed_is_inferred_from_UPV: false
+  absolute_rsrp_calibration: prohibited
+  environmental_realism_established: false
+  transport_replay_validated: false
+  attachment_robustness_established: false
+  abc: prohibited
+
+reservation:
+  gate_state: closed
+  reservation_should_be_requested_now: false
+  preparation_lead_time_minutes: 30
+  next_opening_conditions:
+    - the pinned trace passes every offline temporal validation rule
+    - attachment and PBCH/PUSCH parsers pass on pinned fixture logs
+    - the exact small replay experiment and stopping rules are committed
