@@ -65,6 +65,23 @@ The result is a data-engineering and prior-support input. It must not be passed
 to ABC inference until the existing RFsim bank demonstrates joint support and
 the sensitivity analysis supports local parameter identifiability.
 
+Phase 2 is a diagnostic existing-bank comparison, not ABC. The frozen
+specification in `configs/upv_support_v1.yaml` uses RSRP then SINR, one-second
+median aggregation, a balanced robust reference mixture, one global RBF
+bandwidth, execution-level candidate ranking, and traversal-conditional block
+bootstrap intervals. Run it only after `make prepare-upv`:
+
+```bash
+make upv-support
+```
+
+The analysis records the Phase 1 Git SHA in every JSON manifest, verifies both
+route-distance and Euclidean validation separation, retains the original ASUS
+filename interpretation as a sensitivity analysis, and limits derivatives to
+the two marginal sweeps supported by the current RFsim grid. With only two
+executions per state, no result from this target may be described as an ABC
+posterior or final calibration.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

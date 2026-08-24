@@ -26,3 +26,9 @@ The deterministic output under `data/curated/upv_protocol_v1/` contains:
 The source filename interpretation remains in the correction manifest for the
 required sensitivity analysis. Generated tables do not constitute an ABC
 posterior or a claim of successful RFsim calibration.
+
+`make upv-support` writes the Phase 2 diagnostic under
+`data/model_runs/upv_tdl_b_existing_bank_support_v1/`. The directory remains
+private and ignored. Tracked snapshots should include only the preprocessing,
+decision, reservation, inventory, and checksum manifests needed to reproduce
+the result; the balanced row-level reference table remains private.

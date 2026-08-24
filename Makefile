@@ -26,9 +26,14 @@ MMD_ABC_PLAN ?= manifests/mmd_abc_tdl_b_ploss_pilot_v1.json
 UPV_ARCHIVE ?= data/raw/upv_remote_driving_n40_v1.zip
 UPV_PROTOCOL_CONFIG ?= configs/upv_protocol_v1.yaml
 UPV_PROTOCOL_OUTPUT ?= data/curated/upv_protocol_v1
+UPV_SUPPORT_CONFIG ?= configs/upv_support_v1.yaml
+UPV_SUPPORT_SELECTION ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/selection_manifest.json
+UPV_SUPPORT_CAMPAIGN ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/campaign_state.json
+UPV_SUPPORT_EXECUTIONS ?= ../rfsim-realism-data/tdl_b_executions
+UPV_SUPPORT_OUTPUT ?= data/model_runs/upv_tdl_b_existing_bank_support_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -92,6 +97,18 @@ prepare-upv:
 		--archive $(UPV_ARCHIVE) \
 		--config $(UPV_PROTOCOL_CONFIG) \
 		--output $(UPV_PROTOCOL_OUTPUT)
+
+upv-support:
+	$(UV) run --locked rfsim-realism analyze-upv-support \
+		--route-observations $(UPV_PROTOCOL_OUTPUT)/route_observations.csv \
+		--locked-split $(UPV_PROTOCOL_OUTPUT)/locked_spatial_split.csv \
+		--upv-archive $(UPV_ARCHIVE) \
+		--phase1-config $(UPV_PROTOCOL_CONFIG) \
+		--selection-manifest $(UPV_SUPPORT_SELECTION) \
+		--campaign-state $(UPV_SUPPORT_CAMPAIGN) \
+		--executions-root $(UPV_SUPPORT_EXECUTIONS) \
+		--config $(UPV_SUPPORT_CONFIG) \
+		--output $(UPV_SUPPORT_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q

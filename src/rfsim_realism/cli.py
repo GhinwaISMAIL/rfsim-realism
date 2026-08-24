@@ -15,6 +15,7 @@ from .static_grid import run_campaign as run_static_grid
 from .sweep import load_config, plan_document, run_campaign, write_json
 from .ucc_static import build_manifest, write_manifest
 from .upv_protocol import prepare_upv_protocol
+from .upv_support import analyze_upv_support
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -108,6 +109,17 @@ def _parser() -> argparse.ArgumentParser:
     upv.add_argument("--archive", required=True)
     upv.add_argument("--config", required=True)
     upv.add_argument("--output", required=True)
+
+    upv_support = commands.add_parser("analyze-upv-support")
+    upv_support.add_argument("--route-observations", required=True)
+    upv_support.add_argument("--locked-split", required=True)
+    upv_support.add_argument("--upv-archive", required=True)
+    upv_support.add_argument("--phase1-config", required=True)
+    upv_support.add_argument("--selection-manifest", required=True)
+    upv_support.add_argument("--campaign-state", required=True)
+    upv_support.add_argument("--executions-root", required=True)
+    upv_support.add_argument("--config", required=True)
+    upv_support.add_argument("--output", required=True)
     return parser
 
 
@@ -234,6 +246,20 @@ def main() -> None:
             output_dir=args.output,
         )
         print(json.dumps(result["summary"], sort_keys=True))
+        return
+    if args.command == "analyze-upv-support":
+        result = analyze_upv_support(
+            route_observations=args.route_observations,
+            locked_split=args.locked_split,
+            upv_archive=args.upv_archive,
+            phase1_config=args.phase1_config,
+            selection_manifest=args.selection_manifest,
+            campaign_state=args.campaign_state,
+            executions_root=args.executions_root,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))
