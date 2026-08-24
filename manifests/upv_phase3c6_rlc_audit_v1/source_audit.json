@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c6_offline_rlc_and_vrtsim_timing_audit",
+  "recorded_at": "2026-08-24T17:34:00+02:00",
+  "execution_authorized": false,
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "profile_revision": "3c2136648234e152fa302d48ddc97e0fb1c6422c",
+  "inputs": {
+    "timescale_1_result_sha256": "070324ee19cd3701dd0badf892aa6e59ce73c50e5a640ad4fdba1d820d0f7516",
+    "timescale_0_5_result_sha256": "027589915bed839e08f180d2820f519137edf6f329d162442ef579ac97aa8806",
+    "nr_rlc_oai_api_sha256": "d07f1e4f2c3e189ba04449071b98147d73991cfbb55c4d13b72d6b663c03340e",
+    "nr_rlc_entity_am_sha256": "9283de37d39d7187f79cf07ba1118af0160778bb2067b7858df993e74b002a48",
+    "official_single_ue_vrtsim_config_sha256": "14b80c8aac4fff5b31712c201b8f7af0998e60b7cea86400e6b79524146fe88e"
+  },
+  "source_trace": [
+    {
+      "path": "openair2/LAYER2/nr_rlc/nr_rlc_entity_am.c",
+      "lines": "1937-1945",
+      "finding": "OAI calls max_retx_reached once an RLC AM SDU retransmission count reaches or exceeds the configured threshold; the source notes that upper layers should react as a radio-link failure and that segmentation can make reporting early or late."
+    },
+    {
+      "path": "openair2/LAYER2/nr_rlc/nr_rlc_oai_api.c",
+      "lines": "566-603",
+      "finding": "The callback logs max RETX for the identified bearer. If no RLF handler is registered, it logs 'RLF detected, but no callable RLF handler registered' and performs no upper-layer RLF action."
+    },
+    {
+      "path": "ci-scripts/conf_files/gnb.sa.band78.106prb.vrtsim.2x2.yaml",
+      "lines": "20-21",
+      "finding": "The pinned official single-UE VRTSIM configuration sets gNB min_rxtxtime to 6."
+    }
+  ],
+  "semantic_correction": {
+    "previous_label": "gnb_radio_link_failure",
+    "corrected_categories": [
+      "gnb_rlc_max_retx",
+      "gnb_unhandled_rlf_indication",
+      "gnb_actual_radio_link_failure"
+    ],
+    "safety_rule_changed": false,
+    "zero_tolerance_retained_for_max_retx_and_unhandled_indication": true,
+    "parser_schema_version": 2,
+    "profile_parser_sha256": "14cbaddb93b3fa2e86d15e1e081881ab8226197dc4b3840bf85a25a3b9099010",
+    "profile_runner_sha256": "29f0f1a315e60348f0a03e42961f6a15e12c576099e4f571da60abad599960e6",
+    "full_profile_tests": "58_passed",
+    "lint": "passed"
+  },
+  "reclassification_of_existing_evidence": {
+    "timescale_1": {
+      "gnb_rlc_max_retx": 3,
+      "gnb_unhandled_rlf_indication": 3,
+      "gnb_actual_radio_link_failure": 0,
+      "safety_gate_pass": false
+    },
+    "timescale_0_5": {
+      "gnb_random_access_failure": 2,
+      "gnb_rlc_max_retx": 16,
+      "gnb_unhandled_rlf_indication": 16,
+      "gnb_actual_radio_link_failure": 0,
+      "safety_gate_pass": false
+    }
+  },
+  "configuration_gap": {
+    "failed_diagnostic_min_rxtxtime": 3,
+    "pinned_official_single_ue_vrtsim_min_rxtxtime": 6,
+    "interpretation": "The diagnostics inherited the RFsim profile's value 3 instead of the pinned VRTSIM example's value 6. This is an independently justified one-factor timing probe, not post-hoc threshold relaxation."
+  },
+  "decision": {
+    "offline_audit_complete": true,
+    "parser_semantics_corrected_without_weakening_gates": true,
+    "timescale_0_5_rejected": true,
+    "next_scientifically_justified_condition": "passthrough_VRTSIM_timescale_1_min_rxtxtime_6",
+    "cirdb_replay_authorized": false,
+    "node_execution_authorized": false,
+    "next_requirement": "separate_committed_execution_amendment"
+  },
+  "claim_limits": {
+    "actual_gnb_rlf_observed_in_existing_logs": false,
+    "clean_vrtsim_passthrough_established": false,
+    "cirdb_replay_validated": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
