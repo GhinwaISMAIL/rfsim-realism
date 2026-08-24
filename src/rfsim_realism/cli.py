@@ -14,6 +14,7 @@ from .static_grid import plan_document as static_grid_plan
 from .static_grid import run_campaign as run_static_grid
 from .sweep import load_config, plan_document, run_campaign, write_json
 from .ucc_static import build_manifest, write_manifest
+from .upv_protocol import prepare_upv_protocol
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -102,6 +103,11 @@ def _parser() -> argparse.ArgumentParser:
     family_compare.add_argument("--primary-label", required=True)
     family_compare.add_argument("--candidate-label", required=True)
     family_compare.add_argument("--output", required=True)
+
+    upv = commands.add_parser("prepare-upv")
+    upv.add_argument("--archive", required=True)
+    upv.add_argument("--config", required=True)
+    upv.add_argument("--output", required=True)
     return parser
 
 
@@ -220,6 +226,14 @@ def main() -> None:
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "prepare-upv":
+        result = prepare_upv_protocol(
+            archive_path=args.archive,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result["summary"], sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

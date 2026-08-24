@@ -1,0 +1,39 @@
+{
+  "outputs": {
+    "locked_spatial_split.csv": "3992ef7a2e31377debeb4abcaa1808c12202f2f06d9cdf8635d1556619163cee",
+    "raw_inventory.csv": "0ac4bd160b82e895ae58da36e3f24543aa74a250496a980d61729ec348ecee3c",
+    "route_observations.csv": "57727db8a0be55308c3f756781ddc13961962f71198d69c93c24bb239f2d85ab",
+    "route_observations.parquet": "2f02d7749621f991c282d24850ca0b131ae1b099e6ba0c6bbc3063e889c1ee91",
+    "scenario_correction_manifest.csv": "05e647c6ebb5ff839530ba94c01c7f160cb10276965468dca0171ed90bf67056"
+  },
+  "protocol": {
+    "config": "upv_protocol_v1.yaml",
+    "config_sha256": "c4179ab69cb8d922a65e564873266835126be57c2203302aa5aead17f379d3fe",
+    "kpi_fields_used_for_split": [],
+    "preliminary_inspection_disclosure": "Global KPI ranges were inspected before this protocol was frozen. Spatial regions are locked from route geometry, sample count, and dwell time before any region-level KPI comparison.",
+    "primary_interpretation": "timestamp_gps_corrected",
+    "scenario_correction_status": "provisional_pending_author_confirmation",
+    "selection_basis": "geometry_sample_count_and_dwell_only",
+    "sensitivity_interpretation": "original_filenames"
+  },
+  "schema_version": 1,
+  "source": {
+    "archive": "upv_remote_driving_n40_v1.zip",
+    "archive_md5": "0ac2e442ca992ed55b0b25648bca62ec",
+    "archive_members": 55,
+    "archive_sha256": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753",
+    "archive_size_bytes": 4545339
+  },
+  "summary": {
+    "calibration_bins": 1,
+    "complete_radio_gps_rows": 6958,
+    "complete_radio_triplets": 6969,
+    "measurement_files": 12,
+    "primary_bin_size_m": 15,
+    "reference_duration_seconds": 304.11299999999756,
+    "reference_observations": 597,
+    "reference_route_length_m": 248.61607875780874,
+    "reference_source_path": "Test_2/Test_2_ASUS.csv",
+    "spatial_validation_bins": 4
+  }
+}

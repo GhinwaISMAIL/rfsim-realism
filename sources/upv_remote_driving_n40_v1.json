@@ -1,0 +1,13 @@
+{
+  "archive": "upv_remote_driving_n40_v1.zip",
+  "archive_md5": "0ac2e442ca992ed55b0b25648bca62ec",
+  "archive_sha256": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753",
+  "archive_size_bytes": 4545339,
+  "citation": "Remote Driving Dataset in UPV's 5G Private network (n40), Zenodo record 18410980.",
+  "download_url": "https://zenodo.org/api/records/18410980/files/Remote%20Driving%20Dataset%20in%20UPV%27s%205G%20Private%20network%20%28n40%29.zip/content",
+  "license": "CC-BY-4.0",
+  "record_id": "18410980",
+  "record_url": "https://zenodo.org/records/18410980",
+  "retrieved_on": "2026-08-21",
+  "version": "v1"
+}

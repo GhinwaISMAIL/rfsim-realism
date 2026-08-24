@@ -45,6 +45,26 @@ Open `notebooks/01_static_dataset_review.ipynb` to inspect the selected traces,
 quality flags, and radio distributions. The notebook reads the deterministic
 manifest; it does not define the selection logic.
 
+## UPV prior-support protocol
+
+The first UPV phase prepares an external connected-UE target without treating
+the mobile route as a stationary OAI measurement. It freezes the source archive,
+records the provisional ASUS Test 1/Test 2 relabelling, reconstructs cumulative
+route distance, assigns 10/15/20 metre bins, and locks one calibration region
+plus four spatial-validation regions using geometry, sample count, and dwell
+time only.
+
+After placing the pinned archive described in
+`sources/upv_remote_driving_n40_v1.json` under `data/raw/`, run:
+
+```bash
+make prepare-upv
+```
+
+The result is a data-engineering and prior-support input. It must not be passed
+to ABC inference until the existing RFsim bank demonstrates joint support and
+the sensitivity analysis supports local parameter identifiability.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

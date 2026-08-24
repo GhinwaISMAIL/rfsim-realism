@@ -1,0 +1,38 @@
+schema_version: 1
+source:
+  archive_name: upv_remote_driving_n40_v1.zip
+  expected_sha256: a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753
+  expected_md5: 0ac2e442ca992ed55b0b25648bca62ec
+  expected_size_bytes: 4545339
+
+scenario_correction:
+  status: provisional_pending_author_confirmation
+  primary_interpretation: timestamp_gps_corrected
+  sensitivity_interpretation: original_filenames
+  corrected_test_ids:
+    "Test_1/Test_1_Asus.csv": 2
+    "Test_2/Test_2_ASUS.csv": 1
+  trim_last_seconds_by_corrected_test:
+    "2": 60
+  rationale: >-
+    The recorded experiment start times and paired GPS traces place the two ASUS
+    files in each other's Test 1/Test 2 time windows. The original filename test
+    ID is retained for the required sensitivity analysis.
+
+route:
+  reference_source_path: "Test_2/Test_2_ASUS.csv"
+  bin_sizes_m: [10, 15, 20]
+  minimum_step_m_for_heading: 0.1
+  direction_sectors: 8
+
+locked_split:
+  primary_bin_size_m: 15
+  minimum_samples: 20
+  minimum_dwell_seconds: 8
+  calibration_fraction: 0.50
+  spatial_validation_fractions: [0.20, 0.35, 0.65, 0.80]
+  selection_basis: geometry_sample_count_and_dwell_only
+  preliminary_inspection_disclosure: >-
+    Global KPI ranges were inspected before this protocol was frozen. Spatial
+    regions are locked from route geometry, sample count, and dwell time before
+    any region-level KPI comparison.

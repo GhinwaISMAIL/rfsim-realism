@@ -1,0 +1,8 @@
+{
+  "locked_spatial_split.csv": "3992ef7a2e31377debeb4abcaa1808c12202f2f06d9cdf8635d1556619163cee",
+  "protocol_manifest.json": "c1a0b8cf6fccb82802db174ad764e6bcd02cc9a6938d643b11fc21e08e6d4cc3",
+  "raw_inventory.csv": "0ac4bd160b82e895ae58da36e3f24543aa74a250496a980d61729ec348ecee3c",
+  "route_observations.csv": "57727db8a0be55308c3f756781ddc13961962f71198d69c93c24bb239f2d85ab",
+  "route_observations.parquet": "2f02d7749621f991c282d24850ca0b131ae1b099e6ba0c6bbc3063e889c1ee91",
+  "scenario_correction_manifest.csv": "05e647c6ebb5ff839530ba94c01c7f160cb10276965468dca0171ed90bf67056"
+}

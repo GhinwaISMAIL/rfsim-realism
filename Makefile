@@ -23,9 +23,12 @@ DISTRIBUTION_CALIBRATION_CAMPAIGN ?= ../rfsim-realism-data/campaigns/tdl_b_safe_
 DISTRIBUTION_CALIBRATION_OUTPUT ?= data/model_runs/ucc_static_tdl_b_distribution_calibration_v1
 MMD_ABC_CONFIG ?= configs/mmd_abc_tdl_b_ploss_pilot_v1.yaml
 MMD_ABC_PLAN ?= manifests/mmd_abc_tdl_b_ploss_pilot_v1.json
+UPV_ARCHIVE ?= data/raw/upv_remote_driving_n40_v1.zip
+UPV_PROTOCOL_CONFIG ?= configs/upv_protocol_v1.yaml
+UPV_PROTOCOL_OUTPUT ?= data/curated/upv_protocol_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -83,6 +86,12 @@ family-compare:
 		--primary-label TDL_B \
 		--candidate-label TDL_C \
 		--output $(FAMILY_COMPARISON_OUTPUT)
+
+prepare-upv:
+	$(UV) run --locked rfsim-realism prepare-upv \
+		--archive $(UPV_ARCHIVE) \
+		--config $(UPV_PROTOCOL_CONFIG) \
+		--output $(UPV_PROTOCOL_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q
