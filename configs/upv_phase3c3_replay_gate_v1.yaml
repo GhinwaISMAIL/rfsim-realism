@@ -1,0 +1,184 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3c3_parser_and_small_cirdb_replay_gate_v1
+stage: phase_3c3_parser_validation_and_small_replay_freeze
+execution_authorized: false
+powder_action_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  research_parent_revision: 6637ce8a5a294fa1f582f5a81d5bff1bf2a57eb9
+  phase3c2_decision_sha256: b3db77b64cc714cfca62167a60a18822694c526183865172ef092ceb43965021
+  phase3c2_validation_sha256: a51183ccc65854d93830ea39d2325f63203b5d7c12b1c9cdce61fd3f48531e48
+  phase3c2_trace_binary_sha256: cb5b85bfdfe12768462b482c21145fe43618468a0bff9248beb5c9b5dea82550
+  phase3c2_trace_sidecar_sha256: 03b5031e81ea721501692e73e8ea908a57ae98e1814cee43887908da3dbf292c
+  profile_parser_revision: ddcc3e6d90e5525584ae8020639c598015c08acd
+  profile_parser_sha256: cf3e292822561ef3b5995398078b5b1e6f6683ffc2efdf94408c696fa1333cde
+  oai_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+
+parser_contract:
+  required_ue_markers:
+    pbch_initial_success: "Initial sync: pbch decoded sucessfully"
+    random_access_success: "4-Step RA procedure succeeded"
+    rrc_connected: "State = NR_RRC_CONNECTED"
+    registration_accept: "Received Registration Accept with result"
+  prohibited_ue_markers:
+    pbch_decode_error: "Error decoding PBCH!"
+    random_access_failure: "RA Procedure failed"
+    radio_link_failure: "RLF detected|radio link failure"
+    lost_sync: "LOST SYNC|out of sync"
+  required_gnb_markers:
+    pusch_failure_threshold_configured: "PUSCH Target .* RSSI thresh .* Failure"
+  prohibited_gnb_markers:
+    pusch_ul_failure: "Detected UL Failure on PUSCH after"
+    random_access_failure: "RA Procedure failed"
+    radio_link_failure: "RLF detected|radio link failure"
+  individual_ulsch_dtx_policy: report_counter_but_do_not_fail_unless_critical_threshold_marker_appears
+  all_required_marker_minimum_count: 1
+  all_prohibited_marker_maximum_count: 0
+  missing_log_or_marker_action: fail_closed
+
+parser_fixture_evidence:
+  actual_ue_logs:
+    - path: data/model_runs/upv_phase3c1_scalar_v1/local-1-ue.log
+      sha256: ffe751fce7c54a4d92e390581f54ffeb974ac69b3da6f34779ca21433808b0e3
+    - path: data/model_runs/upv_phase3c1_scalar_v1/local-2-ue.log
+      sha256: 0ddd2e2e0286c71ea8a90552298509f6dde3ea693090ef302616c3728b7a0fc5
+  healthy_gnb_fixture_sha256: d8a487dd75fa54a00eac5b9cd3ebc6fb86a9e0f135b4265c5c312114d7b579a3
+  injected_gnb_failure_fixture_sha256: 1d5e2b0afe6d6b823bd5d109be05e8f8efc55cc2289eedfab8417ebfb9ccc54f
+  injected_ue_failure_fixture_sha256: 2a553636c88125de0f2db0e23a342bcbac75892621cb75e8d4ba8b7a780b8ce7
+  required_test_outcome:
+    healthy_actual_ue_logs_pass: true
+    healthy_fixture_passes: true
+    pbch_failure_fixture_fails: true
+    pusch_failure_fixture_fails: true
+    missing_marker_fixture_fails: true
+
+existing_image_audit:
+  accepted_build_manifest_sha256: 660b82af6085cc8bd04ed6abefc091ceb16c05308f8385e0cee59c2edf197897
+  audited_dockerfile_sha256: a98dfcb9b93e5ac347150e5cb1a0973becd86030afd7684c639678d6f2e273e1
+  audited_build_script_sha256: 94b5823622cc2f51405a5f6b6e913c1c26c3bd32b160c9d7621c5978cdf4d548
+  findings:
+    - the build command requests nrUE but not gNB
+    - the UE runtime image copies nr-uesoftmodem and librfsimulator but not libvrtsim
+    - the gNB runtime image copies librfsimulator but not the pinned nr-softmodem or libvrtsim
+  decision: existing_phase3c_debug_images_are_not_accepted_as_vrtsim_replay_images
+  prohibited_assumption: image_revision_label_proves_that_every_runtime_binary_is_from_that_revision
+
+required_vrtsim_build:
+  source_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  required_build_targets: [gNB, nrUE]
+  required_cmake_option: OAI_VRTSIM_TAPS_CLIENT=ON
+  runtime_artifacts:
+    gnb: [nr-softmodem, libvrtsim.so]
+    ue: [nr-uesoftmodem, libvrtsim.so]
+  validation:
+    - image architecture must be amd64
+    - image revision label must equal the full pinned OAI revision
+    - every runtime artifact must exist
+    - ldd must report no unresolved dependency for both binaries and libvrtsim
+    - image IDs and sizes must be recorded before deployment
+  build_only_gate: requires_a_separate_committed_execution_amendment
+
+small_replay:
+  purpose: transport_attachment_and_measurement_safety_test_not_calibration
+  topology:
+    gnb_count: 1
+    ue_count: 1
+    channel: virtual_VRTSIM_CIRDB
+    physical_RF_or_SDR: false
+  trace:
+    model: TDL-B
+    model_id: 1
+    carrier_frequency_hz: 3319680000.0
+    speed_mps: 1.5
+    desired_rms_delay_spread_ns: 30.0
+    snapshot_interval_s: 0.002
+    snapshots_per_cycle: 150000
+    cycle_duration_s: 300.0
+    discrete_taps: 8
+  repetitions: 2
+  independent_execution_definition: separate_clean_process_start_with_the_same_pinned_trace
+  per_repetition:
+    attachment_timeout_s: 180.0
+    post_attachment_observation_s: 330.0
+    minimum_usable_telemetry_duration_s: 300.0
+    traffic: one_hz_ICMP_from_UE_through_UPF_during_observation
+    required_trace_cycle_coverage_fraction: 0.99
+  frozen_runtime_options:
+    gnb:
+      - "--device.name vrtsim"
+      - "--vrtsim.role server"
+      - "--vrtsim.cirdb 1"
+      - "--vrtsim.cirdb_model_id 1"
+      - "--vrtsim.cirdb_ds_ns 30"
+      - "--vrtsim.cirdb_speed_mps 1.5"
+      - "--vrtsim.num_ues 1"
+    ue:
+      - "--device.name vrtsim"
+      - "--vrtsim.role client"
+      - "--ue-nb-ant-rx 1"
+      - "--ue-nb-ant-tx 1"
+  shared_runtime_requirements:
+    - gNB and UE use host IPC
+    - gNB and UE share the VRTSIM connection-descriptor volume
+    - the gNB mounts the checksummed CIRDB directory read-only
+
+acceptance_rules:
+  valid_repetitions_required: 2
+  attachment_fraction_required: 1.0
+  minimum_usable_telemetry_duration_s: 300.0
+  pbch_decode_error_count_maximum: 0
+  critical_pusch_failure_count_maximum: 0
+  random_access_failure_count_maximum: 0
+  radio_link_failure_count_maximum: 0
+  lost_sync_count_maximum: 0
+  ping_packet_loss_fraction_maximum: 0.05
+  gnb_and_ue_container_restart_count_maximum: 0
+  gnb_health_required: healthy
+  trace_cycle_coverage_fraction_minimum: 0.99
+  skipped_cirdb_snapshot_fraction_maximum: 0.01
+  maximum_consecutive_skipped_cirdb_snapshots: 10
+  required_debug_statistics:
+    - current_cirdb_snapshot_index
+    - expected_cirdb_step
+    - applied_cirdb_updates
+    - skipped_cirdb_snapshots
+    - maximum_consecutive_skipped_cirdb_snapshots
+    - current_tap_energy_linear
+
+stopping_rules:
+  - stop before deployment on any checksum, image-ID, revision, binary, module, or ldd mismatch
+  - stop if either process exits or either container restarts
+  - stop if the UE does not attach within 180 seconds
+  - stop on any attachment loss, PBCH decode error, critical PUSCH failure, RA failure, RLF, or lost-sync marker
+  - stop if more than 10 consecutive CIRDB snapshots are skipped
+  - stop if trace-cycle coverage cannot reach 99 percent within 330 seconds after attachment
+  - do not calculate MMD, infer parameters, or compare absolute RSRP during this replay
+
+rollback:
+  mandatory: true
+  runs_in_finally: true
+  restore_original_compose_and_images: true
+  require_UE_reattachment_after_restore: true
+  require_gNB_health_after_restore: true
+  require_gNB_restart_count_unchanged_after_restore: true
+
+claim_limits:
+  measured_UPV_channel_replayed: false
+  speed_inferred_from_UPV: false
+  environmental_realism_established: false
+  transport_and_attachment_safety_only: true
+  absolute_rsrp_calibration: prohibited
+  abc: prohibited
+
+reservation:
+  gate_state: closed
+  reservation_should_be_requested_now: false
+  preparation_lead_time_minutes: 30
+  blockers:
+    - dedicated VRTSIM runtime image build implementation is not committed
+    - CIRDB timing and skipped-snapshot telemetry is not implemented
+    - the fail-closed small-replay runner is not committed
+    - no Phase 3C4 build or replay execution amendment exists
+  next_action: implement_and_test_the_dedicated_vrtsim_build_and_cirdb_telemetry_offline
