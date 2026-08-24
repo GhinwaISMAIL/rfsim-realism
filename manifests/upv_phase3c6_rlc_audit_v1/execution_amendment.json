@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c6_vrtsim_min_rxtxtime_6_diagnostic",
+  "recorded_at": "2026-08-24T17:34:00+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "run one short passthrough VRTSIM condition at timescale 1.0 with gNB min_rxtxtime changed from 3 to the pinned official VRTSIM value 6, then restore the original compose state",
+    "authorization_basis": "the committed source audit identified an independent profile mismatch and the active reservation remains healthy",
+    "container_deployment_authorized": true,
+    "cirdb_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "single_factor_change": {
+    "gnb_min_rxtxtime_before": 3,
+    "gnb_min_rxtxtime_now": 6,
+    "independent_basis": "pinned OAI single-UE VRTSIM configuration at ci-scripts/conf_files/gnb.sa.band78.106prb.vrtsim.2x2.yaml line 21",
+    "held_constant": [
+      "passthrough channel mode",
+      "server timescale 1.0",
+      "gNB and UE image IDs",
+      "OAI revision",
+      "compose and mounted radio configuration",
+      "UE radio options",
+      "one gNB and one UE topology",
+      "observation and telemetry durations",
+      "zero-tolerance max-retransmission and failure gates"
+    ]
+  },
+  "frozen_inputs": {
+    "research_revision": "c357b20",
+    "source_audit_sha256": "039f7d923f1015fdee636a6ae63260249ca69c479caadcffa688add099c73090",
+    "profile_revision": "3c2136648234e152fa302d48ddc97e0fb1c6422c",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "runner_sha256": "29f0f1a315e60348f0a03e42961f6a15e12c576099e4f571da60abad599960e6",
+    "log_parser_sha256": "14cbaddb93b3fa2e86d15e1e081881ab8226197dc4b3840bf85a25a3b9099010",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "profile_test_result": "58_passed",
+    "profile_lint_result": "passed"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "cell_node": "pc03-meb.emulab.net",
+    "core_node": "pc829.emulab.net",
+    "expires_local": "2026-08-25T06:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue_image_id": "sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d",
+    "gnb_image_id": "sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad"
+  },
+  "diagnostic": {
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions": 1,
+    "attachment_timeout_s": 180,
+    "observation_s": 30,
+    "minimum_usable_telemetry_s": 20,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "remote_override_file": "/local/phase3c/phase3c6-passthrough-minrx6.override.yaml",
+    "remote_output_root": "/local/logs/phase3c6-passthrough-minrx6",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode passthrough --server-timescale 1.0 --gnb-min-rxtxtime 6 --repetitions 1 --observation-seconds 30 --minimum-telemetry-seconds 20 --override-file /local/phase3c/phase3c6-passthrough-minrx6.override.yaml --output-root /local/logs/phase3c6-passthrough-minrx6 --expected-ue-image-id sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d --expected-gnb-image-id sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad"
+  },
+  "acceptance_rules": {
+    "valid_repetitions_required": 1,
+    "attachment_fraction_required": 1.0,
+    "minimum_usable_telemetry_duration_s": 20,
+    "minimum_ue_radio_debug_rows": 20,
+    "gnb_rlc_max_retx_count_maximum": 0,
+    "gnb_unhandled_rlf_indication_count_maximum": 0,
+    "gnb_actual_radio_link_failure_count_maximum": 0,
+    "all_other_frozen_failure_marker_counts_maximum": 0,
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "gnb_and_ue_container_restart_count_maximum": 0,
+    "threshold_changes_after_execution_begin": false
+  },
+  "stopping_rules": [
+    "stop before deployment on any frozen identity or healthy-baseline mismatch",
+    "stop if either container exits, restarts, or the UE loses attachment",
+    "stop on any RLC max-retransmission, unhandled RLF indication, actual RLF, PBCH, critical PUSCH, RA or lost-sync failure marker",
+    "do not mount or evaluate CIRDB data",
+    "do not calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "pass": "accept timescale 1.0 and min_rxtxtime 6 as the passthrough safety configuration, then freeze a separate short CIRDB diagnostic",
+    "fail": "keep CIRDB replay closed and stop node experiments pending deeper scheduling/RLC investigation",
+    "no_adaptive_second_condition_in_this_execution": true
+  }
+}
