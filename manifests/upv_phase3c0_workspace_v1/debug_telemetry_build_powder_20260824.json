@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c0_debug_telemetry_build",
+  "scope": "compute_only_build_validation",
+  "recorded_at": "2026-08-24T16:03:53+02:00",
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "profile": "oai-5g-ric",
+    "reserved_profile_revision": "3f83693c4e5ddab25a9bd74282909f2394d9c1e7",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc829.emulab.net",
+    "core_node_type": "d430",
+    "started_local": "2026-08-24T14:50:00+02:00",
+    "expires_local": "2026-08-25T06:00:00+02:00"
+  },
+  "profile_source": {
+    "durable_checkout": "/Users/ghinwaismail/Projects/oai-5g-ric-phase3c",
+    "remote_build_copy": "/local/phase3c/oai-5g-ric-debug",
+    "repository": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "codex/phase3c-debug-telemetry-v1",
+    "parent_revision": "3f83693c4e5ddab25a9bd74282909f2394d9c1e7",
+    "telemetry_revision": "e298d4bc0f0a255fd783d8bc296220b40311ef9a",
+    "clean_after_commit": true
+  },
+  "oai_source": {
+    "checkout": "/local/phase3c/openairinterface5g-debug-clean",
+    "upstream_repository": "https://github.com/OPENAIRINTERFACE/openairinterface5g.git",
+    "clone_source": "/local/phase3c/openairinterface5g-baseline",
+    "clone_mode": "self_contained_shallow_depth_1",
+    "revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "git_alternates_present": false,
+    "git_fsck_connectivity_only_passed": true,
+    "submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    },
+    "patched_diff_sha256": "93bda07b6b506ca043f94b447824a46c6d33be15e898a361b825a6539ae25bb2",
+    "patched_diff_numstat": {
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c": {
+        "added": 120,
+        "deleted": 0
+      },
+      "openair1/SIMULATION/TOOLS/random_channel.c": {
+        "added": 4,
+        "deleted": 3
+      },
+      "radio/rfsimulator/simulator.cpp": {
+        "added": 88,
+        "deleted": 4
+      }
+    }
+  },
+  "profile_build_inputs": {
+    "bin/build-ue-radio-image.sh": "94b5823622cc2f51405a5f6b6e913c1c26c3bd32b160c9d7621c5978cdf4d548",
+    "etc/Dockerfile.nrUE-radio": "a98dfcb9b93e5ac347150e5cb1a0973becd86030afd7684c639678d6f2e273e1",
+    "bin/patch-oai-ue-radio-measurements.py": "f6d9429adc1e7656cb4138522f523c073f70ca00c7d44394a818544a9832b8c3",
+    "bin/patch-oai-rfsim-debug-telemetry.py": "e995aad2a042d5ce93569a97432d11be6979c815ab444dbceee3835f55e8889f",
+    "bin/patch-oai-rfsim-rng-init.py": "5909fc68a16d674d20312283c8204e378e442980ea6bdcb4fba95ba7be78aae2",
+    "bin/patch-oai-rfsim-rsrp-calibration.py": "199d9a42883b0e9cdc8fa1a217fa770ef2f55827f711a66705bbea1d79d1c230",
+    "bin/patch-oai-tdl-model.py": "3e2716a1555364a820faddb351c5484726b400e05a08e4e279bc3471695ea417",
+    "tests/test_patch_oai_ue_radio_measurements.py": "b17b48d63b8b3e9603661351680e59d8ed07a470226fb637bb19fd5025f60bf7",
+    "tests/test_patch_oai_rfsim_debug_telemetry.py": "65adf5c7de0a6b124897fccdbb0a0a7bca15f4f71e7ef4455350e6379ac7a805"
+  },
+  "verification": {
+    "focused_regression_tests": {
+      "count": 5,
+      "local_exit_code": 0,
+      "remote_exit_code": 0
+    },
+    "profile_diff_check_passed": true,
+    "oai_diff_check_passed": true,
+    "ue_radio_debug_marker_embedded": true,
+    "rfsim_channel_debug_marker_embedded": true,
+    "markers": [
+      "UE_RADIO_DEBUG_V1",
+      "RFSIM_CHANNEL_DEBUG_V1"
+    ]
+  },
+  "build": {
+    "command": "sudo /local/phase3c/oai-5g-ric-debug/bin/build-ue-radio-image.sh /local/phase3c/openairinterface5g-debug-clean oai-nr-ue-phase3c-debug:70508eb oai-gnb-phase3c-debug:70508eb",
+    "started": "2026-08-24T07:55:14.537095623-06:00",
+    "completed": "2026-08-24T07:58:14.794854240-06:00",
+    "exit_code": 0,
+    "oai_ninja_targets_completed": 9973,
+    "success_marker_observed": true,
+    "build_log": "/local/logs/phase3c-debug-build-accepted.log",
+    "build_log_size_bytes": 1224604,
+    "build_log_sha256": "0a8a2c0bdb5143ef55889daa7dda8298d7520b43c4a2704e23c23d0f44e8fca4",
+    "frozen_compile_options": [
+      "--nrUE",
+      "--build-lib telnetsrv nrscope",
+      "-w USRP",
+      "-t Ethernet",
+      "-w BLADERF",
+      "-DOAI_VRTSIM_TAPS_CLIENT=ON",
+      "-w ZMQ",
+      "--noavx512",
+      "-DT_RECORD_DB=ON",
+      "-DCMAKE_C_FLAGS=-Werror",
+      "-DCMAKE_CXX_FLAGS=-Werror"
+    ],
+    "rejected_precursor": {
+      "checkout": "/local/phase3c/openairinterface5g-debug",
+      "reason": "shared-clone alternate paths were invalid inside the Docker build context",
+      "accepted_for_provenance": false
+    }
+  },
+  "images": {
+    "ran_base": {
+      "tag": "ran-base:latest",
+      "digest": "sha256:36d1682d131a9ef1c536185cb622d830872bd7d3773efae94085ca64e6a526a3",
+      "architecture": "amd64",
+      "size_bytes": 960619799
+    },
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-debug:70508eb",
+      "digest": "sha256:8969f8c64578c18624bf8e367f7ea032725d2ae8eba9f6b27013bc3e198f632e",
+      "architecture": "amd64",
+      "size_bytes": 176034195,
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "ldd_check_passed": true,
+      "librfsimulator_present": true
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-debug:70508eb",
+      "digest": "sha256:7ff0ab62bd09b4199ca5cfe0a2792f678c3b06dfcf2007f251c40be3145699b4",
+      "architecture": "amd64",
+      "size_bytes": 168422329,
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "librfsimulator_present": true
+    }
+  },
+  "isolation_check": {
+    "running_images_replaced": false,
+    "gnb_container": {
+      "name": "ric5g-gnb-cell1",
+      "image": "ghinwa555/oai-gnb-e2-chan:v2",
+      "state": "running",
+      "health": "healthy",
+      "restart_count": 0
+    },
+    "ue_container": {
+      "name": "ric5g-ue-cell1-1",
+      "image": "ghinwa555/oai-nr-ue-chan:v4",
+      "state": "running",
+      "restart_count": 0,
+      "attached_tunnel": "oaitun_ue1",
+      "attached_address": "12.1.1.2/24"
+    }
+  },
+  "decision": {
+    "debug_telemetry_compile_gate_pass": true,
+    "debug_images_deployed": false,
+    "deterministic_replay_executed": false,
+    "phase3c1_execution_amendment_required": true,
+    "radio_experiment_gate_state": "closed",
+    "abc_authorized": false,
+    "next_action": "freeze a Phase 3C1 execution amendment before replacing containers or running the deterministic scalar replay"
+  }
+}
