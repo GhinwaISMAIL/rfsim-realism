@@ -1,0 +1,27 @@
+{
+  "abc_authorized": false,
+  "compute_only_reservation": {
+    "allowed_actions": [
+      "verify the clean pinned profile and OAI revisions",
+      "build the unmodified baseline UE and RFsim library images",
+      "record compiler, container, image, and test provenance"
+    ],
+    "notice_date": "2026-08-24",
+    "notice_issued": true,
+    "reason": "the pinned build requires x86_64 and the durable local host is arm64",
+    "reservation_should_be_requested_now": true
+  },
+  "phase3c0_gate_v4_snapshot_unchanged": true,
+  "preparation_lead_time_minutes": 30,
+  "radio_experiment_reservation": {
+    "gate_state": "closed",
+    "prohibited_actions": [
+      "collecting calibration or validation radio data",
+      "executing a time-varying propagation experiment",
+      "running ABC or selecting an ABC acceptance threshold"
+    ],
+    "reservation_should_be_requested_now": false
+  },
+  "schema_version": 1,
+  "telemetry_modification_authorized_before_clean_baseline_build": false
+}

@@ -1,0 +1,92 @@
+{
+  "baseline_state": {
+    "clean_image_build": {
+      "executed": false,
+      "host_architecture": "arm64",
+      "required_architecture": "x86_64",
+      "status": "blocked_pending_x86_64_docker_host"
+    },
+    "modifications_applied_to_oai": false,
+    "modifications_applied_to_profile": false,
+    "profile_patch_python_syntax": "pass",
+    "profile_shell_syntax": "pass",
+    "profile_unit_tests": {
+      "failed": 0,
+      "passed": 32,
+      "status": "pass"
+    }
+  },
+  "build_contract": {
+    "base_gnb_image": "ghinwa555/oai-gnb-e2-chan:v2",
+    "base_ue_image": "ghinwa555/oai-nr-ue-chan:v2",
+    "build_flags": [
+      "-c",
+      "--ninja",
+      "--nrUE",
+      "--build-lib telnetsrv nrscope",
+      "-w USRP",
+      "-t Ethernet",
+      "-w BLADERF",
+      "--cmake-opt -DOAI_VRTSIM_TAPS_CLIENT=ON",
+      "-w ZMQ",
+      "--noavx512",
+      "--build-tool-opt -k10",
+      "--cmake-opt -DT_RECORD_DB=ON",
+      "--cmake-opt -DCMAKE_C_FLAGS=-Werror",
+      "--cmake-opt -DCMAKE_CXX_FLAGS=-Werror"
+    ],
+    "oai_dependency_relationship": "external_clean_checkout_passed_to_bin/build-ue-radio-image.sh",
+    "oai_expected_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "oai_is_profile_submodule": false,
+    "profile_build_script_sha256": "97397ac6ba2f7a7c2288ef84896314fd134f42b39479dbe45e21f9caa24a15bd",
+    "profile_dockerfile_sha256": "a98dfcb9b93e5ac347150e5cb1a0973becd86030afd7684c639678d6f2e273e1",
+    "vrtsim_external_taps_build_option": "OAI_VRTSIM_TAPS_CLIENT=ON"
+  },
+  "oai_checkout": {
+    "branch": "codex/phase3c-debug-telemetry-v1",
+    "clean_tracked_worktree": true,
+    "path": "/Users/ghinwaismail/Projects/openairinterface5g-phase3c",
+    "remote": "https://github.com/OPENAIRINTERFACE/openairinterface5g.git",
+    "revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "source_file_sha256": {
+      ".gitmodules": "fe28e6ebdf62a57435431cc46c8192c37a0876919e089cba00e97f621d5beee3",
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c": "eed3d50e74ff43e5b316d1e89015da974d352baeac5f2405f6968f3a4d1f5837",
+      "radio/rfsimulator/apply_channelmod.c": "d87fb051292bdb7da91cac2358110f6d0df8a06652cf106c71a2ad5d31fdf6f8",
+      "radio/rfsimulator/simulator.cpp": "8d78932b06903344d4a137bdafb5729173b40a98330116d1609a0abca0315c3a",
+      "radio/vrtsim/CMakeLists.txt": "2262a3a0bd40d1fd7c0a4f2a5c75b40b829546bb2c2de2734b78ede83cf7609c",
+      "radio/vrtsim/README.md": "578e8f1937bd3bc0e085ae40c1272b4a64277e614334c002e5062682c956b47a",
+      "radio/vrtsim/cirdb_provider.c": "369b5b1f8bf384a3981899e753caa1a5adb0a91bd8f65679a0f1ca578090e1c7",
+      "radio/vrtsim/taps_client.cpp": "8f4eff14f57b440f9af84375317bb7b7b91e5ced6115301ca0a5150d04c889b4"
+    },
+    "submodules": [
+      {
+        "path": "openair2/E2AP/flexric",
+        "remote": "https://gitlab.eurecom.fr/mosaic5g/flexric.git",
+        "revision": "ef6d722f22191eea74089966983da1f5ec1fedd4"
+      },
+      {
+        "path": "openair2/E2AP/flexric/ci-scripts/common",
+        "remote": "https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-common-ci.git",
+        "revision": "20de484fa9025c9c342b8b945d89a10797ec2503"
+      }
+    ]
+  },
+  "profile_checkout": {
+    "branch": "codex/phase3c-debug-telemetry-v1",
+    "clean_tracked_worktree": true,
+    "path": "/Users/ghinwaismail/Projects/oai-5g-ric-phase3c",
+    "remote": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "revision": "e6d5d9202ec4492b5c67b13aeaea7b415177ed9b",
+    "submodules": []
+  },
+  "profile_patch_sha256_before_phase3c": {
+    "bin/patch-oai-rfsim-rng-init.py": "5909fc68a16d674d20312283c8204e378e442980ea6bdcb4fba95ba7be78aae2",
+    "bin/patch-oai-rfsim-rsrp-calibration.py": "199d9a42883b0e9cdc8fa1a217fa770ef2f55827f711a66705bbea1d79d1c230",
+    "bin/patch-oai-tdl-model.py": "3e2716a1555364a820faddb351c5484726b400e05a08e4e279bc3471695ea417",
+    "bin/patch-oai-ue-radio-measurements.py": "52cf9bba689fbb400595190e7d597eb2cfb33c065a200d03ce510883fc45995a"
+  },
+  "recorded_date": "2026-08-24",
+  "schema_version": 1,
+  "stage": "phase_3c0_durable_workspace_baseline",
+  "temporary_checkouts_modified": false
+}
