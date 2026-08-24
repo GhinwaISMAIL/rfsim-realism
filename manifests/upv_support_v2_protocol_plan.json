@@ -1,0 +1,150 @@
+{
+  "abc_authorized": false,
+  "adaptive_localization": {
+    "authorized_before_safety_probe": false,
+    "extrapolative_candidates": [
+      5.0,
+      7.5,
+      10.0
+    ],
+    "final_crossed_design_authorized": false,
+    "selection_rule": "choose the next point only from execution-level safety-probe evidence"
+  },
+  "analysis_implementation_revision": "38b230a0e13c41bd2cf8826f547d3f76e067e529",
+  "author_metadata_request": [
+    "What ss-PBCH-BlockPower or equivalent SSB EPRE was signalled during each test?",
+    "Does NEMO RSRP represent beam/SSB RSRP, cell-level RSRP, or antenna-combined RSRP, and what filtering is applied?",
+    "Why is Pathloss (NR SpCell) empty in all UE files, and can a populated export be supplied?",
+    "What gNB conducted power, antenna/cable gains, EIRP, and UE calibration or combining assumptions apply?"
+  ],
+  "conditional_safety_probe": {
+    "fail_action": "stop and do not localize farther into positive ploss",
+    "final_support_extension": false,
+    "label": "positive_ploss_safety_and_interaction_probe",
+    "minimum_executions": 18,
+    "minimum_repetitions_per_state": 3,
+    "noise_power_dB_values": [
+      -12.5,
+      -10.0,
+      -7.5
+    ],
+    "pass_conditions": [
+      "all requested controls are read back exactly",
+      "no numerical clipping, overflow or unstable RFsim process is observed",
+      "attachment and telemetry quality gates remain operationally interpretable",
+      "RSRP response is monotone at each tested noise level within execution uncertainty",
+      "interaction with SINR is reported at the execution level"
+    ],
+    "ploss_values": [
+      0.0,
+      2.5
+    ],
+    "preferred_executions": 30,
+    "preferred_repetitions_per_state": 5,
+    "state_count": 6
+  },
+  "distance_calculation_authorized": false,
+  "execution_authorized": false,
+  "frozen_inputs": {
+    "phase2_snapshot_must_remain_unchanged": true,
+    "phase3a_methods_revision": "73ed41dcee3c4303b729c4bdc478d03fea366be3",
+    "phase3a_results_revision": "30c345731249df73b3fc7fdb7d8ca6b8bec3d04b",
+    "required_phase3a_decision": "insufficient_metadata_absolute_rsrp_not_identified",
+    "required_reservation_state": "closed"
+  },
+  "input_sha256": {
+    "phase3a_decision": "0c6daea7c3a407a6a8bfabf4218a8a384c320bf0a74dee83655009b451eb667d",
+    "phase3a_gate": "6c133a0052cab9a565263c7774deee3a20a2ab452a5069449d056598939cd054",
+    "protocol_config": "508f720839447a9d88ffe97e5eabe22ff642b9b99c0a6e17d8e436e996aa9330"
+  },
+  "kernel": {
+    "formula": "mean(Kxx) + mean(Kyy) - 2*mean(Kxy)",
+    "legacy_unbiased_estimator": {
+      "affects_candidate_acceptance": false,
+      "role": "diagnostic_only"
+    },
+    "name": "rbf",
+    "posthoc_clipping": "prohibited",
+    "primary_estimator": "biased_mmd_squared_v_statistic"
+  },
+  "measurement_branch_status": "unresolved",
+  "measurement_branches": {
+    "definitions_not_equivalent": {
+      "action": "prohibit absolute-RSRP calibration or add an explicit discrepancy parameter",
+      "primary_features": [
+        "relative_RSRP",
+        "SINR"
+      ],
+      "trigger": "NEMO and OAI quantities cannot be made physically equivalent"
+    },
+    "insufficient_metadata": {
+      "action": "contact authors and keep absolute-RSRP calibration prohibited",
+      "primary_features": [
+        "relative_RSRP",
+        "SINR"
+      ],
+      "trigger": "required UPV power, filtering, combining or pathloss metadata remains unavailable"
+    },
+    "no_offset_positive_ploss_valid": {
+      "action": "run the frozen safety probe before adaptive localization",
+      "primary_features": [
+        "RSRP_reported",
+        "SINR"
+      ],
+      "trigger": "no physical offset is supported and simulator gain probing is scientifically accepted"
+    },
+    "verified_offset": {
+      "action": "rerun existing-bank support before requesting POWDER",
+      "primary_features": [
+        "RSRP_comparable",
+        "SINR"
+      ],
+      "transform": "RSRP_comparable = RSRP_reported + delta_equivalence",
+      "trigger": "independently justified offset with sign, provenance and uncertainty"
+    }
+  },
+  "next_action": "obtain or assess independent measurement metadata; do not compute v2 distances or request POWDER until a branch is selected",
+  "plan_id": "upv_support_v2_protocol_preparation",
+  "preprocessing": {
+    "branch_status": "unresolved",
+    "distance_calculation_authorized": false,
+    "frozen_components": [
+      "included rows and executions",
+      "feature order within the selected measurement branch",
+      "complete-case missing-value policy",
+      "one-second median aggregation",
+      "balanced reference construction",
+      "robust center and scale",
+      "RBF bandwidth rule",
+      "feature weights",
+      "block bootstrap rule, repetitions and seed",
+      "candidate ranking and boundary rules"
+    ],
+    "inherited_from": "configs/upv_support_v1.yaml",
+    "refit_after_branch_selection": [
+      "transformed RSRP values",
+      "balanced-reference center and scale",
+      "realized RBF bandwidth"
+    ]
+  },
+  "repetition_gate": {
+    "abc_allowed_with_existing_bank": false,
+    "existing_bank_executions_per_state": 2,
+    "minimum_independent_executions_per_state": 3,
+    "preferred_independent_executions_per_state": 5
+  },
+  "reservation": {
+    "opening_conditions": [
+      "one measurement branch has been explicitly selected and frozen",
+      "the branch requires new RFsim executions",
+      "the exact next experiment and stopping rule are committed",
+      "the user has received a start-reservation notice at least 30 minutes in advance"
+    ],
+    "preparation_lead_time_minutes": 30,
+    "request_now": false,
+    "reservation_should_be_requested_now": false
+  },
+  "schema_version": 1,
+  "stage": "protocol_preparation_only",
+  "tracked_worktree_dirty_at_start": false
+}
