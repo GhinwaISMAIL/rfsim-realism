@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c5_vrtsim_passthrough_timing_diagnostic_result",
+  "recorded_at": "2026-08-24T17:23:43+02:00",
+  "execution_amendment_revision": "2a9ac11",
+  "profile_revision": "30b3e3a3bae0a7e1a0c58c4be96a16fb41d368b4",
+  "execution": {
+    "remote_output_directory": "/local/logs/phase3c5-passthrough-t1/phase3c4-vrtsim-20260824T152054Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c5_passthrough_v1/attempt-1",
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "command_exit_code": 1,
+    "execution_completed": false,
+    "accepted_repetitions": 0,
+    "failure_gate": "frozen_gnb_radio_link_failure_marker",
+    "failure_message": "critical PBCH/PUSCH/RA/RLF/sync marker observed",
+    "thresholds_changed_during_execution": false,
+    "adaptive_retry_performed": false
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw_execution_outputs_are_gitignored; checksums_and_structured_result_are_committed",
+    "remote_to_local_bundle_copied": true,
+    "failure_logs_preserved_before_rollback": true,
+    "files": {
+      "execution_state.json": "e17d942bd9f61685bb2f8f4dca83231f8675fe129d35078c2630b962bcb977a3",
+      "log_parser_result.json": "fb67f0639978743dd140889603ce39d0438df0f34517a494140cefedaa7fb78f",
+      "vrtsim-1-attachment.json": "424249e5f708e7bea65fe421395f40327ff6c98737f5247a27c5c11030276836",
+      "vrtsim-1-gnb.log": "b59879d2d96ff12d073f6c48a70f506bf0c339fc88835d8a46676a53eb93977e",
+      "vrtsim-1-ping.log": "57862ef1eccefda63dbec022bd4947f36a3cf0f12e5192ecaa21d1d2c0920f4d",
+      "vrtsim-1-ue.log": "fa012d661eb2ff7b72df728b6463a6fd201aeb478bf7ef1471cdf18ff5ba8fac"
+    }
+  },
+  "observed_sequence": {
+    "pbch_initial_success": true,
+    "random_access_success": true,
+    "rrc_connected": true,
+    "registration_accept": true,
+    "pdu_session_interface_created": true,
+    "ue_ipv4": "12.1.1.4",
+    "first_icmp_reply_received": true,
+    "gnb_rlc_max_retx_on_srb1_count": 3,
+    "gnb_radio_link_failure_marker_count": 3,
+    "ue_radio_link_failure_marker_count": 0,
+    "ue_lost_sync_marker_count": 0,
+    "critical_pusch_failure_marker_count": 0,
+    "random_access_failure_marker_count": 0,
+    "maximum_reported_ulsch_dtx_counter": 4,
+    "prach_job_in_the_past_count": 0,
+    "attachment_checks_before_stop": 1,
+    "attachment_fraction_before_stop": 1.0
+  },
+  "timing_context": {
+    "first_pbch_success_log_time": 9000.439123,
+    "registration_accept_log_time": 9000.664702,
+    "first_gnb_rlf_marker_log_time": 9001.125346,
+    "rrc_reconfiguration_complete_log_time": 9001.240536,
+    "interpretation": "The three frozen RLF markers occurred during SRB1 retransmissions, after successful registration and before a later RRCReconfigurationComplete; subsequent gNB statistics still reported the UE in-sync and the UE continued radio telemetry. This context does not override the predeclared zero-RLF rule."
+  },
+  "frozen_parser_result": {
+    "log_gate_pass": false,
+    "required_ue_marker_counts": {
+      "pbch_initial_success": 1,
+      "random_access_success": 1,
+      "rrc_connected": 2,
+      "registration_accept": 1
+    },
+    "required_gnb_marker_counts": {
+      "pusch_failure_threshold_configured": 1
+    },
+    "failure_marker_counts": {
+      "gnb_pusch_ul_failure": 0,
+      "gnb_radio_link_failure": 3,
+      "gnb_random_access_failure": 0,
+      "ue_pbch_decode_error": 0,
+      "ue_random_access_failure": 0,
+      "ue_radio_link_failure": 0,
+      "ue_lost_sync": 0
+    }
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true
+  },
+  "diagnosis": {
+    "supported": [
+      "baseline VRTSIM passthrough can complete PBCH, random access, RRC, registration, PDU-session setup and at least one data-plane ICMP reply at timescale 1.0",
+      "CIRDB processing is not required for the observed transient SRB1 RLF markers",
+      "the frozen zero-RLF acceptance rule is not satisfied at timescale 1.0"
+    ],
+    "not_supported": [
+      "20 seconds of clean continuous VRTSIM passthrough operation",
+      "successful CIRDB replay",
+      "a claim that the three gNB RLF warnings caused actual UE detachment",
+      "a claim that timescale 0.5 will remove the warnings"
+    ]
+  },
+  "decision": {
+    "phase3c5_passthrough_timescale_1_gate": "failed_closed",
+    "repeat_same_execution_authorized": false,
+    "next_node_action_authorized": false,
+    "next_required_step": "freeze a separate one-condition VRTSIM passthrough diagnostic at server timescale 0.5 using the same zero-RLF rule",
+    "parser_rule_change_authorized": false,
+    "cirdb_replay_gate": "closed",
+    "physical_radio_experiment_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed",
+    "new_reservation_needed_now": false
+  }
+}
