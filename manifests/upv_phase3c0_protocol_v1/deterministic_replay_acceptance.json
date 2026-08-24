@@ -1,0 +1,34 @@
+{
+  "all_required_fields_finite": true,
+  "attachment_fraction_required": 1.0,
+  "commanded_applied_gain_max_abs_error_db": 1e-09,
+  "exact_segment_coverage_required": true,
+  "fail_action": "keep_temporal_replay_gate_closed_and_debug_measurement_path",
+  "float_rsrp_delta_max_abs_error_db": 0.5,
+  "float_rsrp_transfer_r_squared_minimum": 0.99,
+  "float_rsrp_transfer_slope_range": [
+    0.9,
+    1.1
+  ],
+  "independent_replays_required": 2,
+  "integer_rsrp_delta_max_abs_error_db": 1.5,
+  "minimum_analysis_rows_per_segment": 5,
+  "raw_tap_energy_coefficient_of_variation_maximum": 1e-06,
+  "repeated_level_hysteresis_max_abs_db": 0.5,
+  "required_telemetry_fields": [
+    "replay_id",
+    "t_s",
+    "commanded_gain_db",
+    "applied_gain_db",
+    "channel_snapshot_id",
+    "channel_snapshot_timestamp_ns",
+    "tap_energy_linear",
+    "noise_power_db",
+    "rsrp_digital_power_linear",
+    "rsrp_db_per_re_unquantized",
+    "ss_rsrp_dbm_integer",
+    "ss_sinr_db",
+    "attached"
+  ],
+  "required_unique_channel_snapshots_per_replay": 1
+}

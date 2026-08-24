@@ -1,0 +1,11 @@
+{
+  "analysis_manifest.json": "c6512b7bf4972e45443c0eb41e03ba4d5a50013208ac93658e645ebabd64d0fd",
+  "deterministic_replay_acceptance.json": "0066213071442ee52c6a27e9600983b5184115d32cdf54929ac067e3390b89ad",
+  "deterministic_scalar_envelope.csv": "4550164298675f920c349282893f5a51731fe673ce19ff6f7e63c093cc032391",
+  "input_inventory.csv": "f2e764b77005463821a26ecd1f4cf2bd87590757d57a9a41f5b79540e03b030e",
+  "instrumentation_contract.json": "a37140236620cab7a5602989bbade8dba6405b09938b25b13aaee2fa407a844d",
+  "phase3c0_decision.json": "b4b325d478e85ce22ec0e8994a994abc99452b4391d704ce6b8d566f1498cc6f",
+  "reservation_gate_v4.json": "3221bac4afae97ea2154f9029bded1689c75f8060a1eb40e60f39e59d0430d06",
+  "source_code_trace.csv": "55fc6ed31588d5a3e21d4bd9a7eef6713f88647a10011744978e0c3e87e7029b",
+  "time_varying_channel_contract.json": "1b6ee98dc614b7f97642c6da2ebde3e046dc6fb8e553807e72c5dfdce96dc68f"
+}

@@ -1,0 +1,22 @@
+{
+  "blocking_conditions": [
+    "debug float and channel-state instrumentation has not passed",
+    "deterministic scalar replay has not passed",
+    "time-varying trace temporal validity has not passed",
+    "attachment and PBCH/PUSCH parser validation has not passed",
+    "the small replay experiment has not been frozen"
+  ],
+  "decision_code": "current_static_terrestrial_tdl_b_path_inadequate_for_route_scale_relative_rsrp",
+  "gate_state": "closed",
+  "next_action": "continue Phase 3C offline",
+  "notification_rule": "notify_user_at_least_30_minutes_before_the_first_POWDER_dependent_action",
+  "opening_conditions": [
+    "deterministic scalar replay passes every frozen acceptance rule",
+    "a pinned time-varying trace passes the frozen temporal validation",
+    "the PBCH/PUSCH and attachment parser passes on pinned-revision fixture logs",
+    "the exact small replay experiment and stopping rules are committed"
+  ],
+  "preparation_lead_time_minutes": 30,
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1
+}

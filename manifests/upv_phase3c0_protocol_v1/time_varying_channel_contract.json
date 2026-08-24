@@ -1,0 +1,24 @@
+{
+  "equation": "h(t,tau)=10^(G(s(t))/20)*sum_l(alpha_tilde_l(t)*delta(tau-tau_l))",
+  "large_scale_components": [
+    "distance_dependent_path_gain",
+    "spatially_correlated_shadowing",
+    "blockage",
+    "antenna_pattern"
+  ],
+  "prohibited_generator_behavior": "independent_snapshot_regeneration_at_receive_cadence",
+  "small_scale_normalization": "E[sum_l(abs(alpha_tilde_l(t))^2)]=1",
+  "small_scale_requirements": [
+    "Doppler_correlated_multipath",
+    "declared_carrier_frequency_and_speed",
+    "declared_snapshot_interval",
+    "finite_and_normalized_taps"
+  ],
+  "validation_statistics": [
+    "autocorrelation",
+    "Doppler_power_spectral_density",
+    "coherence_time",
+    "shadowing_correlation_distance",
+    "replay_timing_and_dropped_snapshot_counts"
+  ]
+}

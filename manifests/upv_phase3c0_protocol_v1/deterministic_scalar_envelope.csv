@@ -1,0 +1,6 @@
+segment_index,segment_label,start_s,analysis_start_s,end_s,commanded_gain_db,expected_amplitude_multiplier,expected_power_ratio,expected_relative_float_rsrp_db
+0,baseline,0,3,10,0,1,1,0
+1,descent,10,13,20,-2,0.794328234724,0.63095734448,-2
+2,nadir,20,23,30,-4,0.63095734448,0.398107170553,-4
+3,return,30,33,40,-2,0.794328234724,0.63095734448,-2
+4,recovery,40,43,50,0,1,1,0

@@ -1,0 +1,46 @@
+{
+  "abc_authorized": false,
+  "absolute_rsrp_calibration_authorized": false,
+  "decision_code": "current_static_terrestrial_tdl_b_path_inadequate_for_route_scale_relative_rsrp",
+  "external_generator_temporal_validity_established": false,
+  "model_scope": {
+    "primary_mechanism": "frozen_terrestrial_channel_realization_plus_constant_path_gain",
+    "prohibited_conclusion": "all_RFsim_or_VRTSIM_configurations_are_inadequate",
+    "reporting_contributor": "SSS_resource_element_averaging_and_integer_dB_storage",
+    "single_cell_interpretation": "removes_handover_and_intercell_interference_but_not_route_scale_gain_variation",
+    "sinr_mechanism_status": "requires_instrumented_confirmation_not_noise_only_assertion",
+    "supported_conclusion": "The current static terrestrial TDL-B execution path is inadequate for route-scale relative-RSRP reproduction."
+  },
+  "new_powder_execution_authorized": false,
+  "next_action": "add parallel debug telemetry and execute the deterministic scalar envelope locally before evaluating any time-varying generator",
+  "phase3b_metric_support": {
+    "SINR": {
+      "best_candidate_boundary": true,
+      "best_candidate_id": "ploss=0|noise=-10",
+      "best_mean_mmd_squared": 0.23161437930694084,
+      "locked_validation_all_supported": false,
+      "locked_validation_regions_evaluated": 4,
+      "locked_validation_regions_supported": 2,
+      "primary_calibration_supported": true,
+      "repeatability_threshold_mmd_squared": 0.2740642828220558,
+      "supported_candidate_ids": [
+        "ploss=0|noise=-10"
+      ]
+    },
+    "relative_RSRP": {
+      "best_candidate_boundary": false,
+      "best_candidate_id": "ploss=-5|noise=-7",
+      "best_mean_mmd_squared": 0.7297483679751363,
+      "locked_validation_all_supported": false,
+      "locked_validation_regions_evaluated": 4,
+      "locked_validation_regions_supported": 0,
+      "primary_calibration_supported": false,
+      "repeatability_threshold_mmd_squared": 0.33557015798708484,
+      "supported_candidate_ids": []
+    }
+  },
+  "schema_version": 1,
+  "selected_transport_candidate": "VRTSIM_external_taps",
+  "source_assertions_verified": 22,
+  "transport_build_validation_complete": false
+}

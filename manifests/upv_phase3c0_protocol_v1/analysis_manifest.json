@@ -1,0 +1,51 @@
+{
+  "abc_performed": false,
+  "analysis_implementation_revision": "f805ae5dc87651729cce0bc31ed1d148fb844432",
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "external_generator_temporal_validity": "not_established",
+    "physical_ploss_inference": "prohibited",
+    "time_varying_replay_realism": "not_established"
+  },
+  "external_generator_status": {
+    "speed_mps_claim": "do_not_publish_as_causal_fact_yet",
+    "state": "provisional_pending_pinned_revision_source_audit_and_temporal_tests",
+    "transport_and_generator_validity_are_separate_gates": true
+  },
+  "frozen_inputs": {
+    "phase2_and_phase3a_snapshots_must_remain_unchanged": true,
+    "phase3b_decision_code": "relative_rsrp_shape_mismatch",
+    "phase3b_decision_sha256": "411d5ede00131841bd2a710b6fd9f6b24f5fccdfdfd54280a6e27fb17f716a3f",
+    "phase3b_gate_sha256": "a679a7989b958385087fbbbf4994c06eeef73e54b31844c4f8f64a2497377a0b",
+    "phase3b_results_revision": "548b7ab2f19ac889e46e681188fb5cf5d3d8a948"
+  },
+  "name": "upv_phase3c0_static_channel_causal_audit_and_replay_preparation_v1",
+  "oai_source_state": {
+    "revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "tracked_worktree_dirty": false
+  },
+  "offline_gate_order": [
+    "pinned_source_audit",
+    "debug_float_and_channel_state_instrumentation",
+    "deterministic_scalar_envelope_replay",
+    "time_varying_trace_temporal_validation",
+    "attachment_and_PBCH_PUSCH_parser_validation",
+    "frozen_small_replay_experiment"
+  ],
+  "output_sha256_before_manifest": {
+    "deterministic_replay_acceptance.json": "0066213071442ee52c6a27e9600983b5184115d32cdf54929ac067e3390b89ad",
+    "deterministic_scalar_envelope.csv": "4550164298675f920c349282893f5a51731fe673ce19ff6f7e63c093cc032391",
+    "input_inventory.csv": "f2e764b77005463821a26ecd1f4cf2bd87590757d57a9a41f5b79540e03b030e",
+    "instrumentation_contract.json": "a37140236620cab7a5602989bbade8dba6405b09938b25b13aaee2fa407a844d",
+    "phase3c0_decision.json": "b4b325d478e85ce22ec0e8994a994abc99452b4391d704ce6b8d566f1498cc6f",
+    "reservation_gate_v4.json": "3221bac4afae97ea2154f9029bded1689c75f8060a1eb40e60f39e59d0430d06",
+    "source_code_trace.csv": "55fc6ed31588d5a3e21d4bd9a7eef6713f88647a10011744978e0c3e87e7029b",
+    "time_varying_channel_contract.json": "1b6ee98dc614b7f97642c6da2ebde3e046dc6fb8e553807e72c5dfdce96dc68f"
+  },
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1,
+  "source_assertions_verified": 22,
+  "stage": "phase_3c0_static_channel_causal_audit_and_replay_preparation",
+  "tracked_worktree_dirty_at_start": false
+}

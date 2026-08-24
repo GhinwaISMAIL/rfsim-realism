@@ -1,0 +1,21 @@
+{
+  "prohibited_use": "treating_debug_digital_power_as_absolute_NEMO_equivalent_RSRP",
+  "purpose": "debug_measurement_path_and_channel_application_only",
+  "reporting_rule": "emit_debug_float_and_standard_integer_kpi_in_parallel",
+  "required_fields": [
+    "replay_id",
+    "t_s",
+    "commanded_gain_db",
+    "applied_gain_db",
+    "channel_snapshot_id",
+    "channel_snapshot_timestamp_ns",
+    "tap_energy_linear",
+    "noise_power_db",
+    "rsrp_digital_power_linear",
+    "rsrp_db_per_re_unquantized",
+    "ss_rsrp_dbm_integer",
+    "ss_sinr_db",
+    "attached"
+  ],
+  "standard_oai_kpis_must_remain_unchanged": true
+}
