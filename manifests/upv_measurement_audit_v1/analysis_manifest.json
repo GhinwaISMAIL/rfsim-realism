@@ -1,0 +1,74 @@
+{
+  "abc_performed": false,
+  "absolute_rsrp_calibration_authorized": false,
+  "analysis_implementation_revision": "73ed41dcee3c4303b729c4bdc478d03fea366be3",
+  "decision_code": "insufficient_metadata_absolute_rsrp_not_identified",
+  "frozen_inputs": {
+    "phase1_revision": "242181ad8d2f0f3d6ef1e88c18fbabab6ff3b0d1",
+    "phase1_tag": "upv-protocol-v1",
+    "phase2_decision_code": "systematic_rsrp_offset_but_sinr_support",
+    "phase2_estimator": "unbiased_mmd_squared",
+    "phase2_methods_revision": "765954842eecd8ed14958eebca60c53891a1baec",
+    "phase2_must_remain_unchanged": true,
+    "phase2_results_revision": "9e7ab0a582bf4cde2924c791b224164f0a33183c"
+  },
+  "input_sha256": {
+    "config": "edf03b2b77e7490fa4c0923aba6fe3968eae6d81c009ac642b7bbf22de31b3d0",
+    "phase2_gate": "8e5198c78b1106dc004671e164a73c0c57d9b2bc27c2304f1eed10eb21ef7fb7",
+    "phase2_manifest": "635e54580474903206ae8f8d98774e720ac382639b447d30e80efafe763aea5c",
+    "upv_archive": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753"
+  },
+  "name": "upv_measurement_equivalence_link_budget_audit_v1",
+  "output_sha256_before_manifest": {
+    "input_inventory.csv": "66f45ee7fadbac4da731e3adc3246cb428e3eb565518b30f43b4f76eb3a18148",
+    "link_budget_ledger.csv": "60fd14a380b280dc6a629e1dbbd2aedbbde8c248a86e07a0f3daea6dfa4766ab",
+    "measurement_definition_crosswalk.csv": "5f9f0d2a562de38f8e3ab28d1b0fec378027f11112f3d351cf4f8e12220649c5",
+    "offset_dossier.json": "eb31744cb3560b064c0612d63dff001161c92d53f25d1de7adc3b4bc363b9262",
+    "phase3a_decision.json": "0c6daea7c3a407a6a8bfabf4218a8a384c320bf0a74dee83655009b451eb667d",
+    "protocol_update_v2.json": "b579317e6fe5514320dab88f9a557fbeaf2bf8fa08b4fcf748b92aa702b5a4cb",
+    "reservation_gate_v2.json": "6c133a0052cab9a565263c7774deee3a20a2ab452a5069449d056598939cd054",
+    "source_code_trace.csv": "82ab890e798729ff203578cfad57953cfbe6c96ebdff19ebc52da1561c9af6bf",
+    "upv_field_completeness.csv": "575bce350b008893a819818263209bb299abb4ed4bfd3728c508d72848e3e554",
+    "upv_pathloss_reference_audit.csv": "a3d8e363b94cc1b20e1d882e6720138f8b90812ebfb91097328c357d34ca0395"
+  },
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1,
+  "source_states": {
+    "oai": {
+      "revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "source_id": "oai_source_checkout",
+      "tracked_worktree_dirty": false
+    },
+    "profile": {
+      "revision": "e6d5d9202ec4492b5c67b13aeaea7b415177ed9b",
+      "source_id": "profile_source_checkout",
+      "tracked_worktree_dirty": false
+    }
+  },
+  "stage": "phase_3a_measurement_equivalence_and_link_budget_audit",
+  "tracked_worktree_dirty_at_start": false,
+  "upv_summary": {
+    "all_observed_measurement_types_are_ssb": true,
+    "devices": [
+      "ASUS",
+      "S25"
+    ],
+    "measurement_type_values": [
+      "SSB"
+    ],
+    "pathloss_plus_rsrp_complete_rows": 0,
+    "pathloss_reference_power_diagnostic_available": false,
+    "radio_csv_files": 12,
+    "serving_measurement_type_rows": 6969,
+    "serving_pathloss_rows": 0,
+    "serving_rsrp_rows": 6969,
+    "tests": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  }
+}

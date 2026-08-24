@@ -1,0 +1,22 @@
+{
+  "abc_permitted": false,
+  "future_mmd_protocol": {
+    "abc_remains_prohibited_until_measurement_gate_and_repetition_gate_pass": true,
+    "applies_from_protocol_version": "upv-support-v2",
+    "clipping_unbiased_estimates": "prohibited",
+    "legacy_unbiased_estimator_role": "diagnostic_only",
+    "nonnegative_by_construction": true,
+    "primary_estimator": "biased_mmd_squared_v_statistic"
+  },
+  "next_protocol_version": "upv-support-v2",
+  "offset_policy": {
+    "current_empirical_rfsim_offset_is_not_verified": true,
+    "observed_phase2_gap_must_not_determine_delta": true,
+    "transform": "RSRP_comparable = RSRP_reported + delta_equivalence",
+    "uncertainty_must_be_propagated": true,
+    "verified_offset_requires_independent_link_budget_evidence": true
+  },
+  "phase2_estimator": "unbiased_mmd_squared",
+  "phase2_snapshot_unchanged": true,
+  "schema_version": 1
+}

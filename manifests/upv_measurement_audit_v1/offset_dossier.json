@@ -1,0 +1,22 @@
+{
+  "application_count": 1,
+  "application_mechanism": "profile patch sets RFsim rx_gain to -rsrp_offset_dB; the OAI SS-RSRP formula subtracts rx_gain minus rx_gain_offset",
+  "changes_iq_samples": false,
+  "changes_sinr": false,
+  "current_rfsim_reporting_offset_db": -56.0,
+  "independent_of_phase2_upv_gap": true,
+  "independently_physically_verified": false,
+  "origin": "empirical mapping of the healthy zero-loss RFsim baseline from about -41 dBm to a -97 dBm real-data reference, as documented by the pinned profile",
+  "permitted_use": "provenance-preserved diagnostic comparison",
+  "phase2_gap_db_for_audit_context_only": 9.75,
+  "phase2_gap_used_to_select_offset": false,
+  "prohibited_use": "claiming absolute physical propagation-loss calibration",
+  "schema_version": 1,
+  "status": "empirical_discrepancy_transform_not_verified_physical_offset",
+  "transform_definition": "RSRP_comparable = RSRP_reported + delta_equivalence",
+  "uncertainty_db": null,
+  "upv_pathloss_reference_check": {
+    "available": false,
+    "complete_rows": 0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "adaptive_localization": {
+    "candidate_ploss_values": [
+      5.0,
+      7.5,
+      10.0
+    ],
+    "status": "extrapolative_candidates_not_preapproved_settings"
+  },
+  "conditional_safety_probe": {
+    "label": "positive_ploss_safety_and_interaction_probe_only",
+    "minimum_executions": 18,
+    "minimum_repetitions_per_state": 3,
+    "noise_power_dB_values": [
+      -12.5,
+      -10.0,
+      -7.5
+    ],
+    "not_final_support_extension": true,
+    "ploss_values": [
+      0.0,
+      2.5
+    ],
+    "preferred_executions": 30,
+    "preferred_repetitions_per_state": 5,
+    "state_count": 6,
+    "trigger": "only after the measurement-equivalence branch is selected, positive ploss is accepted as a simulator gain control, and this exact design is re-frozen"
+  },
+  "current_blocker": "absolute RSRP measurement equivalence is not identified and the UPV pathloss field has no values",
+  "decision_code": "insufficient_metadata_absolute_rsrp_not_identified",
+  "notification_rule": "tell the user to start the reservation at least 30 minutes before the first frozen POWDER-dependent action",
+  "preparation_lead_time_minutes": 30,
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1,
+  "slope_warning": {
+    "extrapolation_to_positive_ploss_is_prohibited": true,
+    "phase2_best_noise_power_dB": -10.0,
+    "supported_fixed_noise_power_dB": -30.0,
+    "supported_ploss_range": [
+      -20.0,
+      -5.0
+    ]
+  }
+}

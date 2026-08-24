@@ -1,0 +1,13 @@
+quantity,value,unit,provenance,interpretation,status
+rfsim_rsrp_offset_db,-56,dB,profile etc/nr-ue.conf.tmpl,"empirical reporting transform, not independent physical calibration",known_but_not_sufficient_for_independent_offset
+oai_signalled_ss_pbch_block_power,-25,dBm_per_RE,profile etc/gnb-cell.conf.tmpl,signalled value; absolute RFsim waveform calibration is not established,known_but_not_sufficient_for_independent_offset
+oai_gnb_att_tx,0,dB,profile etc/gnb-cell.conf.tmpl,configured RF attenuation only,known_but_not_sufficient_for_independent_offset
+oai_max_pdsch_reference_signal_power,-27,dBm,profile etc/gnb-cell.conf.tmpl,configured gNB field; not a complete SSB link budget,known_but_not_sufficient_for_independent_offset
+upv_signalled_ss_pbch_block_power,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+upv_gnb_conducted_power_and_eirp,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+upv_gnb_antenna_and_cable_gains,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+upv_ue_antenna_combining_rule,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+upv_device_calibration_uncertainty,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+nemo_layer_1_and_layer_3_filtering,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+nemo_pathloss_export_definition_and_missingness_reason,,,not present in supplied archive or pinned profile,required metadata remains unresolved,unknown
+upv_pathloss_plus_rsrp_reference_power,,dBm,UPV Pathloss (NR SpCell) + RSRP (NR SpCell),cannot compute: 0 nonmissing pathloss rows and 0 complete pairs,unavailable

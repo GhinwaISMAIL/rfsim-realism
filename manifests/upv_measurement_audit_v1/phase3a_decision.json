@@ -1,0 +1,38 @@
+{
+  "abc_authorized": false,
+  "absolute_rsrp_calibration_authorized": false,
+  "action": "contact_upv_authors_and_prohibit_absolute_rsrp_calibration",
+  "decision_code": "insufficient_metadata_absolute_rsrp_not_identified",
+  "evidence": {
+    "oai_measurement_formula_traced": true,
+    "positive_ploss_is_numerically_a_path_gain": true,
+    "rfsim_offset_application_traced": true,
+    "rfsim_offset_is_empirical_not_independently_physical": true,
+    "upv_all_observed_measurement_types_are_ssb": true,
+    "upv_measurement_type_values": [
+      "SSB"
+    ],
+    "upv_pathloss_plus_rsrp_complete_rows": 0,
+    "upv_serving_pathloss_rows": 0,
+    "upv_serving_rsrp_rows": 6969
+  },
+  "new_measurement_equivalence_offset_applied": false,
+  "next_external_action": {
+    "questions": [
+      "What ss-PBCH-BlockPower or equivalent SSB EPRE was signalled during each test?",
+      "Does NEMO RSRP (NR SpCell) represent beam/SSB RSRP, cell-level RSRP, or an antenna-combined value, and what filtering is applied?",
+      "Why is Pathloss (NR SpCell) present as a column but empty in all UE CSV files, and can populated exports be supplied?",
+      "What gNB conducted power, antenna/cable gains, EIRP, and UE calibration or combining assumptions apply?"
+    ],
+    "recipient": "UPV dataset authors"
+  },
+  "offline_work_while_waiting": [
+    "retain SINR and relative RSRP variation as non-absolute diagnostics",
+    "prepare upv-support-v2 with biased MMD squared but do not execute it without a frozen transform decision",
+    "freeze the positive-ploss safety-probe protocol without requesting POWDER time"
+  ],
+  "reservation_notice_lead_time_minutes": 30,
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1,
+  "sinr_and_relative_rsrp_analysis_authorized": true
+}

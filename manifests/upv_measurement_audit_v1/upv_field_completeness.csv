@@ -1,0 +1,13 @@
+source_path,test_id,device,csv_rows,rsrp_column_present,rsrp_nonmissing_rows,rsrq_column_present,rsrq_nonmissing_rows,sinr_column_present,sinr_nonmissing_rows,rssi_column_present,rssi_nonmissing_rows,pathloss_column_present,pathloss_nonmissing_rows,measurement_type_column_present,measurement_type_nonmissing_rows,beam_index_column_present,beam_index_nonmissing_rows,rx_beam_column_present,rx_beam_nonmissing_rows,rank_indicator_column_present,rank_indicator_nonmissing_rows,rsrp_min_dbm,rsrp_median_dbm,rsrp_max_dbm,rsrp_observed_resolution_db,pathloss_plus_rsrp_complete_rows,measurement_type_values
+Test_1/Test_1_Asus.csv,1,ASUS,11479,True,604,True,604,True,604,True,604,True,0,True,604,True,604,True,0,True,604,-95.4,-86.6,-76.5,0.1,0,SSB
+Test_1/Test_1_S25.csv,1,S25,10837,True,570,True,570,True,570,True,570,True,0,True,570,True,570,True,0,True,570,-97.1,-88.6,-78.5,0.1,0,SSB
+Test_2/Test_2_ASUS.csv,2,ASUS,11395,True,597,True,597,True,597,True,597,True,0,True,597,True,597,True,0,True,597,-94.8,-86.6,-76.4,0.1,0,SSB
+Test_2/Test_2_S25.csv,2,S25,11627,True,604,True,604,True,604,True,604,True,0,True,604,True,604,True,0,True,604,-98.6,-89.7,-74.4,0.1,0,SSB
+Test_3/Test_3_ASUS.csv,3,ASUS,11062,True,582,True,582,True,582,True,582,True,0,True,582,True,582,True,0,True,582,-94.1,-86.6,-74.9,0.1,0,SSB
+Test_3/Test_3_S25.csv,3,S25,10950,True,574,True,574,True,574,True,574,True,0,True,574,True,574,True,0,True,574,-100.7,-89.8,-77.2,0.1,0,SSB
+Test_4/Test_4_ASUS.csv,4,ASUS,10931,True,577,True,577,True,577,True,577,True,0,True,577,True,577,True,0,True,577,-95.2,-86.8,-75.8,0.1,0,SSB
+Test_4/Test_4_S25.csv,4,S25,10994,True,573,True,573,True,573,True,573,True,0,True,573,True,573,True,0,True,573,-99.2,-89.8,-75.5,0.1,0,SSB
+Test_5/Test 5 ASUS.csv,5,ASUS,11114,True,576,True,576,True,576,True,576,True,0,True,576,True,576,True,0,True,576,-95.4,-87,-76.3,0.1,0,SSB
+Test_5/Test 5 S25.csv,5,S25,10908,True,566,True,566,True,566,True,566,True,0,True,566,True,566,True,0,True,566,-99.3,-89.5,-73.7,0.1,0,SSB
+Test_6/Test_6_ASUS.csv,6,ASUS,10983,True,575,True,575,True,575,True,575,True,0,True,575,True,575,True,0,True,575,-95.6,-86.1,-75.4,0.1,0,SSB
+Test_6/Test_6_S25.csv,6,S25,10919,True,571,True,571,True,571,True,571,True,0,True,571,True,571,True,0,True,571,-102.5,-89,-74.9,0.1,0,SSB
