@@ -618,6 +618,137 @@ def _phase3b_decision(
     return decision, reservation
 
 
+def _distribution_diagnostics(
+    units: dict[tuple[str, str], pd.DataFrame],
+    unit_metadata: pd.DataFrame,
+    simulation: dict[str, pd.DataFrame],
+    selected: pd.DataFrame,
+) -> pd.DataFrame:
+    rows: list[dict[str, object]] = []
+
+    def add_row(
+        *,
+        metric: str,
+        values: np.ndarray,
+        source_kind: str,
+        source_key: str,
+        locked_role: str,
+        device: str,
+        candidate_id: str,
+        ploss: float,
+        noise_power_db: float,
+    ) -> None:
+        q10, q25, median, q75, q90 = np.quantile(values, [0.10, 0.25, 0.50, 0.75, 0.90])
+        rows.append({
+            "metric": metric,
+            "source_kind": source_kind,
+            "source_key": source_key,
+            "locked_role": locked_role,
+            "device": device,
+            "candidate_id": candidate_id,
+            "ploss": ploss,
+            "noise_power_dB": noise_power_db,
+            "sample_count": len(values),
+            "unique_value_count": len(np.unique(values)),
+            "constant_distribution": bool(np.ptp(values) <= np.finfo(float).eps),
+            "minimum": float(np.min(values)),
+            "p10": float(q10),
+            "p25": float(q25),
+            "median": float(median),
+            "p75": float(q75),
+            "p90": float(q90),
+            "maximum": float(np.max(values)),
+            "iqr": float(q75 - q25),
+            "standard_deviation_ddof1": float(np.std(values, ddof=1)),
+        })
+
+    metadata = unit_metadata.set_index(["source_key", "locked_role"])
+    for source_key, role in sorted(units):
+        frame = units[(source_key, role)]
+        device = str(metadata.loc[(source_key, role), "device"])
+        add_row(
+            metric="relative_RSRP",
+            values=frame["relative_rsrp_db"].to_numpy(float),
+            source_kind="UPV",
+            source_key=source_key,
+            locked_role=role,
+            device=device,
+            candidate_id="",
+            ploss=math.nan,
+            noise_power_db=math.nan,
+        )
+        add_row(
+            metric="SINR",
+            values=frame["sinr_db"].to_numpy(float),
+            source_kind="UPV",
+            source_key=source_key,
+            locked_role=role,
+            device=device,
+            candidate_id="",
+            ploss=math.nan,
+            noise_power_db=math.nan,
+        )
+    selected_by_execution = selected.set_index("execution_id")
+    for execution_id, frame in sorted(simulation.items()):
+        item = selected_by_execution.loc[execution_id]
+        candidate_id = _candidate_label(
+            float(item["ploss"]), float(item["noise_power_dB"])
+        )
+        add_row(
+            metric="relative_RSRP",
+            values=frame["relative_rsrp_db"].to_numpy(float),
+            source_kind="RFsim",
+            source_key=execution_id,
+            locked_role="analysis_window_15_175s",
+            device="OAI_UE",
+            candidate_id=candidate_id,
+            ploss=float(item["ploss"]),
+            noise_power_db=float(item["noise_power_dB"]),
+        )
+        add_row(
+            metric="SINR",
+            values=frame["ss_sinr_db"].to_numpy(float),
+            source_kind="RFsim",
+            source_key=execution_id,
+            locked_role="analysis_window_15_175s",
+            device="OAI_UE",
+            candidate_id=candidate_id,
+            ploss=float(item["ploss"]),
+            noise_power_db=float(item["noise_power_dB"]),
+        )
+    return pd.DataFrame(rows).sort_values(
+        ["metric", "source_kind", "source_key", "locked_role"]
+    ).reset_index(drop=True)
+
+
+def _sensitivity_summary(candidates: pd.DataFrame) -> dict[str, object]:
+    details: dict[str, object] = {}
+    for source_key in ["primary", "filename_sensitivity", "s25_robustness"]:
+        source_rows = candidates.loc[candidates["source_key"].eq(source_key)]
+        source_details: dict[str, object] = {}
+        for metric in ["relative_RSRP", "SINR"]:
+            metric_rows = source_rows.loc[source_rows["metric"].eq(metric)]
+            calibration = metric_rows.loc[metric_rows["locked_role"].eq("calibration")]
+            best = calibration.sort_values("mean_execution_mmd_squared").iloc[0]
+            role_support = metric_rows.groupby("locked_role")["supported"].any()
+            source_details[metric] = {
+                "calibration_best_candidate_id": best["candidate_id"],
+                "calibration_best_mean_mmd_squared": float(
+                    best["mean_execution_mmd_squared"]
+                ),
+                "calibration_supported": bool(best["supported"]),
+                "evaluated_region_count": len(role_support),
+                "regions_with_any_supported_candidate": int(role_support.sum()),
+            }
+        details[source_key] = source_details
+    return {
+        "schema_version": 1,
+        "preprocessing_fit_source": "primary_ASUS_calibration_only",
+        "nonprimary_sources_affect_fit_or_ranking": False,
+        "sources": details,
+    }
+
+
 def analyze_phase3b_support(
     *,
     route_observations: str | Path,
@@ -784,6 +915,10 @@ def analyze_phase3b_support(
     scaling = pd.DataFrame(scaling_rows)
     balanced_reference = pd.concat(balanced_tables, ignore_index=True)
     decision, reservation = _phase3b_decision(candidate_support, selected, config)
+    distribution_diagnostics = _distribution_diagnostics(
+        units, unit_inventory, simulation, selected
+    )
+    sensitivity_summary = _sensitivity_summary(candidate_support)
 
     primary_rankings = candidate_support.loc[
         candidate_support["source_key"].eq("primary")
@@ -829,10 +964,28 @@ def analyze_phase3b_support(
             "claim_limits": config["claim_limits"],
         }
         _write_json(staging / "preprocessing_specification.json", preprocessing)
+        input_inventory = pd.DataFrame([
+            {
+                "input_kind": name,
+                "source_id": path.name,
+                "sha256": _sha256(path),
+                "rows_read": (
+                    len(primary_route) if name == "route_observations"
+                    else len(split) if name == "locked_split"
+                    else math.nan
+                ),
+            }
+            for name, path in paths.items()
+            if name not in {"executions_root", "output"}
+        ])
+        input_inventory = pd.concat(
+            [input_inventory, execution_inventory], ignore_index=True, sort=False
+        )
         table_outputs = {
-            "input_inventory.csv": execution_inventory,
+            "input_inventory.csv": input_inventory,
             "region_transfer_diagnostics.csv": region_diagnostics,
             "upv_unit_inventory.csv": unit_inventory,
+            "distribution_diagnostics.csv": distribution_diagnostics,
             "scaling_parameters.csv": scaling,
             "balanced_reference.csv": balanced_reference,
             "repeatability_pairs.csv": repeatability,
@@ -844,6 +997,7 @@ def analyze_phase3b_support(
         for name, frame in table_outputs.items():
             _write_csv(staging / name, frame)
         _write_json(staging / "phase3b_decision.json", decision)
+        _write_json(staging / "sensitivity_summary.json", sensitivity_summary)
         _write_json(staging / "reservation_gate_v3.json", reservation)
         output_hashes = {
             path.name: _sha256(path)
