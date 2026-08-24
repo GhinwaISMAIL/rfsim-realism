@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c5_vrtsim_passthrough_timescale_0_5_result",
+  "recorded_at": "2026-08-24T17:28:20+02:00",
+  "execution_amendment_revision": "b01d163",
+  "profile_revision": "30b3e3a3bae0a7e1a0c58c4be96a16fb41d368b4",
+  "execution": {
+    "remote_output_directory": "/local/logs/phase3c5-passthrough-t05/phase3c4-vrtsim-20260824T152556Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c5_passthrough_t05_v1/attempt-1",
+    "channel_mode": "passthrough",
+    "server_timescale": 0.5,
+    "command_exit_code": 1,
+    "execution_completed": false,
+    "accepted_repetitions": 0,
+    "failure_gate": "frozen_random_access_and_radio_link_failure_markers",
+    "failure_message": "critical PBCH/PUSCH/RA/RLF/sync marker observed",
+    "thresholds_changed_during_execution": false,
+    "adaptive_retry_performed": false
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw_execution_outputs_are_gitignored; checksums_and_structured_result_are_committed",
+    "remote_to_local_bundle_copied": true,
+    "failure_logs_preserved_before_rollback": true,
+    "files": {
+      "execution_state.json": "f4f3d9a9f613b0c3aa87ec4407ab00c9bb76f568cd6973837b20cfa5872577fc",
+      "log_parser_result.json": "469fec257e6a2837a6b26337ae9124c2b71b49902fc95307944bd24be7021946",
+      "vrtsim-1-attachment.json": "05ffed8163233669811c4159673abe20fa0b47957eb90c90636b58e7f45a04b2",
+      "vrtsim-1-gnb.log": "49b1f742c825b57ce6dc4c9535da58658dc4255d6024f8f7bfcee07f15b6f0b7",
+      "vrtsim-1-ping.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "vrtsim-1-ue.log": "a8a726688790649253fc67bc3615b8d9948e46f306be02239763fdaba24550f3"
+    }
+  },
+  "frozen_parser_result": {
+    "log_gate_pass": false,
+    "required_ue_marker_counts": {
+      "pbch_initial_success": 2,
+      "random_access_success": 2,
+      "rrc_connected": 6,
+      "registration_accept": 1
+    },
+    "required_gnb_marker_counts": {
+      "pusch_failure_threshold_configured": 1
+    },
+    "failure_marker_counts": {
+      "gnb_pusch_ul_failure": 0,
+      "gnb_radio_link_failure": 16,
+      "gnb_random_access_failure": 2,
+      "ue_pbch_decode_error": 0,
+      "ue_random_access_failure": 0,
+      "ue_radio_link_failure": 0,
+      "ue_lost_sync": 0
+    },
+    "maximum_reported_ulsch_dtx_counter": 0
+  },
+  "observed_sequence": {
+    "first_pbch_and_random_access_success": true,
+    "gnb_first_attempt_msg4_failure": true,
+    "gnb_first_attempt_contention_resolution_timeout": true,
+    "ue_resynchronized": true,
+    "second_pbch_and_random_access_success": true,
+    "registration_accept_after_second_attempt": true,
+    "pdu_session_interface_created_before_stop": true,
+    "icmp_reply_received": false,
+    "prach_job_in_the_past_count": 0,
+    "attachment_checks_before_stop": 1,
+    "attachment_fraction_before_stop": 1.0
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true
+  },
+  "controlled_comparison": {
+    "timescale_1": {
+      "gnb_random_access_failure_markers": 0,
+      "gnb_radio_link_failure_markers": 3,
+      "first_icmp_reply_received": true,
+      "ue_resynchronization_observed": false
+    },
+    "timescale_0_5": {
+      "gnb_random_access_failure_markers": 2,
+      "gnb_radio_link_failure_markers": 16,
+      "first_icmp_reply_received": false,
+      "ue_resynchronization_observed": true
+    },
+    "decision": "timescale_0_5_did_not_improve_the_frozen_safety_outcomes_and_is_rejected"
+  },
+  "diagnosis": {
+    "supported": [
+      "VRTSIM passthrough can reach complete registration at both tested timescales",
+      "timescale 0.5 does not remove the frozen RLF markers",
+      "timescale 0.5 introduces a failed first RA/Msg4 attempt and substantially more RLF markers than timescale 1.0",
+      "the immediate blocker exists before CIRDB channel processing is introduced"
+    ],
+    "unresolved": [
+      "whether the gNB RLC warning 'RLF detected, but no callable RLF handler registered' represents a true radio-link loss in this monolithic configuration",
+      "why SRB1 reaches maximum retransmission during or immediately after PDU-session setup",
+      "whether the current parser should distinguish transient unhandled RLC warnings from an actual handled RLF event"
+    ]
+  },
+  "decision": {
+    "phase3c5_passthrough_timescale_0_5_gate": "failed_closed",
+    "timescale_0_5_rejected": true,
+    "next_node_action_authorized": false,
+    "cirdb_replay_gate": "closed",
+    "next_required_step": "offline source-level audit of the RLC max-retransmission warning path and parser semantics, followed by a frozen decision on whether a new runtime diagnostic is scientifically justified",
+    "reservation_needed_for_next_step": false,
+    "reservation_can_be_released_if_not_needed_for_other_work": true,
+    "physical_radio_experiment_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  }
+}
