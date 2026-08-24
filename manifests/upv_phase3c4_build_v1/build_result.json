@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c4_vrtsim_build_result",
+  "recorded_at": "2026-08-24T17:01:44+02:00",
+  "execution_amendment_revision": "cc1cf72",
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc829.emulab.net",
+    "core_node_type": "d430"
+  },
+  "provenance": {
+    "profile_revision": "5c1a19cbf5702b799ede9df3741e0453e766f331",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "oai_submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    },
+    "source_checkout": "/local/phase3c/openairinterface5g-vrtsim-clean",
+    "remote_profile_copy": "/local/phase3c/oai-5g-ric-vrtsim",
+    "source_clone_self_contained": true,
+    "source_clone_alternates_present": false
+  },
+  "applied_source_changes": {
+    "only_expected_files_modified": true,
+    "git_diff_check_passed": true,
+    "files": {
+      "radio/vrtsim/cirdb_provider.c": {
+        "diff_sha256": "295b5a3652a2e355d249945af06204306dce5fe214aec96b6c9fe1ccc868834c",
+        "insertions": 56,
+        "deletions": 0
+      },
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c": {
+        "diff_sha256": "359294144b2849af31205966172b6d6e008ce5eca7ece0f7e40b2135e62b7a15",
+        "insertions": 120,
+        "deletions": 0
+      }
+    }
+  },
+  "build_log": {
+    "remote_path": "/local/logs/phase3c4-vrtsim-build.log",
+    "local_path": "data/model_runs/upv_phase3c4_build_v1/phase3c4-vrtsim-build.log",
+    "tracking_policy": "raw_build_log_is_gitignored; checksum_and_structured_result_are_committed",
+    "sha256": "b2a12851ec474d98d3c981d5679f6966286f48ce6c69388088c877b5a892a57c",
+    "bytes": 1347502,
+    "lines": 11250,
+    "remote_to_local_checksum_match": true,
+    "command_exit_code": 0
+  },
+  "images": {
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d",
+      "size_bytes": 176485323,
+      "architecture": "amd64",
+      "created": "2026-08-24T08:59:14.606617893-06:00",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "runtime_binary": "/opt/oai-nr-ue/bin/nr-uesoftmodem",
+      "runtime_binary_sha256": "25f606cf8aac715e2bf2793a07e52873fedd9d2977a1dad232f607a5ef09959d",
+      "libvrtsim_sha256": "d3cb225914d09b0cb1804e07ac8915380275db16dc501626e164a620ed58e994"
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad",
+      "size_bytes": 200919670,
+      "architecture": "amd64",
+      "created": "2026-08-24T08:59:23.705296534-06:00",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "runtime_binary": "/opt/oai-gnb/bin/nr-softmodem",
+      "runtime_binary_sha256": "b688cd3a7b537c82af0a9c04012de09fefe41413383b337efffc91a089f67279",
+      "libvrtsim_sha256": "d3cb225914d09b0cb1804e07ac8915380275db16dc501626e164a620ed58e994"
+    }
+  },
+  "runtime_artifact_gates": {
+    "ue_binary_exists_and_is_executable": true,
+    "gnb_binary_exists_and_is_executable": true,
+    "libvrtsim_exists_in_both_images": true,
+    "libvrtsim_identical_in_both_images": true,
+    "vrtsim_cirdb_debug_v1_marker_present_in_both_images": true,
+    "all_binary_and_libvrtsim_ldd_checks_have_zero_unresolved_dependencies": true,
+    "all_runtime_artifact_gates_passed": true
+  },
+  "live_experiment_no_touch_audit": {
+    "passed": true,
+    "gnb": {
+      "container": "ric5g-gnb-cell1",
+      "image": "ghinwa555/oai-gnb-e2-chan:v2",
+      "image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+      "restart_count": 0,
+      "state": "running",
+      "health": "healthy",
+      "started_at": "2026-08-24T12:57:38.919096729Z"
+    },
+    "ue": {
+      "container": "ric5g-ue-cell1-1",
+      "image": "ghinwa555/oai-nr-ue-chan:v4",
+      "image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+      "restart_count": 0,
+      "state": "running",
+      "health": "no_healthcheck",
+      "started_at": "2026-08-24T14:16:05.326854415Z"
+    },
+    "new_images_deployed": false,
+    "running_containers_replaced_or_restarted": false
+  },
+  "decision": {
+    "build_gate_state": "passed",
+    "container_deployment_authorized": false,
+    "time_varying_replay_authorized": false,
+    "physical_radio_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "abc_authorized": false,
+    "next_step": "freeze and commit a separate Phase 3C4 replay execution amendment using the recorded immutable image IDs",
+    "reservation_gate_state": "closed_pending_replay_execution_amendment",
+    "new_reservation_needed_now": false
+  },
+  "interpretation": {
+    "supported": "The pinned OAI source and expected telemetry patches produced dedicated amd64 gNB and UE VRTSIM runtime images with complete packaged artifacts and no unresolved runtime dependencies.",
+    "not_supported": [
+      "successful VRTSIM CIRDB runtime replay",
+      "continuous UE attachment under the time-varying trace",
+      "trace timing or skipped-snapshot compliance",
+      "environmental realism",
+      "absolute OAI-to-NEMO RSRP equivalence",
+      "RFsim calibration or ABC inference"
+    ]
+  }
+}
