@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c1_deterministic_scalar_execution",
+  "recorded_at": "2026-08-24T16:12:05+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "two deterministic downlink scalar-envelope replays on one RFsim UE",
+    "authorization_basis": "the user confirmed that the reserved profile was ready and requested continuation",
+    "time_varying_replay_authorized": false,
+    "physical_radio_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_parent_revision": "134a1f704d6fa1561f4eff3dd309448ada4c68c0",
+    "profile_execution_revision": "3c7a71656e0b7bd990ed7be7b9382ffb15fdce02",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "phase3c0_protocol": {
+      "path": "configs/upv_phase3c0_protocol_v1.yaml",
+      "sha256": "4010ba837c871705c56ab95fac33b032648d8d7c72aff8d40a2bae7eb1a29e13"
+    },
+    "scalar_envelope": {
+      "path": "manifests/upv_phase3c0_protocol_v1/deterministic_scalar_envelope.csv",
+      "sha256": "4550164298675f920c349282893f5a51731fe673ce19ff6f7e63c093cc032391"
+    },
+    "acceptance_rules": {
+      "path": "manifests/upv_phase3c0_protocol_v1/deterministic_replay_acceptance.json",
+      "sha256": "0066213071442ee52c6a27e9600983b5184115d32cdf54929ac067e3390b89ad"
+    },
+    "accepted_debug_build": {
+      "path": "manifests/upv_phase3c0_workspace_v1/debug_telemetry_build_powder_20260824.json",
+      "sha256": "660b82af6085cc8bd04ed6abefc091ceb16c05308f8385e0cee59c2edf197897"
+    },
+    "runner": {
+      "source_path": "/Users/ghinwaismail/Projects/oai-5g-ric-phase3c/bin/run-phase3c-scalar-replay.py",
+      "remote_path": "/local/phase3c/run-phase3c-scalar-replay.py",
+      "sha256": "d40762d2097cae24b6cf4ad1431349945d351ffa7430bea8e5374cad71fdc109",
+      "test_path": "/Users/ghinwaismail/Projects/oai-5g-ric-phase3c/tests/test_run_phase3c_scalar_replay.py",
+      "test_sha256": "19697b4ad9c1b9a36f9b420bd44610ee7e6fce6a00cd188001dc36fc02ac74aa",
+      "focused_tests_passed": 9,
+      "ruff_passed": true
+    }
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "profile": "oai-5g-ric",
+    "profile_revision": "3f83693c4e5ddab25a9bd74282909f2394d9c1e7",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc829.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-25T06:00:00+02:00"
+  },
+  "deployment": {
+    "compose_file": "/local/repository/etc/docker-compose-cell1.yaml",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "channel_config": "/local/repository/etc/channelmod-cell1.conf",
+    "channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "ue_config": "/local/repository/etc/nr-ue-cell1-1.conf",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e",
+    "service_replaced": "oai-nr-ue1",
+    "container_replaced": "ric5g-ue-cell1-1",
+    "debug_image": "oai-nr-ue-phase3c-debug:70508eb",
+    "debug_image_id": "sha256:8969f8c64578c18624bf8e367f7ea032725d2ae8eba9f6b27013bc3e198f632e",
+    "original_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "gnb_container": "ric5g-gnb-cell1",
+    "gnb_replacement_forbidden": true,
+    "gnb_restart_forbidden": true
+  },
+  "execution": {
+    "command": "sudo python3 /local/phase3c/run-phase3c-scalar-replay.py",
+    "replay_ids": [
+      "local-1",
+      "local-2"
+    ],
+    "channel_type": "AWGN",
+    "direction": "downlink",
+    "active_model_name": "rfsimu_channel_enB0",
+    "active_model_index": 0,
+    "fixed_noise_power_db": -30.0,
+    "gain_db_sequence": [
+      0.0,
+      -2.0,
+      -4.0,
+      -2.0,
+      0.0
+    ],
+    "segment_duration_seconds": 10.0,
+    "settling_seconds_per_segment": 3.0,
+    "analysis_seconds_per_segment": 7.0,
+    "minimum_attachment_checks_per_segment": 9,
+    "maximum_attachment_wait_seconds": 180.0,
+    "output_root": "/local/logs/phase3c1"
+  },
+  "preflight_rules": [
+    "all frozen file and image checksums must match",
+    "the gNB must be healthy with zero observed replacement",
+    "the live UE must initially use the frozen original image",
+    "the active downlink model must be AWGN rfsimu_channel_enB0 at index 0",
+    "both UE_RADIO_DEBUG_V1 and RFSIM_CHANNEL_DEBUG_V1 must appear before a replay",
+    "noise_power_dB=-30 and every ploss command must pass runtime read-back verification"
+  ],
+  "stopping_rules": [
+    "stop on any checksum, image-ID, model-identity, or read-back mismatch",
+    "stop if the UE does not attach within 180 seconds",
+    "stop on any attachment loss during a plateau",
+    "stop if either required debug stream is missing",
+    "stop if a replay yields fewer than 25 matched telemetry rows",
+    "do not start a time-varying replay regardless of the scalar result"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_with_base_compose_only": true,
+    "required_original_image_id_match": true,
+    "required_ue_reattachment": true,
+    "required_gnb_restart_count_unchanged": true
+  },
+  "post_execution": {
+    "copy_raw_output_before_analysis": true,
+    "evaluate_with_frozen_phase3c0_evaluator": true,
+    "evaluation_output_must_be_new": true,
+    "pass_action": "open only the pinned time-varying trace validation design step",
+    "fail_action": "keep the temporal replay gate closed and debug the measurement path",
+    "reservation_gate_after_scalar_replay": "closed"
+  }
+}
