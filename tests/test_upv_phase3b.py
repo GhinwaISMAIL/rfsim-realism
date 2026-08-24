@@ -7,6 +7,7 @@ import pytest
 import yaml
 
 from rfsim_realism.upv_phase3b import (
+    _robust_scale,
     transfer_locked_regions,
     validate_phase3b_config,
 )
@@ -82,3 +83,12 @@ def test_phase3b_rejects_absolute_noise_claim() -> None:
 
     with pytest.raises(ValueError, match="prohibitions"):
         validate_phase3b_config(config)
+
+
+def test_robust_scale_uses_population_standard_deviation_for_sparse_variation() -> None:
+    center, scale = _robust_scale(
+        pd.Series([0.0] * 16 + [-2.0, 2.0]).to_numpy(), 1.4826
+    )
+
+    assert center == 0.0
+    assert scale > 0.0

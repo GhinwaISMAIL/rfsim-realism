@@ -1,4 +1,5 @@
 schema_version: 1
+protocol_revision: "1.1"
 name: upv_phase3b_nonabsolute_existing_bank_support_v1
 stage: existing_bank_nonabsolute_support_diagnostic_only
 selected_measurement_branch: insufficient_metadata
@@ -128,7 +129,12 @@ balanced_reference:
   robust_center: median
   robust_scale: normalized_mad
   normalized_mad_factor: 1.4826
-  zero_mad_fallback: iqr_divided_by_1.349
+  zero_mad_fallback: iqr_divided_by_1.349_then_pooled_standard_deviation_ddof0
+  degenerate_reference_rule: >-
+    If both the balanced-mixture normalized MAD and IQR scale are zero, use the
+    pooled balanced-mixture population standard deviation. This rule is frozen
+    before any Phase 3B candidate distance is calculated and does not add
+    variability to a constant RFsim execution.
   validation_filename_sensitivity_and_S25_excluded_from_fit: true
 
 kernel:

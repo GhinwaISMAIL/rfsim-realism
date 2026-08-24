@@ -103,6 +103,10 @@ def validate_phase3b_config(config: dict[str, Any]) -> None:
     reference = config.get("balanced_reference") or {}
     if not bool(reference.get("validation_filename_sensitivity_and_S25_excluded_from_fit")):
         raise ValueError("non-primary units must not affect Phase 3B preprocessing")
+    if reference.get("zero_mad_fallback") != (
+        "iqr_divided_by_1.349_then_pooled_standard_deviation_ddof0"
+    ):
+        raise ValueError("Phase 3B requires the frozen degenerate-scale fallback")
     claim_limits = config.get("claim_limits") or {}
     required_prohibitions = {
         "absolute_rsrp_calibration",
@@ -296,6 +300,8 @@ def _robust_scale(values: np.ndarray, factor: float) -> tuple[float, float]:
     if scale <= np.finfo(float).eps:
         q25, q75 = np.quantile(values, [0.25, 0.75])
         scale = float((q75 - q25) / 1.349)
+    if scale <= np.finfo(float).eps:
+        scale = float(np.std(values, ddof=0))
     if scale <= np.finfo(float).eps:
         raise ValueError("balanced reference has zero robust scale")
     return center, scale
