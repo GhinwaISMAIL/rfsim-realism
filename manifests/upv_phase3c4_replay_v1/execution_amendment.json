@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c4_vrtsim_cirdb_replay",
+  "recorded_at": "2026-08-24T17:07:00+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "temporarily replace only the existing cell-node gNB and UE containers for two frozen virtual VRTSIM CIRDB safety repetitions, then restore the original compose state",
+    "authorization_basis": "the user prepared the reservation, requested continuation, and the committed build gate passed",
+    "container_deployment_authorized": true,
+    "time_varying_replay_authorized": true,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_revision": "0b7eb5d59c2d1871417e6a562be28014c0649d21",
+    "profile_revision": "5c1a19cbf5702b799ede9df3741e0453e766f331",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "build_result_sha256": "e733d061da77322ca89b810828b7e7d89bc1ac832c00a188cc848d4a1710caa9",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "runner_sha256": "1cfd1e888ece126f54d55aab6d6073fdb9edc9c44bd54b4acdf62f3df963080e",
+    "log_parser_sha256": "cf3e292822561ef3b5995398078b5b1e6f6683ffc2efdf94408c696fa1333cde",
+    "trace_binary_sha256": "cb5b85bfdfe12768462b482c21145fe43618468a0bff9248beb5c9b5dea82550",
+    "trace_sidecar_sha256": "03b5031e81ea721501692e73e8ea908a57ae98e1814cee43887908da3dbf292c"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "profile": "oai-5g-ric",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc829.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-25T06:00:00+02:00",
+    "new_reservation_required": false,
+    "lead_time_requirement_satisfied": true
+  },
+  "immutable_images": {
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d",
+      "architecture": "amd64"
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad",
+      "architecture": "amd64"
+    }
+  },
+  "baseline_before_mutation": {
+    "gnb_container": "ric5g-gnb-cell1",
+    "gnb_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "gnb_restart_count": 0,
+    "gnb_health": "healthy",
+    "ue_container": "ric5g-ue-cell1-1",
+    "ue_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "ue_restart_count": 0,
+    "ue_attached": true
+  },
+  "replay": {
+    "purpose": "transport_attachment_measurement_and_timing_safety_test_not_calibration",
+    "topology": {
+      "gnb_count": 1,
+      "ue_count": 1,
+      "channel": "virtual_VRTSIM_CIRDB",
+      "physical_rf_or_sdr": false
+    },
+    "trace_local_source": "data/model_runs/upv_phase3c2_trace_v1",
+    "trace_remote_directory": "/local/phase3c/cirdb-v1",
+    "remote_override_file": "/local/phase3c/phase3c4-vrtsim.override.yaml",
+    "remote_shared_tmp": "/local/phase3c/vrtsim-tmp",
+    "remote_output_root": "/local/logs/phase3c4",
+    "repetitions": 2,
+    "independent_execution_definition": "separate_force_recreated_gNB_and_UE_processes_using_the_same_pinned_trace",
+    "attachment_timeout_s": 180,
+    "post_attachment_observation_s_per_repetition": 330,
+    "minimum_usable_telemetry_s_per_repetition": 300,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --expected-ue-image-id sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d --expected-gnb-image-id sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad"
+  },
+  "acceptance_rules": {
+    "valid_repetitions_required": 2,
+    "attachment_fraction_required": 1.0,
+    "minimum_usable_telemetry_duration_s": 300,
+    "pbch_decode_error_count_maximum": 0,
+    "critical_pusch_failure_count_maximum": 0,
+    "random_access_failure_count_maximum": 0,
+    "radio_link_failure_count_maximum": 0,
+    "lost_sync_count_maximum": 0,
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "gnb_and_ue_container_restart_count_maximum": 0,
+    "gnb_health_required": "healthy",
+    "trace_cycle_coverage_fraction_minimum": 0.99,
+    "skipped_cirdb_snapshot_fraction_maximum": 0.01,
+    "maximum_consecutive_skipped_cirdb_snapshots": 10,
+    "positive_tap_energy_required": true,
+    "threshold_changes_after_execution_begin": false
+  },
+  "preflight_rules": [
+    "the compose, runner, parser and trace checksums must match before any container mutation",
+    "both immutable image IDs, amd64 architectures and full OAI revision labels must match",
+    "the baseline gNB must be healthy and both baseline containers must be running with restart count zero",
+    "the copied CIRDB directory must contain only the two required checksummed runtime files",
+    "the output directory must be newly created"
+  ],
+  "stopping_rules": [
+    "stop before deployment on any checksum, image, architecture, revision or baseline mismatch",
+    "stop if either replay process exits or either container restarts",
+    "stop if the UE does not attach within 180 seconds or loses attachment",
+    "stop on any PBCH, critical PUSCH, RA, RLF or lost-sync failure marker",
+    "stop if more than 10 consecutive CIRDB snapshots are skipped",
+    "do not calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true,
+    "rollback_failure_action": "report_immediately_and_do_not_continue"
+  },
+  "decision_after_execution": {
+    "pass": "freeze the runtime evidence and decide whether Phase 3C may proceed to a limited diagnostic comparison",
+    "fail": "keep the model-extension and calibration gates closed and diagnose the transport or runtime failure",
+    "physical_radio_experiment_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "abc_gate": "closed"
+  }
+}
