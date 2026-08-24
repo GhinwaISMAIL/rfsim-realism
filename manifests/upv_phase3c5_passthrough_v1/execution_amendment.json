@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c5_vrtsim_passthrough_timing_diagnostic",
+  "recorded_at": "2026-08-24T17:20:00+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "run one short VRTSIM passthrough attachment diagnostic at timescale 1.0 with the same pinned images and radio configuration, then restore the original compose state",
+    "authorization_basis": "Phase 3C4 failed before attachment, rollback passed, evidence was frozen, and the user requested continued work on the active reservation",
+    "container_deployment_authorized": true,
+    "cirdb_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "diagnostic_question": "Can the pinned VRTSIM gNB and UE attach at the default real-time clock when CIRDB channel processing is removed?",
+  "single_factor_change_from_failed_attempt": {
+    "removed": "CIRDB channel processing and trace mount",
+    "held_constant": [
+      "gNB and UE image IDs",
+      "OAI revision",
+      "compose file and mounted radio configuration",
+      "one gNB and one UE topology",
+      "VRTSIM transport",
+      "timescale 1.0",
+      "UE radio options",
+      "attachment timeout"
+    ]
+  },
+  "frozen_inputs": {
+    "research_revision": "8b3a107",
+    "profile_revision": "30b3e3a3bae0a7e1a0c58c4be96a16fb41d368b4",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "failed_attempt_result_sha256": "e08f8f0d20ad9a96ce68f7e846d6330b0ee12c7fc676fffa956f7ae4477e247c",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "runner_sha256": "287fec725c9347eb809c5ca67ce697c2bbbbe1aca4e304919c582e660a5ec8ff",
+    "log_parser_sha256": "cf3e292822561ef3b5995398078b5b1e6f6683ffc2efdf94408c696fa1333cde",
+    "runner_full_test_result": "57_passed",
+    "runner_lint_result": "passed"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc829.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-25T06:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d"
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad"
+    }
+  },
+  "diagnostic": {
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "repetitions": 1,
+    "attachment_timeout_s": 180,
+    "observation_s": 30,
+    "minimum_usable_telemetry_s": 20,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "remote_override_file": "/local/phase3c/phase3c5-passthrough-t1.override.yaml",
+    "remote_shared_tmp": "/local/phase3c/vrtsim-tmp",
+    "remote_output_root": "/local/logs/phase3c5-passthrough-t1",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode passthrough --server-timescale 1.0 --repetitions 1 --observation-seconds 30 --minimum-telemetry-seconds 20 --override-file /local/phase3c/phase3c5-passthrough-t1.override.yaml --output-root /local/logs/phase3c5-passthrough-t1 --expected-ue-image-id sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d --expected-gnb-image-id sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad"
+  },
+  "acceptance_rules": {
+    "valid_repetitions_required": 1,
+    "attachment_fraction_required": 1.0,
+    "minimum_usable_telemetry_duration_s": 20,
+    "minimum_ue_radio_debug_rows": 20,
+    "required_ue_and_gnb_log_markers": "frozen_phase3c_log_parser",
+    "all_prohibited_failure_marker_counts_maximum": 0,
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "gnb_and_ue_container_restart_count_maximum": 0,
+    "threshold_changes_after_execution_begin": false
+  },
+  "stopping_rules": [
+    "stop before deployment on any profile, runner, parser, compose, image, architecture, revision or baseline mismatch",
+    "stop if either container exits, restarts, or the UE loses attachment",
+    "stop on any frozen PBCH, critical PUSCH, RA, RLF or lost-sync failure marker",
+    "do not mount or evaluate CIRDB data",
+    "do not calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "pass": "baseline VRTSIM at timescale 1.0 is supported; freeze a separate CIRDB timescale 0.5 diagnostic",
+    "fail": "baseline VRTSIM at timescale 1.0 is unsupported on this node; freeze a separate passthrough timescale 0.5 diagnostic",
+    "no_adaptive_second_condition_in_this_execution": true
+  },
+  "claim_limits": {
+    "cirdb_transport_validated": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
