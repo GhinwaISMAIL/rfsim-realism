@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c4_vrtsim_cirdb_replay_attempt_1_result",
+  "recorded_at": "2026-08-24T17:11:55+02:00",
+  "execution_amendment_revision": "29abe41",
+  "execution": {
+    "remote_output_directory": "/local/logs/phase3c4/phase3c4-vrtsim-20260824T150548Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c4_replay_v1/attempt-1",
+    "command_exit_code": 1,
+    "execution_completed": false,
+    "accepted_repetitions": 0,
+    "failure_gate": "ue_attachment_timeout",
+    "failure_message": "ric5g-ue-cell1-1 did not attach within 180 seconds",
+    "thresholds_changed_during_execution": false,
+    "adaptive_retry_performed": false
+  },
+  "raw_evidence": {
+    "execution_state.json": {
+      "sha256": "437667b3500552be911ca246045ca8664c0a46b35887087d3922e94fca5088f6",
+      "bytes": 1157
+    },
+    "tracking_policy": "raw_execution_outputs_are_gitignored; checksums_and_structured_result_are_committed",
+    "remote_to_local_checksum_match": true,
+    "failure_logs_preserved_by_runner": false,
+    "failure_log_limitation": "run_one_replay captured container logs only after successful attachment and observation, so the failed containers were replaced during rollback before their complete logs were written"
+  },
+  "interactive_diagnostics_before_rollback": {
+    "evidence_class": "operator_read_only_diagnostics_not_a_substitute_for_the_missing_raw_failure_logs",
+    "gnb_image_id_matched": true,
+    "ue_image_id_matched": true,
+    "gnb_running_and_healthy": true,
+    "gnb_restart_count": 0,
+    "ue_running": true,
+    "ue_restart_count": 0,
+    "ue_oaitun_ue1_present": false,
+    "ue_observation": "repeated initial synchronization failures",
+    "gnb_observation": "repeated PRACH job is in the past messages",
+    "cirdb_debug_observation": {
+      "last_checked_elapsed_second": 75,
+      "last_checked_expected_cirdb_step": 37500,
+      "last_checked_current_cirdb_snapshot_index": 37500,
+      "last_checked_applied_cirdb_updates": 37500,
+      "last_checked_skipped_cirdb_snapshots": 0,
+      "last_checked_maximum_consecutive_skipped_cirdb_snapshots": 0,
+      "last_checked_tap_energy_linear": 0.5253594366222387
+    },
+    "observed_frozen_failure_marker_counts": {
+      "ue": 0,
+      "gnb": 0
+    }
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true
+  },
+  "diagnosis": {
+    "status": "provisional_runtime_timing_diagnosis",
+    "supported_findings": [
+      "the failure occurred before attachment and therefore before either frozen repetition could begin",
+      "the immutable images and trace passed their pre-deployment identity gates",
+      "CIRDB snapshot delivery was exact through the last interactive check",
+      "the baseline recovered completely under the frozen rollback procedure"
+    ],
+    "primary_hypothesis": "VRTSIM channel-processing runtime could not sustain the default real-time clock on the reserved d740 node, preventing initial synchronization",
+    "primary_hypothesis_evidence": [
+      "the gNB repeatedly reported PRACH jobs in the past",
+      "the UE repeatedly failed initial synchronization",
+      "the pinned OAI VRTSIM README states that real-time issues can prevent UE connection, especially with channel modelling enabled, and recommends adjusting timescale"
+    ],
+    "alternative_hypotheses_not_yet_excluded": [
+      "a missing explicit UE band or SSB command-line option relative to the pinned OAI CIRDB example",
+      "an unobserved amplitude or frequency-selective impairment during the uncaptured portion of the trace",
+      "another VRTSIM configuration interaction"
+    ],
+    "pinned_source_evidence": {
+      "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "vrtsim_readme_path": "radio/vrtsim/README.md",
+      "vrtsim_readme_sha256": "578e8f1937bd3bc0e085ae40c1272b4a64277e614334c002e5062682c956b47a",
+      "vrtsim_readme_realtime_guidance_lines": "60-62",
+      "official_cirdb_compose_path": "ci-scripts/yaml_files/5g_vrtsim_cirdb/docker-compose.yaml",
+      "official_cirdb_compose_sha256": "d34f9a4b77518f9bc5b905f580b52d2ce1fce2def5b78e94fb361350fb2de57d",
+      "official_ue_options_lines": "145-145"
+    }
+  },
+  "decision": {
+    "phase3c4_replay_gate_state": "failed_closed",
+    "repeat_same_execution_authorized": false,
+    "next_node_action_authorized": false,
+    "required_before_next_node_action": [
+      "make failure-path log capture unconditional and test it offline",
+      "freeze a diagnostic that separates plain VRTSIM transport from CIRDB processing and explicitly tests a slower server timescale",
+      "adjust trace-coverage duration consistently if timescale is below one",
+      "commit a new execution amendment"
+    ],
+    "physical_radio_experiment_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed",
+    "new_reservation_needed_now": false
+  },
+  "claim_limits": {
+    "vrtsim_cirdb_replay_validated": false,
+    "attachment_robustness_established": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
