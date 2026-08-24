@@ -1,0 +1,21 @@
+{
+  "files": {
+    "analysis_manifest.json": "1b689ded8742efd8e85818d87c757593ccc497fee182989dcc4b4987fa23de05",
+    "balanced_reference.csv": "781cc316a709de8f2f245af9023ec32a73b6453fa7f70f58c61a03dd046e3f6a",
+    "candidate_support.csv": "daada6d8dff0ea4248b5116bdbe33ada75bf5a1e8ae13fbacec991e845e204d6",
+    "distribution_diagnostics.csv": "993db02483ba1cd7f63245756c6cd6b1abfb9a7105f93d8c322a926a01617f27",
+    "execution_support.csv": "f17b0c40443566fa1394e1fca046064155b89cdd039d0ab1b1a7825b377d2ab7",
+    "input_inventory.csv": "6739315d0508cb97bbced7e11d4e0804814a4a217fe93a514ab9ff28f266bbae",
+    "locked_validation_support.csv": "f602e0df5fc6c5f944a4b136d99c0bcb85c2ecbc58bdc205e24f9372f8117d8f",
+    "phase3b_decision.json": "411d5ede00131841bd2a710b6fd9f6b24f5fccdfdfd54280a6e27fb17f716a3f",
+    "preprocessing_specification.json": "01619fbb855d98dd06d3cd2c419304dd6fa44122d91fa095e7d36d8cb25efc6e",
+    "primary_rankings.csv": "14690399af4158950ec206d5be1585a65d1311b995f54de4124930a1d5672100",
+    "region_transfer_diagnostics.csv": "2280825ebbd649c59f6e4f8f73a6533f0f29f7f489bb743d80581d56923226ef",
+    "repeatability_pairs.csv": "88604acc46d3740b4bf06a78edfe8942700951d557e1c84d4e1e338e5da164c0",
+    "reservation_gate_v3.json": "a679a7989b958385087fbbbf4994c06eeef73e54b31844c4f8f64a2497377a0b",
+    "scaling_parameters.csv": "b044d3bc1cdedad4db31ea405b6a7bae0b9f6ae8b911d2aeaedd811d6ad03365",
+    "sensitivity_summary.json": "dbb5ffe86667e35c0c87eb5bffd275e587f0a8154bb6b9a9ad3d4255f519e5ac",
+    "upv_unit_inventory.csv": "0e1f0436d73c7213d4fdac2852ba4f31026181baa7389ec6bb24cb558c1b29ac"
+  },
+  "schema_version": 1
+}

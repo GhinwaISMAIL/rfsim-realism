@@ -1,0 +1,41 @@
+{
+  "abc_performed": false,
+  "analysis_implementation_revision": "90c9f3846d7e39d9063374e7a83d0b9ebb0f7e35",
+  "candidate_state_count": 8,
+  "decision_code": "relative_rsrp_shape_mismatch",
+  "input_sha256": {
+    "campaign_state": "8f718ea0d44cfa6e94ce65a2ba5ba37d99ef711f17895e241e4f6ea7e7c2b711",
+    "config": "74a6ae6f88b76e506220b6c8c856f1b6381a6f964a34ea5507c52ddd85d2509f",
+    "locked_split": "3992ef7a2e31377debeb4abcaa1808c12202f2f06d9cdf8635d1556619163cee",
+    "phase1_config": "c4179ab69cb8d922a65e564873266835126be57c2203302aa5aead17f379d3fe",
+    "phase3a_decision": "0c6daea7c3a407a6a8bfabf4218a8a384c320bf0a74dee83655009b451eb667d",
+    "phase3a_gate": "6c133a0052cab9a565263c7774deee3a20a2ab452a5069449d056598939cd054",
+    "public_evidence": "737ab9870e96f483afb56f7025495f835f7ecfefdb37332010942eefa2f0e53a",
+    "route_observations": "57727db8a0be55308c3f756781ddc13961962f71198d69c93c24bb239f2d85ab",
+    "selection_manifest": "039109bebd520752ae69a035bbc4b3619287ed45e5725aa5b3afd37682c3e880",
+    "upv_archive": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753"
+  },
+  "output_sha256_before_manifest": {
+    "balanced_reference.csv": "781cc316a709de8f2f245af9023ec32a73b6453fa7f70f58c61a03dd046e3f6a",
+    "candidate_support.csv": "daada6d8dff0ea4248b5116bdbe33ada75bf5a1e8ae13fbacec991e845e204d6",
+    "distribution_diagnostics.csv": "993db02483ba1cd7f63245756c6cd6b1abfb9a7105f93d8c322a926a01617f27",
+    "execution_support.csv": "f17b0c40443566fa1394e1fca046064155b89cdd039d0ab1b1a7825b377d2ab7",
+    "input_inventory.csv": "6739315d0508cb97bbced7e11d4e0804814a4a217fe93a514ab9ff28f266bbae",
+    "locked_validation_support.csv": "f602e0df5fc6c5f944a4b136d99c0bcb85c2ecbc58bdc205e24f9372f8117d8f",
+    "phase3b_decision.json": "411d5ede00131841bd2a710b6fd9f6b24f5fccdfdfd54280a6e27fb17f716a3f",
+    "preprocessing_specification.json": "01619fbb855d98dd06d3cd2c419304dd6fa44122d91fa095e7d36d8cb25efc6e",
+    "primary_rankings.csv": "14690399af4158950ec206d5be1585a65d1311b995f54de4124930a1d5672100",
+    "region_transfer_diagnostics.csv": "2280825ebbd649c59f6e4f8f73a6533f0f29f7f489bb743d80581d56923226ef",
+    "repeatability_pairs.csv": "88604acc46d3740b4bf06a78edfe8942700951d557e1c84d4e1e338e5da164c0",
+    "reservation_gate_v3.json": "a679a7989b958385087fbbbf4994c06eeef73e54b31844c4f8f64a2497377a0b",
+    "scaling_parameters.csv": "b044d3bc1cdedad4db31ea405b6a7bae0b9f6ae8b911d2aeaedd811d6ad03365",
+    "sensitivity_summary.json": "dbb5ffe86667e35c0c87eb5bffd275e587f0a8154bb6b9a9ad3d4255f519e5ac",
+    "upv_unit_inventory.csv": "0e1f0436d73c7213d4fdac2852ba4f31026181baa7389ec6bb24cb558c1b29ac"
+  },
+  "reservation_should_be_requested_now": false,
+  "rfsim_execution_count": 16,
+  "schema_version": 1,
+  "selected_measurement_branch": "insufficient_metadata",
+  "tracked_worktree_dirty_at_start": false,
+  "upv_valid_unit_count": 15
+}

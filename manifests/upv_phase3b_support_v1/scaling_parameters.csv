@@ -1,0 +1,3 @@
+metric,balanced_rows_per_source,balanced_reference_source_count,center,scale,bandwidth,repeatability_pair_count,repeatability_threshold_quantile,repeatability_threshold_mmd_squared,minimum_repeatability_mmd_squared,maximum_repeatability_mmd_squared
+relative_RSRP,10,17,0,0.608873386308,0.0975522513472,8,0.9,0.335570157987,0,0.405341711013
+SINR,10,17,29.633,16.4383275,0.560366012815,8,0.9,0.274064282822,0.00771991770036,0.300010595614

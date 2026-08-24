@@ -1,0 +1,55 @@
+{
+  "nonprimary_sources_affect_fit_or_ranking": false,
+  "preprocessing_fit_source": "primary_ASUS_calibration_only",
+  "schema_version": 1,
+  "sources": {
+    "filename_sensitivity": {
+      "SINR": {
+        "calibration_best_candidate_id": "ploss=0|noise=-10",
+        "calibration_best_mean_mmd_squared": 0.28090975303280863,
+        "calibration_supported": false,
+        "evaluated_region_count": 5,
+        "regions_with_any_supported_candidate": 4
+      },
+      "relative_RSRP": {
+        "calibration_best_candidate_id": "ploss=-5|noise=-7",
+        "calibration_best_mean_mmd_squared": 0.500288179803378,
+        "calibration_supported": false,
+        "evaluated_region_count": 5,
+        "regions_with_any_supported_candidate": 0
+      }
+    },
+    "primary": {
+      "SINR": {
+        "calibration_best_candidate_id": "ploss=0|noise=-10",
+        "calibration_best_mean_mmd_squared": 0.23161437930694084,
+        "calibration_supported": true,
+        "evaluated_region_count": 5,
+        "regions_with_any_supported_candidate": 5
+      },
+      "relative_RSRP": {
+        "calibration_best_candidate_id": "ploss=-5|noise=-7",
+        "calibration_best_mean_mmd_squared": 0.7297483679751363,
+        "calibration_supported": false,
+        "evaluated_region_count": 5,
+        "regions_with_any_supported_candidate": 0
+      }
+    },
+    "s25_robustness": {
+      "SINR": {
+        "calibration_best_candidate_id": "ploss=0|noise=-10",
+        "calibration_best_mean_mmd_squared": 0.0893816073362681,
+        "calibration_supported": true,
+        "evaluated_region_count": 5,
+        "regions_with_any_supported_candidate": 5
+      },
+      "relative_RSRP": {
+        "calibration_best_candidate_id": "ploss=-5|noise=-7",
+        "calibration_best_mean_mmd_squared": 0.7102516094210347,
+        "calibration_supported": false,
+        "evaluated_region_count": 5,
+        "regions_with_any_supported_candidate": 0
+      }
+    }
+  }
+}

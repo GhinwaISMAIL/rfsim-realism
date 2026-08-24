@@ -1,0 +1,16 @@
+source_key,locked_role,nearest_role_rows,rows_within_maximum_distance,retained_fraction,median_reference_distance_m,p95_reference_distance_m,unit_valid
+primary,calibration,31,31,1,0,0,True
+primary,spatial_validation_1,29,29,1,0,0,True
+primary,spatial_validation_2,37,37,1,0,0,True
+primary,spatial_validation_3,33,33,1,0,0,True
+primary,spatial_validation_4,33,33,1,0,0,True
+filename_sensitivity,calibration,31,31,1,0.474380086756,1.79239488564,True
+filename_sensitivity,spatial_validation_1,18,18,1,1.35835853137,3.24382168861,True
+filename_sensitivity,spatial_validation_2,38,38,1,0.450431144506,1.20132853921,True
+filename_sensitivity,spatial_validation_3,31,31,1,0.773306388714,0.829362919676,True
+filename_sensitivity,spatial_validation_4,33,33,1,0.560026311705,4.00876761994,True
+s25_robustness,calibration,30,30,1,0.817313587483,2.54536920299,True
+s25_robustness,spatial_validation_1,21,21,1,0.450431144825,3.69626235393,True
+s25_robustness,spatial_validation_2,34,34,1,0.644982957886,1.25962992933,True
+s25_robustness,spatial_validation_3,33,33,1,1.26357987135,1.67420298868,True
+s25_robustness,spatial_validation_4,48,32,0.666666666667,2.16260747391,4.00790881743,True

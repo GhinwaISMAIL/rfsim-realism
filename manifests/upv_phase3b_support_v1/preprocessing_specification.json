@@ -1,0 +1,303 @@
+{
+  "analysis_implementation_revision": "90c9f3846d7e39d9063374e7a83d0b9ebb0f7e35",
+  "balanced_reference": {
+    "comparison_rows_per_distribution": 10,
+    "degenerate_reference_rule": "If both the balanced-mixture normalized MAD and IQR scale are zero, use the pooled balanced-mixture population standard deviation. This rule is frozen before any Phase 3B candidate distance is calculated and does not add variability to a constant RFsim execution.",
+    "fitted_separately_by_target": true,
+    "fixed_count_rationale": "Ten one-second rows are required from every evaluated distribution. This keeps the biased V-statistic sample count identical across calibration, validation, filename-sensitivity, S25, and repeatability comparisons. The count is frozen before any successful candidate-distance calculation.",
+    "normalized_mad_factor": 1.4826,
+    "robust_center": "median",
+    "robust_scale": "normalized_mad",
+    "row_selection": "deterministic_evenly_spaced_time_index",
+    "rows_per_source": "fixed_comparison_rows_per_distribution",
+    "sources": "primary_UPV_calibration_region_plus_every_RFsim_execution",
+    "validation_filename_sensitivity_and_S25_excluded_from_fit": true,
+    "zero_mad_fallback": "iqr_divided_by_1.349_then_pooled_standard_deviation_ddof0"
+  },
+  "bootstrap": {
+    "affects_support_decision": false,
+    "block_length_aggregated_rows": 3,
+    "confidence_level": 0.95,
+    "interpretation": "traversal_conditional_not_between_execution",
+    "repetitions": 1000,
+    "rule": "circular_moving_block_with_fixed_target_length",
+    "seed": 20260826
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_noise_power_calibration": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "existing_two_execution_intervals": "traversal_conditional_only",
+    "joint_identifiability": "prohibited",
+    "physical_ploss_inference": "prohibited"
+  },
+  "config_sha256": "74a6ae6f88b76e506220b6c8c856f1b6381a6f964a34ea5507c52ddd85d2509f",
+  "frozen_before_candidate_comparison": true,
+  "included_rfsim_executions": [
+    {
+      "execution_id": "mgen-20260810-172302",
+      "noise_power_dB": -30.0,
+      "ploss": -20.0,
+      "point_id": "ploss-m20_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-180852",
+      "noise_power_dB": -30.0,
+      "ploss": -20.0,
+      "point_id": "ploss-m20_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-171719",
+      "noise_power_dB": -30.0,
+      "ploss": -15.0,
+      "point_id": "ploss-m15_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-180309",
+      "noise_power_dB": -30.0,
+      "ploss": -15.0,
+      "point_id": "ploss-m15_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-171135",
+      "noise_power_dB": -30.0,
+      "ploss": -10.0,
+      "point_id": "ploss-m10_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-175727",
+      "noise_power_dB": -30.0,
+      "ploss": -10.0,
+      "point_id": "ploss-m10_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-170448",
+      "noise_power_dB": -30.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-175146",
+      "noise_power_dB": -30.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-193641",
+      "noise_power_dB": -7.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m7-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-194833",
+      "noise_power_dB": -7.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m7-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-172844",
+      "noise_power_dB": -20.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m20-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-181441",
+      "noise_power_dB": -20.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m20-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-173427",
+      "noise_power_dB": -10.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-182024",
+      "noise_power_dB": -10.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-174009",
+      "noise_power_dB": -5.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-182607",
+      "noise_power_dB": -5.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2
+    }
+  ],
+  "kernel": {
+    "bandwidth_formula": "sqrt_median_positive_squared_distance_divided_by_2",
+    "bandwidth_source": "per_target_balanced_reference_median_heuristic",
+    "estimator": "biased_mmd_squared_v_statistic",
+    "name": "rbf",
+    "posthoc_clipping": "prohibited"
+  },
+  "missing_value_policy": "complete_case_drop_before_aggregation",
+  "realized_target_preprocessing": [
+    {
+      "balanced_reference_source_count": 17,
+      "balanced_rows_per_source": 10,
+      "bandwidth": 0.09755225134716138,
+      "center": 0.0,
+      "maximum_repeatability_mmd_squared": 0.40534171101264493,
+      "metric": "relative_RSRP",
+      "minimum_repeatability_mmd_squared": 0.0,
+      "repeatability_pair_count": 8,
+      "repeatability_threshold_mmd_squared": 0.33557015798708484,
+      "repeatability_threshold_quantile": 0.9,
+      "scale": 0.6088733863075586
+    },
+    {
+      "balanced_reference_source_count": 17,
+      "balanced_rows_per_source": 10,
+      "bandwidth": 0.5603660128146954,
+      "center": 29.633,
+      "maximum_repeatability_mmd_squared": 0.30001059561412613,
+      "metric": "SINR",
+      "minimum_repeatability_mmd_squared": 0.007719917700361734,
+      "repeatability_pair_count": 8,
+      "repeatability_threshold_mmd_squared": 0.2740642828220558,
+      "repeatability_threshold_quantile": 0.9,
+      "scale": 16.438327499999996
+    }
+  ],
+  "region_transfer": {
+    "coordinate_method": "local_equirectangular_metres",
+    "direction_match": "exact_eight_sector_label",
+    "fail_action": "omit_invalid_sensitivity_unit_and_report_fail_closed",
+    "maximum_nearest_reference_distance_m": 7.5,
+    "minimum_aggregated_rows_per_unit": 10,
+    "minimum_raw_rows_per_region": 12,
+    "minimum_transferred_fraction_per_region": 0.5
+  },
+  "rfsim_selection": {
+    "analysis_window_end_inclusive": false,
+    "analysis_window_end_seconds": 175.0,
+    "analysis_window_start_seconds": 15.0,
+    "execution_id_column": "execution_id",
+    "minimum_complete_aggregated_rows": 12,
+    "model_column": "dl_model_type",
+    "noise_column": "dl_noise_power_dB",
+    "observation_filename": "ue_second_features.parquet",
+    "ploss_column": "dl_ploss",
+    "require_false": [
+      "channel_transition_partial"
+    ],
+    "require_true": [
+      "channel_schedule_enabled",
+      "channel_state_success",
+      "channel_verified"
+    ],
+    "required_repetitions_per_state": 2,
+    "time_column": "t_s"
+  },
+  "schema_version": 1,
+  "selected_measurement_branch": "insufficient_metadata",
+  "support_rules": {
+    "boundary_rule": "primary_best_candidate_at_minimum_or_maximum_observed_control",
+    "cross_target_intersection": "descriptive_only_not_a_joint_posterior",
+    "primary_ranking": "separate_by_target_on_ASUS_calibration_region_only",
+    "repeatability_threshold_quantile": 0.9,
+    "support_rule": "candidate_mean_execution_MMD_not_above_same_target_RFsim_repeatability_threshold",
+    "validation_rule": "evaluate_primary_best_candidate_without_refitting_or_reranking"
+  },
+  "targets": [
+    {
+      "name": "relative_RSRP",
+      "order": 1,
+      "permitted_claim": "within-unit relative-RSRP shape support",
+      "prohibited_inference": "physical_propagation_loss",
+      "rfsim_column": "ss_rsrp_dbm",
+      "scale_location": "offset_invariant_distribution_shape",
+      "transform": "subtract_within_unit_median_after_one_second_aggregation",
+      "upv_column": "rsrp_dbm"
+    },
+    {
+      "name": "SINR",
+      "order": 2,
+      "permitted_claim": "empirical SINR distribution support",
+      "prohibited_inference": "absolute_noise_power",
+      "rfsim_column": "ss_sinr_db",
+      "scale_location": "empirical_device_conditioned_distribution",
+      "transform": "none",
+      "upv_column": "sinr_db"
+    }
+  ],
+  "temporal_aggregation": {
+    "duration_seconds": 1.0,
+    "rfsim_origin": "fixed_analysis_window_start",
+    "statistic": "median",
+    "upv_origin": "first_timestamp_within_each_source_x_locked_region"
+  },
+  "upv_units": {
+    "filename_sensitivity": {
+      "affects_preprocessing": false,
+      "affects_primary_ranking": false,
+      "device": "ASUS",
+      "interpretation": "original_filenames",
+      "region_assignment": "nearest_reference_gps_with_matching_direction_sector",
+      "role": "scenario_interpretation_sensitivity_only",
+      "route_corrected_test_id": 1,
+      "source_path": "Test_1/Test_1_Asus.csv",
+      "trim_last_seconds": 0
+    },
+    "primary": {
+      "affects_preprocessing": true,
+      "affects_primary_ranking": true,
+      "device": "ASUS",
+      "interpretation": "timestamp_gps_corrected",
+      "region_assignment": "frozen_reference_route_bins",
+      "role": "primary_calibration_and_locked_spatial_validation",
+      "source_path": "Test_2/Test_2_ASUS.csv"
+    },
+    "primary_bin_size_m": 15,
+    "required_complete_columns": [
+      "rsrp_dbm",
+      "sinr_db",
+      "seconds_of_day",
+      "longitude_deg",
+      "latitude_deg"
+    ],
+    "required_roles": [
+      "calibration",
+      "spatial_validation_1",
+      "spatial_validation_2",
+      "spatial_validation_3",
+      "spatial_validation_4"
+    ],
+    "s25_robustness": {
+      "affects_preprocessing": false,
+      "affects_primary_ranking": false,
+      "caveat": "timestamp/GPS correction marks this handset inactive for corrected Test 1",
+      "device": "S25",
+      "interpretation": "original_filename_device_sensitivity",
+      "region_assignment": "nearest_reference_gps_with_matching_direction_sector",
+      "role": "device_robustness_sensitivity_only",
+      "route_corrected_test_id": 1,
+      "source_path": "Test_1/Test_1_S25.csv",
+      "trim_last_seconds": 0
+    }
+  }
+}

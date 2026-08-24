@@ -1,0 +1,14 @@
+{
+  "blocking_conditions": [
+    "Phase 3B is diagnostic and does not authorize execution.",
+    "Only two independent executions exist per state.",
+    "The PBCH/PUSCH parser is not yet validated on real logs from the pinned OAI revision.",
+    "Any next campaign must be derived from the frozen Phase 3B decision and committed first."
+  ],
+  "decision_code": "relative_rsrp_shape_mismatch",
+  "gate_state": "closed",
+  "next_action": "Revise fading/channel-variability structure before requesting POWDER time.",
+  "preparation_lead_time_minutes": 30,
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1
+}

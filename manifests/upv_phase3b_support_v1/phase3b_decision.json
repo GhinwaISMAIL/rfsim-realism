@@ -1,0 +1,44 @@
+{
+  "abc_performed": false,
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_noise_power_calibration": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "existing_two_execution_intervals": "traversal_conditional_only",
+    "joint_identifiability": "prohibited",
+    "physical_ploss_inference": "prohibited"
+  },
+  "common_supported_candidate_ids": [],
+  "decision_code": "relative_rsrp_shape_mismatch",
+  "interpretation": "diagnostic support for offset-invariant relative RSRP and empirical, device-conditioned SINR only",
+  "metric_support": {
+    "SINR": {
+      "best_candidate_boundary": true,
+      "best_candidate_id": "ploss=0|noise=-10",
+      "best_mean_mmd_squared": 0.23161437930694084,
+      "locked_validation_all_supported": false,
+      "locked_validation_regions_evaluated": 4,
+      "locked_validation_regions_supported": 2,
+      "primary_calibration_supported": true,
+      "repeatability_threshold_mmd_squared": 0.2740642828220558,
+      "supported_candidate_ids": [
+        "ploss=0|noise=-10"
+      ]
+    },
+    "relative_RSRP": {
+      "best_candidate_boundary": false,
+      "best_candidate_id": "ploss=-5|noise=-7",
+      "best_mean_mmd_squared": 0.7297483679751363,
+      "locked_validation_all_supported": false,
+      "locked_validation_regions_evaluated": 4,
+      "locked_validation_regions_supported": 0,
+      "primary_calibration_supported": false,
+      "repeatability_threshold_mmd_squared": 0.33557015798708484,
+      "supported_candidate_ids": []
+    }
+  },
+  "new_execution_authorized": false,
+  "next_action": "Revise fading/channel-variability structure before requesting POWDER time.",
+  "schema_version": 1,
+  "selected_measurement_branch": "insufficient_metadata"
+}

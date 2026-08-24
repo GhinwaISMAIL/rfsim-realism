@@ -1,0 +1,16 @@
+source_key,source_role,device,source_path,locked_role,raw_complete_rows,aggregated_rows,unit_valid,duration_seconds,relative_rsrp_median_db,sinr_median_db
+primary,primary_calibration_and_locked_spatial_validation,ASUS,Test_2/Test_2_ASUS.csv,calibration,31,16,True,15.318,0,16.575
+primary,primary_calibration_and_locked_spatial_validation,ASUS,Test_2/Test_2_ASUS.csv,spatial_validation_1,29,15,True,14.252,0,15
+primary,primary_calibration_and_locked_spatial_validation,ASUS,Test_2/Test_2_ASUS.csv,spatial_validation_2,37,19,True,18.578,0,21.15
+primary,primary_calibration_and_locked_spatial_validation,ASUS,Test_2/Test_2_ASUS.csv,spatial_validation_3,33,17,True,16.388,0,19.8
+primary,primary_calibration_and_locked_spatial_validation,ASUS,Test_2/Test_2_ASUS.csv,spatial_validation_4,33,17,True,16.299,0,14.25
+filename_sensitivity,scenario_interpretation_sensitivity_only,ASUS,Test_1/Test_1_Asus.csv,calibration,31,16,True,16.435,0,16.125
+filename_sensitivity,scenario_interpretation_sensitivity_only,ASUS,Test_1/Test_1_Asus.csv,spatial_validation_1,18,11,True,13.358,0,14.8
+filename_sensitivity,scenario_interpretation_sensitivity_only,ASUS,Test_1/Test_1_Asus.csv,spatial_validation_2,38,21,True,20.045,0,20.9
+filename_sensitivity,scenario_interpretation_sensitivity_only,ASUS,Test_1/Test_1_Asus.csv,spatial_validation_3,31,16,True,15.502,0,19.65
+filename_sensitivity,scenario_interpretation_sensitivity_only,ASUS,Test_1/Test_1_Asus.csv,spatial_validation_4,33,18,True,17.349,-7.1054273576e-15,18.85
+s25_robustness,device_robustness_sensitivity_only,S25,Test_1/Test_1_S25.csv,calibration,30,16,True,15.385,7.1054273576e-15,22.825
+s25_robustness,device_robustness_sensitivity_only,S25,Test_1/Test_1_S25.csv,spatial_validation_1,21,11,True,20.545,0,16.35
+s25_robustness,device_robustness_sensitivity_only,S25,Test_1/Test_1_S25.csv,spatial_validation_2,34,18,True,17.614,-7.1054273576e-15,15.2
+s25_robustness,device_robustness_sensitivity_only,S25,Test_1/Test_1_S25.csv,spatial_validation_3,33,17,True,16.769,0,21.05
+s25_robustness,device_robustness_sensitivity_only,S25,Test_1/Test_1_S25.csv,spatial_validation_4,32,18,True,18.459,0,21.675
