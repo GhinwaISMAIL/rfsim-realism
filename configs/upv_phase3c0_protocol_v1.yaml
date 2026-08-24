@@ -1,0 +1,192 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3c0_static_channel_causal_audit_and_replay_preparation_v1
+stage: phase_3c0_static_channel_causal_audit_and_replay_preparation
+execution_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3b_results_revision: 548b7ab2f19ac889e46e681188fb5cf5d3d8a948
+  phase3b_decision_code: relative_rsrp_shape_mismatch
+  phase3b_decision_sha256: 411d5ede00131841bd2a710b6fd9f6b24f5fccdfdfd54280a6e27fb17f716a3f
+  phase3b_gate_sha256: a679a7989b958385087fbbbf4994c06eeef73e54b31844c4f8f64a2497377a0b
+  phase2_and_phase3a_snapshots_must_remain_unchanged: true
+
+model_scope:
+  supported_conclusion: >-
+    The current static terrestrial TDL-B execution path is inadequate for
+    route-scale relative-RSRP reproduction.
+  prohibited_conclusion: all_RFsim_or_VRTSIM_configurations_are_inadequate
+  primary_mechanism: frozen_terrestrial_channel_realization_plus_constant_path_gain
+  reporting_contributor: SSS_resource_element_averaging_and_integer_dB_storage
+  single_cell_interpretation: removes_handover_and_intercell_interference_but_not_route_scale_gain_variation
+  sinr_mechanism_status: requires_instrumented_confirmation_not_noise_only_assertion
+
+pinned_sources:
+  oai:
+    expected_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+
+source_assertions:
+  - path: radio/rfsimulator/simulator.cpp
+    fact: The configured channel realization is generated when the RFsim connection is created.
+    snippets:
+      - "random_channel(ptr->channel_model, false);"
+      - "Random channel %s in rfsimulator activated"
+  - path: radio/rfsimulator/simulator.cpp
+    fact: The receive-loop regeneration switch is disabled in the pinned execution path.
+    snippets:
+      - "bool reGenerateChannel = false;"
+      - "if (reGenerateChannel)"
+      - "random_channel(ptr->channel_model, 0);"
+  - path: radio/rfsimulator/apply_channelmod.c
+    fact: Runtime channel evolution is conditional on the satellite model in the pinned code.
+    snippets:
+      - "if ((channelDesc->sat_height > 0)"
+      - "enable_dynamic_Doppler"
+  - path: radio/rfsimulator/apply_channelmod.c
+    fact: RFsim ploss is applied as a constant signed path-gain amplitude multiplier.
+    snippets:
+      - "channelDesc->path_loss_dB should contain the total path gain"
+      - "pow(10, channelDesc->path_loss_dB / 20.0)"
+      - "pow(10, channelDesc->noise_power_dB / 10.0) * 256"
+  - path: openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c
+    fact: OAI averages SSS digital power over resource elements and receive antennas.
+    snippets:
+      - "const int k_start = 56;"
+      - "const int k_end = 183;"
+      - "rsrp /= nb_re;"
+  - path: openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c
+    fact: The unquantized logarithmic RSRP value is assigned to the standard integer-dBm field.
+    snippets:
+      - "float rsrp_db_per_re = 10 * log10(rsrp_avg);"
+      - "ue->measurements.ssb_rsrp_dBm[ssb_index] = rsrp_db_per_re + 30"
+  - path: radio/vrtsim/CMakeLists.txt
+    fact: The VRTSIM external-taps client exists but is disabled by default and requires an explicit build option.
+    snippets:
+      - "add_boolean_option(OAI_VRTSIM_TAPS_CLIENT OFF"
+      - "if (OAI_VRTSIM_TAPS_CLIENT)"
+  - path: radio/vrtsim/README.md
+    fact: VRTSIM can receive external channel impulse responses over its taps interface.
+    snippets:
+      - "receive external taps (or channel impulse responses)"
+      - "--taps-socket"
+  - path: radio/vrtsim/cirdb_provider.c
+    fact: The pinned CIRDB provider selects stored entries by speed metadata and replays snapshots at the stored interval.
+    snippets:
+      - "want_speed_mps = want_speed"
+      - "G.snapshot_dt_s = m.snapshot_dt_s;"
+      - "load_snapshot_and_publish(G, s);"
+
+instrumentation_contract:
+  purpose: debug_measurement_path_and_channel_application_only
+  standard_oai_kpis_must_remain_unchanged: true
+  required_fields:
+    - replay_id
+    - t_s
+    - commanded_gain_db
+    - applied_gain_db
+    - channel_snapshot_id
+    - channel_snapshot_timestamp_ns
+    - tap_energy_linear
+    - noise_power_db
+    - rsrp_digital_power_linear
+    - rsrp_db_per_re_unquantized
+    - ss_rsrp_dbm_integer
+    - ss_sinr_db
+    - attached
+  reporting_rule: emit_debug_float_and_standard_integer_kpi_in_parallel
+  prohibited_use: treating_debug_digital_power_as_absolute_NEMO_equivalent_RSRP
+
+deterministic_scalar_envelope:
+  purpose: measurement_transfer_test_not_physical_channel_model
+  gain_db_sequence: [0.0, -2.0, -4.0, -2.0, 0.0]
+  labels: [baseline, descent, nadir, return, recovery]
+  segment_duration_seconds: 10.0
+  settling_seconds_per_segment: 3.0
+  analysis_seconds_per_segment: 7.0
+  fixed_noise_power_db: -30.0
+  expected_raw_tap_behavior: one_static_snapshot_and_constant_unscaled_tap_energy
+  expected_gain_semantics: amplitude_multiplier_equals_10_to_gain_db_over_20
+  independent_local_replays_required: 2
+
+deterministic_replay_acceptance:
+  required_telemetry_fields:
+    - replay_id
+    - t_s
+    - commanded_gain_db
+    - applied_gain_db
+    - channel_snapshot_id
+    - channel_snapshot_timestamp_ns
+    - tap_energy_linear
+    - noise_power_db
+    - rsrp_digital_power_linear
+    - rsrp_db_per_re_unquantized
+    - ss_rsrp_dbm_integer
+    - ss_sinr_db
+    - attached
+  independent_replays_required: 2
+  minimum_analysis_rows_per_segment: 5
+  all_required_fields_finite: true
+  attachment_fraction_required: 1.0
+  exact_segment_coverage_required: true
+  commanded_applied_gain_max_abs_error_db: 1.0e-9
+  float_rsrp_transfer_slope_range: [0.90, 1.10]
+  float_rsrp_transfer_r_squared_minimum: 0.99
+  float_rsrp_delta_max_abs_error_db: 0.50
+  integer_rsrp_delta_max_abs_error_db: 1.50
+  repeated_level_hysteresis_max_abs_db: 0.50
+  raw_tap_energy_coefficient_of_variation_maximum: 1.0e-6
+  required_unique_channel_snapshots_per_replay: 1
+  fail_action: keep_temporal_replay_gate_closed_and_debug_measurement_path
+
+time_varying_channel_contract:
+  equation: h(t,tau)=10^(G(s(t))/20)*sum_l(alpha_tilde_l(t)*delta(tau-tau_l))
+  small_scale_normalization: E[sum_l(abs(alpha_tilde_l(t))^2)]=1
+  large_scale_components:
+    - distance_dependent_path_gain
+    - spatially_correlated_shadowing
+    - blockage
+    - antenna_pattern
+  small_scale_requirements:
+    - Doppler_correlated_multipath
+    - declared_carrier_frequency_and_speed
+    - declared_snapshot_interval
+    - finite_and_normalized_taps
+  validation_statistics:
+    - autocorrelation
+    - Doppler_power_spectral_density
+    - coherence_time
+    - shadowing_correlation_distance
+    - replay_timing_and_dropped_snapshot_counts
+  prohibited_generator_behavior: independent_snapshot_regeneration_at_receive_cadence
+
+external_generator_status:
+  state: provisional_pending_pinned_revision_source_audit_and_temporal_tests
+  speed_mps_claim: do_not_publish_as_causal_fact_yet
+  transport_and_generator_validity_are_separate_gates: true
+
+offline_gate_order:
+  - pinned_source_audit
+  - debug_float_and_channel_state_instrumentation
+  - deterministic_scalar_envelope_replay
+  - time_varying_trace_temporal_validation
+  - attachment_and_PBCH_PUSCH_parser_validation
+  - frozen_small_replay_experiment
+
+claim_limits:
+  absolute_rsrp_calibration: prohibited
+  physical_ploss_inference: prohibited
+  external_generator_temporal_validity: not_established
+  time_varying_replay_realism: not_established
+  abc: prohibited
+
+reservation:
+  request_now: false
+  gate_state: closed
+  preparation_lead_time_minutes: 30
+  notification_rule: notify_user_at_least_30_minutes_before_the_first_POWDER_dependent_action
+  opening_conditions:
+    - deterministic scalar replay passes every frozen acceptance rule
+    - a pinned time-varying trace passes the frozen temporal validation
+    - the PBCH/PUSCH and attachment parser passes on pinned-revision fixture logs
+    - the exact small replay experiment and stopping rules are committed

@@ -16,6 +16,7 @@ from .sweep import load_config, plan_document, run_campaign, write_json
 from .ucc_static import build_manifest, write_manifest
 from .upv_measurement_audit import run_measurement_equivalence_audit
 from .upv_phase3b import analyze_phase3b_support
+from .upv_phase3c import build_phase3c_plan, write_deterministic_replay_evaluation
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -152,6 +153,18 @@ def _parser() -> argparse.ArgumentParser:
     upv_phase3b.add_argument("--public-evidence", required=True)
     upv_phase3b.add_argument("--config", required=True)
     upv_phase3b.add_argument("--output", required=True)
+
+    upv_phase3c = commands.add_parser("plan-upv-phase3c")
+    upv_phase3c.add_argument("--phase3b-decision", required=True)
+    upv_phase3c.add_argument("--phase3b-gate", required=True)
+    upv_phase3c.add_argument("--oai-source", required=True)
+    upv_phase3c.add_argument("--config", required=True)
+    upv_phase3c.add_argument("--output", required=True)
+
+    phase3c_replay = commands.add_parser("evaluate-upv-phase3c-replay")
+    phase3c_replay.add_argument("--telemetry", required=True)
+    phase3c_replay.add_argument("--plan-dir", required=True)
+    phase3c_replay.add_argument("--output", required=True)
     return parser
 
 
@@ -330,6 +343,24 @@ def main() -> None:
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "plan-upv-phase3c":
+        result = build_phase3c_plan(
+            phase3b_decision=args.phase3b_decision,
+            phase3b_gate=args.phase3b_gate,
+            oai_source=args.oai_source,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "evaluate-upv-phase3c-replay":
+        output = write_deterministic_replay_evaluation(
+            telemetry_path=args.telemetry,
+            plan_dir=args.plan_dir,
+            output_path=args.output,
+        )
+        print(json.dumps({"evaluation": str(output)}, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

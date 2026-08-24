@@ -123,6 +123,28 @@ demonstrated no-offset measurement comparability. The probe remains inactive;
 its quality gate fails closed until versioned PBCH/PUSCH log counters exist.
 The prepared author request is in `requests/upv_metadata_request_v1.md`.
 
+Phase 3B then tests only the non-absolute targets permitted by that branch:
+median-centred relative RSRP and empirical device-conditioned SINR. Its result
+is diagnostic: SINR has limited existing-bank support, while route-scale
+relative-RSRP variation is unsupported. This closes the parameter-extension
+branch and requires a channel-variability revision before any new reservation.
+
+Phase 3C0 freezes the corresponding causal source audit and prepares an
+offline deterministic replay test:
+
+```bash
+make upv-phase3c-plan \
+  UPV_PHASE3C_OAI_SOURCE=/path/to/pinned/openairinterface5g
+```
+
+The plan preserves the standard integer OAI RSRP while requiring a parallel
+debug float, applied gain, tap energy, and channel-snapshot identifier. Its
+five plateaus (`0, -2, -4, -2, 0 dB`) test the measurement transfer path only;
+they are not a propagation model. VRTSIM external taps remain a candidate
+transport, and the temporal validity of any CIR generator is a separate gate.
+POWDER remains unnecessary until deterministic replay, temporal validation,
+and the attachment/PBCH/PUSCH parser all pass offline.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

@@ -46,9 +46,14 @@ UPV_SUPPORT_V2_1_PLAN ?= manifests/upv_support_v2_1_protocol_plan.json
 UPV_PHASE3B_CONFIG ?= configs/upv_phase3b_support_v1.yaml
 UPV_PHASE3B_EVIDENCE ?= manifests/upv_public_evidence_addendum_v1.json
 UPV_PHASE3B_OUTPUT ?= data/model_runs/upv_phase3b_nonabsolute_support_v1
+UPV_PHASE3C_CONFIG ?= configs/upv_phase3c0_protocol_v1.yaml
+UPV_PHASE3C_DECISION ?= manifests/upv_phase3b_support_v1/phase3b_decision.json
+UPV_PHASE3C_GATE ?= manifests/upv_phase3b_support_v1/reservation_gate_v3.json
+UPV_PHASE3C_OAI_SOURCE ?= /private/tmp/oai-phase3a-source
+UPV_PHASE3C_OUTPUT ?= manifests/upv_phase3c0_protocol_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan upv-phase3b test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan upv-phase3b upv-phase3c-plan test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -163,6 +168,14 @@ upv-phase3b:
 		--public-evidence $(UPV_PHASE3B_EVIDENCE) \
 		--config $(UPV_PHASE3B_CONFIG) \
 		--output $(UPV_PHASE3B_OUTPUT)
+
+upv-phase3c-plan:
+	$(UV) run --locked rfsim-realism plan-upv-phase3c \
+		--phase3b-decision $(UPV_PHASE3C_DECISION) \
+		--phase3b-gate $(UPV_PHASE3C_GATE) \
+		--oai-source $(UPV_PHASE3C_OAI_SOURCE) \
+		--config $(UPV_PHASE3C_CONFIG) \
+		--output $(UPV_PHASE3C_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q
