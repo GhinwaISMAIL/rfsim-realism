@@ -15,6 +15,7 @@ from .static_grid import run_campaign as run_static_grid
 from .sweep import load_config, plan_document, run_campaign, write_json
 from .ucc_static import build_manifest, write_manifest
 from .upv_measurement_audit import run_measurement_equivalence_audit
+from .upv_phase3b import analyze_phase3b_support
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -137,6 +138,20 @@ def _parser() -> argparse.ArgumentParser:
     upv_v2.add_argument("--phase3a-gate", required=True)
     upv_v2.add_argument("--config", required=True)
     upv_v2.add_argument("--output", required=True)
+
+    upv_phase3b = commands.add_parser("analyze-upv-phase3b")
+    upv_phase3b.add_argument("--route-observations", required=True)
+    upv_phase3b.add_argument("--locked-split", required=True)
+    upv_phase3b.add_argument("--upv-archive", required=True)
+    upv_phase3b.add_argument("--phase1-config", required=True)
+    upv_phase3b.add_argument("--selection-manifest", required=True)
+    upv_phase3b.add_argument("--campaign-state", required=True)
+    upv_phase3b.add_argument("--executions-root", required=True)
+    upv_phase3b.add_argument("--phase3a-decision", required=True)
+    upv_phase3b.add_argument("--phase3a-gate", required=True)
+    upv_phase3b.add_argument("--public-evidence", required=True)
+    upv_phase3b.add_argument("--config", required=True)
+    upv_phase3b.add_argument("--output", required=True)
     return parser
 
 
@@ -298,6 +313,23 @@ def main() -> None:
             output_path=args.output,
         )
         print(json.dumps({"plan": str(output), "execution_authorized": False}, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3b":
+        result = analyze_phase3b_support(
+            route_observations=args.route_observations,
+            locked_split=args.locked_split,
+            upv_archive=args.upv_archive,
+            phase1_config=args.phase1_config,
+            selection_manifest=args.selection_manifest,
+            campaign_state=args.campaign_state,
+            executions_root=args.executions_root,
+            phase3a_decision=args.phase3a_decision,
+            phase3a_gate=args.phase3a_gate,
+            public_evidence=args.public_evidence,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

@@ -1,0 +1,111 @@
+{
+  "addendum_id": "upv_public_evidence_addendum_v1",
+  "branch_selection": {
+    "absolute_rsrp_calibration_authorized": false,
+    "abc_authorized": false,
+    "author_contact_required_now": false,
+    "selected_branch": "insufficient_metadata",
+    "sinr_use": "empirical_device_conditioned_distribution_diagnostic_only"
+  },
+  "claim_limits": [
+    "The public evidence does not establish campaign SSB EPRE, conducted SSB power, cable loss, as-installed EIRP, or exact NEMO RSRP filtering and combining semantics.",
+    "The historical 26.5 dBm configuration and nominal 17.9 dBi antenna gain must not be combined as the December 2025 campaign SSB EIRP.",
+    "The installed antenna is reported as VV-65A-R2, while the cited current manufacturer page is for VV-65A-R2-V2; its gain is nominal, not an as-installed measurement.",
+    "PUSCH/PUCCH path-loss fields are supported by Nemo products but are not present in the published CSV export; collection or retention cannot be inferred.",
+    "SS-RSRP and SS-SINR retain UE implementation choices, so empirical distribution agreement must not be labelled physical measurement equivalence."
+  ],
+  "created_utc": "2026-08-24T00:00:00Z",
+  "evidence": [
+    {
+      "claims": [
+        "Poster P-2.15 is titled Validating Remote Driving via Field Characterization and Inter-Slice Connectivity.",
+        "The abstract describes the n40 single-user baseline and Nemo/IxChariot campaign context."
+      ],
+      "local_cache_sha256": "6edcdfd595a3d3dad0545ae056523ac42f4b8b043a438ed9935f1aa009c4aa72",
+      "source_locator": "https://www.eucnc.eu/programme/poster-session-ii/",
+      "source_title": "EuCNC 2026 Poster Session II"
+    },
+    {
+      "claims": [
+        "The campaign poster reports the field-characterization results associated with the UPV remote-driving campaign."
+      ],
+      "local_cache_sha256": "4207d1f0cff98f64dcc174560fa11d99077da52c3caf6dcee86a5da25cf77e2d",
+      "source_locator": "https://cop-pilot.eu/wp-content/uploads/2026/06/UPV-poster-at-EuCNC.jpg",
+      "source_title": "UPV EuCNC campaign poster"
+    },
+    {
+      "claims": [
+        "Pages 374-378 report UPV 5G SA n40 with 20 MHz, ASUS Snapdragon Insiders and Samsung S25 UEs, Nemo Handy and IxChariot, and Test 1 as the single-user survey.",
+        "The reported campaign ranges are approximately -95 to -75 dBm RSRP and 8 to 26 dB SINR."
+      ],
+      "local_cache_sha256": "e3cf55d041229ce9a81731b2daa3603717dc557a1d0d2702c7b92e2549f6837a",
+      "page_reference": "374-378",
+      "source_locator": "https://drive.google.com/file/d/17KtN3QdWlgQjqTAG_aO5N0tdpl_QsC3u/view",
+      "source_title": "IMAGINE-B5G Deliverable D3.6"
+    },
+    {
+      "claims": [
+        "Page 123 identifies the UPV Nokia n40 SA deployment, AZNA n40 radio, and CommScope VV-65A-R2 antenna."
+      ],
+      "local_cache_sha256": "ab629ddf41da3dc5297265c6bbded34785bcf5ab8b2abc8201be8d0a3803dc08",
+      "page_reference": "123",
+      "source_locator": "https://drive.google.com/file/d/1h1-aQph2V7gk9lnH3dfzoGZInHvng5Fc/view",
+      "source_title": "IMAGINE-B5G Deliverable D2.4"
+    },
+    {
+      "claims": [
+        "Pages 46-48 describe historical maximum-power configurations of 46 dBm and 26.5 dBm and call 26.5 dBm the then-current n40 configuration.",
+        "This is historical configuration evidence, not campaign SSB power or EPRE."
+      ],
+      "local_cache_sha256": "9fb0441073ad814a1ff8713491ba509a2d916c838f00e6564bef0b7b2c43325c",
+      "page_reference": "46-48",
+      "source_locator": "https://drive.google.com/file/d/13AJz1xw2J9GEKlGpsMiayhuncCeokpmf/view",
+      "source_title": "IMAGINE-B5G Deliverable D4.5"
+    },
+    {
+      "claims": [
+        "The VV-65A-R2-V2 manufacturer page lists nominal 17.9 dBi gain in the 2300-2500 MHz range."
+      ],
+      "local_cache_sha256": "d6edaafbf57edaede4cb5dfc7482d5a1dc08f60ed261205bbbb1c7e1a6a18d02",
+      "source_locator": "https://www.andrew.com/products/base-station-antennas/antennas/itemvv-65a-r2-v2/",
+      "source_title": "Andrew VV-65A-R2-V2 product specification"
+    },
+    {
+      "claims": [
+        "Pages 3-4 list serving-cell RSRP separately from beam type/index and list PUSCH/PUCCH path-loss capabilities.",
+        "The product sheet does not resolve the averaging, filtering, beam-selection, or antenna-combining semantics of this campaign export."
+      ],
+      "local_cache_sha256": "5c57266d44ea851c1dc961067274b687e5c4817c997e0dfb2c1b2008ddbab891",
+      "page_reference": "3-4",
+      "source_locator": "https://www.keysight.com/us/en/assets/3123-1442/data-sheets/Nemo-Handy-and-Nemo-Walker-Air.pdf",
+      "source_title": "Keysight Nemo Handy and Nemo Walker Air data sheet"
+    },
+    {
+      "claims": [
+        "Page 10 leaves the SS-RSRP resource-element count to the UE and permits specified receiver-diversity processing choices.",
+        "Page 14 documents related SS-SINR implementation choices, preventing an unqualified physical-equivalence claim."
+      ],
+      "local_cache_sha256": "4b9e434ccd6fb90543ebca8d66f3b01f77c24f765d20fa4d3d15500e86f28986",
+      "page_reference": "10, 14",
+      "source_locator": "https://www.etsi.org/deliver/etsi_ts/138200_138299/138215/18.02.00_60/ts_138215v180200p.pdf",
+      "source_title": "ETSI TS 138 215 V18.2.0"
+    }
+  ],
+  "frozen_phase3a": {
+    "decision_sha256": "0c6daea7c3a407a6a8bfabf4218a8a384c320bf0a74dee83655009b451eb667d",
+    "reservation_gate_sha256": "6c133a0052cab9a565263c7774deee3a20a2ab452a5069449d056598939cd054",
+    "results_revision": "30c345731249df73b3fc7fdb7d8ca6b8bec3d04b",
+    "snapshot_modified": false
+  },
+  "permitted_targets": [
+    "within-unit median-centred relative RSRP distribution shape",
+    "device-conditioned empirical SINR distribution"
+  ],
+  "prohibited_claims": [
+    "absolute OAI-to-NEMO RSRP calibration",
+    "physical propagation-loss inference from positive ploss",
+    "absolute RFsim noise-power calibration from NEMO SINR",
+    "joint physical posterior or ABC acceptance"
+  ],
+  "schema_version": 1
+}
