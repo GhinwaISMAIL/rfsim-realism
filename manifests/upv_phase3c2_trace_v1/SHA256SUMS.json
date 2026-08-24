@@ -1,0 +1,9 @@
+{
+  "analysis_manifest.json": "e0beed8d1b9532b89c74bd83b29a3a520563a18b3a2bdfd4212d372f179941be",
+  "phase3c2_decision.json": "b3db77b64cc714cfca62167a60a18822694c526183865172ef092ceb43965021",
+  "power_delay_profile.csv": "a7b2ace288af2f662e7e5d1d340014fbed2a8bdb594eccb0ca5a8fec989398d1",
+  "reservation_gate_v5.json": "881ad9ac7df76f817b07f4b4814366985d1f76a7787a8412e1e03ea2c8888236",
+  "source_code_trace.csv": "3c35b619703b360a260785b89afce350cb41d668ff6c9c7273f70235701569f3",
+  "temporal_validation.json": "a51183ccc65854d93830ea39d2325f63203b5d7c12b1c9cdce61fd3f48531e48",
+  "trace_metadata.json": "50bc186c386b814f383d27cda158b69a014cf1db91988dbcd1e400b8aebdf74c"
+}

@@ -1,0 +1,29 @@
+{
+  "abc_performed": false,
+  "analysis_implementation_revision": "64ecb60c723fabab56a3eed9c1e2bdeb8ef93c6e",
+  "config_sha256": "28540a590723bc55f6652848d70eef80bfece63196bf49facc2d1c9bd2ba1e85",
+  "name": "upv_phase3c2_tdl_b_temporal_trace_v1",
+  "oai_source_state": {
+    "revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "tracked_worktree_dirty": false
+  },
+  "offline_temporal_trace_gate_pass": true,
+  "phase3c1_result_sha256": "491b6c933032f28f36803343f4ef4f03d51086f91ce655e087b6ba115971b68b",
+  "powder_action_performed": false,
+  "raw_artifact_directory": "/Users/ghinwaismail/Desktop/rfsim-realism/data/model_runs/upv_phase3c2_trace_v1",
+  "raw_output_sha256": {
+    "autocorrelation.csv": "e334dff8760cc609fceeef3ed3a1d4821881662c0ddfe31ef375fde378dd14b0",
+    "cir_db.bin": "cb5b85bfdfe12768462b482c21145fe43618468a0bff9248beb5c9b5dea82550",
+    "doppler_psd.csv": "129ae950c3d819710aa3bf037d8ed10596a1284591040bb4b896ad014aa2803d",
+    "phase3c2_trace.npz": "62a7c17461493a28594713e5a307956b0015c7a6813b7b12f36c452288e09028",
+    "power_delay_profile.csv": "a7b2ace288af2f662e7e5d1d340014fbed2a8bdb594eccb0ca5a8fec989398d1",
+    "shadowing_autocorrelation.csv": "fe42024ac3b2855f23e2fa10e4f09f9d4af0febaa3c1769fb21af3f03b4b0ed8",
+    "temporal_validation.json": "a51183ccc65854d93830ea39d2325f63203b5d7c12b1c9cdce61fd3f48531e48",
+    "vrtsim.yaml": "03b5031e81ea721501692e73e8ea908a57ae98e1814cee43887908da3dbf292c"
+  },
+  "reservation_should_be_requested_now": false,
+  "sample_rate_evidence_sha256": "ffe751fce7c54a4d92e390581f54ffeb974ac69b3da6f34779ca21433808b0e3",
+  "schema_version": 1,
+  "source_assertions_verified": 6,
+  "stage": "phase_3c2_offline_time_varying_trace_validation"
+}

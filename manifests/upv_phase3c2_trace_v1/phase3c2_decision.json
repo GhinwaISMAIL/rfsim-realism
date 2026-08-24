@@ -1,0 +1,24 @@
+{
+  "abc_authorized": false,
+  "attachment_parser_validated": false,
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "attachment_robustness_established": false,
+    "environmental_realism_established": false,
+    "speed_is_inferred_from_UPV": false,
+    "trace_is_measured_UPV_channel": false,
+    "transport_replay_validated": false
+  },
+  "decision_code": "standardized_time_varying_trace_passed_offline_temporal_validation",
+  "new_powder_execution_authorized": false,
+  "next_action": "validate attachment and PBCH/PUSCH parsers on pinned fixture logs, then freeze the small CIRDB replay experiment and stopping rules",
+  "offline_temporal_trace_gate_pass": true,
+  "reservation_should_be_requested_now": false,
+  "schema_version": 1,
+  "selected_trace": "upv_phase3c2_tdl_b_temporal_trace_v1",
+  "selected_transport_candidate": "VRTSIM_CIRDB",
+  "small_replay_experiment_frozen": false,
+  "transport_replay_timing_validated": false,
+  "transport_schema_compatible": true
+}

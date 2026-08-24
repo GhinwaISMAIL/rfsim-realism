@@ -1,0 +1,17 @@
+{
+  "blocking_conditions": [
+    "attachment and PBCH/PUSCH parsers have not passed on pinned fixture logs",
+    "the exact small replay experiment and stopping rules are not committed",
+    "actual CIRDB replay timing and drop behavior has not been tested"
+  ],
+  "gate_state": "closed",
+  "next_action": "validate attachment and PBCH/PUSCH parsers on pinned fixture logs, then freeze the small CIRDB replay experiment and stopping rules",
+  "notification_rule": "notify the user at least 30 minutes before the first authorized POWDER-dependent action",
+  "preparation_lead_time_minutes": 30,
+  "reservation_should_be_requested_now": false,
+  "satisfied_conditions": [
+    "deterministic scalar replay passed",
+    "pinned time-varying trace passed offline temporal validation"
+  ],
+  "schema_version": 1
+}
