@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "request_id": "upv_remote_driving_measurement_metadata_v1",
+  "status": "prepared_not_sent",
+  "prepared_by_revision": "a304c022b16cd47c5cdd9b03476cede535984f9a",
+  "draft": {
+    "path": "requests/upv_metadata_request_v1.md",
+    "sha256": "12dee26a8cc9c592b71170b933fdfa1f994281a57e371f1960b2a6f6e2c4c8a2"
+  },
+  "dataset": {
+    "doi": "10.5281/zenodo.18410980",
+    "record_url": "https://zenodo.org/records/18410980",
+    "metadata_api": "https://zenodo.org/api/records/18410980",
+    "metadata_checked_on": "2026-08-24",
+    "creators": [
+      "Carles Navarro Manchón",
+      "Raúl Lozano Teruel",
+      "Iván Viciedo",
+      "Jorge Roche Peris",
+      "David Gómez-Barquero"
+    ],
+    "corresponding_author_email_published": false
+  },
+  "delivery": {
+    "intended_route": "iTEAM public institute contact, with forwarding request to dataset authors",
+    "address": "info@iteam.upv.es",
+    "address_source": "https://www.iteam.upv.es/contacto/",
+    "address_checked_on": "2026-08-24",
+    "delivery_ready": false,
+    "missing_sender_fields": [
+      "confirmed sender name",
+      "institution or research group",
+      "reply email",
+      "authenticated sending channel"
+    ]
+  },
+  "scientific_state_while_pending": {
+    "absolute_rsrp_calibration_authorized": false,
+    "sinr_diagnostic_authorized": true,
+    "relative_rsrp_shape_diagnostic_authorized": true,
+    "safety_probe_authorized": false,
+    "abc_authorized": false,
+    "reservation_should_be_requested_now": false
+  }
+}
