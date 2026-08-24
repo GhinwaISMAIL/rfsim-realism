@@ -12,6 +12,7 @@ from rfsim_realism.upv_phase3c import (
     deterministic_envelope,
     evaluate_deterministic_replay,
     validate_phase3c_config,
+    write_deterministic_replay_evaluation,
 )
 
 REPOSITORY = Path(__file__).resolve().parents[1]
@@ -110,6 +111,27 @@ def test_deterministic_replay_evaluator_accepts_exact_transfer(tmp_path: Path) -
     for replay in result["replay_results"]:
         assert replay["float_rsrp_transfer_slope"] == pytest.approx(1.0)
         assert replay["replay_pass"] is True
+
+
+def test_deterministic_replay_writer_serializes_gate_results(tmp_path: Path) -> None:
+    plan = _write_plan(tmp_path)
+    telemetry = tmp_path / "telemetry.csv"
+    output = tmp_path / "evaluation.json"
+    _telemetry().to_csv(telemetry, index=False)
+
+    write_deterministic_replay_evaluation(
+        telemetry_path=telemetry,
+        plan_dir=plan,
+        output_path=output,
+    )
+
+    result = json.loads(output.read_text())
+    assert result["deterministic_replay_gate_pass"] is True
+    assert all(
+        isinstance(value, bool)
+        for replay in result["replay_results"]
+        for value in replay["gate_results"].values()
+    )
 
 
 def test_deterministic_replay_evaluator_rejects_constant_rsrp(tmp_path: Path) -> None:

@@ -579,6 +579,7 @@ def evaluate_deterministic_replay(
             "snapshot_count": snapshot_count
             == int(acceptance["required_unique_channel_snapshots_per_replay"]),
         }
+        passes = {name: bool(value) for name, value in passes.items()}
         replay_summaries.append({
             "replay_id": str(replay_id),
             "float_rsrp_transfer_slope": float(slope),
