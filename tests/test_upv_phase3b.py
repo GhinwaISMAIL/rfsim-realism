@@ -27,6 +27,7 @@ def test_phase3b_config_freezes_nonabsolute_claims_and_closed_gate() -> None:
     assert config["claim_limits"]["absolute_rsrp_calibration"] == "prohibited"
     assert config["claim_limits"]["absolute_noise_power_calibration"] == "prohibited"
     assert config["reservation"]["request_now"] is False
+    assert config["balanced_reference"]["comparison_rows_per_distribution"] == 10
 
 
 def _route(longitudes: list[float], directions: list[str]) -> pd.DataFrame:

@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_revision: "1.1"
+protocol_revision: "1.2"
 name: upv_phase3b_nonabsolute_existing_bank_support_v1
 stage: existing_bank_nonabsolute_support_diagnostic_only
 selected_measurement_branch: insufficient_metadata
@@ -74,6 +74,7 @@ region_transfer:
   maximum_nearest_reference_distance_m: 7.5
   minimum_raw_rows_per_region: 12
   minimum_transferred_fraction_per_region: 0.50
+  minimum_aggregated_rows_per_unit: 10
   fail_action: omit_invalid_sensitivity_unit_and_report_fail_closed
 
 targets:
@@ -124,7 +125,8 @@ rfsim_selection:
 balanced_reference:
   fitted_separately_by_target: true
   sources: primary_UPV_calibration_region_plus_every_RFsim_execution
-  rows_per_source: minimum_complete_aggregated_rows_across_sources
+  rows_per_source: fixed_comparison_rows_per_distribution
+  comparison_rows_per_distribution: 10
   row_selection: deterministic_evenly_spaced_time_index
   robust_center: median
   robust_scale: normalized_mad
@@ -135,6 +137,11 @@ balanced_reference:
     pooled balanced-mixture population standard deviation. This rule is frozen
     before any Phase 3B candidate distance is calculated and does not add
     variability to a constant RFsim execution.
+  fixed_count_rationale: >-
+    Ten one-second rows are required from every evaluated distribution. This
+    keeps the biased V-statistic sample count identical across calibration,
+    validation, filename-sensitivity, S25, and repeatability comparisons. The
+    count is frozen before any successful candidate-distance calculation.
   validation_filename_sensitivity_and_S25_excluded_from_fit: true
 
 kernel:

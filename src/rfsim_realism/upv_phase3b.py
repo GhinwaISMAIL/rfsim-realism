@@ -107,6 +107,8 @@ def validate_phase3b_config(config: dict[str, Any]) -> None:
         "iqr_divided_by_1.349_then_pooled_standard_deviation_ddof0"
     ):
         raise ValueError("Phase 3B requires the frozen degenerate-scale fallback")
+    if int(reference.get("comparison_rows_per_distribution", 0)) < 2:
+        raise ValueError("Phase 3B requires a fixed comparison sample count")
     claim_limits = config.get("claim_limits") or {}
     required_prohibitions = {
         "absolute_rsrp_calibration",
@@ -257,6 +259,7 @@ def _aggregate_units(
     device: str,
     roles: list[str],
     duration: float,
+    minimum_aggregated_rows: int,
 ) -> tuple[dict[tuple[str, str], pd.DataFrame], list[dict[str, object]]]:
     units: dict[tuple[str, str], pd.DataFrame] = {}
     inventory: list[dict[str, object]] = []
@@ -276,7 +279,9 @@ def _aggregate_units(
         aggregated["relative_rsrp_db"] = (
             aggregated["rsrp_dbm"] - float(aggregated["rsrp_dbm"].median())
         )
-        units[(source_key, role)] = aggregated
+        valid = len(aggregated) >= minimum_aggregated_rows
+        if valid:
+            units[(source_key, role)] = aggregated
         inventory.append({
             "source_key": source_key,
             "source_role": source_role,
@@ -285,6 +290,7 @@ def _aggregate_units(
             "locked_role": role,
             "raw_complete_rows": len(raw),
             "aggregated_rows": len(aggregated),
+            "unit_valid": valid,
             "duration_seconds": float(
                 raw["seconds_of_day"].max() - raw["seconds_of_day"].min()
             ),
@@ -323,10 +329,15 @@ def _metric_support(
     config: dict[str, Any],
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict[str, object], pd.DataFrame]:
     primary = units[("primary", "calibration")]
-    balanced_count = min(len(primary), *(len(frame) for frame in simulation.values()))
-    minimum = int(config["rfsim_selection"]["minimum_complete_aggregated_rows"])
-    if balanced_count < minimum:
+    balanced_count = int(
+        config["balanced_reference"]["comparison_rows_per_distribution"]
+    )
+    if len(primary) < balanced_count or any(
+        len(frame) < balanced_count for frame in simulation.values()
+    ):
         raise ValueError(f"{metric} balanced reference has too few rows")
+    if any(len(frame) < balanced_count for frame in units.values()):
+        raise ValueError(f"{metric} evaluation unit has too few rows")
     balanced_frames: list[pd.DataFrame] = []
     primary_balanced = _evenly_spaced(primary.rename(columns={upv_column: "value"}), balanced_count)
     primary_balanced["reference_source"] = "UPV_primary_calibration"
@@ -721,6 +732,9 @@ def analyze_phase3b_support(
             device=str(unit_config["device"]),
             roles=roles,
             duration=duration,
+            minimum_aggregated_rows=int(
+                transfer["minimum_aggregated_rows_per_unit"]
+            ),
         )
         units.update(source_units)
         unit_inventory_rows.extend(inventory)
