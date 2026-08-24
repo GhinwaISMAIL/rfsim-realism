@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c4_vrtsim_build_only",
+  "recorded_at": "2026-08-24T16:53:54+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "build and inspect the two pinned Phase 3C VRTSIM runtime images on the reserved x86_64 cell node",
+    "authorization_basis": "the user prepared the reservation, requested continuation, and asked to be notified before it became necessary",
+    "container_deployment_authorized": false,
+    "time_varying_replay_authorized": false,
+    "physical_radio_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_revision": "a3c9347198524bab30f967d4cd8c206d22c6e470",
+    "profile_revision": "5c1a19cbf5702b799ede9df3741e0453e766f331",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "build_script_sha256": "e997a98195dac7cf5c4cb80cf132e6d64fa8406a4d3a66da3faf99ed4b53609b",
+    "dockerfile_sha256": "69aa379e6e8e2b4346707f3786fb7d5f0d7e66e7c3c2007c18b9c4f3e2f395bb",
+    "cirdb_telemetry_patch_sha256": "31aa26fc6ce8ff2cd7f3c37947b2a0baa18a6fe65838b6dd81e96343ff2aae8a",
+    "future_replay_runner_sha256": "1cfd1e888ece126f54d55aab6d6073fdb9edc9c44bd54b4acdf62f3df963080e",
+    "log_parser_sha256": "cf3e292822561ef3b5995398078b5b1e6f6683ffc2efdf94408c696fa1333cde"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313684",
+    "profile": "oai-5g-ric",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc829.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-25T06:00:00+02:00",
+    "new_reservation_required": false,
+    "lead_time_requirement_satisfied": true
+  },
+  "build": {
+    "scope": "compute_only_no_running_container_replacement",
+    "source_checkout": "/local/phase3c/openairinterface5g-vrtsim-clean",
+    "remote_profile_copy": "/local/phase3c/oai-5g-ric-vrtsim",
+    "ue_image_tag": "oai-nr-ue-phase3c-vrtsim:70508eb",
+    "gnb_image_tag": "oai-gnb-phase3c-vrtsim:70508eb",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/build-phase3c-vrtsim-images.sh /local/phase3c/openairinterface5g-vrtsim-clean oai-nr-ue-phase3c-vrtsim:70508eb oai-gnb-phase3c-vrtsim:70508eb",
+    "required_outputs": [
+      "clean pinned OAI source provenance",
+      "applied patch diff and checksum",
+      "complete build log and checksum",
+      "UE and gNB image IDs, sizes, architectures and revision labels",
+      "runtime binary and libvrtsim existence checks",
+      "ldd checks with zero unresolved dependencies"
+    ]
+  },
+  "preflight_rules": [
+    "all frozen local and copied remote file checksums must match",
+    "the source checkout must resolve to the pinned OAI revision before patching",
+    "the cell node architecture must be x86_64",
+    "the currently running gNB and UE image IDs and restart counts must be recorded",
+    "the build must not replace, restart, stop, or reconfigure any running service"
+  ],
+  "stopping_rules": [
+    "stop on any source revision or file checksum mismatch",
+    "stop if the source clone is not self-contained",
+    "stop on any patch, compiler, Docker, runtime artifact, architecture, label, or ldd failure",
+    "stop if any running gNB or UE image ID or restart count changes",
+    "do not deploy either newly built image regardless of the build result"
+  ],
+  "post_build": {
+    "pass_action": "record image provenance and freeze a separate Phase 3C4 replay execution amendment",
+    "fail_action": "keep the replay gate closed and debug the build offline",
+    "reservation_gate_after_build": "closed_pending_build_result_and_replay_amendment"
+  }
+}
