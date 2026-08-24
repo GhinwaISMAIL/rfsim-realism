@@ -31,9 +31,15 @@ UPV_SUPPORT_SELECTION ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/selection
 UPV_SUPPORT_CAMPAIGN ?= ../rfsim-realism-data/campaigns/tdl_b_safe_v2/campaign_state.json
 UPV_SUPPORT_EXECUTIONS ?= ../rfsim-realism-data/tdl_b_executions
 UPV_SUPPORT_OUTPUT ?= data/model_runs/upv_tdl_b_existing_bank_support_v1
+UPV_AUDIT_CONFIG ?= configs/upv_measurement_audit_v1.yaml
+UPV_AUDIT_PHASE2_MANIFEST ?= manifests/upv_support_v1/analysis_manifest.json
+UPV_AUDIT_PHASE2_GATE ?= manifests/upv_support_v1/reservation_gate_v1.json
+UPV_AUDIT_OAI_SOURCE ?= ../openairinterface5g
+UPV_AUDIT_PROFILE_SOURCE ?= ../oai-5g-ric
+UPV_AUDIT_OUTPUT ?= data/model_runs/upv_measurement_audit_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -109,6 +115,16 @@ upv-support:
 		--executions-root $(UPV_SUPPORT_EXECUTIONS) \
 		--config $(UPV_SUPPORT_CONFIG) \
 		--output $(UPV_SUPPORT_OUTPUT)
+
+upv-measurement-audit:
+	$(UV) run --locked rfsim-realism audit-upv-measurement \
+		--upv-archive $(UPV_ARCHIVE) \
+		--phase2-manifest $(UPV_AUDIT_PHASE2_MANIFEST) \
+		--phase2-gate $(UPV_AUDIT_PHASE2_GATE) \
+		--oai-source $(UPV_AUDIT_OAI_SOURCE) \
+		--profile-source $(UPV_AUDIT_PROFILE_SOURCE) \
+		--config $(UPV_AUDIT_CONFIG) \
+		--output $(UPV_AUDIT_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q

@@ -82,6 +82,24 @@ the two marginal sweeps supported by the current RFsim grid. With only two
 executions per state, no result from this target may be described as an ABC
 posterior or final calibration.
 
+Phase 3A audits measurement equivalence before any support extension. It traces
+the exact OAI SS-RSRP formula, the profile's RFsim reporting-offset patch, the
+configured SSB power fields, and the UPV radio-column completeness. The audit
+requires clean checkouts at the revisions recorded by the RFsim executions:
+
+```bash
+make upv-measurement-audit \
+  UPV_AUDIT_OAI_SOURCE=/path/to/openairinterface5g \
+  UPV_AUDIT_PROFILE_SOURCE=/path/to/oai-5g-ric
+```
+
+The Phase 2 files remain an immutable snapshot. Future ABC uses a nonnegative
+biased MMD-squared V-statistic under `upv-support-v2`; clipping negative
+unbiased estimates is prohibited. The first `{0,+2.5}` positive-`ploss`
+experiment, if later authorized, is a safety and interaction probe rather than
+a final support-extension design. Do not request POWDER until
+`reservation_gate_v2.json` opens and the exact experiment is frozen.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

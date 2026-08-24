@@ -14,6 +14,7 @@ from .static_grid import plan_document as static_grid_plan
 from .static_grid import run_campaign as run_static_grid
 from .sweep import load_config, plan_document, run_campaign, write_json
 from .ucc_static import build_manifest, write_manifest
+from .upv_measurement_audit import run_measurement_equivalence_audit
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 
@@ -120,6 +121,15 @@ def _parser() -> argparse.ArgumentParser:
     upv_support.add_argument("--executions-root", required=True)
     upv_support.add_argument("--config", required=True)
     upv_support.add_argument("--output", required=True)
+
+    upv_audit = commands.add_parser("audit-upv-measurement")
+    upv_audit.add_argument("--upv-archive", required=True)
+    upv_audit.add_argument("--phase2-manifest", required=True)
+    upv_audit.add_argument("--phase2-gate", required=True)
+    upv_audit.add_argument("--oai-source", required=True)
+    upv_audit.add_argument("--profile-source", required=True)
+    upv_audit.add_argument("--config", required=True)
+    upv_audit.add_argument("--output", required=True)
     return parser
 
 
@@ -256,6 +266,18 @@ def main() -> None:
             selection_manifest=args.selection_manifest,
             campaign_state=args.campaign_state,
             executions_root=args.executions_root,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "audit-upv-measurement":
+        result = run_measurement_equivalence_audit(
+            upv_archive=args.upv_archive,
+            phase2_manifest=args.phase2_manifest,
+            phase2_gate=args.phase2_gate,
+            oai_source=args.oai_source,
+            profile_source=args.profile_source,
             config_path=args.config,
             output_dir=args.output,
         )

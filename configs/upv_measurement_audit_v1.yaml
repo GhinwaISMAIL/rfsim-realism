@@ -1,0 +1,163 @@
+schema_version: 1
+name: upv_measurement_equivalence_link_budget_audit_v1
+stage: phase_3a_measurement_equivalence_and_link_budget_audit
+
+frozen_inputs:
+  phase1_revision: 242181ad8d2f0f3d6ef1e88c18fbabab6ff3b0d1
+  phase1_tag: upv-protocol-v1
+  phase2_methods_revision: 765954842eecd8ed14958eebca60c53891a1baec
+  phase2_results_revision: 9e7ab0a582bf4cde2924c791b224164f0a33183c
+  phase2_decision_code: systematic_rsrp_offset_but_sinr_support
+  phase2_estimator: unbiased_mmd_squared
+  phase2_must_remain_unchanged: true
+
+pinned_sources:
+  oai:
+    expected_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  profile:
+    expected_revision: e6d5d9202ec4492b5c67b13aeaea7b415177ed9b
+
+source_assertions:
+  - source: oai
+    path: openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c
+    fact: OAI serving SS-RSRP uses the SSS resource elements and reports dBm per RE.
+    snippets:
+      - "SS reference signal received power (SS-RSRP) as per clause 5.1.1"
+      - "rsrp_db_per_re + 30 - SQ15_SQUARED_NORM_FACTOR_DB"
+      - "- ((int)cfg0->rx_gain[0] - (int)cfg0->rx_gain_offset[0])"
+      - "- dB_fixed(fp->ofdm_symbol_size);"
+  - source: oai
+    path: radio/rfsimulator/simulator.cpp
+    fact: Stock RFsim resets the receive-gain metadata used by the RSRP formula.
+    snippets:
+      - "openair0_cfg->rx_gain[0] = 0;"
+  - source: oai
+    path: radio/rfsimulator/apply_channelmod.c
+    fact: RFsim ploss is a path-gain control with an amplitude multiplier of 10^(ploss/20).
+    snippets:
+      - "channelDesc->path_loss_dB should contain the total path gain"
+      - "pow(10, channelDesc->path_loss_dB / 20.0)"
+  - source: oai
+    path: openair2/LAYER2/NR_MAC_UE/nr_ue_power_procedures.c
+    fact: OAI derives SSB path loss as signalled reference-signal power minus measured SS-RSRP.
+    snippets:
+      - "referenceSignalPower - max_ssb_rsrp_dBm"
+  - source: profile
+    path: bin/patch-oai-rfsim-rsrp-calibration.py
+    fact: The profile applies rsrp_offset_dB once through RFsim receive-gain metadata.
+    snippets:
+      - "openair0_cfg->rx_gain[0] = -rfsimulator->rsrp_offset_dB;"
+  - source: profile
+    path: bin/patch-oai-ue-radio-measurements.py
+    fact: UE_RADIO_V1 averages OAI serving-SSB RSRP, RSRQ and SINR within each UTC second.
+    snippets:
+      - "UE_RADIO_V1 utc_second="
+      - "ue->measurements.ssb_rsrp_dBm[ssb_index]"
+      - "ue_radio_second.rsrp_sum / ue_radio_second.samples"
+  - source: profile
+    path: etc/nr-ue.conf.tmpl
+    fact: The executed RFsim campaigns configured a -56 dB reporting offset.
+    snippets:
+      - "rsrp_offset_dB = -56.0;"
+  - source: profile
+    path: etc/gnb-cell.conf.tmpl
+    fact: The profile signals -25 dBm/RE SS/PBCH power and uses zero RF attenuation.
+    snippets:
+      - "ssPBCH_BlockPower                                             = -25;"
+      - "att_tx         = 0"
+      - "max_pdschReferenceSignalPower = -27;"
+  - source: profile
+    path: README.md
+    fact: The -56 dB value was selected empirically to map one RFsim baseline to a real-data reference.
+    snippets:
+      - "profile uses `-56.0 dB`, mapping the healthy zero-loss RFsim"
+      - "baseline from about `-41 dBm` to the strongest steady reference at `-97 dBm`"
+
+upv_fields:
+  rsrp: RSRP (NR SpCell)
+  rsrq: RSRQ (NR SpCell)
+  sinr: SINR (NR SpCell)
+  rssi: RSSI (NR SpCell)
+  pathloss: Pathloss (NR SpCell)
+  measurement_type: Measurement type (NR SpCell)
+  beam_index: Beam index (NR SpCell)
+  rx_beam: RX beam (SSB beam)
+  rank_indicator: Rank indicator (NR)
+
+known_link_budget_values:
+  - quantity: rfsim_rsrp_offset_db
+    value: -56.0
+    unit: dB
+    provenance: profile etc/nr-ue.conf.tmpl
+    interpretation: empirical reporting transform, not independent physical calibration
+  - quantity: oai_signalled_ss_pbch_block_power
+    value: -25.0
+    unit: dBm_per_RE
+    provenance: profile etc/gnb-cell.conf.tmpl
+    interpretation: signalled value; absolute RFsim waveform calibration is not established
+  - quantity: oai_gnb_att_tx
+    value: 0.0
+    unit: dB
+    provenance: profile etc/gnb-cell.conf.tmpl
+    interpretation: configured RF attenuation only
+  - quantity: oai_max_pdsch_reference_signal_power
+    value: -27.0
+    unit: dBm
+    provenance: profile etc/gnb-cell.conf.tmpl
+    interpretation: configured gNB field; not a complete SSB link budget
+
+unknown_link_budget_values:
+  - upv_signalled_ss_pbch_block_power
+  - upv_gnb_conducted_power_and_eirp
+  - upv_gnb_antenna_and_cable_gains
+  - upv_ue_antenna_combining_rule
+  - upv_device_calibration_uncertainty
+  - nemo_layer_1_and_layer_3_filtering
+  - nemo_pathloss_export_definition_and_missingness_reason
+
+offset_policy:
+  transform: RSRP_comparable = RSRP_reported + delta_equivalence
+  observed_phase2_gap_must_not_determine_delta: true
+  verified_offset_requires_independent_link_budget_evidence: true
+  current_empirical_rfsim_offset_is_not_verified: true
+  uncertainty_must_be_propagated: true
+
+future_mmd_protocol:
+  primary_estimator: biased_mmd_squared_v_statistic
+  nonnegative_by_construction: true
+  clipping_unbiased_estimates: prohibited
+  legacy_unbiased_estimator_role: diagnostic_only
+  applies_from_protocol_version: upv-support-v2
+  abc_remains_prohibited_until_measurement_gate_and_repetition_gate_pass: true
+
+positive_ploss_probe:
+  interpretation: positive_ploss_safety_and_interaction_probe_only
+  not_final_support_extension: true
+  first_stage:
+    ploss_values: [0.0, 2.5]
+    noise_power_dB_values: [-12.5, -10.0, -7.5]
+    minimum_repetitions_per_state: 3
+    preferred_repetitions_per_state: 5
+  adaptive_localization_after_safe_monotone_first_stage:
+    candidate_ploss_values: [5.0, 7.5, 10.0]
+    status: extrapolative_candidates_not_preapproved_settings
+  slope_warning:
+    supported_ploss_range: [-20.0, -5.0]
+    supported_fixed_noise_power_dB: -30.0
+    phase2_best_noise_power_dB: -10.0
+    extrapolation_to_positive_ploss_is_prohibited: true
+
+reservation_policy:
+  preparation_lead_time_minutes: 30
+  request_now: false
+  open_gate_only_when:
+    - independent measurement-equivalence evidence has been assessed
+    - the selected Phase 3A decision branch requires new RFsim executions
+    - the exact safety-probe or localization plan has been frozen
+
+decision_policy:
+  absolute_rsrp_calibration_requires_verified_offset_or_equivalent_definitions: true
+  insufficient_metadata_action: contact_upv_authors_and_prohibit_absolute_rsrp_calibration
+  definitions_not_equivalent_action: use_sinr_and_relative_rsrp_or_explicit_discrepancy
+  no_offset_positive_ploss_valid_action: run_safety_probe_then_adaptive_localization
+  verified_offset_action: freeze_transform_and_run_upv_support_v2
