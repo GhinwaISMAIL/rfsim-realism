@@ -17,6 +17,7 @@ from .ucc_static import build_manifest, write_manifest
 from .upv_measurement_audit import run_measurement_equivalence_audit
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
+from .upv_support_v2 import write_upv_support_v2_plan
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -130,6 +131,12 @@ def _parser() -> argparse.ArgumentParser:
     upv_audit.add_argument("--profile-source", required=True)
     upv_audit.add_argument("--config", required=True)
     upv_audit.add_argument("--output", required=True)
+
+    upv_v2 = commands.add_parser("plan-upv-support-v2")
+    upv_v2.add_argument("--phase3a-decision", required=True)
+    upv_v2.add_argument("--phase3a-gate", required=True)
+    upv_v2.add_argument("--config", required=True)
+    upv_v2.add_argument("--output", required=True)
     return parser
 
 
@@ -282,6 +289,15 @@ def main() -> None:
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "plan-upv-support-v2":
+        output = write_upv_support_v2_plan(
+            phase3a_decision=args.phase3a_decision,
+            phase3a_gate=args.phase3a_gate,
+            config_path=args.config,
+            output_path=args.output,
+        )
+        print(json.dumps({"plan": str(output), "execution_authorized": False}, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

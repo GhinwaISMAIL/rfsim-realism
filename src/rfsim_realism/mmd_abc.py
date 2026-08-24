@@ -143,8 +143,12 @@ def validate_mmd_abc_config(config: dict[str, Any]) -> None:
         raise ValueError("relative_eigenvalue_floor must be positive")
 
     kernel = config.get("kernel") or {}
-    if kernel.get("name") != "rbf" or kernel.get("estimator") != "unbiased_mmd_squared":
-        raise ValueError("kernel must use RBF with unbiased_mmd_squared")
+    estimators = {"unbiased_mmd_squared", "biased_mmd_squared_v_statistic"}
+    if kernel.get("name") != "rbf" or kernel.get("estimator") not in estimators:
+        raise ValueError(
+            "kernel must use RBF with unbiased_mmd_squared or "
+            "biased_mmd_squared_v_statistic"
+        )
     multipliers = [float(value) for value in kernel.get("bandwidth_multipliers") or []]
     if 1.0 not in multipliers or any(value <= 0 for value in multipliers):
         raise ValueError("bandwidth multipliers must be positive and include 1.0")
@@ -329,6 +333,66 @@ def unbiased_rbf_mmd2(
         len(right) * (len(right) - 1)
     )
     return float(left_term + right_term - 2 * cross_kernel.mean())
+
+
+def biased_rbf_mmd2(
+    left: np.ndarray,
+    right: np.ndarray,
+    *,
+    bandwidth: float,
+    maximum_samples: int = 512,
+) -> float:
+    """Return the RBF MMD-squared V-statistic without post-hoc clipping."""
+    left = np.asarray(left, dtype=float)
+    right = np.asarray(right, dtype=float)
+    if left.ndim != 2 or right.ndim != 2 or left.shape[1] != right.shape[1]:
+        raise ValueError("MMD inputs must be matrices with equal column count")
+    if len(left) < 1 or len(right) < 1:
+        raise ValueError("biased MMD requires at least one observation per sample")
+    if bandwidth <= 0 or maximum_samples < 1:
+        raise ValueError("bandwidth and maximum_samples must be positive")
+    left = _downsample(left, maximum_samples)
+    right = _downsample(right, maximum_samples)
+
+    def kernel(first: np.ndarray, second: np.ndarray) -> np.ndarray:
+        squared = (
+            np.sum(first * first, axis=1)[:, None]
+            + np.sum(second * second, axis=1)[None, :]
+            - 2 * first @ second.T
+        )
+        return np.exp(-np.maximum(squared, 0) / (2 * bandwidth**2))
+
+    value = kernel(left, left).mean()
+    value += kernel(right, right).mean()
+    value -= 2 * kernel(left, right).mean()
+    return float(value)
+
+
+def _configured_rbf_mmd2(
+    left: np.ndarray,
+    right: np.ndarray,
+    *,
+    estimator: str,
+    bandwidth: float,
+    maximum_samples: int,
+) -> tuple[float, float]:
+    if estimator == "biased_mmd_squared_v_statistic":
+        value = biased_rbf_mmd2(
+            left,
+            right,
+            bandwidth=bandwidth,
+            maximum_samples=maximum_samples,
+        )
+        return value, value
+    if estimator == "unbiased_mmd_squared":
+        raw = unbiased_rbf_mmd2(
+            left,
+            right,
+            bandwidth=bandwidth,
+            maximum_samples=maximum_samples,
+        )
+        return raw, max(raw, 0.0)
+    raise ValueError(f"unsupported MMD estimator: {estimator}")
 
 
 def _load_real_observations(path: Path, config: dict[str, Any]) -> pd.DataFrame:
@@ -523,6 +587,7 @@ def _proposal_discrepancies(
     kernel = config["kernel"]
     maximum = int(kernel["maximum_samples_per_distribution"])
     multipliers = [float(value) for value in kernel["bandwidth_multipliers"]]
+    estimator = str(kernel["estimator"])
     rows = []
     for scenario_id, real_group in real.groupby(scenario_column, sort=True):
         real_matrix = (_metric_matrix(real_group, metrics, "real") - center) @ whitener
@@ -542,18 +607,19 @@ def _proposal_discrepancies(
                 **{parameter: float(first[parameter]) for parameter in parameters},
             }
             for multiplier in multipliers:
-                raw = unbiased_rbf_mmd2(
+                raw, discrepancy = _configured_rbf_mmd2(
                     real_matrix,
                     simulated_matrix,
+                    estimator=estimator,
                     bandwidth=bandwidth * multiplier,
                     maximum_samples=maximum,
                 )
                 suffix = _bandwidth_suffix(multiplier)
                 row[f"joint_mmd2_raw_bw_{suffix}"] = raw
-                row[f"joint_mmd2_bw_{suffix}"] = max(raw, 0.0)
+                row[f"joint_mmd2_bw_{suffix}"] = discrepancy
                 if multiplier == 1.0:
                     row["joint_mmd2_raw"] = raw
-                    row["joint_mmd2"] = max(raw, 0.0)
+                    row["joint_mmd2"] = discrepancy
             for metric in metrics:
                 name = str(metric["name"]).lower()
                 row[f"{name}_wasserstein"] = quantile_wasserstein(
@@ -877,6 +943,13 @@ def run_mmd_abc(
         str(key): int(value)
         for key, value in posterior_summaries["posterior_status"].value_counts().items()
     }
+    estimator = str(config["kernel"]["estimator"])
+    if estimator == "biased_mmd_squared_v_statistic":
+        estimator_label = "biased_rbf_mmd_squared_v_statistic"
+        discrepancy_label = "biased_mmd_squared_without_posthoc_clipping"
+    else:
+        estimator_label = "unbiased_rbf_mmd_squared"
+        discrepancy_label = "maximum_of_unbiased_mmd_squared_and_zero"
     manifest = {
         "schema_version": 1,
         "calibration_id": config["name"],
@@ -895,8 +968,8 @@ def run_mmd_abc(
         "selection_metrics": config["selection_metrics"],
         "diagnostic_metrics": config.get("diagnostic_metrics") or [],
         "holdout_unit": config["holdout_unit"],
-        "mmd_estimator": "unbiased_rbf_mmd_squared",
-        "abc_discrepancy": "maximum_of_unbiased_mmd_squared_and_zero",
+        "mmd_estimator": estimator_label,
+        "abc_discrepancy": discrepancy_label,
         "abc_weighting": "epanechnikov",
         "abc_settings": config["abc"],
         "reference_transform": {

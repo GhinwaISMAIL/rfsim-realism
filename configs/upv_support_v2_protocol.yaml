@@ -1,0 +1,102 @@
+schema_version: 1
+name: upv_support_v2_protocol_preparation
+stage: protocol_preparation_only
+execution_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3a_methods_revision: 73ed41dcee3c4303b729c4bdc478d03fea366be3
+  phase3a_results_revision: 30c345731249df73b3fc7fdb7d8ca6b8bec3d04b
+  required_phase3a_decision: insufficient_metadata_absolute_rsrp_not_identified
+  required_reservation_state: closed
+  phase2_snapshot_must_remain_unchanged: true
+
+measurement_branches:
+  verified_offset:
+    trigger: independently justified offset with sign, provenance and uncertainty
+    primary_features: [RSRP_comparable, SINR]
+    transform: RSRP_comparable = RSRP_reported + delta_equivalence
+    action: rerun existing-bank support before requesting POWDER
+  definitions_not_equivalent:
+    trigger: NEMO and OAI quantities cannot be made physically equivalent
+    primary_features: [relative_RSRP, SINR]
+    action: prohibit absolute-RSRP calibration or add an explicit discrepancy parameter
+  insufficient_metadata:
+    trigger: required UPV power, filtering, combining or pathloss metadata remains unavailable
+    primary_features: [relative_RSRP, SINR]
+    action: contact authors and keep absolute-RSRP calibration prohibited
+  no_offset_positive_ploss_valid:
+    trigger: no physical offset is supported and simulator gain probing is scientifically accepted
+    primary_features: [RSRP_reported, SINR]
+    action: run the frozen safety probe before adaptive localization
+
+preprocessing:
+  inherited_from: configs/upv_support_v1.yaml
+  frozen_components:
+    - included rows and executions
+    - feature order within the selected measurement branch
+    - complete-case missing-value policy
+    - one-second median aggregation
+    - balanced reference construction
+    - robust center and scale
+    - RBF bandwidth rule
+    - feature weights
+    - block bootstrap rule, repetitions and seed
+    - candidate ranking and boundary rules
+  refit_after_branch_selection:
+    - transformed RSRP values
+    - balanced-reference center and scale
+    - realized RBF bandwidth
+  branch_status: unresolved
+  distance_calculation_authorized: false
+
+kernel:
+  name: rbf
+  primary_estimator: biased_mmd_squared_v_statistic
+  formula: mean(Kxx) + mean(Kyy) - 2*mean(Kxy)
+  posthoc_clipping: prohibited
+  legacy_unbiased_estimator:
+    role: diagnostic_only
+    affects_candidate_acceptance: false
+
+repetition_gate:
+  minimum_independent_executions_per_state: 3
+  preferred_independent_executions_per_state: 5
+  existing_bank_executions_per_state: 2
+  abc_allowed_with_existing_bank: false
+
+positive_ploss_safety_probe:
+  label: positive_ploss_safety_and_interaction_probe
+  final_support_extension: false
+  ploss_values: [0.0, 2.5]
+  noise_power_dB_values: [-12.5, -10.0, -7.5]
+  minimum_repetitions_per_state: 3
+  preferred_repetitions_per_state: 5
+  pass_conditions:
+    - all requested controls are read back exactly
+    - no numerical clipping, overflow or unstable RFsim process is observed
+    - attachment and telemetry quality gates remain operationally interpretable
+    - RSRP response is monotone at each tested noise level within execution uncertainty
+    - interaction with SINR is reported at the execution level
+  fail_action: stop and do not localize farther into positive ploss
+
+adaptive_localization:
+  authorized_before_safety_probe: false
+  extrapolative_candidates: [5.0, 7.5, 10.0]
+  selection_rule: choose the next point only from execution-level safety-probe evidence
+  final_crossed_design_authorized: false
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  opening_conditions:
+    - one measurement branch has been explicitly selected and frozen
+    - the branch requires new RFsim executions
+    - the exact next experiment and stopping rule are committed
+    - the user has received a start-reservation notice at least 30 minutes in advance
+
+author_metadata_request:
+  - What ss-PBCH-BlockPower or equivalent SSB EPRE was signalled during each test?
+  - Does NEMO RSRP represent beam/SSB RSRP, cell-level RSRP, or antenna-combined RSRP, and what filtering is applied?
+  - Why is Pathloss (NR SpCell) empty in all UE files, and can a populated export be supplied?
+  - What gNB conducted power, antenna/cable gains, EIRP, and UE calibration or combining assumptions apply?

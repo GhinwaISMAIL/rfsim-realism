@@ -8,6 +8,7 @@ import pytest
 import yaml
 
 from rfsim_realism.mmd_abc import (
+    biased_rbf_mmd2,
     build_mmd_abc_plan,
     build_posterior_predictive_plan,
     median_heuristic_bandwidth,
@@ -24,7 +25,11 @@ def _write_json(path: Path, document: dict) -> None:
     path.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n")
 
 
-def _config(*, pilot_only: bool = False) -> dict:
+def _config(
+    *,
+    pilot_only: bool = False,
+    estimator: str = "unbiased_mmd_squared",
+) -> dict:
     return {
         "schema_version": 1,
         "name": "synthetic_tdl_b_mmd_abc",
@@ -75,7 +80,7 @@ def _config(*, pilot_only: bool = False) -> dict:
         },
         "kernel": {
             "name": "rbf",
-            "estimator": "unbiased_mmd_squared",
+            "estimator": estimator,
             "bandwidth_source": "pooled_real_reference_median_heuristic",
             "bandwidth_multipliers": [0.5, 1.0, 2.0],
             "maximum_reference_samples": 64,
@@ -114,8 +119,13 @@ def _config(*, pilot_only: bool = False) -> dict:
     }
 
 
-def _fixture(tmp_path: Path, *, pilot_only: bool = False) -> dict[str, Path]:
-    config = _config(pilot_only=pilot_only)
+def _fixture(
+    tmp_path: Path,
+    *,
+    pilot_only: bool = False,
+    estimator: str = "unbiased_mmd_squared",
+) -> dict[str, Path]:
+    config = _config(pilot_only=pilot_only, estimator=estimator)
     config_path = tmp_path / "config.yaml"
     config_path.write_text(yaml.safe_dump(config, sort_keys=False))
     plan = build_mmd_abc_plan(config_path)
@@ -200,6 +210,23 @@ def test_unbiased_mmd_is_small_for_identical_empirical_samples():
     value = unbiased_rbf_mmd2(values, values, bandwidth=1.0)
 
     assert value <= 0
+
+
+def test_biased_mmd_is_nonnegative_and_zero_for_identical_samples():
+    values = np.array([[-1.0, 0.0], [0.0, 1.0], [1.0, -1.0], [2.0, 0.5]])
+    shifted = values + np.array([2.0, -1.0])
+
+    identical = biased_rbf_mmd2(values, values, bandwidth=1.0)
+    separated = biased_rbf_mmd2(values, shifted, bandwidth=1.0)
+
+    assert identical == pytest.approx(0.0, abs=1e-15)
+    assert separated > 0
+
+
+def test_config_accepts_biased_mmd_v_statistic():
+    config = _config(estimator="biased_mmd_squared_v_statistic")
+
+    validate_mmd_abc_config(config)
 
 
 def test_predeclared_pilot_plan_has_24_complete_execution_points():
@@ -288,3 +315,22 @@ def test_pilot_only_bank_cannot_claim_an_established_posterior(tmp_path):
             calibration_dir=paths["output"],
             config_path=paths["config"],
         )
+
+
+def test_biased_mmd_abc_records_unclipped_v_statistic(tmp_path):
+    paths = _fixture(tmp_path, estimator="biased_mmd_squared_v_statistic")
+
+    run_mmd_abc(
+        real_observations=paths["real"],
+        executions_root=paths["executions"],
+        proposal_plan=paths["plan"],
+        campaign_state=paths["campaign"],
+        config_path=paths["config"],
+        output_dir=paths["output"],
+    )
+
+    manifest = json.loads((paths["output"] / "calibration_manifest.json").read_text())
+    discrepancies = pd.read_csv(paths["output"] / "proposal_discrepancies.csv")
+    assert manifest["mmd_estimator"] == "biased_rbf_mmd_squared_v_statistic"
+    assert manifest["abc_discrepancy"] == "biased_mmd_squared_without_posthoc_clipping"
+    assert (discrepancies["joint_mmd2"] == discrepancies["joint_mmd2_raw"]).all()

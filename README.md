@@ -100,6 +100,16 @@ experiment, if later authorized, is a safety and interaction probe rather than
 a final support-extension design. Do not request POWDER until
 `reservation_gate_v2.json` opens and the exact experiment is frozen.
 
+The next protocol can be prepared offline without calculating new distances:
+
+```bash
+make upv-support-v2-plan
+```
+
+This writes a non-executable plan. It keeps the measurement branch unresolved,
+records the 30-minute reservation-notice rule, and freezes the six-state
+positive-`ploss` safety probe as 18 minimum or 30 preferred executions.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,
