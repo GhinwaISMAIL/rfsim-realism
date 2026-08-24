@@ -106,6 +106,97 @@ def validate_upv_support_v2_protocol(config: dict[str, Any]) -> None:
         raise ValueError("the offline protocol cannot request a reservation")
     if int(reservation.get("preparation_lead_time_minutes", 0)) < 30:
         raise ValueError("reservation notice must allow at least 30 minutes")
+    if config.get("protocol_revision") == "2.1":
+        _validate_v2_1_clarifications(config)
+
+
+def _validate_v2_1_clarifications(config: dict[str, Any]) -> None:
+    branches = config.get("measurement_branches") or {}
+    positive = branches.get("no_offset_positive_ploss_valid") or {}
+    trigger = positive.get("trigger") or {}
+    required_trigger_terms = {
+        "nemo_oai_rsrp_definitions_comparable_without_offset",
+        "positive_ploss_accepted_as_controlled_simulator_gain_only",
+    }
+    if set(trigger.get("all_of") or []) != required_trigger_terms:
+        raise ValueError(
+            "the positive-ploss trigger must establish no-offset comparability "
+            "and simulator-gain-only interpretation"
+        )
+    if positive.get("physical_propagation_loss_interpretation") != "prohibited":
+        raise ValueError("positive ploss cannot be interpreted as propagation loss")
+
+    offset = config.get("offset_contract") or {}
+    if offset.get("transformed_quantity") != "OAI_ss_rsrp_dbm":
+        raise ValueError("the offset contract must transform OAI SS-RSRP")
+    if offset.get("reference_quantity") != "NEMO_NR_SpCell_SSB_RSRP":
+        raise ValueError("the offset contract must target NEMO SSB RSRP")
+    if offset.get("equation") != (
+        "RSRP_OAI_to_NEMO = RSRP_OAI + delta_OAI_to_NEMO"
+    ):
+        raise ValueError("the OAI-to-NEMO offset sign is not explicit")
+    if offset.get("delta_definition") != (
+        "delta_OAI_to_NEMO = RSRP_NEMO - RSRP_OAI"
+    ):
+        raise ValueError("the offset delta definition is not explicit")
+    if offset.get("upv_calibration_or_validation_fit") != "prohibited":
+        raise ValueError("the equivalence offset cannot be fitted to UPV analysis bins")
+    required_offset_records = {
+        "estimation_method",
+        "uncertainty_interval_and_level",
+        "applicable_radio_configuration",
+        "equipment_and_antenna_configuration",
+        "source_data_and_checksums",
+    }
+    if set(offset.get("required_records") or []) != required_offset_records:
+        raise ValueError("the offset provenance record is incomplete")
+
+    relative = config.get("relative_rsrp_diagnostic") or {}
+    if relative.get("status") != "diagnostic_only":
+        raise ValueError("relative RSRP must remain diagnostic only")
+    if relative.get("centering_statistic") != "within_unit_median":
+        raise ValueError("relative RSRP must use a frozen within-unit median")
+    if relative.get("absolute_location_information") != "removed":
+        raise ValueError("relative RSRP must remove absolute location information")
+    if relative.get("physical_ploss_inference") != "prohibited":
+        raise ValueError("relative RSRP cannot identify physical propagation loss")
+    if not relative.get("upv_equation") or not relative.get("rfsim_equation"):
+        raise ValueError("relative RSRP equations must be explicit for both systems")
+
+    gate = config.get("probe_quality_gate") or {}
+    if gate.get("authorization_status") != "blocked_pending_branch_and_parser":
+        raise ValueError("the safety probe must remain blocked")
+    if gate.get("analysis_window_seconds") != [15.0, 175.0]:
+        raise ValueError("unexpected safety-probe analysis window")
+    if int(gate.get("minimum_usable_telemetry_seconds", 0)) != 120:
+        raise ValueError("the safety probe requires 120 usable telemetry seconds")
+    attachment = gate.get("attachment") or {}
+    if attachment.get("required_fraction") != 1.0:
+        raise ValueError("every expected UE must remain attached")
+    failures = gate.get("failure_limits") or {}
+    if failures.get("pbch_failure_events_maximum") != 0:
+        raise ValueError("PBCH failure limit must be zero")
+    if failures.get("pusch_ul_failure_events_maximum") != 0:
+        raise ValueError("fatal PUSCH failure limit must be zero")
+    if failures.get("parser_status") != "required_not_yet_implemented":
+        raise ValueError("unimplemented failure counters must fail closed")
+    direction = gate.get("rsrp_direction_test") or {}
+    if direction.get("test") != "exact_one_sided_execution_level_permutation":
+        raise ValueError("RSRP direction requires the frozen exact permutation test")
+    if float(direction.get("alpha", 1.0)) != 0.05:
+        raise ValueError("RSRP direction alpha must be 0.05")
+    if direction.get("required_direction") != "RSRP(ploss=2.5)>RSRP(ploss=0.0)":
+        raise ValueError("the expected positive-gain RSRP direction is not explicit")
+    stopping = set(gate.get("immediate_stopping_conditions") or [])
+    required_stops = {
+        "ue_detach_or_rnti_change",
+        "channel_readback_mismatch",
+        "pbch_failure_event",
+        "fatal_pusch_ul_failure_event",
+        "rfsim_crash_nonfinite_value_or_numeric_overflow",
+    }
+    if stopping != required_stops:
+        raise ValueError("the immediate stopping conditions are incomplete")
 
 
 def build_upv_support_v2_plan(
@@ -139,7 +230,7 @@ def build_upv_support_v2_plan(
     probe = config["positive_ploss_safety_probe"]
     state_count = len(probe["ploss_values"]) * len(probe["noise_power_dB_values"])
     software = _software_revision()
-    return {
+    plan = {
         "schema_version": 1,
         "plan_id": config["name"],
         "stage": config["stage"],
@@ -180,6 +271,16 @@ def build_upv_support_v2_plan(
             "distances or request POWDER until a branch is selected"
         ),
     }
+    for key in (
+        "protocol_revision",
+        "offset_contract",
+        "relative_rsrp_diagnostic",
+        "probe_quality_gate",
+        "external_request",
+    ):
+        if key in config:
+            plan[key] = config[key]
+    return plan
 
 
 def write_upv_support_v2_plan(

@@ -1,0 +1,204 @@
+schema_version: 1
+protocol_revision: "2.1"
+name: upv_support_v2_1_clarified_protocol_preparation
+stage: protocol_preparation_only
+execution_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3a_methods_revision: 73ed41dcee3c4303b729c4bdc478d03fea366be3
+  phase3a_results_revision: 30c345731249df73b3fc7fdb7d8ca6b8bec3d04b
+  predecessor_protocol_revision: 38b230a0e13c41bd2cf8826f547d3f76e067e529
+  predecessor_plan_revision: 7a53de36530efbea653f7159de31c2c4fc756451
+  predecessor_plan_sha256: d6e0411f0a158a8a8c23b516b4153ce6e720e044f7e863ca980b2e2b2416de53
+  required_phase3a_decision: insufficient_metadata_absolute_rsrp_not_identified
+  required_reservation_state: closed
+  phase2_snapshot_must_remain_unchanged: true
+
+measurement_branches:
+  verified_offset:
+    trigger:
+      all_of:
+        - independent_equivalence_measurement_available
+        - offset_sign_provenance_uncertainty_and_configuration_frozen
+    primary_features: [RSRP_OAI_to_NEMO, SINR]
+    transform: RSRP_OAI_to_NEMO = RSRP_OAI + delta_OAI_to_NEMO
+    action: rerun existing-bank support before requesting POWDER
+  definitions_not_equivalent:
+    trigger: NEMO and OAI quantities cannot be made physically equivalent
+    primary_features: [relative_RSRP, SINR]
+    action: prohibit absolute-RSRP calibration or add an explicit discrepancy parameter
+  insufficient_metadata:
+    trigger: required UPV power, filtering, combining or pathloss metadata remains unavailable
+    primary_features: [relative_RSRP, SINR]
+    action: retain diagnostic-only analysis and keep absolute-RSRP calibration prohibited
+  no_offset_positive_ploss_valid:
+    trigger:
+      all_of:
+        - nemo_oai_rsrp_definitions_comparable_without_offset
+        - positive_ploss_accepted_as_controlled_simulator_gain_only
+    primary_features: [RSRP_reported, SINR]
+    physical_propagation_loss_interpretation: prohibited
+    action: run the frozen safety probe before adaptive localization
+
+offset_contract:
+  transformed_quantity: OAI_ss_rsrp_dbm
+  reference_quantity: NEMO_NR_SpCell_SSB_RSRP
+  equation: RSRP_OAI_to_NEMO = RSRP_OAI + delta_OAI_to_NEMO
+  delta_definition: delta_OAI_to_NEMO = RSRP_NEMO - RSRP_OAI
+  transform_applies_to: OAI_only
+  upv_calibration_or_validation_fit: prohibited
+  acceptable_evidence: independent paired measurement or traceable link-budget equivalence
+  required_records:
+    - estimation_method
+    - uncertainty_interval_and_level
+    - applicable_radio_configuration
+    - equipment_and_antenna_configuration
+    - source_data_and_checksums
+
+relative_rsrp_diagnostic:
+  status: diagnostic_only
+  aggregation_order:
+    - apply the frozen complete-case and one-second median aggregation
+    - select one locked spatial region or one RFsim execution
+    - subtract the median within that independent observational unit
+    - compare centered distributions without pooling units first
+  upv_observational_unit: source_file_x_locked_spatial_region
+  rfsim_observational_unit: execution_id_x_frozen_analysis_window
+  centering_statistic: within_unit_median
+  upv_equation: relative_RSRP = RSRP_1s - median(RSRP_1s within source_file and locked region)
+  rfsim_equation: relative_RSRP = ss_rsrp_dbm_1s - median(ss_rsrp_dbm_1s within execution analysis window)
+  calibration_and_validation_processed_separately: true
+  absolute_location_information: removed
+  permitted_claim: offset-invariant within-unit distribution-shape diagnostic
+  physical_ploss_inference: prohibited
+
+preprocessing:
+  inherited_from: configs/upv_support_v1.yaml
+  frozen_components:
+    - included rows and executions
+    - feature order within the selected measurement branch
+    - complete-case missing-value policy
+    - one-second median aggregation
+    - balanced reference construction
+    - robust center and scale
+    - RBF bandwidth rule
+    - feature weights
+    - block bootstrap rule, repetitions and seed
+    - candidate ranking and boundary rules
+  refit_after_branch_selection:
+    - branch-specific RSRP quantity
+    - balanced-reference center and scale
+    - realized RBF bandwidth
+  branch_status: unresolved
+  distance_calculation_authorized: false
+
+kernel:
+  name: rbf
+  primary_estimator: biased_mmd_squared_v_statistic
+  formula: mean(Kxx) + mean(Kyy) - 2*mean(Kxy)
+  posthoc_clipping: prohibited
+  legacy_unbiased_estimator:
+    role: diagnostic_only
+    affects_candidate_acceptance: false
+
+repetition_gate:
+  minimum_independent_executions_per_state: 3
+  preferred_independent_executions_per_state: 5
+  existing_bank_executions_per_state: 2
+  abc_allowed_with_existing_bank: false
+
+positive_ploss_safety_probe:
+  label: positive_ploss_safety_and_interaction_probe
+  authorization_status: frozen_inactive
+  final_support_extension: false
+  ploss_parameter_semantics: controlled_simulator_gain_in_dB
+  physical_propagation_loss_interpretation: prohibited
+  ploss_values: [0.0, 2.5]
+  noise_power_dB_values: [-12.5, -10.0, -7.5]
+  minimum_repetitions_per_state: 3
+  preferred_repetitions_per_state: 5
+  fail_action: stop and do not localize farther into positive ploss
+
+probe_quality_gate:
+  authorization_status: blocked_pending_branch_and_parser
+  analysis_window_seconds: [15.0, 175.0]
+  minimum_usable_telemetry_seconds: 120
+  valid_execution_definition: every attachment, duration, readback, clock, failure-counter and numeric-safety rule passes
+  valid_executions_required_per_state: 3
+  valid_executions_target_per_state: 5
+  maximum_attempts_per_state: 5
+  attachment:
+    required_fraction: 1.0
+    pre_window_tunnel_required: true
+    post_window_tunnel_required: true
+    measured_ues_must_equal_expected_ues: true
+    rnti_map_must_be_stable: true
+    reattachment_or_counter_epoch_boundary_allowed: false
+  telemetry:
+    required_complete_columns: [ss_rsrp_dbm, ss_sinr_db]
+    channel_schedule_enabled: true
+    channel_state_success: true
+    channel_verified: true
+    channel_transition_partial: false
+    ue_radio_clock_valid: true
+    radio_clock_valid: true
+    source_wall_ratio_range: [0.9, 1.1]
+  failure_limits:
+    parser_status: required_not_yet_implemented
+    pinned_oai_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+    pbch_failure_event_definition: 'UE log record matching "Initial sync: pbch not decoded" inside the analysis window'
+    pbch_failure_events_maximum: 0
+    pusch_ul_failure_event_definition: 'gNB log record matching "Detected UL Failure on PUSCH" inside the analysis window'
+    pusch_ul_failure_events_maximum: 0
+    missing_log_or_unparseable_timestamp_action: invalidate_execution
+  rsrp_direction_test:
+    response_unit: execution_level_mean_ss_rsrp_dbm
+    comparison: ploss_2.5_versus_0.0_separately_at_each_noise_level
+    test: exact_one_sided_execution_level_permutation
+    alpha: 0.05
+    required_direction: RSRP(ploss=2.5)>RSRP(ploss=0.0)
+    multiple_noise_rule: pass_at_all_three_noise_levels
+    interaction_reporting: report execution-level two-factor contrasts and uncertainty without an identifiability claim
+  immediate_stopping_conditions:
+    - ue_detach_or_rnti_change
+    - channel_readback_mismatch
+    - pbch_failure_event
+    - fatal_pusch_ul_failure_event
+    - rfsim_crash_nonfinite_value_or_numeric_overflow
+  campaign_stopping_conditions:
+    - fewer_than_3_valid_executions_after_5_attempts_at_any_state
+    - rsrp_direction_test_fails_at_any_noise_level
+    - any_immediate_stop_repeats_after_one_diagnostic_retry
+
+adaptive_localization:
+  authorized_before_safety_probe: false
+  extrapolative_candidates: [5.0, 7.5, 10.0]
+  selection_rule: choose the next point only after every executable safety gate passes
+  final_crossed_design_authorized: false
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  opening_conditions:
+    - one measurement branch has been explicitly selected and frozen
+    - the branch requires new RFsim executions
+    - the PBCH/PUSCH failure parser is implemented and validated against the pinned OAI revision
+    - the exact experiment, executable quality gates and stopping rule are committed
+    - the user has received a start-reservation notice at least 30 minutes in advance
+
+external_request:
+  status: prepared_not_sent
+  target: UPV_dataset_authors_via_iTEAM_public_contact
+  dataset_doi: 10.5281/zenodo.18410980
+  draft_path: requests/upv_metadata_request_v1.md
+
+author_metadata_request:
+  - NEMO version, measurement profile and CSV export configuration
+  - Exact RSRP definition, antenna/beam combining, best-beam selection, L1/L3 filtering, window and reporting periodicity
+  - Raw NEMO files or a populated Pathloss (NR SpCell) export, if shareable
+  - ss-PBCH-BlockPower or equivalent SSB EPRE per cell and test, including whether it changed
+  - NR carrier frequency, bandwidth, SCS, SSB configuration and PCI mapping
+  - Conducted SSB power separately from total carrier power
+  - gNB antenna configuration, cable gains/losses and EIRP
+  - UE antenna/calibration assumptions and confirmation of the apparent ASUS Test 1/Test 2 filename swap

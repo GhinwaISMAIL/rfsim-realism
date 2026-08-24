@@ -110,6 +110,19 @@ This writes a non-executable plan. It keeps the measurement branch unresolved,
 records the 30-minute reservation-notice rule, and freezes the six-state
 positive-`ploss` safety probe as 18 minimum or 30 preferred executions.
 
+The clarified v2.1 protocol preserves that plan as a snapshot and tightens the
+branch gates:
+
+```bash
+make upv-support-v2-1-plan
+```
+
+It defines the OAI-to-NEMO offset sign, freezes median-centered relative RSRP
+as a shape-only diagnostic, and makes the positive-`ploss` branch require
+demonstrated no-offset measurement comparability. The probe remains inactive;
+its quality gate fails closed until versioned PBCH/PUSCH log counters exist.
+The prepared author request is in `requests/upv_metadata_request_v1.md`.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

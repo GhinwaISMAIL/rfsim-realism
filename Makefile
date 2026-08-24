@@ -41,9 +41,11 @@ UPV_SUPPORT_V2_CONFIG ?= configs/upv_support_v2_protocol.yaml
 UPV_SUPPORT_V2_DECISION ?= manifests/upv_measurement_audit_v1/phase3a_decision.json
 UPV_SUPPORT_V2_GATE ?= manifests/upv_measurement_audit_v1/reservation_gate_v2.json
 UPV_SUPPORT_V2_PLAN ?= manifests/upv_support_v2_protocol_plan.json
+UPV_SUPPORT_V2_1_CONFIG ?= configs/upv_support_v2_1_protocol.yaml
+UPV_SUPPORT_V2_1_PLAN ?= manifests/upv_support_v2_1_protocol_plan.json
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -136,6 +138,13 @@ upv-support-v2-plan:
 		--phase3a-gate $(UPV_SUPPORT_V2_GATE) \
 		--config $(UPV_SUPPORT_V2_CONFIG) \
 		--output $(UPV_SUPPORT_V2_PLAN)
+
+upv-support-v2-1-plan:
+	$(UV) run --locked rfsim-realism plan-upv-support-v2 \
+		--phase3a-decision $(UPV_SUPPORT_V2_DECISION) \
+		--phase3a-gate $(UPV_SUPPORT_V2_GATE) \
+		--config $(UPV_SUPPORT_V2_1_CONFIG) \
+		--output $(UPV_SUPPORT_V2_1_PLAN)
 
 test:
 	$(UV) run --locked pytest -q
