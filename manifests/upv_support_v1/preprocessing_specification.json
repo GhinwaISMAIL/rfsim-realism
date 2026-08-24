@@ -1,0 +1,258 @@
+{
+  "analysis_implementation_revision": "765954842eecd8ed14958eebca60c53891a1baec",
+  "balanced_reference": {
+    "normalized_mad_factor": 1.4826,
+    "realized_rows_per_source": 16,
+    "realized_source_count": 17,
+    "robust_center": "median",
+    "robust_scale": "normalized_mad",
+    "row_selection": "deterministic_evenly_spaced_time_index",
+    "rows_per_source": "minimum_complete_aggregated_rows_across_sources",
+    "sources": "upv_calibration_plus_every_rfsim_execution",
+    "zero_mad_fallback": "iqr_divided_by_1.349"
+  },
+  "bootstrap": {
+    "block_length_aggregated_rows": 3,
+    "confidence_level": 0.95,
+    "interpretation": "traversal_conditional_not_between_execution",
+    "repetitions": 1000,
+    "rule": "circular_moving_block_with_fixed_target_length",
+    "seed": 20260824
+  },
+  "config_sha256": "3dc1066ff22d3a3634c9c9278724e22f1d5821999e7c31c4c965051ba208778e",
+  "decision_rules": {
+    "abc_is_prohibited_for_existing_bank": true,
+    "crossed_two_dimensional_design_required_for_joint_identifiability": true,
+    "current_design_is_crossed_two_dimensional": false,
+    "order": [
+      "systematic_rsrp_offset_but_sinr_support",
+      "closest_candidate_at_boundary",
+      "sequential_support_only",
+      "joint_support_and_local_identifiability",
+      "gross_joint_mismatch"
+    ]
+  },
+  "feature_columns": {
+    "RSRP": {
+      "rfsim": "ss_rsrp_dbm",
+      "upv": "rsrp_dbm"
+    },
+    "SINR": {
+      "rfsim": "ss_sinr_db",
+      "upv": "sinr_db"
+    }
+  },
+  "feature_order": [
+    "RSRP",
+    "SINR"
+  ],
+  "frozen_before_candidate_comparison": true,
+  "included_rfsim_executions": [
+    {
+      "execution_id": "mgen-20260810-172302",
+      "noise_power_dB": -30.0,
+      "ploss": -20.0,
+      "point_id": "ploss-m20_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-180852",
+      "noise_power_dB": -30.0,
+      "ploss": -20.0,
+      "point_id": "ploss-m20_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-171719",
+      "noise_power_dB": -30.0,
+      "ploss": -15.0,
+      "point_id": "ploss-m15_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-180309",
+      "noise_power_dB": -30.0,
+      "ploss": -15.0,
+      "point_id": "ploss-m15_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-171135",
+      "noise_power_dB": -30.0,
+      "ploss": -10.0,
+      "point_id": "ploss-m10_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-175727",
+      "noise_power_dB": -30.0,
+      "ploss": -10.0,
+      "point_id": "ploss-m10_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-170448",
+      "noise_power_dB": -30.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m30-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-175146",
+      "noise_power_dB": -30.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m30-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-193641",
+      "noise_power_dB": -7.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m7-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-194833",
+      "noise_power_dB": -7.0,
+      "ploss": -5.0,
+      "point_id": "ploss-m5_noise-m7-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-172844",
+      "noise_power_dB": -20.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m20-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-181441",
+      "noise_power_dB": -20.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m20-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-173427",
+      "noise_power_dB": -10.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m10-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-182024",
+      "noise_power_dB": -10.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m10-r2",
+      "repetition": 2
+    },
+    {
+      "execution_id": "mgen-20260810-174009",
+      "noise_power_dB": -5.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m5-r1",
+      "repetition": 1
+    },
+    {
+      "execution_id": "mgen-20260810-182607",
+      "noise_power_dB": -5.0,
+      "ploss": 0.0,
+      "point_id": "ploss-p0_noise-m5-r2",
+      "repetition": 2
+    }
+  ],
+  "included_upv_rows": {
+    "aggregated_rows": 16,
+    "calibration_bin": 8,
+    "calibration_bin_size_m": 15,
+    "raw_complete_rows": 31,
+    "source_path": "Test_2/Test_2_ASUS.csv"
+  },
+  "kernel": {
+    "bandwidth_formula": "sqrt_median_positive_squared_distance_divided_by_2",
+    "bandwidth_source": "balanced_reference_median_heuristic",
+    "estimator": "unbiased_mmd_squared",
+    "name": "rbf",
+    "realized_bandwidth": 1.3150499333113772
+  },
+  "missing_value_policy": "complete_case_drop_before_aggregation",
+  "phase1_revision": "242181ad8d2f0f3d6ef1e88c18fbabab6ff3b0d1",
+  "phase1_tag": "upv-protocol-v1",
+  "rfsim_selection": {
+    "analysis_window_end_inclusive": false,
+    "analysis_window_end_seconds": 175.0,
+    "analysis_window_start_seconds": 15.0,
+    "execution_id_column": "execution_id",
+    "minimum_complete_aggregated_rows": 12,
+    "model_column": "dl_model_type",
+    "noise_column": "dl_noise_power_dB",
+    "observation_filename": "ue_second_features.parquet",
+    "ploss_column": "dl_ploss",
+    "require_false": [
+      "channel_transition_partial"
+    ],
+    "require_true": [
+      "channel_schedule_enabled",
+      "channel_state_success",
+      "channel_verified"
+    ],
+    "required_repetitions_per_state": 2,
+    "time_column": "t_s"
+  },
+  "robust_transform": {
+    "center": {
+      "RSRP": -100.0,
+      "SINR": 29.617
+    },
+    "feature_weights": {
+      "RSRP": 1.0,
+      "SINR": 1.0
+    },
+    "scale": {
+      "RSRP": 7.412999999999999,
+      "SINR": 16.820097
+    }
+  },
+  "scenario_interpretation_sensitivity": {
+    "affects_primary_candidate_ranking": false,
+    "affects_primary_scaling": false,
+    "enabled": true,
+    "filename_test_id": 1,
+    "interpretation": "original_filenames",
+    "source_path": "Test_1/Test_1_Asus.csv",
+    "split_rule": "reuse_phase1_geometry_only_algorithm_and_thresholds",
+    "status": "provisional_pending_author_confirmation"
+  },
+  "schema_version": 1,
+  "sensitivity": {
+    "bootstrap_repetitions": 5000,
+    "fit_unit": "execution_level_aggregated_mean",
+    "full_interaction_surface_claim": "prohibited",
+    "minimum_unique_levels": 3,
+    "no_extrapolation": true,
+    "noise_sweep_fixed_ploss": 0.0,
+    "ploss_sweep_fixed_noise_power_dB": -30.0,
+    "seed": 20260825,
+    "uncertainty": "fixed_grid_within_level_execution_bootstrap"
+  },
+  "support_rules": {
+    "boundary_rule": "best_candidate_at_global_minimum_or_maximum_of_either_control",
+    "candidate_ranking": "ascending_mean_execution_level_mmd",
+    "euclidean_adjacency_threshold_m": 5.0,
+    "joint_support_rule": "candidate_mean_mmd_not_above_repeatability_threshold",
+    "marginal_interval_quantiles": [
+      0.1,
+      0.9
+    ],
+    "marginal_support_rule": "closed_interval_overlap",
+    "minimum_independent_repetitions_for_abc": 3,
+    "preferred_independent_repetitions_for_abc": 5,
+    "repeatability_threshold_quantile": 0.9
+  },
+  "temporal_aggregation": {
+    "duration_seconds": 1.0,
+    "rfsim_origin": "fixed_analysis_window_start",
+    "statistic": "median",
+    "upv_origin": "first_selected_timestamp"
+  }
+}

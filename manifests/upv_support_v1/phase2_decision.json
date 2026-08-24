@@ -1,0 +1,41 @@
+{
+  "action": "Investigate UPV/RFsim reference-power and measurement equivalence before extending ploss; retain the SINR-supported state as a conditional anchor.",
+  "bank_support": {
+    "any_rsrp_marginal_support": false,
+    "any_sinr_marginal_support": true,
+    "best_candidate_joint_support": false,
+    "systematic_rsrp_offset": true
+  },
+  "best_candidate": {
+    "candidate_id": "ploss=0|noise=-10",
+    "joint_supported": false,
+    "mean_execution_mmd_squared": 0.7852454926464038,
+    "noise_boundary": false,
+    "noise_power_dB": -10.0,
+    "ploss": 0.0,
+    "ploss_boundary": true,
+    "rsrp_marginal_supported": false,
+    "sinr_marginal_supported": true
+  },
+  "claim_limits": [
+    "diagnostic existing-bank support analysis, not ABC",
+    "bootstrap intervals are traversal-conditional, not between-run uncertainty",
+    "two executions per state are insufficient for final calibration",
+    "the marginal-axis sensitivity matrix is not a full joint Jacobian"
+  ],
+  "decision_code": "systematic_rsrp_offset_but_sinr_support",
+  "decision_number": 4,
+  "identifiability": {
+    "composite_axis_condition_number": 2.6939814868249217,
+    "crossed_two_dimensional_design": false,
+    "full_interaction_surface_identified": false
+  },
+  "phase1_revision": "242181ad8d2f0f3d6ef1e88c18fbabab6ff3b0d1",
+  "phase1_tag": "upv-protocol-v1",
+  "scenario_interpretation_sensitivity": {
+    "original_filename_best_candidate": "ploss=0|noise=-10",
+    "primary_best_candidate": "ploss=0|noise=-10",
+    "ranking_is_robust": true
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,43 @@
+{
+  "analysis_manifest_sha256": "635e54580474903206ae8f8d98774e720ac382639b447d30e80efafe763aea5c",
+  "automatic_execution_authorized": false,
+  "decision_code": "systematic_rsrp_offset_but_sinr_support",
+  "gate_before_next_reservation": {
+    "required_checks": [
+      "Reconcile NEMO serving-cell RSRP semantics with OAI ss_rsrp_dbm, including SSB/reference-signal power definitions.",
+      "Audit gNB transmit power, RFsim rsrp_offset_db, antenna/cable gains, UE calibration, and any scanner-versus-connected-UE offsets.",
+      "Verify whether positive ploss values are physically and operationally valid in the deployed RFsim control path.",
+      "If a justified constant measurement offset is found, apply it as an explicit measurement-equivalence transform and rerun the frozen existing bank before requesting POWDER time."
+    ],
+    "reason": "The best state supports the UPV SINR interval but its median RFsim RSRP remains 9.75 dB below the UPV calibration median; all eight candidates miss the UPV RSRP interval in the same direction.",
+    "reservation_should_be_requested_now": false
+  },
+  "phase1_revision": "242181ad8d2f0f3d6ef1e88c18fbabab6ff3b0d1",
+  "phase1_tag": "upv-protocol-v1",
+  "phase2_implementation_revision": "765954842eecd8ed14958eebca60c53891a1baec",
+  "post_audit_conditional_design": {
+    "anchor_state": {
+      "noise_power_dB": -10.0,
+      "ploss": 0.0
+    },
+    "if_measurement_offset_is_resolved": "Rerun Phase 2 first; do not collect new executions unless the harmonized target overlaps the current bank.",
+    "if_no_measurement_offset_and_positive_ploss_is_valid": {
+      "design": "local crossed boundary probe",
+      "minimum_executions": 18,
+      "minimum_repetitions_per_state": 3,
+      "noise_power_dB_values": [
+        -12.5,
+        -10.0,
+        -7.5
+      ],
+      "ploss_values": [
+        0.0,
+        2.5
+      ],
+      "preferred_executions": 30,
+      "preferred_repetitions_per_state": 5
+    },
+    "if_positive_ploss_is_not_valid": "Treat the RSRP gap as a reference-power/discrepancy-model problem; do not force it through ploss calibration."
+  },
+  "schema_version": 1
+}

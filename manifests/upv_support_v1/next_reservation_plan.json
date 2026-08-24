@@ -1,0 +1,19 @@
+{
+  "automatic_execution_authorized": false,
+  "best_existing_state": {
+    "noise_power_dB": -10.0,
+    "ploss": 0.0
+  },
+  "decision_code": "systematic_rsrp_offset_but_sinr_support",
+  "design_action": "Investigate UPV/RFsim reference-power and measurement equivalence before extending ploss; retain the SINR-supported state as a conditional anchor.",
+  "minimum_independent_executions_per_state": 3,
+  "phase1_revision": "242181ad8d2f0f3d6ef1e88c18fbabab6ff3b0d1",
+  "preferred_independent_executions_per_state": 5,
+  "required_controls": [
+    "repeat every selected state as an independent execution",
+    "retain the same TDL-B family, topology, duration, warm-up, and analysis window",
+    "include a local crossed design before any joint-identifiability claim",
+    "hold out at least one spatial UPV validation region from all tuning"
+  ],
+  "schema_version": 1
+}
