@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_frozen_startup_and_observation_window_protocol",
+  "recorded_at": "2026-08-24T17:48:23+02:00",
+  "authorization": {
+    "this_commit_authorizes_node_execution": false,
+    "authorized_now": "offline implementation, tests, provenance and protocol freeze only",
+    "future_execution_requires": "a separate committed execution amendment plus an active one-gNB/one-UE software-channel reservation",
+    "cirdb_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_implementation": {
+    "profile_repository_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+    "profile_branch": "codex/phase3c-debug-telemetry-v1",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "runner_sha256": "f32f9d9be4c3f95daa947794e37d60e366e60f8ff0aa4abee2a8d0c0d1b4b2cf",
+    "log_parser_sha256": "63ab66ad749c7f8f1dec286588bff4aa9ab745c0e01d012c4bc2921a23452644",
+    "focused_tests": "18_passed",
+    "full_profile_tests": "62_passed",
+    "python_compileall": "passed",
+    "git_diff_check": "passed",
+    "ruff": "not_rerun_because_no_ruff_executable_is_installed_in_the_local_test_environment"
+  },
+  "window_contract": {
+    "operational_anchor": [
+      "gNB is healthy",
+      "UE is attached",
+      "oaitun_ue1 route to the data-network subnet is installed"
+    ],
+    "stabilization_duration_s": 10.0,
+    "stabilization_health_rules": [
+      "UE remains attached at every one-second poll",
+      "gNB and UE containers remain running",
+      "gNB and UE restart counts remain zero"
+    ],
+    "stabilization_log_policy": "all failure markers are counted and retained as startup diagnostics, but recovered markers before the cutoff are not charged to the post-stabilization safety gate",
+    "observation_start": "capture immutable gNB and UE log prefixes after ten continuously healthy stabilization seconds",
+    "log_stream_rule": "the final Docker log text must begin with the frozen prefix; a non-append-only stream fails closed",
+    "observation_duration_s": 30.0,
+    "minimum_usable_telemetry_s": 20.0,
+    "attachment_poll_interval_s": 1.0,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "failure_window": "only the exact post-stabilization log suffix",
+    "required_success_markers_window": "full log, because PBCH, random access, RRC and registration necessarily precede the observation cutoff",
+    "post_stabilization_failure_marker_maximum_each": 0,
+    "startup_diagnostics_are_a_pass_override": false
+  },
+  "next_comparable_diagnostic": {
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions_required_for_passthrough_acceptance": 3,
+    "independence_unit": "forced recreation of both gNB and UE containers for each repetition",
+    "immutable_images": {
+      "ue_image_id": "sha256:7b2e9345d520933ab32e098fdf64c7f0067fe880a590ada0da67fa7525279e8d",
+      "gnb_image_id": "sha256:9fb86d04a0593a6ecc0afa6b34b87d4e3e848430f4930d286b5c31c19d61edad"
+    },
+    "single_configuration_only": true,
+    "adaptive_tuning_during_execution": false
+  },
+  "stopping_rules": [
+    "stop before mutation on any repository, image, compose or baseline-health mismatch",
+    "stop if either container exits, restarts or attachment is absent at any stabilization or observation poll",
+    "during observation, stop on any frozen PBCH, PUSCH, random-access, RLC maximum-retransmission, unhandled-RLF, actual-RLF or lost-sync marker",
+    "stop if Docker logs are not append-only relative to the frozen observation prefixes",
+    "stop and roll back on any failed repetition; do not change thresholds or runtime parameters",
+    "do not mount or evaluate CIRDB data in this diagnostic",
+    "do not calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "branch_after_future_execution": {
+    "three_valid_passthrough_repetitions": "freeze a separate CIRDB replay amendment using the same ten-second stabilization boundary",
+    "any_passthrough_failure": "keep CIRDB closed and return to offline VRTSIM transport or scheduling diagnosis",
+    "no_retroactive_pass_for_phase3c4_phase3c5_or_phase3c6": true
+  }
+}

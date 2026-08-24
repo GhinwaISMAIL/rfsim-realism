@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_reference_baseline_observation_window_audit",
+  "recorded_at": "2026-08-24T17:48:23+02:00",
+  "execution_authorized": false,
+  "evidence_origin": {
+    "experiment_name": "ghinwa-313684",
+    "cell_node": "pc03-meb.emulab.net",
+    "collection_mode": "read_only_docker_log_snapshot_after_phase3c6_rollback",
+    "reference_channel": "original_profile_rfsim_baseline",
+    "gnb_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "container_restart_counts": {
+      "gnb": 0,
+      "ue": 0
+    },
+    "gnb_health_at_collection": "healthy",
+    "ue_attachment_at_collection": true
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw logs are gitignored; their checksums and this structured audit are committed",
+    "directory": "data/model_runs/upv_phase3c7_baseline_window_v1",
+    "files": {
+      "gnb.log": "4547b58d44f5755c38e5df0059477b77373556c54ae52740314b33a4e21fceef",
+      "ue.log": "fe686a973118784715f5032089bbe53b816f0d8ed4925bb4c95f9f6df4e2fed7",
+      "log_parser_result.json": "1649ba6498d366b164f3c712543857678120d03be6a2c42c64a3985b952f70a5"
+    }
+  },
+  "startup_sequence": {
+    "ue_random_access_success_monotonic_s": 9961.738998,
+    "ue_registration_accept_monotonic_s": 9962.241721,
+    "ue_tun_configured_monotonic_s": 9962.366765,
+    "gnb_rlc_max_retx_count": 4,
+    "gnb_unhandled_rlf_indication_count": 4,
+    "gnb_actual_radio_link_failure_count": 0,
+    "first_rlc_max_retx_monotonic_s": 9964.037646,
+    "last_rlc_max_retx_monotonic_s": 9964.601359,
+    "last_unhandled_rlf_indication_monotonic_s": 9964.601378,
+    "last_warning_seconds_after_tun": 2.234613,
+    "pdu_session_completed_after_warnings": true,
+    "interpretation": "The reference profile emits four RLC maximum-retransmission warnings during bearer establishment but does not invoke a callable upper-layer RLF handler, detach the UE, restart either container or stop later telemetry. Full-container-lifetime zero tolerance therefore rejects the functioning reference baseline."
+  },
+  "independently_selected_window": {
+    "anchor": "UE TUN interface successfully configured",
+    "stabilization_duration_s": 10.0,
+    "observation_cutoff_monotonic_s": 9972.366765,
+    "selection_rule": "ten seconds after the operational attachment anchor; selected from the reference baseline before examining any VRTSIM post-cutoff outcome",
+    "time_base": "gNB and UE container logs use the shared cell-host monotonic clock",
+    "gnb_last_timestamp_monotonic_s": 10164.298596,
+    "gnb_evidence_duration_after_cutoff_s": 191.931831,
+    "ue_first_radio_row_after_cutoff_monotonic_s": 9973.258115,
+    "ue_last_radio_row_monotonic_s": 10166.236362,
+    "ue_radio_rows_after_cutoff": 194,
+    "post_cutoff_failure_counts": {
+      "gnb_pusch_ul_failure": 0,
+      "gnb_random_access_failure": 0,
+      "gnb_rlc_max_retx": 0,
+      "gnb_unhandled_rlf_indication": 0,
+      "gnb_actual_radio_link_failure": 0,
+      "ue_pbch_decode_error": 0,
+      "ue_random_access_failure": 0,
+      "ue_radio_link_failure": 0,
+      "ue_lost_sync": 0
+    }
+  },
+  "decision": {
+    "full_lifetime_failure_gate_valid_for_this_profile": false,
+    "startup_and_observation_windows_must_be_separated": true,
+    "startup_markers_remain_reportable_diagnostics": true,
+    "post_stabilization_zero_failure_gate_retained": true,
+    "prior_vrtsim_attempts_reclassified": false,
+    "reason_prior_attempts_remain_failed": "they were stopped before a frozen comparable observation window and therefore provide no post-stabilization safety result",
+    "baseline_run_declared_a_formal_safety_pass": false,
+    "reason_baseline_is_not_a_formal_pass": "this was a read-only log audit without the frozen attachment polling, ping and replay-runner capture contract"
+  },
+  "claim_limits": {
+    "clean_vrtsim_passthrough_established": false,
+    "cirdb_replay_validated": false,
+    "startup_warnings_proven_harmless_in_all_conditions": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_reservation_gate",
+  "recorded_at": "2026-08-24T17:48:23+02:00",
+  "current_reservation": {
+    "experiment_name": "ghinwa-313684",
+    "further_execution_authorized_by_this_protocol": false,
+    "can_be_released": true
+  },
+  "next_execution": {
+    "reservation_required": true,
+    "advance_notice_minutes": 30,
+    "gate_status": "wait_for_separate_committed_execution_amendment",
+    "topology": {
+      "gnb_count": 1,
+      "ue_count": 1,
+      "core_count": 1,
+      "channel": "software VRTSIM passthrough only",
+      "sdr_or_ota_required": false,
+      "rf_attenuator_required": false
+    },
+    "estimated_reserved_runtime_minutes": 30,
+    "planned_work": "three independently recreated passthrough VRTSIM repetitions with a ten-second stabilization interval and thirty-second observation window"
+  },
+  "closed_gates": [
+    "CIRDB replay",
+    "positive-ploss localization",
+    "absolute RSRP calibration",
+    "MMD or ABC inference",
+    "physical-radio execution"
+  ]
+}
