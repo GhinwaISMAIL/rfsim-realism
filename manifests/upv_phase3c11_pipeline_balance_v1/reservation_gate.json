@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_reservation_gate",
+  "recorded_at": "2026-08-25T15:48:02+02:00",
+  "status": "closed_pending_execution_amendment",
+  "reservation_needed_for_current_offline_work": false,
+  "next_reservation_purpose": "exact-hardware baseline-versus-balanced channel-pipeline correctness and latency benchmark; no gNB or UE service execution in the benchmark stage",
+  "minimum_benchmark_resources": {
+    "d740_nodes": 1,
+    "gnb_instances": 0,
+    "ue_instances": 0,
+    "channel": "none during benchmark"
+  },
+  "efficient_follow_on_reservation_if_benchmark_passes": {
+    "profile": "oai-5g-ric",
+    "gnb_count": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN baseline, with identity-L8 CIRDB enabled only under a later committed replay amendment",
+    "core_node_type": "d430",
+    "cell_node_type": "d740"
+  },
+  "required_before_requesting_or_using_nodes": [
+    "commit this Phase 3C11 audit and benchmark protocol",
+    "prepare an exact build-and-benchmark runner with checksum verification and raw JSON capture",
+    "test the runner offline against fixtures or a dry-run mode",
+    "commit a benchmark-only execution amendment",
+    "give the user at least 30 minutes notice"
+  ],
+  "current_full_trace_gate": "closed",
+  "current_absolute_rsrp_gate": "closed",
+  "current_mmd_or_abc_gate": "closed"
+}

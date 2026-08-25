@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_exact_hardware_channel_pipeline_benchmark_protocol",
+  "recorded_at": "2026-08-25T15:48:02+02:00",
+  "status": "frozen_design_not_yet_authorized_for_execution",
+  "frozen_inputs": {
+    "research_revision": "4d329b86461b0376577139187a5061894a3b758e",
+    "profile_revision": "0b952128c0ddd08874b493f67531bc5ffe370618",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "balance_patch_sha256": "66693c54be7fb62e36569d43d2c48ab1841a51b7fe69fbf077de2c80410825c6",
+    "benchmark_patch_sha256": "7d07b2a13f22578d34af684e8463a19d1f239fec7ad79ca44fdeccd7ddd13d67",
+    "benchmark_patch_test_sha256": "4090a5bf6bb301c5ca0c3d398a4823153c185ee78e4bb0410fdf6da0a70507af"
+  },
+  "hardware_and_build": {
+    "required_node_type": "d740",
+    "required_architecture": "x86_64",
+    "network_services_started": false,
+    "physical_radio_used": false,
+    "baseline_and_optimized_source_copies_required": true,
+    "same_host_and_base_image_required": true,
+    "build_type": "RelWithDebInfo",
+    "avx512": false,
+    "compiler_warnings_as_errors": true,
+    "record": [
+      "CPU model and logical CPU count",
+      "kernel and container runtime versions",
+      "CPU governor and frequency metadata where available",
+      "load average before and after each condition",
+      "complete configure and build logs",
+      "binary and source-diff hashes"
+    ]
+  },
+  "conditions": {
+    "baseline": "pinned channel_pipeline.c with only the exact-case benchmark/test patch",
+    "optimized": "same pinned source and benchmark/test patch plus the contiguous balanced-partition patch",
+    "all_other_source_differences_allowed": 0
+  },
+  "correctness": {
+    "test_target": "test_channel_pipeline",
+    "run_complete_cpu_tpool_suite": true,
+    "exact_sample_count_included": 23040,
+    "existing_per_component_tolerance": 1,
+    "both_conditions_must_pass": true
+  },
+  "performance": {
+    "benchmark_target": "benchmark_channel_pipeline",
+    "exact_case": {
+      "rx_antennas": 1,
+      "tx_antennas": 1,
+      "samples": 23040,
+      "channel_length": 8,
+      "workers": 4
+    },
+    "standard_guard_case": {
+      "rx_antennas": 1,
+      "tx_antennas": 1,
+      "samples": 61440,
+      "channel_length": 16,
+      "workers": 16
+    },
+    "iterations_per_repetition": 1000,
+    "repetitions_per_binary_invocation": 30,
+    "invocation_order": [
+      "baseline",
+      "optimized",
+      "optimized",
+      "baseline"
+    ],
+    "raw_json_required": true,
+    "wall_time_metric": "real_time",
+    "summaries": [
+      "median",
+      "p95",
+      "p99",
+      "maximum",
+      "coefficient of variation"
+    ]
+  },
+  "acceptance_rules": {
+    "all_correctness_tests_pass": true,
+    "exact_case_baseline_median_fraction_of_phase3c10_total_median_minimum": 0.7,
+    "exact_case_optimized_median_improvement_fraction_minimum": 0.15,
+    "exact_case_optimized_p95_us_maximum": 400,
+    "standard_guard_case_median_regression_fraction_maximum": 0.05,
+    "standard_guard_case_p95_regression_fraction_maximum": 0.1,
+    "same_acceptance_result_required_in_both_ABBA_pairs": true,
+    "threshold_changes_after_first_timing_result": false
+  },
+  "branches": {
+    "pipeline_not_dominant": "do not build network images; add split timing for CIRDB update, convolution, shared-channel write and history copy",
+    "optimization_fails_latency_or_regression_gate": "reject the patch and continue offline optimization",
+    "optimization_passes": "record and commit the benchmark result, then freeze a separate optimized-image build amendment",
+    "network_replay_during_benchmark_stage": false,
+    "adaptive_parameter_search": false
+  }
+}

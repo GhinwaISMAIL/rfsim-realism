@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_offline_channel_pipeline_bottleneck_audit",
+  "recorded_at": "2026-08-25T15:48:02+02:00",
+  "provenance": {
+    "research_revision": "4d329b86461b0376577139187a5061894a3b758e",
+    "profile_revision": "0b952128c0ddd08874b493f67531bc5ffe370618",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "phase3c10_result_sha256": "b0a444da58092f3af19c079b3f6626a85120a67ef724865a4de4c0b42a9c9f16",
+    "source_sha256": {
+      "openair1/SIMULATION/TOOLS/channel_pipeline.c": "4ad2d2e89a858dcf8bffa01acb962cf2a459ec2cb0ed2ac508d069d3dbd899ba",
+      "radio/vrtsim/cirdb_provider.c": "369b5b1f8bf384a3981899e753caa1a5adb0a91bd8f65679a0f1ca578090e1c7",
+      "radio/vrtsim/vrtsim.c": "5f3b58022d951420e36e472bf1943799b9d87f6254d3cf9ce67761fcb399bce5",
+      "openair1/PHY/TOOLS/tests/benchmark_channel_pipeline.cpp": "c1d25b584f57741d4e6511822976765fb4ebfccdbbdd505b6ebd27c00469158c",
+      "openair1/PHY/TOOLS/tests/test_channel_pipeline.cpp": "1a48cec3ada3fc72fa55c1d01d69e4d7633b51ad2a596d35bd2c372e8f4b7368"
+    }
+  },
+  "observed_runtime_workload": {
+    "sample_rate_hz": 46080000,
+    "numerology": 1,
+    "slots_per_subframe": 2,
+    "samples_per_subframe": 46080,
+    "samples_per_slot": 23040,
+    "slot_duration_us": 500,
+    "channel_length_taps": 8,
+    "tx_antennas": 1,
+    "rx_antennas": 1,
+    "server_channel_worker_threads": 4,
+    "thread_affinity": "none",
+    "approximate_server_channel_calls_per_trace_second": 1500.0722517730496,
+    "approximate_tap_sample_products_per_trace_second": 276493317.4468085,
+    "runtime_channel_processing_median_us": 530.452,
+    "runtime_channel_processing_p95_us": 557.591
+  },
+  "source_findings": {
+    "cirdb_update": {
+      "synchronous": true,
+      "updates_per_trace_second": 500,
+      "identity_snapshot_bytes": 64,
+      "approximate_file_payload_bytes_per_trace_second": 32000,
+      "operations_when_step_changes": [
+        "fseeko",
+        "fread of one 1x1x8 complex64 snapshot",
+        "copy eight taps",
+        "repoint the channel descriptor"
+      ],
+      "identity_inefficiency": "S equals one, but each new 2-ms step still reloads snapshot zero because the code compares the absolute step rather than the modulo snapshot index",
+      "interpretation": "the synchronous reload can contribute latency, but its payload bandwidth is too small to identify it as the dominant cost without timing measurements"
+    },
+    "channel_pipeline": {
+      "implementation": "four worker jobs run a direct eight-tap convolution and join before shared-channel TX",
+      "current_batch_size_samples": 4000,
+      "current_round_robin_worker_sample_counts_for_23040": [
+        8000,
+        7040,
+        4000,
+        4000
+      ],
+      "ideal_worker_sample_counts_for_23040": [
+        5760,
+        5760,
+        5760,
+        5760
+      ],
+      "critical_worker_over_ideal_ratio": 1.3888888888888888,
+      "critical_worker_work_reduction_if_balanced_fraction": 0.28,
+      "theoretical_critical_path_speedup_ceiling": 1.3888888888888888,
+      "interpretation": "the fixed batch schedule creates a deterministic load imbalance for the exact 23,040-sample runtime slot and is the highest-priority optimization candidate"
+    },
+    "other_synchronous_work": [
+      "channel descriptor and pointer setup",
+      "shared-channel write",
+      "256-sample history copy"
+    ]
+  },
+  "candidate_change": {
+    "status": "implemented_and_unit_tested_but_not_benchmarked_built_or_deployed",
+    "profile_revision": "8fc04273553a011226f0744655c834e7e5764d25",
+    "patch_script": "bin/patch-oai-channel-pipeline-balance.py",
+    "patch_script_sha256": "66693c54be7fb62e36569d43d2c48ab1841a51b7fe69fbf077de2c80410825c6",
+    "method": "assign each worker one contiguous, nearly equal output interval and retain a maximum 4,000-sample scratch batch within that interval",
+    "exact_case_worker_ranges": [
+      "[0,5760)",
+      "[5760,11520)",
+      "[11520,17280)",
+      "[17280,23040)"
+    ],
+    "arithmetic_order_within_each_output_sample_changed": false,
+    "output_ranges_overlap": false,
+    "output_range_gaps": false,
+    "profile_tests_passed": 74,
+    "deployment_authorized": false
+  },
+  "conclusion": {
+    "runtime_timing_violation_confirmed": true,
+    "channel_pipeline_dominance_established": false,
+    "deterministic_worker_imbalance_established": true,
+    "candidate_is_scientifically_testable": true,
+    "next_step": "benchmark the exact baseline and balanced pipeline on the same d740 hardware before any network replay",
+    "new_node_execution_authorized": false,
+    "calibration_gates": "closed"
+  }
+}
