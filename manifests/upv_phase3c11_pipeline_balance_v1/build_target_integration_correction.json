@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_build_target_integration_correction",
+  "recorded_at": "2026-08-25T16:13:00+02:00",
+  "status": "frozen_before_attempt_2",
+  "attempt_1": {
+    "work_root": "/local/phase3c11/channel-benchmark-work-v1",
+    "output_root": "/local/logs/phase3c11-channel-benchmark-v1",
+    "status": "failed_before_cell_quiescence",
+    "failure": "ninja: error: unknown target 'benchmark_channel_pipeline'",
+    "cause": "the runner configured OAI with its default ENABLE_TESTS=OFF, so openair1/PHY/TOOLS/tests was not added",
+    "cell_containers_stopped": false,
+    "correctness_or_timing_started": false,
+    "baseline_verified_healthy_and_attached_after_failure": true,
+    "local_evidence": "data/model_runs/upv_phase3c11_pipeline_balance_v1/attempt-1-build-target-failure",
+    "evidence_sha256": {
+      "base-image-build.log": "23a388079e65bbc24f1cb63301d1a47eb08ae56cfdc04701594aaf1d3f7df0b4",
+      "baseline-build.log": "15faf81267d7bd3ba426aa51d051960c0396f8dcbd2e31ed419d5093d46f4231",
+      "baseline-source.diff": "9a90667e81fbc95345141bb12247368ac2270212fddfffe7e61115b8d94ce7db",
+      "optimized-source.diff": "980a131590b9eda694be9ab7fad52b32911591042787beb3118d325e64a8ea42",
+      "execution_state.json": "942febe92481cff7d1795ea8f596b393036508683b2d0f07311713aa7a0006cd"
+    }
+  },
+  "offline_probe": {
+    "change": "add -DENABLE_TESTS=ON to the otherwise unchanged CMake configuration",
+    "result": "configuration succeeded and both benchmark_channel_pipeline and test_channel_pipeline appeared as Ninja phony targets",
+    "cell_containers_stopped": false,
+    "network_measurement_run": false,
+    "dependencies_selected_by_pinned_OAI_cmake": {
+      "googletest": "release-1.12.1",
+      "google_benchmark": "v1.9.0"
+    }
+  },
+  "runner_correction": {
+    "profile_revision": "a4e9c8ac7107b120a21a90618da3435ddffce465",
+    "runner_sha256": "260743d4fbb3d5242139e29b4ffe1bc7ac125fc223cc7691740948bfc2ff3951",
+    "profile_test_result": "81 passed",
+    "only_build_change": "-DENABLE_TESTS=ON"
+  },
+  "attempt_2": {
+    "source": "/local/phase3c11/openairinterface5g-clean",
+    "work_root": "/local/phase3c11/channel-benchmark-work-v2",
+    "output_root": "/local/logs/phase3c11-channel-benchmark-v2",
+    "command": "sudo python3 /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c11-channel-benchmark.py --source /local/phase3c11/openairinterface5g-clean --work-root /local/phase3c11/channel-benchmark-work-v2 --output-root /local/logs/phase3c11-channel-benchmark-v2 --compose-file /local/repository/etc/docker-compose-cell1.yaml",
+    "authorized": true,
+    "fresh_paths_required": true,
+    "network_replay_authorized": false,
+    "optimized_network_image_build_authorized": false
+  },
+  "stopping_rules": [
+    "stop on any source, patch, runner, compose, architecture, baseline health or attachment preflight failure",
+    "build both conditions before quiescing the live cell",
+    "stop on any configure, compile or correctness-test failure",
+    "once either cell container is stopped, always execute and verify the mandatory original-image restore path",
+    "do not change benchmark acceptance thresholds"
+  ]
+}
