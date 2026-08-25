@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c9_offline_cirdb_attachment_diagnosis",
+  "recorded_at": "2026-08-25T14:30:00+02:00",
+  "scope": {
+    "offline_only": true,
+    "node_mutation_performed": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_evidence": {
+    "research_revision": "dc247e8bfc0cb5887fdefcd7194e75bf414903fe",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "phase3c8_result_sha256": "301a516509b5ba39165b5453f51a026bc28625414d32c2abd19e1fd441196f64",
+    "phase3c7_passthrough_result_sha256": "c6a77726cb782b45920517125e146e009b14585e40bb4aff0c97182edbe6ad6b",
+    "phase3c4_result_sha256": "e08f8f0d20ad9a96ce68f7e846d6330b0ee12c7fc676fffa956f7ae4477e247c",
+    "phase3c8_gnb_log_sha256": "bbeda3d700ca2a6fda61af955c037778932b732c5a7db833a293ca306befefd7",
+    "phase3c8_ue_log_sha256": "58934ec3be665f9e6be7b891e04ebd9a2cb9d8100b2c479a4cda79721c50a438",
+    "frozen_trace_binary_sha256": "cb5b85bfdfe12768462b482c21145fe43618468a0bff9248beb5c9b5dea82550",
+    "frozen_trace_sidecar_sha256": "03b5031e81ea721501692e73e8ea908a57ae98e1814cee43887908da3dbf292c"
+  },
+  "repeated_runtime_observation": {
+    "phase3c4_and_phase3c8_same_primary_failure": true,
+    "failure": "UE did not attach within 180 seconds under the standardized time-varying CIRDB trace",
+    "phase3c8_ue_synch_failed_markers": 718,
+    "phase3c8_gnb_prach_job_in_past_markers": 8949,
+    "phase3c8_cirdb_reported_seconds": 181,
+    "phase3c8_last_applied_update": 90500,
+    "phase3c8_reported_skipped_snapshots": 0,
+    "phase3c8_reported_maximum_consecutive_skips": 0,
+    "phase3c8_containers_restarted": false,
+    "phase3c8_rollback_passed": true,
+    "contrast": "The same fresh VRTSIM images, topology, timescale 1.0 and min_rxtxtime 6 passed three independently recreated passthrough repetitions before CIRDB was enabled."
+  },
+  "source_findings": [
+    {
+      "path": "radio/vrtsim/vrtsim.c",
+      "sha256": "5f3b58022d951420e36e472bf1943799b9d87f6254d3cf9ce67761fcb399bce5",
+      "finding": "CIRDB update and channel convolution run synchronously in the VRTSIM transmit path before samples are written to shared memory."
+    },
+    {
+      "path": "radio/vrtsim/cirdb_provider.c",
+      "sha256": "369b5b1f8bf384a3981899e753caa1a5adb0a91bd8f65679a0f1ca578090e1c7",
+      "finding": "When the trace step changes, the provider synchronously seeks, reads one snapshot, copies its taps and publishes the next channel descriptor."
+    },
+    {
+      "path": "radio/vrtsim/vrtsim.c",
+      "sha256": "5f3b58022d951420e36e472bf1943799b9d87f6254d3cf9ce67761fcb399bce5",
+      "finding": "VRTSIM already accumulates transmit lateness, receive lateness, transmit budget and channel-processing delay, but prints the aggregates only during device teardown. The failure-path logs were captured before teardown, so these counters are absent from Phase 3C8 evidence."
+    },
+    {
+      "path": "radio/vrtsim/README.md",
+      "sha256": "578e8f1937bd3bc0e085ae40c1272b4a64277e614334c002e5062682c956b47a",
+      "finding": "Pinned OAI documentation explicitly states that real-time issues can prevent UE connection, especially with channel modelling enabled."
+    }
+  ],
+  "frozen_trace_diagnostics_over_steps_0_through_90500": {
+    "purpose": "exclude a persistent zero-energy or grossly discontinuous input as the sole explanation; these diagnostics do not prove runtime correctness",
+    "tap_energy_quantiles_linear": {
+      "minimum": 0.015399320051074028,
+      "p01": 0.09429529309272766,
+      "p05": 0.17305999994277954,
+      "median": 0.762162983417511,
+      "p95": 3.4521303176879883,
+      "p99": 5.785595417022705,
+      "maximum": 17.17106819152832
+    },
+    "ssb_band_mean_power_quantiles_linear": {
+      "minimum": 0.00023912399429212917,
+      "p01": 0.0198621758756591,
+      "p05": 0.057245785542535746,
+      "median": 0.6211762859085439,
+      "p95": 4.160618895309961,
+      "p99": 8.003580216705767,
+      "maximum": 41.201649197515934
+    },
+    "tap_energy_below_0_01_fraction": 0.0,
+    "flattened_lag_one_complex_correlation": {
+      "real": 0.9886230826377869,
+      "imaginary": -0.009342270903289318
+    },
+    "interpretation": "The trace contains deep instantaneous frequency-selective fades but is neither persistently zero nor temporally independent. Because the UE failed every synchronization attempt across 180 seconds, simple persistent attenuation is not sufficient to explain the result."
+  },
+  "diagnosis": {
+    "status": "timing_or_channel_processing_path_supported_but_root_cause_not_isolated",
+    "supported": [
+      "plain VRTSIM passthrough is supported under the corrected observation window",
+      "the CIRDB provider selected and advanced the frozen trace without reported snapshot skips",
+      "the complete CIRDB/channel-processing condition repeatedly prevents initial attachment",
+      "the late-PRACH-job signature is absent from the three successful Phase 3C7 passthrough logs"
+    ],
+    "not_supported": [
+      "that CIRDB file delivery alone is the cause",
+      "that the standardized trace coefficients alone are the cause",
+      "that channel convolution alone is the cause",
+      "that min_rxtxtime or timescale should be changed adaptively",
+      "that a particular code change will restore attachment"
+    ]
+  },
+  "next_discriminating_diagnostic": {
+    "name": "eight_tap_unity_cirdb_transport_control",
+    "purpose": "retain the CIRDB provider, 2-ms update cadence, eight-tap channel pipeline, image pair, timescale and radio configuration while replacing the time-varying coefficients with one unity tap and seven zero taps",
+    "single_factor_removed": "time-varying multipath coefficient content",
+    "binary_layout": "one_snapshot_one_link_eight_little_endian_complex64_taps",
+    "taps": [
+      "1+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j"
+    ],
+    "snapshot_interval_seconds": 0.002,
+    "interpretation_limit": "This is a transport and timing control, not a TDL-B channel and not a realism experiment.",
+    "pass_branch": "the coefficient content or its interaction with the runtime remains implicated; do not yet rerun the full trace",
+    "fail_branch": "the coefficient content is not required for failure; instrument or repair the CIRDB/channel-processing runtime before any full-trace replay"
+  },
+  "gates": {
+    "identity_control_preparation_authorized": true,
+    "identity_control_execution_authorized": false,
+    "execution_requires_committed_runner_tests_trace_checksums_and_amendment": true,
+    "additional_full_trace_execution_authorized": false,
+    "adaptive_parameter_changes_authorized": false,
+    "new_reservation_needed_now": false,
+    "active_reservation_may_be_released_if_preparation_is_not_completed": true,
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  }
+}
