@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_vrtsim_split_timing_build_result",
+  "recorded_at": "2026-08-25T17:07:54+02:00",
+  "status": "passed",
+  "execution": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "node_type": "d740",
+    "remote_build_log": "/local/logs/phase3c12-split-build/build.log",
+    "local_raw_directory": "data/model_runs/upv_phase3c12_split_timing_v1/build-attempt-1",
+    "network_replay_performed": false
+  },
+  "immutable_inputs": {
+    "research_revision_before_result": "78ada7371d852860d5c9e68c3a3b1bef345df524",
+    "profile_revision": "b937dd00dcc7d8d2b945afc28f53e608695e4ac4",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "source_audit_sha256": "3e425056e913003b48df62af0282221dc36ae891b5777feff76eb42ac8a39aed"
+  },
+  "images": {
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-vrtsim-split:70508eb",
+      "id": "sha256:1e258871cf8dfef03594fc000b66346572cc741b74b85229e29d51a7e631a8cc",
+      "size_bytes": 176491836,
+      "architecture": "amd64",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c"
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-vrtsim-split:70508eb",
+      "id": "sha256:de02f2145c77601d7895c13b2c0bb699f41202f69a8fc3678f9488e2cb013d2c",
+      "size_bytes": 200926887,
+      "architecture": "amd64",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c"
+    },
+    "libvrtsim_sha256": "3647bd8c1946ef41d31fbad7551b905ea353821cf52c91e3364db3a48127a3c1"
+  },
+  "validation": {
+    "build_completed_with_werror": true,
+    "both_images_have_required_architecture_and_revision": true,
+    "both_images_contain_identical_libvrtsim": true,
+    "required_markers_present": [
+      "VRTSIM_CIRDB_DEBUG_V1",
+      "VRTSIM_RUNTIME_DEBUG_V1",
+      "VRTSIM_SPLIT_DEBUG_V1"
+    ],
+    "ldd_missing_dependencies": false,
+    "source_diff_check_passed": true,
+    "changed_source_files": [
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c",
+      "radio/vrtsim/cirdb_provider.c",
+      "radio/vrtsim/vrtsim.c"
+    ],
+    "exact_source_diff_sha256": "37cd6f1e863ab9666a6367a42990e7af0d46229d06b70bad537b7ebe44c85944",
+    "build_log_sha256": "2d5d751640fc8890ff3ab61729f259404dd6ab1d7339ffa15b57fe4f89d591aa"
+  },
+  "live_baseline_after_build": {
+    "gnb_container": "ric5g-gnb-cell1",
+    "gnb_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "gnb_restart_count": 0,
+    "gnb_health": "healthy",
+    "ue_container": "ric5g-ue-cell1-1",
+    "ue_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "ue_restart_count": 0,
+    "ue_ipv4": "12.1.1.11/24",
+    "unchanged_from_original_baseline": true
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw outputs are gitignored; checksums and structured result are committed",
+    "files": {
+      "build.log": "2d5d751640fc8890ff3ab61729f259404dd6ab1d7339ffa15b57fe4f89d591aa",
+      "source.diff": "37cd6f1e863ab9666a6367a42990e7af0d46229d06b70bad537b7ebe44c85944"
+    }
+  },
+  "decision": {
+    "build_gate": "passed",
+    "identity_execution_authorized_by_this_result": false,
+    "next_action": "freeze and commit a separate execution amendment for exactly one identity replay",
+    "adaptive_retry_authorized": false,
+    "parameter_search_authorized": false,
+    "standardized_time_varying_trace_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  }
+}
