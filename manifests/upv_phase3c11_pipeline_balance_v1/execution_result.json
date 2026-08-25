@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_exact_hardware_channel_pipeline_benchmark_result",
+  "recorded_at": "2026-08-25T16:43:12+02:00",
+  "execution": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "node_type": "d740",
+    "remote_output_directory": "/local/logs/phase3c11-channel-benchmark-v3",
+    "local_raw_directory": "data/model_runs/upv_phase3c11_pipeline_balance_v1/attempt-3-valid",
+    "status": "completed",
+    "valid_abba_invocations": 4,
+    "timing_order": [
+      "baseline-1",
+      "optimized-1",
+      "optimized-2",
+      "baseline-2"
+    ],
+    "filtered_benchmark": "^BM_channel_convolution_tpool/",
+    "iteration_rows_per_invocation": 60,
+    "thresholds_changed": false,
+    "network_traffic_generated": false
+  },
+  "immutable_inputs": {
+    "research_revision_before_result": "d941dc9e0f825eae3d5313bb833257a54df25b3f",
+    "profile_revision": "58d4cc11812e72a3f60a5fb0870bfc93e9f695fc",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "runner_sha256": "1587745102c67077b1ce21a3c06158a966b9d993ea737ae60347447cb35db6ea",
+    "balance_patch_sha256": "66693c54be7fb62e36569d43d2c48ab1841a51b7fe69fbf077de2c80410825c6",
+    "benchmark_patch_sha256": "7d07b2a13f22578d34af684e8463a19d1f239fec7ad79ca44fdeccd7ddd13d67",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "base_image_id": "sha256:f0a4553bff66a0e4992bbbe9653768d3c55127fcc037bd8fae39103d32dcfd33",
+    "baseline_benchmark_binary_sha256": "7ab5ca1f9f05bc163f112a1165adf110cea12777b0eee8ce2d1c66f1db549a21",
+    "optimized_benchmark_binary_sha256": "d2734a5d1cdb966762ca218118a335c2ab9c2134d86d391c8ce1cd35908721c0"
+  },
+  "validation": {
+    "source_preflight_passed": true,
+    "main_and_recursive_submodule_revisions_passed": true,
+    "git_alternates_absent": true,
+    "full_history_checkout_claimed": false,
+    "complete_clean_worktree_for_pinned_revision": true,
+    "baseline_source_diff_sha256": "9a90667e81fbc95345141bb12247368ac2270212fddfffe7e61115b8d94ce7db",
+    "optimized_source_diff_sha256": "980a131590b9eda694be9ab7fad52b32911591042787beb3118d325e64a8ea42",
+    "baseline_correctness_tests_passed": 45,
+    "optimized_correctness_tests_passed": 45,
+    "post_quiescence_process_gate_passed": true,
+    "only_expected_two_cases_per_invocation": true,
+    "runner_internal_evidence_hashes_all_match_local_copy": true
+  },
+  "summary_method": {
+    "source_rows": "Google Benchmark run_type=iteration rows",
+    "time_field": "real_time",
+    "time_unit": "microseconds",
+    "median": "ordinary sample median",
+    "p95_and_p99": "linear interpolation at h=(n-1)p",
+    "coefficient_of_variation": "sample standard deviation divided by arithmetic mean",
+    "samples_per_case_per_invocation": 30
+  },
+  "timing_us": {
+    "baseline-1": {
+      "exact_1x1_l8_23040_workers4": {
+        "n": 30,
+        "mean": 206.15189139983462,
+        "median": 201.32625150108652,
+        "p95": 226.1003992494807,
+        "p99": 229.93586228947606,
+        "maximum": 230.65755599964177,
+        "sample_cv": 0.057772798263796304
+      },
+      "guard_1x1_l16_61440_workers16": {
+        "n": 30,
+        "mean": 410.77155556686193,
+        "median": 411.25558050043765,
+        "p95": 432.27596950082443,
+        "p99": 460.28088517969087,
+        "maximum": 470.99123999942094,
+        "sample_cv": 0.04557824263541394
+      }
+    },
+    "optimized-1": {
+      "exact_1x1_l8_23040_workers4": {
+        "n": 30,
+        "mean": 190.73211043347933,
+        "median": 192.12607750068855,
+        "p95": 236.97807670023383,
+        "p99": 260.5522382804338,
+        "maximum": 262.80619600038335,
+        "sample_cv": 0.13012278399225974
+      },
+      "guard_1x1_l16_61440_workers16": {
+        "n": 30,
+        "mean": 468.80642276640475,
+        "median": 465.770564000195,
+        "p95": 512.3865315996227,
+        "p99": 540.6345867200798,
+        "maximum": 549.0887340001791,
+        "sample_cv": 0.05491580374134019
+      }
+    },
+    "optimized-2": {
+      "exact_1x1_l8_23040_workers4": {
+        "n": 30,
+        "mean": 186.99459496680598,
+        "median": 175.7446195006196,
+        "p95": 208.53854929946465,
+        "p99": 209.37225483978182,
+        "maximum": 209.54964900010964,
+        "sample_cv": 0.08101393394603038
+      },
+      "guard_1x1_l16_61440_workers16": {
+        "n": 30,
+        "mean": 451.77269570000743,
+        "median": 449.5128790003946,
+        "p95": 481.2230890503997,
+        "p99": 486.68718444048864,
+        "maximum": 488.0180130003282,
+        "sample_cv": 0.040184251627821244
+      }
+    },
+    "baseline-2": {
+      "exact_1x1_l8_23040_workers4": {
+        "n": 30,
+        "mean": 196.00031256674507,
+        "median": 186.95669599946996,
+        "p95": 215.410237299875,
+        "p99": 225.99213907924423,
+        "maximum": 229.8550109990174,
+        "sample_cv": 0.06591193999805971
+      },
+      "guard_1x1_l16_61440_workers16": {
+        "n": 30,
+        "mean": 416.9718875666149,
+        "median": 406.2327069996172,
+        "p95": 508.05349594947984,
+        "p99": 512.697272949772,
+        "maximum": 513.7725479999062,
+        "sample_cv": 0.08698590597504516
+      }
+    }
+  },
+  "acceptance": {
+    "phase3c10_total_channel_processing_median_us": 530.452,
+    "pipeline_dominance_threshold_us": 371.3164,
+    "pair_1": {
+      "baseline": "baseline-1",
+      "optimized": "optimized-1",
+      "baseline_exact_fraction_of_phase3c10_total": 0.37953717113157553,
+      "pipeline_dominant_pass": false,
+      "exact_median_improvement_fraction": 0.0456978358847967,
+      "exact_median_improvement_pass": false,
+      "optimized_exact_p95_us": 236.97807670023383,
+      "optimized_exact_p95_pass": true,
+      "guard_median_regression_fraction": 0.13255743164243672,
+      "guard_median_regression_pass": false,
+      "guard_p95_regression_fraction": 0.1853227284211676,
+      "guard_p95_regression_pass": false,
+      "overall_pair_pass": false
+    },
+    "pair_2": {
+      "baseline": "baseline-2",
+      "optimized": "optimized-2",
+      "baseline_exact_fraction_of_phase3c10_total": 0.35244790480471366,
+      "pipeline_dominant_pass": false,
+      "exact_median_improvement_fraction": 0.05997151607173323,
+      "exact_median_improvement_pass": false,
+      "optimized_exact_p95_us": 208.53854929946465,
+      "optimized_exact_p95_pass": true,
+      "guard_median_regression_fraction": 0.10654034314577765,
+      "guard_median_regression_pass": false,
+      "guard_p95_regression_fraction": -0.05281020032927419,
+      "guard_p95_regression_pass": true,
+      "overall_pair_pass": false
+    },
+    "both_pairs_same_overall_result": true,
+    "all_correctness_tests_pass": true,
+    "balanced_partition_patch_accepted": false
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw outputs are gitignored; checksums and structured result are committed",
+    "files": {
+      "base-image-build.log": "6866de58a90e37046995da56ed78c671061fc9f6d73dfe6a1a81323f7ec40837",
+      "baseline-1.json": "9dee5f7c3c2941df99da97b4842c0e8de8ecac70926e96443702f9d80d99335d",
+      "baseline-1.log": "62f8ce5e68c79e8fd3cfb4eeabc112452a43ee8f60be0371d5e53e8e7432c91c",
+      "baseline-2.json": "19d37a7e5eef76f6182667bc198a9865e79036c932934fd0cc2c7b0627680979",
+      "baseline-2.log": "639625677c0438c3d7368cddec00783742eb17ce168c658fb2a2da6a1ecd72c9",
+      "baseline-build.log": "c5d6c1413d2b3b5021006bb267723dfdcaa7d5c8e5a628e4a5c87882d54892e4",
+      "baseline-correctness.log": "45d9469c9968ddb0c7b7565e889406111818129790b4232fc5d27e6f55883b3e",
+      "baseline-source.diff": "9a90667e81fbc95345141bb12247368ac2270212fddfffe7e61115b8d94ce7db",
+      "execution_state.json": "3bb6abf0641d12cccdc15b0a9d2370e7422e6248b0bcf85a7d4bf3b4a0879eb3",
+      "optimized-1.json": "dc8e0a0f416f5c7cc92e4cdb48022f48ea12d8a0193a88170b12ff5ae573d3e1",
+      "optimized-1.log": "61551c5dedaf7794d97235f94480fe5b4c45e0ce1be6e4eaabc9683d894fae5f",
+      "optimized-2.json": "305a93df1a0ac619eba73ea726a11570b4aabe2efcee1c876ef20535ae86334b",
+      "optimized-2.log": "824d2c67e1d2534df042999028c88cec38951c8a4a14dbb0334cb320162e8ac3",
+      "optimized-build.log": "df52651c0116a9fe97c14dab2f6cfe3be0fcaf90318faab40b0fa25907898cd3",
+      "optimized-correctness.log": "15aa42301fa03daac83f4cb987265a9ffbdade949d4423190a3c034d68c3037a",
+      "optimized-source.diff": "980a131590b9eda694be9ab7fad52b32911591042787beb3118d325e64a8ea42"
+    }
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before_and_after": 0,
+    "ue_restart_count_before_and_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true,
+    "ue_ipv4_after": "12.1.1.11/24"
+  },
+  "decision": {
+    "branch": "pipeline_not_dominant",
+    "balanced_partition_patch": "rejected",
+    "interpretation": "the isolated threaded convolution accounts for only about 35 to 38 percent of the Phase 3C10 total channel-processing median under the frozen cross-run diagnostic; balancing the fixed batches yields only 4.6 to 6.0 percent exact-case median improvement and materially regresses the guard median",
+    "claim_limit": "the difference between offline microbenchmark time and live total channel-processing time is not an exact additive decomposition because the contexts differ",
+    "next_action": "offline split timing for CIRDB provider update, channel convolution, shared-channel write and history copy before proposing another optimization",
+    "optimized_network_image_build_authorized": false,
+    "network_replay_authorized": false,
+    "new_reservation_needed_for_immediate_next_step": false,
+    "active_reservation_needed_for_immediate_next_step": false,
+    "standardized_time_varying_trace_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  }
+}
