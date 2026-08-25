@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "phase_3c9_offline_cirdb_attachment_diagnosis",
-  "recorded_at": "2026-08-25T14:30:00+02:00",
+  "recorded_at": "2026-08-25T14:23:33+02:00",
   "scope": {
     "offline_only": true,
     "node_mutation_performed": false,
