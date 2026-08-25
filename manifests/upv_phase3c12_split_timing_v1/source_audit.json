@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_vrtsim_split_timing_source_audit",
+  "recorded_at": "2026-08-25T16:52:00+02:00",
+  "inputs": {
+    "phase3c10_result_sha256": "b0a444da58092f3af19c079b3f6626a85120a67ef724865a4de4c0b42a9c9f16",
+    "phase3c11_result_sha256": "58534d231104894435d41bf86523bad5bf0ef76897ff02853f2e1c65ac68f506",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "pristine_vrtsim_c_sha256": "5f3b58022d951420e36e472bf1943799b9d87f6254d3cf9ce67761fcb399bce5",
+    "profile_revision": "b937dd00dcc7d8d2b945afc28f53e608695e4ac4"
+  },
+  "phase3c11_trigger": {
+    "baseline_exact_median_fraction_of_live_total_range": [
+      0.35244790480471366,
+      0.37953717113157553
+    ],
+    "required_fraction": 0.7,
+    "balanced_exact_median_improvement_fraction_range": [
+      0.0456978358847967,
+      0.05997151607173323
+    ],
+    "required_improvement_fraction": 0.15,
+    "decision": "threaded convolution is not the dominant measured live-path cost under the frozen diagnostic; reject the balanced partition and split the enclosing VRTSIM path"
+  },
+  "pinned_source_map": [
+    {
+      "component": "total channel-modelling write",
+      "file": "radio/vrtsim/vrtsim.c",
+      "function": "vrtsim_write",
+      "pinned_line": 880,
+      "operation": "CLOCK_MONOTONIC interval around vrtsim_write_with_chanmod"
+    },
+    {
+      "component": "CIRDB provider update",
+      "file": "radio/vrtsim/vrtsim.c",
+      "function": "vrtsim_write_with_chanmod",
+      "pinned_line": 731,
+      "operation": "timestamp-to-step calculation plus synchronous cirdb_update calls; an applied update includes fseeko, fread, tap compaction and publication"
+    },
+    {
+      "component": "preparation",
+      "file": "radio/vrtsim/vrtsim.c",
+      "function": "vrtsim_write_with_chanmod",
+      "pinned_line": 742,
+      "operation": "noise conversion, descriptor selection, tap/pointer setup and between-descriptor bookkeeping"
+    },
+    {
+      "component": "threaded convolution",
+      "file": "radio/vrtsim/vrtsim.c",
+      "function": "vrtsim_write_with_chanmod",
+      "pinned_line": 828,
+      "operation": "channel_pipeline call including task submission and join"
+    },
+    {
+      "component": "shared IQ write",
+      "file": "radio/vrtsim/vrtsim.c",
+      "function": "vrtsim_write_internal",
+      "pinned_line": 704,
+      "operation": "current-sample read, budget/histogram accounting and shm_td_iq_channel_tx"
+    },
+    {
+      "component": "sample-history copy",
+      "file": "radio/vrtsim/vrtsim.c",
+      "function": "vrtsim_write_with_chanmod",
+      "pinned_line": 850,
+      "operation": "memmove plus memcpy, or tail memcpy, into saved_samples"
+    }
+  ],
+  "implementation": {
+    "split_patch_sha256": "da3c1c48d2e8482a26eced9cef698a74007ef2b03fcd1f4392d384934f8027ce",
+    "split_only_source_diff_sha256": "fb704debca5832676ceca7ad9ea4af48e8b3ee3c08d440404346b521ab92fb5a",
+    "split_only_source_diff_lines": 158,
+    "runtime_patch_sha256": "d1172320c74e25beace6204017b1e5bfde2dcc8366cd0aeecc290358536994d4",
+    "cirdb_patch_sha256": "31aa26fc6ce8ff2cd7f3c37947b2a0baa18a6fe65838b6dd81e96343ff2aae8a",
+    "ue_measurement_patch_sha256": "f6d9429adc1e7656cb4138522f523c073f70ca00c7d44394a818544a9832b8c3",
+    "build_script_sha256": "10d267901a8569a05659a64dfb5813723932b23778ab51d33b9dc9c1b14aa40e",
+    "replay_runner_sha256": "669f16fc14a594f311a870d6371c5d82f3b6d1ea02e9667c4ae24ddc11e56c23",
+    "marker": "VRTSIM_SPLIT_DEBUG_V1",
+    "fields": [
+      "role",
+      "elapsed_second",
+      "total_us",
+      "cirdb_update_us",
+      "preparation_us",
+      "convolution_us",
+      "shared_write_us",
+      "history_copy_us",
+      "accounted_us",
+      "residual_us"
+    ],
+    "sampling": "one gNB-server row per trace second, aligned with the existing runtime telemetry row"
+  },
+  "offline_validation": {
+    "profile_tests": "87 passed",
+    "patch_applies_to_runtime-patched_pinned_source": true,
+    "patch_idempotent": true,
+    "patch_requires_runtime_telemetry_first": true,
+    "composed_source_diff_check": "passed",
+    "parser_rejects_missing_nonfinite_or_inconsistent_rows": true,
+    "x86_64_image_build_completed": false
+  },
+  "claim_limits": [
+    "the split measures the instrumented live VRTSIM path and does not by itself prove a causal optimization",
+    "CIRDB timing includes the existing once-per-second debug log on the sampled update call",
+    "offline Phase3C11 convolution and live Phase3C12 totals are not an exact additive cross-run decomposition",
+    "the extra monotonic-clock calls may perturb the path; residual and cross-run total checks are required before interpretation"
+  ]
+}

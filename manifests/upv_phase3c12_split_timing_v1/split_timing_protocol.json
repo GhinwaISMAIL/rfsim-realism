@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_vrtsim_split_timing_protocol",
+  "recorded_at": "2026-08-25T16:52:00+02:00",
+  "status": "build_only_authorized",
+  "objective": "attribute the Phase3C10 live channel-processing duration to additive CIRDB update, preparation, convolution, shared-write and history-copy stages without changing the channel, trace or acceptance decisions",
+  "build_stage": {
+    "authorized": true,
+    "required_architecture": "x86_64",
+    "required_node_type": "d740",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "profile_revision": "b937dd00dcc7d8d2b945afc28f53e608695e4ac4",
+    "ue_image_tag": "oai-nr-ue-phase3c-vrtsim-split:70508eb",
+    "gnb_image_tag": "oai-gnb-phase3c-vrtsim-split:70508eb",
+    "unique_tags_required": true,
+    "clean_pinned_source_required": true,
+    "required_checks": [
+      "all patch and build-script hashes match source_audit.json",
+      "source diff contains only the frozen UE, CIRDB, runtime and split telemetry changes",
+      "build completes for both UE and gNB images",
+      "image architecture is amd64 and revision label is the pinned OAI commit",
+      "both images contain the same newly built libvrtsim.so",
+      "VRTSIM_CIRDB_DEBUG_V1, VRTSIM_RUNTIME_DEBUG_V1 and VRTSIM_SPLIT_DEBUG_V1 markers are present",
+      "ldd reports no missing dependencies"
+    ],
+    "network_replay_during_build": false
+  },
+  "identity_execution_stage": {
+    "authorized": false,
+    "authorization_prerequisite": "commit a successful immutable build result with image IDs, sizes, architecture, revision labels, libvrtsim checksum, build log checksum and exact source diff checksum",
+    "planned_channel": "the frozen eight-tap unity-energy CIRDB identity control",
+    "planned_topology": "one gNB and one UE on the existing AWGN RFsim profile",
+    "planned_attachment_timeout_seconds": 180,
+    "planned_repetitions": 1,
+    "minimum_split_rows": 120,
+    "adaptive_retry": false,
+    "parameter_search": false
+  },
+  "planned_validation": {
+    "row_alignment": "runtime and split rows must have identical role and elapsed_second keys",
+    "total_identity_tolerance_us": 0.001,
+    "component_accounting_tolerance_us": 0.01,
+    "minimum_component_duration_us": 0,
+    "absolute_residual_median_us_maximum": 5,
+    "absolute_residual_p95_us_maximum": 10,
+    "split_total_median_ratio_to_phase3c10_allowed": [
+      0.8,
+      1.2
+    ],
+    "phase3c10_reference_total_median_us": 530.452,
+    "dominant_stage_median_fraction_minimum": 0.5,
+    "uncertainty": "moving-block bootstrap over once-per-second rows with block lengths 5, 10 and 20 seconds; report traversal-conditional intervals"
+  },
+  "decision_branches": {
+    "shared_write_dominant": "audit shm_td_iq_channel_tx blocking, locking and timing semantics before optimizing",
+    "cirdb_update_dominant": "prototype prefetched or memory-mapped snapshot publication offline",
+    "convolution_dominant_only_live": "instrument task-queue wait and worker scheduling rather than altering arithmetic partitioning",
+    "preparation_or_history_dominant": "isolate allocation, pointer/tap preparation and copy costs with a focused microbenchmark",
+    "no_dominant_stage_or_total_mismatch": "do not optimize; add per-call trace and scheduler evidence",
+    "telemetry_validation_failure": "reject the split result and keep all replay/calibration gates closed"
+  },
+  "prohibited": [
+    "optimized network image build",
+    "balanced-partition network replay",
+    "standardized time-varying trace replay",
+    "absolute RSRP calibration",
+    "MMD or ABC inference",
+    "changing thresholds after observing split timings"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_split_timing_reservation_gate",
+  "recorded_at": "2026-08-25T16:52:00+02:00",
+  "decision": "reservation_required_for_build_only",
+  "immediate_authorized_action": "build and verify uniquely tagged Phase3C12 split-telemetry images on one d740 cell node",
+  "identity_execution_authorized": false,
+  "required_profile": {
+    "profile": "oai-5g-ric",
+    "refspec": "refs/heads/feature/rfsim-rsrp-calibration",
+    "portal_profile_revision": "3f83693c",
+    "number_of_gnbs": 1,
+    "ues_per_cell": 1,
+    "core_hardware": "d430",
+    "cell_hardware": "d740",
+    "rfsim_channel_family": "AWGN",
+    "tdl_delay_spread_ns": 30,
+    "initial_per_ue_layout": "uniform"
+  },
+  "current_reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "core_node": "pc842.emulab.net",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "usable_if_still_active": true
+  },
+  "minimum_requested_duration_hours": 2,
+  "notice": "the user was notified at least 30 minutes before build execution that this same one-gNB, one-UE AWGN reservation would be needed",
+  "after_build": "copy and hash build evidence, commit the build result, and freeze a separate identity-execution amendment before replacing any live containers",
+  "new_reservation_needed_if_current_is_active": false
+}
