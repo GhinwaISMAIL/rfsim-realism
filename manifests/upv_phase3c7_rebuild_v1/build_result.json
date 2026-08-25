@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_fresh_reservation_vrtsim_rebuild_result",
+  "recorded_at": "2026-08-25T13:55:08+02:00",
+  "execution_amendment_revision": "47529701e66a28af6fa8855348844d459a3f5543",
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430"
+  },
+  "provenance": {
+    "profile_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "oai_submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    },
+    "source_checkout": "/local/phase3c/openairinterface5g-vrtsim-clean",
+    "remote_profile_copy": "/local/phase3c/oai-5g-ric-vrtsim",
+    "source_clone_self_contained": true,
+    "source_clone_alternates_present": false
+  },
+  "applied_source_changes": {
+    "only_expected_files_modified": true,
+    "git_diff_check_passed": true,
+    "files": {
+      "radio/vrtsim/cirdb_provider.c": {
+        "diff_sha256": "295b5a3652a2e355d249945af06204306dce5fe214aec96b6c9fe1ccc868834c",
+        "insertions": 56,
+        "deletions": 0
+      },
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c": {
+        "diff_sha256": "359294144b2849af31205966172b6d6e008ce5eca7ece0f7e40b2135e62b7a15",
+        "insertions": 120,
+        "deletions": 0
+      }
+    },
+    "diffs_match_phase3c4_build_exactly": true
+  },
+  "build_log": {
+    "remote_path": "/local/logs/phase3c7-vrtsim-rebuild.log",
+    "local_path": "data/model_runs/upv_phase3c7_rebuild_v1/phase3c7-vrtsim-rebuild.log",
+    "tracking_policy": "raw build log is gitignored; checksum and structured result are committed",
+    "sha256": "4598df90958b95fb8b2990c0963e3f0510fff958d5b4fa8b010569e8766b2e4a",
+    "bytes": 1845501,
+    "lines": 17599,
+    "remote_to_local_checksum_match": true,
+    "command_exit_code": 0
+  },
+  "images": {
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8",
+      "size_bytes": 176485125,
+      "architecture": "amd64",
+      "created": "2026-08-25T05:53:14.98497557-06:00",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "runtime_binary_sha256": "2e1b971c21d293e23f4c28819cd2cb613f9eec4c62178af2c9a2e3dd0604edfe",
+      "libvrtsim_sha256": "d3cb225914d09b0cb1804e07ac8915380275db16dc501626e164a620ed58e994"
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-vrtsim:70508eb",
+      "image_id": "sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c",
+      "size_bytes": 200920178,
+      "architecture": "amd64",
+      "created": "2026-08-25T05:53:23.967669952-06:00",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "runtime_binary_sha256": "b177bc1b85ebc53990d8fe0966dd9861733e502bea6f4f65f1738299878dcb69",
+      "libvrtsim_sha256": "d3cb225914d09b0cb1804e07ac8915380275db16dc501626e164a620ed58e994"
+    }
+  },
+  "runtime_artifact_gates": {
+    "ue_binary_exists_and_is_executable": true,
+    "gnb_binary_exists_and_is_executable": true,
+    "libvrtsim_exists_in_both_images": true,
+    "libvrtsim_identical_between_images": true,
+    "libvrtsim_matches_phase3c4_build": true,
+    "vrtsim_cirdb_debug_v1_marker_present_in_both_images": true,
+    "all_binary_and_libvrtsim_ldd_checks_have_zero_unresolved_dependencies": true,
+    "all_runtime_artifact_gates_passed": true
+  },
+  "reproducibility_note": {
+    "source_revision_and_source_diffs_identical_to_phase3c4": true,
+    "libvrtsim_binary_identical_to_phase3c4": true,
+    "full_runtime_images_and_softmodem_binaries_bit_identical_to_phase3c4": false,
+    "interpretation": "The OAI build embeds build-environment or timestamp-dependent content. The fresh image IDs and softmodem hashes are therefore frozen for this reservation rather than substituted with the prior reservation IDs."
+  },
+  "live_experiment_no_touch_audit": {
+    "passed": true,
+    "gnb_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "gnb_state": "running",
+    "gnb_health": "healthy",
+    "gnb_restart_count": 0,
+    "ue_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "ue_state": "running",
+    "ue_restart_count": 0,
+    "ue_attached": true,
+    "new_images_deployed": false
+  },
+  "decision": {
+    "build_gate_state": "passed",
+    "passthrough_replay_authorized": false,
+    "cirdb_replay_authorized": false,
+    "next_step": "freeze and commit a separate Phase 3C7 three-repetition passthrough execution amendment using the fresh immutable image IDs",
+    "new_reservation_needed_now": false
+  }
+}
