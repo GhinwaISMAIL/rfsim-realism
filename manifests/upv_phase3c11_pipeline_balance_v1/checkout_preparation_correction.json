@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_clean_worktree_preparation_correction",
+  "recorded_at": "2026-08-25T16:06:04+02:00",
+  "status": "frozen_before_corrected_preparation",
+  "supersedes": "execution_amendment.json clean_checkout_preparation only",
+  "failed_method": {
+    "method": "git clone --no-local from the on-node seed checkout",
+    "destination": "/local/phase3c11/openairinterface5g-clean",
+    "observed_failure": "the seed is a promisor/partial clone; local lazy fetching was disabled and the destination did not acquire a valid HEAD",
+    "benchmark_started": false,
+    "cell_containers_stopped": false,
+    "network_traffic_generated": false,
+    "baseline_verified_after_failure": true,
+    "failed_destination_disposition": "move intact to /local/phase3c11/openairinterface5g-clean.failed-clone-20260825T1606 rather than delete it"
+  },
+  "corrected_method": {
+    "seed_checkout": "/local/phase3c/openairinterface5g-vrtsim-clean",
+    "destination": "/local/phase3c11/openairinterface5g-clean",
+    "method": "copy the complete checked-out seed tree with cp -a, then overwrite the three known modified tracked files from the clean local pinned OAI checkout",
+    "seed_archive_head_check_bytes": 95938560,
+    "seed_size_before_copy": "309M",
+    "seed_ignored_or_untracked_paths_observed": [],
+    "pristine_source_checkout": "/Users/ghinwaismail/Projects/openairinterface5g-phase3c",
+    "pristine_files": {
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c": "eed3d50e74ff43e5b316d1e89015da974d352baeac5f2405f6968f3a4d1f5837",
+      "radio/vrtsim/cirdb_provider.c": "369b5b1f8bf384a3981899e753caa1a5adb0a91bd8f65679a0f1ca578090e1c7",
+      "radio/vrtsim/vrtsim.c": "5f3b58022d951420e36e472bf1943799b9d87f6254d3cf9ce67761fcb399bce5"
+    },
+    "required_oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "required_submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    },
+    "verification": [
+      "verify all three staged pristine-file hashes before and after overwrite",
+      "verify exact main and recursive submodule revisions",
+      "verify git status --porcelain and git status --porcelain --ignored are empty",
+      "verify git diff --check passes",
+      "verify no Git alternates file, config or environment is present in the main repository or either submodule",
+      "record remote.origin.promisor and extensions.partialclone metadata without rejecting a complete pinned worktree",
+      "claim only a complete clean working tree for the pinned revision, not complete Git history"
+    ]
+  },
+  "runner_correction": {
+    "profile_revision": "bed8ae0e7db9a8a21d7fd0c9e6285a2299896cd6",
+    "runner_sha256": "2788451bce112879bffcd0a3aaec58c4ea09da9be71015e90a855863a8409c62",
+    "profile_test_result": "81 passed",
+    "changes": [
+      "record promisor and partial-clone metadata",
+      "reject alternates files, config and environment",
+      "apply the alternate check to the main repository and both recursive submodules",
+      "avoid any full-history checkout claim"
+    ]
+  },
+  "authorization": {
+    "corrected_worktree_preparation_authorized": true,
+    "offline_benchmark_authorized_after_all_preflight_checks_pass": true,
+    "network_replay_authorized": false,
+    "optimized_network_image_build_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "stopping_rules": [
+    "stop on any pristine-file hash, revision, submodule, cleanliness, ignored-path or alternate-object mismatch",
+    "stop if the active baseline is not healthy and attached before execution",
+    "do not quiesce the cell until both benchmark conditions have compiled successfully",
+    "once quiesced, always restore and verify the original image identities, restart counts, gNB health and UE attachment"
+  ]
+}
