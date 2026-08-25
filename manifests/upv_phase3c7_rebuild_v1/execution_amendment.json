@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_fresh_reservation_vrtsim_rebuild_only",
+  "recorded_at": "2026-08-25T13:12:54+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "copy the frozen profile and pinned OAI source to the fresh reserved cell node, build and inspect the dedicated Phase 3C VRTSIM images without replacing any running service",
+    "authorization_basis": "the user created experiment ghinwa-313780 for the frozen Phase 3C7 work and explicitly requested continuation",
+    "running_container_replacement_authorized": false,
+    "passthrough_replay_authorized": false,
+    "cirdb_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_revision": "c56338e26b06258310b443ca6c677af238ca3bb3",
+    "profile_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "oai_submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    },
+    "build_script_sha256": "e997a98195dac7cf5c4cb80cf132e6d64fa8406a4d3a66da3faf99ed4b53609b",
+    "dockerfile_sha256": "69aa379e6e8e2b4346707f3786fb7d5f0d7e66e7c3c2007c18b9c4f3e2f395bb",
+    "cirdb_telemetry_patch_sha256": "31aa26fc6ce8ff2cd7f3c37947b2a0baa18a6fe65838b6dd81e96343ff2aae8a",
+    "ue_radio_telemetry_patch_sha256": "f6d9429adc1e7656cb4138522f523c073f70ca00c7d44394a818544a9832b8c3",
+    "future_replay_runner_sha256": "f32f9d9be4c3f95daa947794e37d60e366e60f8ff0aa4abee2a8d0c0d1b4b2cf",
+    "log_parser_sha256": "63ab66ad749c7f8f1dec286588bff4aa9ab745c0e01d012c4bc2921a23452644"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "profile": "oai-5g-ric",
+    "profile_refspec": "refs/heads/feature/rfsim-rsrp-calibration",
+    "profile_portal_revision": "3f83693c",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "new_reservation_required": false,
+    "lead_time_requirement_satisfied": true
+  },
+  "verified_live_baseline": {
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "gnb": {
+      "container": "ric5g-gnb-cell1",
+      "image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+      "state": "running",
+      "health": "healthy",
+      "restart_count": 0
+    },
+    "ue": {
+      "container": "ric5g-ue-cell1-1",
+      "image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+      "state": "running",
+      "restart_count": 0,
+      "tun_interface_present": true,
+      "tun_ipv4": "12.1.1.2/24"
+    },
+    "generated_untracked_profile_files_expected": true,
+    "dedicated_vrtsim_images_present_before_build": false
+  },
+  "build": {
+    "scope": "compute_only_no_running_container_replacement",
+    "source_checkout": "/local/phase3c/openairinterface5g-vrtsim-clean",
+    "remote_profile_copy": "/local/phase3c/oai-5g-ric-vrtsim",
+    "ue_image_tag": "oai-nr-ue-phase3c-vrtsim:70508eb",
+    "gnb_image_tag": "oai-gnb-phase3c-vrtsim:70508eb",
+    "build_log": "/local/logs/phase3c7-vrtsim-rebuild.log"
+  },
+  "preflight_and_stopping_rules": [
+    "stop on any copied-file checksum, OAI revision, submodule revision or compose checksum mismatch",
+    "require a self-contained OAI copy with no alternates before building",
+    "stop if the cell-node architecture is not x86_64",
+    "stop on any patch, compiler, Docker, runtime-artifact, architecture, label or ldd failure",
+    "stop if either live baseline container changes image, exits, restarts, loses health or loses attachment",
+    "do not deploy either newly built image regardless of build result"
+  ],
+  "post_build": {
+    "pass_action": "record fresh immutable image IDs and runtime checks, then freeze a separate three-repetition Phase 3C7 passthrough execution amendment",
+    "fail_action": "keep the passthrough and CIRDB gates closed and debug offline",
+    "threshold_changes_during_build": false
+  }
+}
