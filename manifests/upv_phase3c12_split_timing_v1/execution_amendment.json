@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_vrtsim_split_timing_identity_execution",
+  "recorded_at": "2026-08-25T17:12:37+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "temporarily deploy the exact Phase 3C12 split-timing images for one identity-L8 CIRDB diagnostic, preserve runtime and additive split counters, and restore the original attached AWGN compose state in the runner finally block",
+    "authorization_basis": "the build-only gate passed and was committed at 5cd57bf; the unique image IDs and copied raw evidence are frozen; the split-aware runner passed 87 tests and its deployed checksum matches the committed implementation",
+    "container_deployment_authorized": true,
+    "standardized_tdl_b_trace_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "diagnostic_question": "Which additive stage accounts for the Phase 3C10 live VRTSIM channel-processing duration during the already reproduced identity-L8 attachment failure?",
+  "frozen_inputs": {
+    "research_revision": "5cd57bf378aae245d3f2fb444bd405bf2055dad1",
+    "profile_source_revision": "b937dd00dcc7d8d2b945afc28f53e608695e4ac4",
+    "deployed_profile_worktree_base_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+    "deployed_runner_matches_profile_source_by_checksum": true,
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "build_result_sha256": "5939dcbc78bc501f8037a5423e44f1c06c6d29f266366ab02b23d1ae80b9e491",
+    "runner_sha256": "669f16fc14a594f311a870d6371c5d82f3b6d1ea02e9667c4ae24ddc11e56c23",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "identity_binary_sha256": "ae5140b4f95bf59256e1f82bc650f9391c3b06f5b7adf63bd92497a9c7c5bfc2",
+    "identity_sidecar_sha256": "51e3157cb5c6aaa00a06b5bd00680c0acc51fa4ae7a1694ba0b0d671063c3cba"
+  },
+  "identity_control": {
+    "interpretation": "split-timing diagnostic only; not a TDL-B realization and not a realism experiment",
+    "tx_antennas": 1,
+    "rx_antennas": 1,
+    "channel_length_taps": 8,
+    "snapshots": 1,
+    "snapshot_interval_seconds": 0.002,
+    "provider_updates_per_trace_second": 500,
+    "tap_energy_linear": 1.0,
+    "remote_directory": "/local/phase3c/cirdb-identity-l8-v1"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue_image": "oai-nr-ue-phase3c-vrtsim-split:70508eb",
+    "ue_image_id": "sha256:1e258871cf8dfef03594fc000b66346572cc741b74b85229e29d51a7e631a8cc",
+    "gnb_image": "oai-gnb-phase3c-vrtsim-split:70508eb",
+    "gnb_image_id": "sha256:de02f2145c77601d7895c13b2c0bb699f41202f69a8fc3678f9488e2cb013d2c",
+    "libvrtsim_sha256": "3647bd8c1946ef41d31fbad7551b905ea353821cf52c91e3364db3a48127a3c1"
+  },
+  "execution": {
+    "channel_family": "AWGN baseline with temporary CIRDB identity-L8 channel processing",
+    "channel_mode": "cirdb",
+    "trace_profile": "identity_l8_control",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions": 1,
+    "attachment_timeout_seconds": 180,
+    "stabilization_seconds": 10,
+    "observation_seconds": 30,
+    "minimum_usable_telemetry_seconds": 20,
+    "minimum_split_rows_if_attachment_times_out": 120,
+    "remote_override": "/local/phase3c/phase3c12-split-identity.override.yaml",
+    "remote_output_root": "/local/logs/phase3c12-split-identity",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode cirdb --trace-profile identity_l8_control --server-timescale 1.0 --gnb-min-rxtxtime 6 --repetitions 1 --attach-timeout-seconds 180 --stabilization-seconds 10 --observation-seconds 30 --minimum-telemetry-seconds 20 --trace-dir /local/phase3c/cirdb-identity-l8-v1 --override-file /local/phase3c/phase3c12-split-identity.override.yaml --output-root /local/logs/phase3c12-split-identity --ue-image oai-nr-ue-phase3c-vrtsim-split:70508eb --gnb-image oai-gnb-phase3c-vrtsim-split:70508eb --expected-ue-image-id sha256:1e258871cf8dfef03594fc000b66346572cc741b74b85229e29d51a7e631a8cc --expected-gnb-image-id sha256:de02f2145c77601d7895c13b2c0bb699f41202f69a8fc3678f9488e2cb013d2c"
+  },
+  "split_evidence_rules": {
+    "source_log": "gNB VRTSIM server log",
+    "runtime_output_file": "vrtsim-1-runtime.json",
+    "split_output_file": "vrtsim-1-split-runtime.json",
+    "required_role": "server",
+    "minimum_rows_if_attachment_times_out": 120,
+    "row_alignment": "runtime and split rows must have identical role and elapsed_second keys",
+    "total_identity_tolerance_us": 0.001,
+    "component_accounting_tolerance_us": 0.01,
+    "all_components_nonnegative_required": true,
+    "absolute_residual_median_us_maximum": 5,
+    "absolute_residual_p95_us_maximum": 10,
+    "split_total_median_ratio_to_phase3c10_allowed": [
+      0.8,
+      1.2
+    ],
+    "phase3c10_reference_total_median_us": 530.452,
+    "dominant_stage_median_fraction_minimum": 0.5,
+    "stages": [
+      "cirdb_update_us",
+      "preparation_us",
+      "convolution_us",
+      "shared_write_us",
+      "history_copy_us"
+    ],
+    "uncertainty": "moving-block bootstrap over once-per-second rows with block lengths 5, 10 and 20 seconds; report traversal-conditional intervals"
+  },
+  "stopping_rules": [
+    "stop before deployment on any runner, compose, identity-artifact, image or healthy-baseline mismatch",
+    "perform exactly one repetition with no adaptive retry or threshold change",
+    "stop the replay if the UE does not attach within 180 seconds and preserve runtime and split evidence collected before rollback",
+    "stop during observation on any frozen PBCH, PUSCH, random-access, RLC maximum-retransmission, unhandled-RLF, actual-RLF or lost-sync marker",
+    "stop if more than ten consecutive CIRDB snapshots are skipped or a log stream is not append-only",
+    "always restore the original compose and require the original image IDs, gNB health, unchanged gNB restart count and UE attachment",
+    "do not run the standardized time-varying trace, calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "shared_write_dominant": "audit shm_td_iq_channel_tx blocking, locking and timing semantics before optimizing",
+    "cirdb_update_dominant": "prototype prefetched or memory-mapped snapshot publication offline",
+    "convolution_dominant_only_live": "instrument task-queue wait and worker scheduling rather than altering arithmetic partitioning",
+    "preparation_or_history_dominant": "isolate allocation, pointer/tap preparation and copy costs with a focused microbenchmark",
+    "no_dominant_stage_or_total_mismatch": "do not optimize; add per-call trace and scheduler evidence",
+    "telemetry_validation_failure": "reject the split result and keep all replay and calibration gates closed",
+    "attachment_success": "treat as nondeterminism evidence only; require independent repetitions under a newly frozen protocol before claiming runtime robustness",
+    "no_adaptive_second_condition": true,
+    "additional_node_execution_authorized": false
+  }
+}
