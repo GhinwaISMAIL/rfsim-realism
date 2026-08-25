@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_three_repetition_passthrough_observation_window",
+  "recorded_at": "2026-08-25T13:56:45+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "run exactly three independently recreated VRTSIM passthrough repetitions with the frozen ten-second stabilization and thirty-second observation windows, then restore the original AWGN compose state",
+    "authorization_basis": "Phase 3C7 protocol commit c56338e, verified fresh-node rebuild result commit a77f772, and the user's active reservation and request to continue",
+    "container_deployment_authorized": true,
+    "cirdb_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_revision": "a77f7728a04f92850886dc94e73836e76d8df4eb",
+    "phase3c7_protocol_revision": "c56338e26b06258310b443ca6c677af238ca3bb3",
+    "profile_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "fresh_build_result_sha256": "10b77d204a019b44283064dd10455fc8a6e918ce89c2539fe2a0383af4e12764",
+    "runner_sha256": "f32f9d9be4c3f95daa947794e37d60e366e60f8ff0aa4abee2a8d0c0d1b4b2cf",
+    "log_parser_sha256": "63ab66ad749c7f8f1dec286588bff4aa9ab745c0e01d012c4bc2921a23452644",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "profile_tests": "62_passed",
+    "research_tests": "84_passed",
+    "research_lint": "passed"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue_image_id": "sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8",
+    "gnb_image_id": "sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c"
+  },
+  "execution": {
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions": 3,
+    "independence_unit": "forced recreation of both VRTSIM containers before each repetition",
+    "attachment_timeout_s": 180,
+    "stabilization_s": 10,
+    "observation_s": 30,
+    "minimum_usable_telemetry_s": 20,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "remote_profile": "/local/phase3c/oai-5g-ric-vrtsim",
+    "remote_override": "/local/phase3c/phase3c7-passthrough-minrx6.override.yaml",
+    "remote_output_root": "/local/logs/phase3c7-passthrough-minrx6",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode passthrough --server-timescale 1.0 --gnb-min-rxtxtime 6 --repetitions 3 --stabilization-seconds 10 --observation-seconds 30 --minimum-telemetry-seconds 20 --override-file /local/phase3c/phase3c7-passthrough-minrx6.override.yaml --output-root /local/logs/phase3c7-passthrough-minrx6 --expected-ue-image-id sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8 --expected-gnb-image-id sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c"
+  },
+  "window_and_acceptance_rules": {
+    "required_success_markers_source": "full log",
+    "startup_failure_markers": "recorded as diagnostics through the end of stabilization and never hidden",
+    "startup_markers_can_override_post_stabilization_gate": false,
+    "post_stabilization_failure_source": "append-only log suffix captured after ten continuously healthy stabilization seconds",
+    "valid_repetitions_required": 3,
+    "attachment_fraction_required": 1.0,
+    "minimum_usable_telemetry_duration_s": 20,
+    "minimum_ue_radio_debug_rows": 20,
+    "each_frozen_post_stabilization_failure_marker_count_maximum": 0,
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "gnb_and_ue_container_restart_count_maximum": 0,
+    "threshold_changes_after_execution_begin": false
+  },
+  "stopping_rules": [
+    "stop before deployment on any profile revision, runner checksum, image identity, compose checksum or healthy-baseline mismatch",
+    "stop if either container exits, restarts or the UE is unattached at any stabilization or observation poll",
+    "stop during observation on any frozen PBCH, PUSCH, random-access, RLC maximum-retransmission, unhandled-RLF, actual-RLF or lost-sync marker",
+    "stop if either Docker log is not append-only relative to its frozen observation prefix",
+    "stop and roll back after any failed repetition without tuning or retrying a different condition",
+    "do not mount or evaluate CIRDB data",
+    "do not calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "all_three_pass": "accept the passthrough transport safety gate and freeze a separate CIRDB replay amendment using the same observation-window contract",
+    "any_failure": "keep CIRDB closed and return to offline VRTSIM transport or scheduling diagnosis",
+    "no_adaptive_second_condition": true,
+    "no_retroactive_reclassification_of_prior_runs": true
+  }
+}
