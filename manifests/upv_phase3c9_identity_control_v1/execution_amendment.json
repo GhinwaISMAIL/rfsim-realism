@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c9_eight_tap_unity_cirdb_transport_control",
+  "recorded_at": "2026-08-25T14:28:49+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "temporarily run exactly one VRTSIM CIRDB repetition using the frozen eight-tap unity control, ten-second stabilization and thirty-second observation, then restore the original AWGN compose state",
+    "authorization_basis": "the Phase 3C8 negative result was committed at dc247e8, the Phase 3C9 offline diagnosis and provenance correction were committed through 0f198b2, and the tested identity-control runner was committed at profile revision ed5353d",
+    "container_deployment_authorized": true,
+    "standardized_tdl_b_trace_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "diagnostic_question": "Does the CIRDB/channel-processing path attach cleanly when the frozen time-varying coefficients are replaced by one unity tap and seven zero taps while update cadence and channel length remain unchanged?",
+  "frozen_inputs": {
+    "research_revision": "0f198b2aecad6e468b7be54bd0204e7e672d0bd0",
+    "profile_revision": "ed5353d509dbe6713aae2665b9f936c87217c461",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "offline_diagnosis_sha256": "2c7e092a30facf3d10de7eb171f1c89c11472d8c10ad2782a3a03a21a6637d93",
+    "runner_sha256": "d39a5544ad79f9e070f86916cc2131af3f46b54e1e466283be5bc25c46176f46",
+    "generator_sha256": "b38d254981a78d3648fd8bcb9c333263b13ce80f6893f8890b176a252d8dafd9",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "identity_binary_sha256": "ae5140b4f95bf59256e1f82bc650f9391c3b06f5b7adf63bd92497a9c7c5bfc2",
+    "identity_sidecar_sha256": "51e3157cb5c6aaa00a06b5bd00680c0acc51fa4ae7a1694ba0b0d671063c3cba"
+  },
+  "identity_control": {
+    "interpretation": "transport and timing control only; not a TDL-B realization and not a realism experiment",
+    "tx_antennas": 1,
+    "rx_antennas": 1,
+    "channel_length_taps": 8,
+    "snapshots": 1,
+    "snapshot_interval_seconds": 0.002,
+    "provider_updates_per_trace_second": 500,
+    "complex_taps": [
+      "1+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j",
+      "0+0j"
+    ],
+    "remote_directory": "/local/phase3c/cirdb-identity-l8-v1"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue_image_id": "sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8",
+    "gnb_image_id": "sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8"
+  },
+  "execution": {
+    "channel_mode": "cirdb",
+    "trace_profile": "identity_l8_control",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions": 1,
+    "attachment_timeout_seconds": 180,
+    "stabilization_seconds": 10,
+    "observation_seconds": 30,
+    "minimum_usable_telemetry_seconds": 20,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "remote_override": "/local/phase3c/phase3c9-identity-l8.override.yaml",
+    "remote_output_root": "/local/logs/phase3c9-identity-l8",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode cirdb --trace-profile identity_l8_control --server-timescale 1.0 --gnb-min-rxtxtime 6 --repetitions 1 --stabilization-seconds 10 --observation-seconds 30 --minimum-telemetry-seconds 20 --trace-dir /local/phase3c/cirdb-identity-l8-v1 --override-file /local/phase3c/phase3c9-identity-l8.override.yaml --output-root /local/logs/phase3c9-identity-l8 --expected-ue-image-id sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8 --expected-gnb-image-id sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c"
+  },
+  "acceptance_rules": {
+    "valid_repetitions_required": 1,
+    "attachment_fraction_required": 1.0,
+    "minimum_usable_telemetry_duration_seconds": 20,
+    "minimum_ue_radio_debug_rows": 20,
+    "each_post_stabilization_failure_marker_count_maximum": 0,
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "minimum_cirdb_debug_rows": 20,
+    "reported_skipped_cirdb_snapshot_fraction_maximum": 0.01,
+    "reported_maximum_consecutive_skipped_cirdb_snapshots": 10,
+    "positive_tap_energy_required_for_every_debug_row": true,
+    "reported_tap_energy_expected": 1.0,
+    "gnb_and_ue_container_restart_count_maximum": 0,
+    "threshold_changes_after_execution_begin": false
+  },
+  "stopping_rules": [
+    "stop before deployment on any repository, runner, image, compose, identity-artifact or healthy-baseline mismatch",
+    "stop if the UE does not attach within 180 seconds",
+    "stop if either container exits, restarts or the UE is unattached at any stabilization or observation poll",
+    "stop during observation on any frozen PBCH, PUSCH, random-access, RLC maximum-retransmission, unhandled-RLF, actual-RLF or lost-sync marker",
+    "stop if more than ten consecutive CIRDB snapshots are skipped or a log stream is not append-only",
+    "stop and roll back after failure without changing timescale, trace, timing, thresholds or channel coefficients",
+    "do not run the standardized time-varying trace, calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "pass": "the coefficient content or its interaction with runtime remains implicated; keep the full-trace gate closed and return to offline coefficient diagnostics",
+    "fail": "time-varying coefficient content is not required for failure; keep the full-trace gate closed and instrument or repair the CIRDB/channel-processing runtime",
+    "no_adaptive_second_condition": true,
+    "additional_node_execution_authorized": false
+  }
+}
