@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c8_two_repetition_vrtsim_cirdb_full_cycle_replay",
+  "recorded_at": "2026-08-25T14:04:21+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "temporarily run exactly two independently recreated VRTSIM CIRDB repetitions using the frozen 300-second standardized TDL-B trace, ten-second stabilization and full-cycle observation, then restore the original AWGN compose state",
+    "authorization_basis": "the Phase 3C7 passthrough gate passed in three repetitions and was committed at 01cefb7; the active reservation was created for continued Phase 3C work",
+    "container_deployment_authorized": true,
+    "time_varying_cirdb_replay_authorized": true,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_revision": "01cefb7a7da2fda5d1cf2cdca0fd2b663de56845",
+    "profile_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "passthrough_result_sha256": "c6a77726cb782b45920517125e146e009b14585e40bb4aff0c97182edbe6ad6b",
+    "fresh_build_result_sha256": "10b77d204a019b44283064dd10455fc8a6e918ce89c2539fe2a0383af4e12764",
+    "runner_sha256": "f32f9d9be4c3f95daa947794e37d60e366e60f8ff0aa4abee2a8d0c0d1b4b2cf",
+    "log_parser_sha256": "63ab66ad749c7f8f1dec286588bff4aa9ab745c0e01d012c4bc2921a23452644",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "trace_binary_sha256": "cb5b85bfdfe12768462b482c21145fe43618468a0bff9248beb5c9b5dea82550",
+    "trace_sidecar_sha256": "03b5031e81ea721501692e73e8ea908a57ae98e1814cee43887908da3dbf292c"
+  },
+  "trace": {
+    "name": "upv_phase3c2_tdl_b_temporal_trace_v1",
+    "interpretation": "standardized engineering validation trace, not a measured UPV channel",
+    "model": "3GPP_TR_38.901_TDL-B",
+    "carrier_frequency_hz": 3319680000.0,
+    "rms_delay_spread_ns": 30.0,
+    "speed_mps": 1.5,
+    "snapshot_interval_s": 0.002,
+    "snapshots": 150000,
+    "duration_s": 300.0,
+    "discretized_taps": 8,
+    "remote_directory": "/local/phase3c/cirdb-v1"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue_image_id": "sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8",
+    "gnb_image_id": "sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c"
+  },
+  "execution": {
+    "channel_mode": "cirdb",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions": 2,
+    "independence_unit": "forced recreation of both VRTSIM containers before each repetition",
+    "attachment_timeout_s": 180,
+    "stabilization_s": 10,
+    "observation_s": 330,
+    "minimum_usable_telemetry_s": 300,
+    "traffic": "one_hz_ICMP_from_UE_through_UPF_to_192.168.72.135",
+    "remote_override": "/local/phase3c/phase3c8-cirdb.override.yaml",
+    "remote_output_root": "/local/logs/phase3c8-cirdb",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode cirdb --server-timescale 1.0 --gnb-min-rxtxtime 6 --repetitions 2 --stabilization-seconds 10 --observation-seconds 330 --minimum-telemetry-seconds 300 --trace-dir /local/phase3c/cirdb-v1 --override-file /local/phase3c/phase3c8-cirdb.override.yaml --output-root /local/logs/phase3c8-cirdb --expected-ue-image-id sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8 --expected-gnb-image-id sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c"
+  },
+  "acceptance_rules": {
+    "valid_repetitions_required": 2,
+    "attachment_fraction_required": 1.0,
+    "minimum_usable_telemetry_duration_s": 300,
+    "minimum_ue_radio_debug_rows": 300,
+    "each_post_stabilization_failure_marker_count_maximum": 0,
+    "ping_packet_loss_fraction_maximum": 0.05,
+    "trace_cycle_coverage_fraction_minimum": 0.99,
+    "skipped_cirdb_snapshot_fraction_maximum": 0.01,
+    "maximum_consecutive_skipped_cirdb_snapshots": 10,
+    "positive_tap_energy_required_for_every_debug_row": true,
+    "gnb_and_ue_container_restart_count_maximum": 0,
+    "threshold_changes_after_execution_begin": false
+  },
+  "stopping_rules": [
+    "stop before deployment on any repository, image, compose, trace or healthy-baseline mismatch",
+    "stop if the UE does not attach within 180 seconds",
+    "stop if either container exits, restarts or the UE is unattached at any stabilization or observation poll",
+    "stop during observation on any frozen PBCH, PUSCH, random-access, RLC maximum-retransmission, unhandled-RLF, actual-RLF or lost-sync marker",
+    "stop if more than ten consecutive CIRDB snapshots are skipped or a log stream is not append-only",
+    "stop and roll back after any failed repetition without changing timescale, trace, timing or thresholds",
+    "do not calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "both_repetitions_pass": "accept VRTSIM CIRDB transport and full-cycle attachment robustness for this standardized trace, then perform diagnostic KPI extraction without claiming UPV realism",
+    "any_failure": "keep the time-varying model-extension gate closed and return to offline CIRDB timing or channel diagnosis",
+    "no_adaptive_second_condition": true
+  }
+}
