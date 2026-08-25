@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_vrtsim_split_timing_identity_result",
+  "recorded_at": "2026-08-25T17:36:17+02:00",
+  "execution_amendment_revision": "b3f80940eea97c8d3bce3929baccacbc176d702f",
+  "analysis_implementation_revision": "c453a9626c6caa7b95f9c9e4e8ca3902e81908a1",
+  "execution": {
+    "experiment_name": "ghinwa-313780",
+    "remote_output_directory": "/local/logs/phase3c12-split-identity/phase3c4-vrtsim-20260825T151523Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c12_split_timing_v1/attempt-1",
+    "channel_mode": "cirdb",
+    "trace_profile": "identity_l8_control",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "attachment_timeout_seconds": 180,
+    "command_exit_code": 1,
+    "execution_completed": false,
+    "valid_repetitions": 0,
+    "required_repetitions": 1,
+    "failure_stage": "attachment",
+    "error": "ric5g-ue-cell1-1 did not attach within 180 seconds",
+    "observation_window_entered": false,
+    "thresholds_changed_during_execution_or_analysis": false,
+    "adaptive_retry_performed": false
+  },
+  "immutable_inputs": {
+    "research_revision_before_result": "c453a9626c6caa7b95f9c9e4e8ca3902e81908a1",
+    "profile_source_revision": "b937dd00dcc7d8d2b945afc28f53e608695e4ac4",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "execution_amendment_sha256": "7ae9c39711bdbd40af46c9faa959ed5421da73e54338199cef7e58468773a2d1",
+    "analysis_specification_sha256": "caf89e76cc43bf8858e12ce4953720d8bcb8f28b5b18bdbc7a0ba852b90b42d1",
+    "analysis_implementation_sha256": "c6e0fb686ba9a9e4e5f51ea456bac168897109c6a6147376ab83004efd93b938",
+    "log_parser_sha256": "63ab66ad749c7f8f1dec286588bff4aa9ab745c0e01d012c4bc2921a23452644",
+    "ue_image": "oai-nr-ue-phase3c-vrtsim-split:70508eb",
+    "ue_image_id": "sha256:1e258871cf8dfef03594fc000b66346572cc741b74b85229e29d51a7e631a8cc",
+    "gnb_image": "oai-gnb-phase3c-vrtsim-split:70508eb",
+    "gnb_image_id": "sha256:de02f2145c77601d7895c13b2c0bb699f41202f69a8fc3678f9488e2cb013d2c",
+    "libvrtsim_sha256": "3647bd8c1946ef41d31fbad7551b905ea353821cf52c91e3364db3a48127a3c1",
+    "identity_binary_sha256": "ae5140b4f95bf59256e1f82bc650f9391c3b06f5b7adf63bd92497a9c7c5bfc2",
+    "identity_sidecar_sha256": "51e3157cb5c6aaa00a06b5bd00680c0acc51fa4ae7a1694ba0b0d671063c3cba"
+  },
+  "split_telemetry_validation": {
+    "usable": true,
+    "rows": 186,
+    "minimum_required_rows": 120,
+    "first_elapsed_second": 0,
+    "last_elapsed_second": 185,
+    "keys_unique_identical_and_ordered": true,
+    "elapsed_second_strictly_increasing": true,
+    "required_role_only": true,
+    "all_values_finite": true,
+    "all_stage_durations_nonnegative": true,
+    "maximum_absolute_runtime_total_difference_us": 0.0,
+    "runtime_total_identity_pass": true,
+    "maximum_absolute_component_accounting_difference_us": 1.1368683772161603e-13,
+    "component_accounting_pass": true,
+    "maximum_absolute_total_accounting_difference_us": 1.1368683772161603e-13,
+    "total_accounting_pass": true,
+    "absolute_residual_median_us": 0.229,
+    "absolute_residual_p95_us": 0.27575000000000005,
+    "absolute_residual_gate_pass": true,
+    "all_validation_gates_pass": true
+  },
+  "split_timing_us": {
+    "total": {
+      "minimum": 219.409,
+      "median": 547.6795,
+      "p95": 657.9705,
+      "maximum": 784.851
+    },
+    "cirdb_update": {
+      "minimum": 8.427,
+      "median": 25.866,
+      "p95": 30.17725,
+      "maximum": 46.823,
+      "median_fraction_of_total": 0.04722835161805399
+    },
+    "preparation": {
+      "minimum": 0.265,
+      "median": 0.6585000000000001,
+      "p95": 0.8115000000000001,
+      "maximum": 48.301,
+      "median_fraction_of_total": 0.0012023455323779695
+    },
+    "convolution": {
+      "minimum": 202.19,
+      "median": 520.175,
+      "p95": 630.71225,
+      "maximum": 756.405,
+      "median_fraction_of_total": 0.9497799351628097
+    },
+    "shared_write": {
+      "minimum": 0.208,
+      "median": 0.6815,
+      "p95": 0.94275,
+      "maximum": 15.456,
+      "median_fraction_of_total": 0.0012443408964549522
+    },
+    "history_copy": {
+      "minimum": 0.116,
+      "median": 0.4075,
+      "p95": 0.627,
+      "maximum": 1.008,
+      "median_fraction_of_total": 0.0007440482983204593
+    },
+    "residual": {
+      "minimum": 0.065,
+      "median": 0.229,
+      "p95": 0.27575000000000005,
+      "maximum": 0.336
+    }
+  },
+  "frozen_comparisons": {
+    "phase3c10_reference_total_median_us": 530.452,
+    "split_total_median_ratio_to_phase3c10": 1.0324770195983801,
+    "allowed_ratio": [
+      0.8,
+      1.2
+    ],
+    "total_comparability_gate_pass": true,
+    "phase3c11_offline_exact_baseline_median_us": [
+      201.32625150108652,
+      186.95669599946996
+    ],
+    "live_convolution_to_offline_exact_median_ratio": [
+      2.5837415444909957,
+      2.7823288019674606
+    ],
+    "live_convolution_fraction_of_phase3c10_total_median": 0.9806259567312404,
+    "interpretive_limit": "the live convolution stage wraps channel_pipeline including task submission and join, whereas the Phase3C11 offline benchmark is a different execution context"
+  },
+  "bootstrap_uncertainty": {
+    "rule": "circular moving blocks with fixed target length",
+    "block_lengths_rows": [
+      5,
+      10,
+      20
+    ],
+    "repetitions_per_block_length": 1000,
+    "base_seed": 20260825,
+    "confidence_level": 0.95,
+    "reported_interval_envelope_definition": "minimum lower endpoint and maximum upper endpoint across the three frozen block lengths",
+    "median_total_us_interval_envelope": [
+      544.675,
+      551.7819999999999
+    ],
+    "median_absolute_residual_us_interval_envelope": [
+      0.222,
+      0.234
+    ],
+    "stage_median_us_interval_envelopes": {
+      "cirdb_update": [
+        25.166,
+        26.308
+      ],
+      "preparation": [
+        0.6454875,
+        0.6805125000000001
+      ],
+      "convolution": [
+        517.743,
+        523.0975000000001
+      ],
+      "shared_write": [
+        0.5773874999999999,
+        0.777
+      ],
+      "history_copy": [
+        0.359,
+        0.449
+      ]
+    },
+    "stage_median_fraction_interval_envelopes": {
+      "cirdb_update": [
+        0.04607537742422633,
+        0.047895531151279
+      ],
+      "preparation": [
+        0.0011812698139847828,
+        0.0012377724444264054
+      ],
+      "convolution": [
+        0.9466648980158735,
+        0.9522754434551356
+      ],
+      "shared_write": [
+        0.0010429932069818558,
+        0.0014205803381090762
+      ],
+      "history_copy": [
+        0.0006584143243346409,
+        0.0008181858629044844
+      ]
+    },
+    "interpretation": "single-traversal conditional only; not between-run uncertainty"
+  },
+  "runtime_failure_context": {
+    "runtime_rows": 186,
+    "average_tx_budget_us": {
+      "minimum": -3910963.955,
+      "median": -2630221.8894999996,
+      "p95": -400652.09575000004,
+      "maximum": 66.737,
+      "nonpositive_rows": 185
+    },
+    "channel_processing_greater_than_average_tx_budget_rows": 186,
+    "channel_processing_greater_than_average_tx_budget_fraction": 1.0,
+    "incremental_tx_late_fraction": 0.995684592636223,
+    "incremental_rx_late_fraction": 0.9935244118322726,
+    "tx_early_increment": 0,
+    "rx_early_increment": 0,
+    "ue_synch_failed_markers": 708,
+    "gnb_prach_job_in_past_markers": 9255,
+    "frozen_log_gate_pass": false,
+    "missing_required_ue_markers": [
+      "pbch_initial_success",
+      "random_access_success",
+      "rrc_connected",
+      "registration_accept"
+    ]
+  },
+  "cirdb_evidence": {
+    "rows": 185,
+    "first_elapsed_second": 1,
+    "last_elapsed_second": 185,
+    "last_expected_cirdb_step": 92500,
+    "last_applied_cirdb_updates": 92500,
+    "maximum_reported_skipped_snapshots": 0,
+    "maximum_consecutive_skipped_snapshots": 0,
+    "minimum_tap_energy_linear": 1.0,
+    "maximum_tap_energy_linear": 1.0
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw outputs are gitignored; checksums and structured result are committed",
+    "remote_runner_files_to_local_checksums_all_match": true,
+    "files": {
+      "execution_state.json": "3472fc244fae5caa000cdfa36ace131a13555ec73dff8579fc91f4f367f6fed9",
+      "log_gate.json": "c5469472bc8580920aec41e0fff6a9cfa9c8c4c85d3c93b4bdf51b3a5b56492c",
+      "split_analysis.json": "0fb82d385781abdeb0b7aaa1d03ce4e31b20437d0588892b674177d77f84b9af",
+      "vrtsim-1-attachment.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "vrtsim-1-gnb.log": "7da1f14ef21fa24411112d84f9a43de73b5d3bc2441c68eab036006554d50ae9",
+      "vrtsim-1-ping.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "vrtsim-1-runtime.json": "323475a66dc7114c008e26ab46d701ab2923f8e76751199debe25bb34c9e649e",
+      "vrtsim-1-split-runtime.json": "f415ce624ee2a44df5b00e54148a2ca42f8f72c4b792f8436d30053e30a9d9f6",
+      "vrtsim-1-ue.log": "be5afc0fe67cc22ee7d3f0e4049133abf17ba2a044e75f799ac30234674f22e6"
+    }
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before_and_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true,
+    "ue_ipv4_after": "12.1.1.12/24"
+  },
+  "decision": {
+    "phase3c12_split_telemetry_gate": "passed",
+    "identity_attachment_gate": "failed",
+    "branch": "convolution_dominant_only_live",
+    "dominant_live_stage": "channel_pipeline call including task submission and join",
+    "dominant_stage_threshold_pass": true,
+    "cirdb_provider_io_as_dominant_bottleneck": false,
+    "shared_channel_write_as_dominant_bottleneck": false,
+    "balanced_arithmetic_partition_patch": "remains_rejected",
+    "exact_internal_convolution_stage_cause_established": false,
+    "interpretation": "the instrumented live channel_pipeline call accounts for about 95 percent of total channel-processing time and is 2.58 to 2.78 times slower than the Phase3C11 offline exact-case benchmark; the next diagnostic must separate task-queue wait, worker scheduling and arithmetic execution inside that live call",
+    "next_action": "instrument task submission, worker start/end and join wait offline; do not alter convolution arithmetic or run another network replay yet",
+    "additional_node_execution_authorized": false,
+    "new_reservation_needed_for_immediate_next_step": false,
+    "active_reservation_needed_for_immediate_next_step": false,
+    "standardized_time_varying_trace_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  },
+  "claim_limits": {
+    "between_run_stability_established": false,
+    "identity_attachment_robustness_established": false,
+    "exact_task_queue_or_worker_cause_established": false,
+    "measured_UPV_channel_replayed": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
