@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c10_instrumented_eight_tap_unity_cirdb_control_result",
+  "recorded_at": "2026-08-25T15:36:09+02:00",
+  "execution_amendment_revision": "21b39edb9917a21c43f45b8d5a0fa542777ea929",
+  "profile_revision": "65d71a86913f9d62052cbecf4c32fa0800d93dbc",
+  "execution": {
+    "experiment_name": "ghinwa-313780",
+    "remote_output_directory": "/local/logs/phase3c10-runtime-identity/phase3c4-vrtsim-20260825T132929Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c10_runtime_identity_control_v1/attempt-1",
+    "channel_mode": "cirdb",
+    "trace_profile": "identity_l8_control",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "attachment_timeout_seconds": 180,
+    "command_exit_code": 1,
+    "execution_completed": false,
+    "valid_repetitions": 0,
+    "required_repetitions": 1,
+    "failure_stage": "attachment",
+    "error": "ric5g-ue-cell1-1 did not attach within 180 seconds",
+    "observation_window_entered": false,
+    "thresholds_changed_during_execution": false,
+    "adaptive_retry_performed": false
+  },
+  "immutable_inputs": {
+    "ue_image": "oai-nr-ue-phase3c-vrtsim-timing:70508eb",
+    "ue_image_id": "sha256:78b09d25ceeb4e1abf0ab13b4b4ed0c851cac58c4a619fcb01cd909c5c7d9bdc",
+    "gnb_image": "oai-gnb-phase3c-vrtsim-timing:70508eb",
+    "gnb_image_id": "sha256:1853de4c801d5b1497216ad43ec55631a7dcb782f98799fdbe167cc9d3ef3ffc",
+    "libvrtsim_sha256": "364dbd3987e71789c41010b00e615ffb0371c1cf849a1cc26c3a6756dde48abc",
+    "runner_sha256": "55906aae9d314964bd0cf88caa4f36f67e24bda5c14e5036b3feddd2672cd0c7",
+    "identity_binary_sha256": "ae5140b4f95bf59256e1f82bc650f9391c3b06f5b7adf63bd92497a9c7c5bfc2",
+    "identity_sidecar_sha256": "51e3157cb5c6aaa00a06b5bd00680c0acc51fa4ae7a1694ba0b0d671063c3cba"
+  },
+  "runtime_telemetry": {
+    "usable": true,
+    "source": "gNB VRTSIM server log",
+    "rows": 189,
+    "required_rows_for_attachment_timeout": 120,
+    "first_elapsed_second": 0,
+    "last_elapsed_second": 188,
+    "elapsed_second_strictly_increasing": true,
+    "roles": [
+      "server"
+    ],
+    "all_required_fields_parsed_and_finite": true,
+    "all_cumulative_counters_monotone": true,
+    "channel_processing_us_once_per_trace_second": {
+      "minimum": 279.314,
+      "median": 530.452,
+      "p95": 557.591,
+      "maximum": 874.309,
+      "rows_above_500_us": 148,
+      "fraction_above_500_us": 0.783068783068783
+    },
+    "average_tx_budget_us": {
+      "minimum": -1396609.084,
+      "median": -341181.749,
+      "p95": -22862.078,
+      "maximum": 1985.192,
+      "nonpositive_rows": 185,
+      "first_nonpositive_elapsed_second": 1
+    },
+    "channel_processing_greater_than_average_tx_budget": {
+      "rows": 188,
+      "fraction": 0.9947089947089947
+    },
+    "tx_timestamp_minus_current_sample": {
+      "minimum_samples": -64321197,
+      "median_samples": -15718054,
+      "p95_samples": -1035383,
+      "maximum_samples": 88968,
+      "maximum_observed_deficit_ms_at_46_08_msps": 1395.8593098958333,
+      "final_deficit_samples": 1467461,
+      "final_deficit_ms_at_46_08_msps": 31.845941840277778
+    },
+    "sample_counters": {
+      "tx_samples_late": {
+        "first": 0,
+        "last": 6416049504,
+        "increment": 6416049504
+      },
+      "tx_samples_total": {
+        "first": 23040,
+        "last": 6497616000,
+        "increment": 6497592960
+      },
+      "incremental_tx_late_fraction": 0.9874502055604296,
+      "rx_samples_late": {
+        "first": 0,
+        "last": 8279377920,
+        "increment": 8279377920
+      },
+      "rx_samples_total": {
+        "first": 69120,
+        "last": 8663224320,
+        "increment": 8663155200
+      },
+      "incremental_rx_late_fraction": 0.9557000571800907,
+      "tx_early_increment": 0,
+      "rx_early_increment": 0
+    }
+  },
+  "source_semantics_at_pinned_oai_revision": {
+    "sample_rate_hz_from_gnb_configuration": 46080000,
+    "slots_per_subframe": 2,
+    "samples_per_subframe": 46080,
+    "nominal_slot_duration_us": 500,
+    "average_tx_budget_definition": "five-percent exponential update of (TX timestamp minus shared-channel current sample) divided by samples per microsecond; more positive is better",
+    "channel_processing_definition": "wall-clock duration around vrtsim_write_with_chanmod, measured before the debug log call",
+    "tx_late_counter_definition": "increments by nsamps when shared-channel TX returns CHANNEL_ERROR_TOO_LATE",
+    "rx_late_counter_definition": "increments by nsamps when shared-channel RX returns CHANNEL_ERROR_TOO_LATE",
+    "interpretive_limit": "the processing duration is sampled once per trace second rather than recorded for every channel-processing call"
+  },
+  "cirdb_and_failure_evidence": {
+    "ue_synch_failed_markers": 696,
+    "gnb_prach_job_in_past_markers": 9269,
+    "cirdb_debug_rows": 188,
+    "first_reported_elapsed_second": 1,
+    "last_reported_elapsed_second": 188,
+    "last_reported_expected_cirdb_step": 94000,
+    "last_reported_applied_updates": 94000,
+    "reported_skipped_cirdb_snapshots": 0,
+    "reported_maximum_consecutive_skipped_snapshots": 0,
+    "minimum_reported_tap_energy_linear": 1.0,
+    "maximum_reported_tap_energy_linear": 1.0,
+    "wall_log_span_seconds": 187.029874,
+    "trace_elapsed_span_seconds": 187,
+    "wall_to_trace_span_ratio": 1.000159754,
+    "interpretation": "The provider advanced at the frozen cadence with exact unity energy and no reported skipped snapshots, while the shared-channel server accumulated severe aggregate TX/RX lateness and failed attachment. Near-unit wall-to-trace progression does not imply sample-level timing health."
+  },
+  "comparative_evidence": {
+    "phase3c7_passthrough_result_sha256": "c6a77726cb782b45920517125e146e009b14585e40bb4aff0c97182edbe6ad6b",
+    "phase3c7_passthrough_valid_repetitions": 3,
+    "phase3c7_passthrough_all_attached_and_passed": true,
+    "phase3c9_uninstrumented_identity_result_sha256": "5c340330bfa6b24edd75fa0153c94b1e0f17f18d90888fb58d0517b89cc9eee4",
+    "phase3c9_uninstrumented_identity_also_failed_attachment": true,
+    "interpretation": "The failure predates the new telemetry, and the same VRTSIM transport passed three frozen passthrough repetitions. The new counters therefore support a CIRDB/channel-processing timing violation rather than a telemetry-created failure or a general VRTSIM transport failure."
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw outputs are gitignored; checksums and structured result are committed",
+    "remote_to_local_checksums_all_match": true,
+    "files": {
+      "execution_state.json": "7aedbd853b8b47c5e26719166e2734b78a48b6f03153c117a22045da4d2dbf56",
+      "vrtsim-1-attachment.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "vrtsim-1-gnb.log": "2fc341c3ccdc280cf6e1e7322bccc8c2598fe8d160ef0944dc60833814851a42",
+      "vrtsim-1-ping.log": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "vrtsim-1-runtime.json": "378106d7e1176c4fee3f9430afdeb22bd7af3aad1c9cc08168e219aeab5b532f",
+      "vrtsim-1-ue.log": "5e6a29fb0d85395e059702688c5811c8ab579269449371166155d19331e9330b"
+    }
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true,
+    "ue_ipv4_after": "12.1.1.9/24"
+  },
+  "decision": {
+    "phase3c10_runtime_evidence_gate": "passed",
+    "identity_attachment_gate": "failed",
+    "cirdb_runtime_timing_violation_observed": true,
+    "timing_violation_as_proximate_attachment_failure_mechanism": "strongly_supported",
+    "exact_code_level_bottleneck_established": false,
+    "next_action": "offline split timing of CIRDB provider update versus channel convolution, followed by an optimized implementation and local tests before proposing any further reservation run",
+    "additional_node_execution_authorized": false,
+    "new_reservation_needed_for_immediate_next_step": false,
+    "active_reservation_needed_for_immediate_next_step": false,
+    "standardized_time_varying_trace_gate": "closed",
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  },
+  "claim_limits": {
+    "channel_processing_arithmetic_validated": false,
+    "cirdb_transport_validated": false,
+    "exact_bottleneck_isolated": false,
+    "time_varying_attachment_robustness_established": false,
+    "measured_UPV_channel_replayed": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
