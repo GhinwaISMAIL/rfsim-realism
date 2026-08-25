@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_exact_hardware_channel_pipeline_benchmark_execution",
+  "recorded_at": "2026-08-25T15:57:05+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "create a self-contained clean checkout from the pinned Git objects, build baseline and balanced exact-case benchmark binaries, temporarily quiesce the cell containers for correctness and ABBA timing, then restore and verify the original attached AWGN baseline",
+    "authorization_basis": "the Phase 3C10 timing violation is committed at 4d329b8, the Phase 3C11 source audit and benchmark protocol are committed at 61c5eb2, and the quiescence-and-rollback runner passes 78 tests at profile revision 3a27ae9",
+    "network_replay_authorized": false,
+    "optimized_network_image_build_authorized": false,
+    "standardized_tdl_b_trace_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "frozen_inputs": {
+    "research_revision": "61c5eb2352f257f317af5f74291e9ceea0759ac4",
+    "profile_revision": "3a27ae94d90ed156149dfd44a410e8f3024508eb",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "runner_sha256": "56d671969d2e70df99c32e887bc91506705c84130a3d231b26b0058f366c4193",
+    "balance_patch_sha256": "66693c54be7fb62e36569d43d2c48ab1841a51b7fe69fbf077de2c80410825c6",
+    "benchmark_patch_sha256": "7d07b2a13f22578d34af684e8463a19d1f239fec7ad79ca44fdeccd7ddd13d67",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "phase3c10_result_sha256": "b0a444da58092f3af19c079b3f6626a85120a67ef724865a4de4c0b42a9c9f16"
+  },
+  "clean_checkout_preparation": {
+    "seed_checkout": "/local/phase3c/openairinterface5g-vrtsim-clean",
+    "seed_worktree_modifications_ignored_by_clone": [
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c",
+      "radio/vrtsim/cirdb_provider.c",
+      "radio/vrtsim/vrtsim.c"
+    ],
+    "destination": "/local/phase3c11/openairinterface5g-clean",
+    "method": "git clone --no-local of the pinned main repository and each already-present pinned submodule repository, followed by detached checkout of each exact revision",
+    "main_checkout_must_be_clean": true,
+    "git_alternates_prohibited_in_main_and_submodules": true,
+    "submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    }
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "current_reservation_verified_reachable": true,
+    "new_reservation_required": false
+  },
+  "execution": {
+    "source": "/local/phase3c11/openairinterface5g-clean",
+    "work_root": "/local/phase3c11/channel-benchmark-work-v1",
+    "output_root": "/local/logs/phase3c11-channel-benchmark-v1",
+    "compose_file": "/local/repository/etc/docker-compose-cell1.yaml",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c11-channel-benchmark.py --source /local/phase3c11/openairinterface5g-clean --work-root /local/phase3c11/channel-benchmark-work-v1 --output-root /local/logs/phase3c11-channel-benchmark-v1 --compose-file /local/repository/etc/docker-compose-cell1.yaml",
+    "benchmark_conditions": [
+      "baseline",
+      "optimized"
+    ],
+    "timing_order": [
+      "baseline-1",
+      "optimized-1",
+      "optimized-2",
+      "baseline-2"
+    ],
+    "network_services_during_timing": "gNB and UE containers stopped",
+    "network_traffic_generated": false
+  },
+  "preflight_and_stopping_rules": [
+    "stop before copying or building on any profile-file checksum, OAI revision, submodule revision, compose checksum, architecture or clean-checkout mismatch",
+    "stop if any Git alternates are present in the main checkout or either submodule",
+    "allow only the benchmark/test patch in baseline and only the benchmark/test plus balanced-partition patch in optimized",
+    "build both conditions before quiescing the live cell",
+    "stop on any configure, compile or correctness-test failure",
+    "once either cell container is stopped, always run the mandatory restore path",
+    "require original gNB and UE image IDs, zero restart-count change, gNB health and UE attachment after restore",
+    "do not build optimized network images or run a network replay regardless of benchmark outcome"
+  ],
+  "acceptance_rules_reference": "benchmark_protocol.json",
+  "post_execution": {
+    "pass_action": "copy and hash raw evidence, evaluate the frozen benchmark rules, commit the result, and only then consider a separate optimized-image build amendment",
+    "fail_action": "keep all network replay and calibration gates closed and continue offline",
+    "threshold_changes_during_or_after_execution_before_result_commit": false,
+    "additional_node_execution_authorized": false
+  }
+}
