@@ -23,7 +23,9 @@
     "all_stage_durations_nonnegative": true,
     "maximum_absolute_runtime_total_difference_us": 0.001,
     "maximum_absolute_component_accounting_difference_us": 0.01,
-    "maximum_absolute_total_accounting_difference_us": 0.01
+    "maximum_absolute_total_accounting_difference_us": 0.01,
+    "maximum_absolute_residual_median_us": 5,
+    "maximum_absolute_residual_p95_us": 10
   },
   "point_statistics": {
     "median": "ordinary sample median",
