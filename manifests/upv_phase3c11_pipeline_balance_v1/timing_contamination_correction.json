@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_timing_contamination_correction",
+  "recorded_at": "2026-08-25T16:25:00+02:00",
+  "status": "frozen_before_attempt_3",
+  "attempt_2": {
+    "work_root": "/local/phase3c11/channel-benchmark-work-v2",
+    "output_root": "/local/logs/phase3c11-channel-benchmark-v2",
+    "status": "invalidated_and_stopped",
+    "invalidating_conditions": [
+      "an orphaned git pack-objects process from the failed no-local clone consumed approximately one CPU throughout timing",
+      "the Google Benchmark invocation lacked a filter and began running unrelated benchmark registrations before the two frozen tpool cases"
+    ],
+    "timing_results_eligible_for_analysis": false,
+    "acceptance_rules_evaluated": false,
+    "interruption": "the active optimized benchmark container was stopped, causing runner exit 137 and mandatory rollback",
+    "rollback_passed": true,
+    "restored_gnb_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "restored_ue_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "restored_restart_counts": {
+      "gnb": 0,
+      "ue": 0
+    },
+    "restored_ue_attachment": "12.1.1.10/24",
+    "local_evidence": "data/model_runs/upv_phase3c11_pipeline_balance_v1/attempt-2-contaminated",
+    "evidence_sha256": {
+      "base-image-build.log": "3e34e52b46325f5b1b348f10d6bbcba3466792c32062731c2135e4b05139a78c",
+      "baseline-build.log": "0aad29004770ee825266650e28900c219630231ca53969b56e63dcf620d17c99",
+      "optimized-build.log": "51d24b2679596f9b740f87d0a4ba48bf7645005ced994df4957c0d19fdc71aca",
+      "baseline-correctness.log": "29566f58a8092ba763b6638230a5831baecbfe9e95be7a6a3c39f919d69fdf89",
+      "optimized-correctness.log": "66a8415d1eff5b8a31132c380041e514aab6d2cabc771feddf3252a2b3fd484a",
+      "baseline-source.diff": "9a90667e81fbc95345141bb12247368ac2270212fddfffe7e61115b8d94ce7db",
+      "optimized-source.diff": "980a131590b9eda694be9ab7fad52b32911591042787beb3118d325e64a8ea42",
+      "baseline-1.json": "f05cb1cbc082ff665120e13bf80b797e64a223e025a8b6c0da676d581a8243eb",
+      "baseline-1.log": "38ca5f72357806f095a5a646fc08dfea0fe5b6a16d4f9fd4b04d46f15d9df472",
+      "optimized-1.json": "90ec7cb5756e4e983e04db0a59147680cfb0e9809158da1e089fce23c5826872",
+      "optimized-1.log": "550258c840ad4237598061302cb3bb7705522ab275ca9649ad16124c5f35b743",
+      "execution_state.json": "9c569ad4d15b4afb0a29090528acc996c187dd4edfc90b825e9c9d1a950dee10"
+    }
+  },
+  "contaminant_disposition": {
+    "process_group": 190399,
+    "command": "git clone --no-local /local/phase3c/openairinterface5g-vrtsim-clean /local/phase3c11/openairinterface5g-clean",
+    "action": "TERM the exact failed-clone process group, escalating to KILL only if still present",
+    "result": "all scoped PIDs absent after TERM; KILL was not required",
+    "failed_destination_remains_quarantined": true
+  },
+  "runner_correction": {
+    "profile_revision": "58d4cc11812e72a3f60a5fb0870bfc93e9f695fc",
+    "runner_sha256": "1587745102c67077b1ce21a3c06158a966b9d993ea737ae60347447cb35db6ea",
+    "profile_test_result": "83 passed",
+    "changes": [
+      "filter every timing invocation to ^BM_channel_convolution_tpool/",
+      "wait five seconds after radio-container quiescence",
+      "reject any residual git pack-objects or benchmark_channel_pipeline process before correctness and timing",
+      "record the top-CPU process table in execution evidence"
+    ],
+    "benchmark_cases_or_thresholds_changed": false
+  },
+  "attempt_3": {
+    "source": "/local/phase3c11/openairinterface5g-clean",
+    "work_root": "/local/phase3c11/channel-benchmark-work-v3",
+    "output_root": "/local/logs/phase3c11-channel-benchmark-v3",
+    "command": "sudo python3 /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c11-channel-benchmark.py --source /local/phase3c11/openairinterface5g-clean --work-root /local/phase3c11/channel-benchmark-work-v3 --output-root /local/logs/phase3c11-channel-benchmark-v3 --compose-file /local/repository/etc/docker-compose-cell1.yaml",
+    "authorized": true,
+    "fresh_paths_required": true,
+    "host_process_quietness_required": true,
+    "network_replay_authorized": false,
+    "optimized_network_image_build_authorized": false
+  }
+}
