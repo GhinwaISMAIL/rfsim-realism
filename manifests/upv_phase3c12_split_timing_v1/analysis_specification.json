@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c12_split_timing_analysis_specification",
+  "recorded_at": "2026-08-25T17:20:00+02:00",
+  "freeze_timing": "frozen after the one authorized execution completed but before loading either runtime JSON array or any split-timing values",
+  "reason_for_amendment": "the pre-execution protocol froze the moving-block lengths and decision thresholds but omitted the bootstrap repetition count, seed and exact resampling implementation",
+  "inputs": {
+    "execution_amendment_revision": "b3f80940eea97c8d3bce3929baccacbc176d702f",
+    "runtime_file": "data/model_runs/upv_phase3c12_split_timing_v1/attempt-1/vrtsim-1-runtime.json",
+    "split_file": "data/model_runs/upv_phase3c12_split_timing_v1/attempt-1/vrtsim-1-split-runtime.json",
+    "phase3c10_reference_total_median_us": 530.452
+  },
+  "validation": {
+    "minimum_rows": 120,
+    "required_role": "server",
+    "key": [
+      "role",
+      "elapsed_second"
+    ],
+    "keys_must_be_unique_and_identical_in_order": true,
+    "elapsed_second_strictly_increasing": true,
+    "all_values_finite": true,
+    "all_stage_durations_nonnegative": true,
+    "maximum_absolute_runtime_total_difference_us": 0.001,
+    "maximum_absolute_component_accounting_difference_us": 0.01,
+    "maximum_absolute_total_accounting_difference_us": 0.01
+  },
+  "point_statistics": {
+    "median": "ordinary sample median",
+    "p95": "linear interpolation at h=(n-1)*0.95",
+    "stage_fraction": "sample median of the stage divided by the sample median of split total",
+    "dominant_stage": "the stage with the largest point-estimate stage_fraction",
+    "dominant_stage_threshold": 0.5,
+    "absolute_residual": "absolute value of residual_us before summarization",
+    "split_total_ratio": "sample median of split total divided by the frozen Phase3C10 total median"
+  },
+  "bootstrap": {
+    "rule": "circular_moving_block_with_fixed_target_length",
+    "block_lengths_rows": [
+      5,
+      10,
+      20
+    ],
+    "repetitions": 1000,
+    "base_seed": 20260825,
+    "rng": "numpy.random.default_rng(numpy.random.SeedSequence([base_seed, block_length]))",
+    "sample_construction": "draw ceil(n/block_length) circular block starts uniformly with replacement, concatenate each forward block modulo n, then truncate to n rows",
+    "statistics": [
+      "median_split_total_us",
+      "median_absolute_residual_us",
+      "median_stage_us_for_each_stage",
+      "stage_fraction_for_each_stage"
+    ],
+    "confidence_level": 0.95,
+    "interval": "percentile interval using numpy.quantile method=linear at 0.025 and 0.975",
+    "interpretation": "single-traversal conditional only; not between-run uncertainty",
+    "affects_frozen_thresholds": false
+  },
+  "decision_order": [
+    "telemetry_validation_failure",
+    "no_dominant_stage_or_total_mismatch",
+    "shared_write_dominant",
+    "cirdb_update_dominant",
+    "convolution_dominant_only_live",
+    "preparation_or_history_dominant"
+  ],
+  "claim_limits": [
+    "one execution cannot establish between-run stability",
+    "the identity-L8 control is not a measured or standardized fading trace",
+    "timing attribution does not validate absolute RSRP equivalence or authorize calibration",
+    "no threshold may be changed after the values are loaded"
+  ]
+}
