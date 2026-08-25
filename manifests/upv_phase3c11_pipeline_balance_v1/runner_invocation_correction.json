@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c11_runner_invocation_correction",
+  "recorded_at": "2026-08-25T16:09:00+02:00",
+  "status": "frozen_before_runner_execution",
+  "observed_failure": {
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c11-channel-benchmark.py --source /local/phase3c11/openairinterface5g-clean --work-root /local/phase3c11/channel-benchmark-work-v1 --output-root /local/logs/phase3c11-channel-benchmark-v1 --compose-file /local/repository/etc/docker-compose-cell1.yaml",
+    "exit_code": 1,
+    "message": "command not found",
+    "cause": "the checksum-frozen runner was transferred with mode -rw-r--r-- and was not directly executable",
+    "runner_entered": false,
+    "work_root_created": false,
+    "output_root_created": false,
+    "cell_containers_stopped": false,
+    "baseline_verified_healthy_and_attached_after_failure": true
+  },
+  "corrected_invocation": {
+    "command": "sudo python3 /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c11-channel-benchmark.py --source /local/phase3c11/openairinterface5g-clean --work-root /local/phase3c11/channel-benchmark-work-v1 --output-root /local/logs/phase3c11-channel-benchmark-v1 --compose-file /local/repository/etc/docker-compose-cell1.yaml",
+    "runner_sha256": "2788451bce112879bffcd0a3aaec58c4ea09da9be71015e90a855863a8409c62",
+    "code_or_protocol_change": false,
+    "execution_authorized": true
+  }
+}
