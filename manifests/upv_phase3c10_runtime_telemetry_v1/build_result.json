@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c10_vrtsim_runtime_telemetry_rebuild_only",
+  "recorded_at": "2026-08-25T15:09:59+02:00",
+  "status": "pass",
+  "decision": "build_artifacts_accepted_for_a_separately_frozen_single_identity_control",
+  "provenance": {
+    "build_amendment_revision": "8958151bba0d0601474479dc20f2e1180549fb9e",
+    "profile_revision": "91b1888905f28d8c638c29668d5eadf989ac355c",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "oai_submodules": {
+      "openair2/E2AP/flexric": "ef6d722f22191eea74089966983da1f5ec1fedd4",
+      "openair2/E2AP/flexric/ci-scripts/common": "20de484fa9025c9c342b8b945d89a10797ec2503"
+    },
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_architecture": "x86_64",
+    "build_log_remote": "/local/logs/phase3c10-vrtsim-timing-rebuild.log",
+    "source_diff_remote": "/local/logs/phase3c10-vrtsim-timing-source.diff",
+    "build_started_remote": "2026-08-25T06:58:34.698673034-06:00",
+    "build_finished_remote": "2026-08-25T07:01:31.369148437-06:00"
+  },
+  "frozen_input_verification": {
+    "oai_head_match": true,
+    "submodule_match": true,
+    "git_alternates_absent": true,
+    "pre_patch_modified_paths": [
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c",
+      "radio/vrtsim/cirdb_provider.c"
+    ],
+    "pre_patch_diff_check_passed": true,
+    "build_script_sha256": "d5ca7b4b27e98b59d7c6929f30623137d63653eaaf079bf181324d86005091a0",
+    "dockerfile_sha256": "69aa379e6e8e2b4346707f3786fb7d5f0d7e66e7c3c2007c18b9c4f3e2f395bb",
+    "runtime_telemetry_patch_sha256": "d1172320c74e25beace6204017b1e5bfde2dcc8366cd0aeecc290358536994d4",
+    "cirdb_telemetry_patch_sha256": "31aa26fc6ce8ff2cd7f3c37947b2a0baa18a6fe65838b6dd81e96343ff2aae8a",
+    "ue_radio_telemetry_patch_sha256": "f6d9429adc1e7656cb4138522f523c073f70ca00c7d44394a818544a9832b8c3"
+  },
+  "build_evidence": {
+    "compiler_warnings_as_errors": true,
+    "oai_build_success_marker_present": true,
+    "build_log_sha256": "e2626089731c0dba02cdbd58b29ce6da508bc3eab5c5cc2763e699f6cd113026",
+    "build_log_size_bytes": 1347335,
+    "source_diff_sha256": "f638a80959ef1e763f6450ea4bbe7e93bcce12494959f53ba0a8eb40adfe77b3",
+    "source_diff_size_bytes": 11916,
+    "post_patch_modified_paths": [
+      "openair1/PHY/NR_UE_ESTIMATION/nr_ue_measurements.c",
+      "radio/vrtsim/cirdb_provider.c",
+      "radio/vrtsim/vrtsim.c"
+    ],
+    "post_patch_diff_check_passed": true
+  },
+  "images": {
+    "ue": {
+      "tag": "oai-nr-ue-phase3c-vrtsim-timing:70508eb",
+      "image_id": "sha256:78b09d25ceeb4e1abf0ab13b4b4ed0c851cac58c4a619fcb01cd909c5c7d9bdc",
+      "size_bytes": 176486897,
+      "architecture": "amd64",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "created": "2026-08-25T07:01:27.793117641-06:00",
+      "softmodem_sha256": "2e1b971c21d293e23f4c28819cd2cb613f9eec4c62178af2c9a2e3dd0604edfe",
+      "libvrtsim_sha256": "364dbd3987e71789c41010b00e615ffb0371c1cf849a1cc26c3a6756dde48abc",
+      "unresolved_dynamic_dependencies": 0,
+      "cirdb_marker_present": true,
+      "runtime_marker_present": true
+    },
+    "gnb": {
+      "tag": "oai-gnb-phase3c-vrtsim-timing:70508eb",
+      "image_id": "sha256:1853de4c801d5b1497216ad43ec55631a7dcb782f98799fdbe167cc9d3ef3ffc",
+      "size_bytes": 200921944,
+      "architecture": "amd64",
+      "revision_label": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+      "created": "2026-08-25T07:01:30.472528556-06:00",
+      "softmodem_sha256": "b177bc1b85ebc53990d8fe0966dd9861733e502bea6f4f65f1738299878dcb69",
+      "libvrtsim_sha256": "364dbd3987e71789c41010b00e615ffb0371c1cf849a1cc26c3a6756dde48abc",
+      "unresolved_dynamic_dependencies": 0,
+      "cirdb_marker_present": true,
+      "runtime_marker_present": true
+    },
+    "libvrtsim_byte_identical": true
+  },
+  "live_baseline_after_build": {
+    "untouched": true,
+    "gnb": {
+      "container": "ric5g-gnb-cell1",
+      "image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+      "state": "running",
+      "health": "healthy",
+      "restart_count": 0
+    },
+    "ue": {
+      "container": "ric5g-ue-cell1-1",
+      "image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+      "state": "running",
+      "restart_count": 0,
+      "tun_ipv4": "12.1.1.8/24"
+    }
+  },
+  "authorization_after_result": {
+    "new_images_deployed": false,
+    "identity_control_executed": false,
+    "standardized_trace_replay_authorized": false,
+    "mmd_or_abc_authorized": false,
+    "next_action": "freeze a separate execution amendment for exactly one instrumented identity-L8 control using the immutable image IDs above"
+  }
+}
