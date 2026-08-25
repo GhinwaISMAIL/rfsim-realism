@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c10_instrumented_eight_tap_unity_cirdb_control",
+  "recorded_at": "2026-08-25T15:22:49+02:00",
+  "authorization": {
+    "execution_authorized": true,
+    "authorized_action": "temporarily deploy the exact Phase 3C10 runtime-telemetry images for one identity-L8 CIRDB diagnostic, preserve the runtime counters, and restore the original attached AWGN compose state in the runner finally block",
+    "authorization_basis": "the telemetry build passed and was committed at b996d32; the uniquely tagged image IDs are immutable; the image-reference runner safeguard passed 69 tests and was committed at profile revision 65d71a8; the current reservation remains active",
+    "container_deployment_authorized": true,
+    "standardized_tdl_b_trace_replay_authorized": false,
+    "physical_radio_or_sdr_experiment_authorized": false,
+    "absolute_rsrp_calibration_authorized": false,
+    "mmd_or_abc_authorized": false
+  },
+  "diagnostic_question": "During the already reproduced identity-L8 CIRDB attachment failure, do the VRTSIM server counters show channel-processing time, TX/RX lateness, or early-wait behavior consistent with a runtime timing overrun?",
+  "frozen_inputs": {
+    "research_revision": "b996d32c0b1b8a14b3a3421799bd2c664c10e40e",
+    "profile_revision": "65d71a86913f9d62052cbecf4c32fa0800d93dbc",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "build_result_sha256": "cc5adf818031e6b7ba356925029581246de3f860f5ff0e6cea80d77ffe80abdb",
+    "runner_sha256": "55906aae9d314964bd0cf88caa4f36f67e24bda5c14e5036b3feddd2672cd0c7",
+    "log_parser_sha256": "63ab66ad749c7f8f1dec286588bff4aa9ab745c0e01d012c4bc2921a23452644",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "identity_binary_sha256": "ae5140b4f95bf59256e1f82bc650f9391c3b06f5b7adf63bd92497a9c7c5bfc2",
+    "identity_sidecar_sha256": "51e3157cb5c6aaa00a06b5bd00680c0acc51fa4ae7a1694ba0b0d671063c3cba"
+  },
+  "identity_control": {
+    "interpretation": "runtime-path diagnostic only; not a TDL-B realization and not a realism experiment",
+    "tx_antennas": 1,
+    "rx_antennas": 1,
+    "channel_length_taps": 8,
+    "snapshots": 1,
+    "snapshot_interval_seconds": 0.002,
+    "provider_updates_per_trace_second": 500,
+    "tap_energy_linear": 1.0,
+    "remote_directory": "/local/phase3c/cirdb-identity-l8-v1"
+  },
+  "reservation": {
+    "experiment_name": "ghinwa-313780",
+    "cell_node": "pc03-meb.emulab.net",
+    "cell_node_type": "d740",
+    "core_node": "pc842.emulab.net",
+    "core_node_type": "d430",
+    "expires_local": "2026-08-26T04:00:00+02:00",
+    "new_reservation_required": false
+  },
+  "immutable_images": {
+    "ue_image": "oai-nr-ue-phase3c-vrtsim-timing:70508eb",
+    "ue_image_id": "sha256:78b09d25ceeb4e1abf0ab13b4b4ed0c851cac58c4a619fcb01cd909c5c7d9bdc",
+    "gnb_image": "oai-gnb-phase3c-vrtsim-timing:70508eb",
+    "gnb_image_id": "sha256:1853de4c801d5b1497216ad43ec55631a7dcb782f98799fdbe167cc9d3ef3ffc",
+    "libvrtsim_sha256": "364dbd3987e71789c41010b00e615ffb0371c1cf849a1cc26c3a6756dde48abc"
+  },
+  "execution": {
+    "channel_family": "AWGN baseline with temporary CIRDB identity-L8 channel processing",
+    "channel_mode": "cirdb",
+    "trace_profile": "identity_l8_control",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "repetitions": 1,
+    "attachment_timeout_seconds": 180,
+    "stabilization_seconds": 10,
+    "observation_seconds": 30,
+    "minimum_usable_telemetry_seconds": 20,
+    "remote_override": "/local/phase3c/phase3c10-runtime-identity.override.yaml",
+    "remote_output_root": "/local/logs/phase3c10-runtime-identity",
+    "command": "sudo /local/phase3c/oai-5g-ric-vrtsim/bin/run-phase3c-vrtsim-replay.py --channel-mode cirdb --trace-profile identity_l8_control --server-timescale 1.0 --gnb-min-rxtxtime 6 --repetitions 1 --attach-timeout-seconds 180 --stabilization-seconds 10 --observation-seconds 30 --minimum-telemetry-seconds 20 --trace-dir /local/phase3c/cirdb-identity-l8-v1 --override-file /local/phase3c/phase3c10-runtime-identity.override.yaml --output-root /local/logs/phase3c10-runtime-identity --ue-image oai-nr-ue-phase3c-vrtsim-timing:70508eb --gnb-image oai-gnb-phase3c-vrtsim-timing:70508eb --expected-ue-image-id sha256:78b09d25ceeb4e1abf0ab13b4b4ed0c851cac58c4a619fcb01cd909c5c7d9bdc --expected-gnb-image-id sha256:1853de4c801d5b1497216ad43ec55631a7dcb782f98799fdbe167cc9d3ef3ffc"
+  },
+  "runtime_evidence_rules": {
+    "source_log": "gNB VRTSIM server log",
+    "output_file": "vrtsim-1-runtime.json",
+    "required_role": "server",
+    "minimum_rows_if_attachment_times_out": 120,
+    "minimum_rows_if_observation_completes": 20,
+    "elapsed_second_strictly_increasing": true,
+    "finite_channel_processing_and_budget_values_required": true,
+    "nonnegative_counters_required": true,
+    "cumulative_sample_counters_must_be_monotone": true,
+    "summaries_to_report": [
+      "channel_processing_us minimum median p95 maximum",
+      "average_tx_budget_us minimum median p95 maximum",
+      "fraction and count of rows with channel_processing_us greater than average_tx_budget_us",
+      "initial final and increment of TX-late and RX-late sample counters",
+      "initial final and increment of TX-total and RX-total sample counters",
+      "initial final and increment of TX-early and RX-early counters"
+    ],
+    "causal_claim_from_aggregate_counters_alone": false
+  },
+  "stopping_rules": [
+    "stop before deployment on any repository, runner, image, compose, identity-artifact or healthy-baseline mismatch",
+    "perform exactly one repetition with no adaptive retry or threshold change",
+    "stop the replay if the UE does not attach within 180 seconds and preserve the runtime evidence collected before rollback",
+    "stop during observation on any frozen PBCH, PUSCH, random-access, RLC maximum-retransmission, unhandled-RLF, actual-RLF or lost-sync marker",
+    "stop if more than ten consecutive CIRDB snapshots are skipped or a log stream is not append-only",
+    "always restore the original compose and require the original image IDs, gNB health, unchanged gNB restart count and UE attachment",
+    "do not run the standardized time-varying trace, calculate MMD, compare absolute RSRP, infer parameters or run ABC"
+  ],
+  "rollback": {
+    "mandatory": true,
+    "runs_in_finally": true,
+    "restore_original_compose_and_images": true,
+    "require_ue_reattachment_after_restore": true,
+    "require_gnb_health_after_restore": true,
+    "require_original_gnb_restart_count_after_restore": true
+  },
+  "branch_after_execution": {
+    "attachment_failure_with_runtime_overrun_evidence": "keep all realism/calibration gates closed and repair or reduce the identified VRTSIM timing bottleneck offline",
+    "attachment_failure_without_runtime_overrun_evidence": "keep all realism/calibration gates closed and instrument the transport/scheduler boundary more narrowly; do not infer that CIRDB arithmetic is correct",
+    "attachment_success": "treat as nondeterminism evidence only; require independent repetitions under a newly frozen protocol before claiming runtime robustness",
+    "unusable_runtime_telemetry": "do not repeat on the node; debug the instrumentation offline",
+    "no_adaptive_second_condition": true,
+    "additional_node_execution_authorized": false
+  }
+}
