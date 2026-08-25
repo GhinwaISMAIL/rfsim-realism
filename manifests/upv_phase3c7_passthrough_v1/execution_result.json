@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c7_three_repetition_passthrough_result",
+  "recorded_at": "2026-08-25T14:02:54+02:00",
+  "execution_amendment_revision": "55e5e12a74756f69a4a12d6762b9aefb7623e178",
+  "profile_revision": "8c12ab14a182365033605449de4a2f2be58e755b",
+  "execution": {
+    "experiment_name": "ghinwa-313780",
+    "remote_output_directory": "/local/logs/phase3c7-passthrough-minrx6/phase3c4-vrtsim-20260825T115849Z",
+    "local_raw_directory": "data/model_runs/upv_phase3c7_passthrough_v1/attempt-1",
+    "channel_mode": "passthrough",
+    "server_timescale": 1.0,
+    "gnb_min_rxtxtime": 6,
+    "stabilization_seconds": 10,
+    "observation_seconds": 30,
+    "minimum_usable_telemetry_seconds": 20,
+    "command_exit_code": 0,
+    "execution_completed": true,
+    "valid_repetitions": 3,
+    "required_repetitions": 3,
+    "thresholds_changed_during_execution": false,
+    "adaptive_retry_performed": false
+  },
+  "immutable_images": {
+    "ue_image_id": "sha256:a1f32e7f7420bf59f1ebc5c296660c3200cbfc7313e0bccc51e469c7678925e8",
+    "gnb_image_id": "sha256:52f5fa27ec1e47247b3b98ca8c10f07178cfaa4073d37e2c3856086c3afb8c8c"
+  },
+  "repetitions": [
+    {
+      "repetition": 1,
+      "pass": true,
+      "attachment_checks": 24,
+      "attachment_fraction": 1.0,
+      "usable_telemetry_duration_s": 29.17850136756897,
+      "ue_radio_debug_rows": 30,
+      "ping_transmitted": 30,
+      "ping_received": 30,
+      "ping_loss_fraction": 0.0,
+      "maximum_reported_ulsch_dtx_counter": 18,
+      "post_stabilization_failure_markers_total": 0,
+      "startup_diagnostics": {
+        "ue_pbch_decode_error": 1,
+        "all_other_failure_markers": 0
+      }
+    },
+    {
+      "repetition": 2,
+      "pass": true,
+      "attachment_checks": 24,
+      "attachment_fraction": 1.0,
+      "usable_telemetry_duration_s": 29.209511280059814,
+      "ue_radio_debug_rows": 31,
+      "ping_transmitted": 30,
+      "ping_received": 30,
+      "ping_loss_fraction": 0.0,
+      "maximum_reported_ulsch_dtx_counter": 5,
+      "post_stabilization_failure_markers_total": 0,
+      "startup_diagnostics": {
+        "all_failure_markers": 0
+      }
+    },
+    {
+      "repetition": 3,
+      "pass": true,
+      "attachment_checks": 24,
+      "attachment_fraction": 1.0,
+      "usable_telemetry_duration_s": 29.187158584594727,
+      "ue_radio_debug_rows": 30,
+      "ping_transmitted": 30,
+      "ping_received": 30,
+      "ping_loss_fraction": 0.0,
+      "maximum_reported_ulsch_dtx_counter": 4,
+      "post_stabilization_failure_markers_total": 0,
+      "startup_diagnostics": {
+        "gnb_random_access_failure": 2,
+        "all_other_failure_markers": 0,
+        "recovered_with_second_pbch_and_random_access_success": true
+      }
+    }
+  ],
+  "aggregate_acceptance": {
+    "three_valid_repetitions": true,
+    "attachment_gate": true,
+    "usable_duration_gate": true,
+    "ue_radio_debug_gate": true,
+    "ping_loss_gate": true,
+    "post_stabilization_log_gate": true,
+    "each_post_stabilization_failure_marker_count": 0,
+    "startup_diagnostics_preserved": true,
+    "passthrough_transport_safety_gate_passed": true
+  },
+  "raw_evidence": {
+    "tracking_policy": "raw outputs are gitignored; checksums and structured result are committed",
+    "remote_to_local_checksums_all_match": true,
+    "files": {
+      "execution_state.json": "675310878efc5f4e1e93331a96bcd490c13c7e4f8cc1a38d4ae552571ce2a6b4",
+      "vrtsim-1-attachment.json": "6c73f48b4394a2a710ce809a898d61a14d3cf320a92deaf7acd36ab50414509d",
+      "vrtsim-1-evaluation.json": "b08fb0f5d3fc716179edc9d3a07748da8fccd65ae796c176ecd629cfe90bbb38",
+      "vrtsim-1-gnb.log": "a8d3598d698908af77f88618430bf26ddb5e593e84caff202994ff1df9bd38e0",
+      "vrtsim-1-ping.log": "44953db3e8b0d7cfb8229e1cda3efc65d86645db4a4e3dfcad023e4f183307dc",
+      "vrtsim-1-ue.log": "4dbe681bdf3b5071bf7b545b299ead3176e00cc59a865c7046f3cf0b0cee807f",
+      "vrtsim-2-attachment.json": "ea9134dca6cdea2ef0fb8656529a6099986bb0dc164122f8283be5cc775da038",
+      "vrtsim-2-evaluation.json": "223c17bea5eda6a88bc416900f27570ed91a4b464bdde009ccf45e25a5819f70",
+      "vrtsim-2-gnb.log": "d5b17a2745094708a49c0ea9cac17c1c17481bce02dd7baaef0306628ea22017",
+      "vrtsim-2-ping.log": "2590e2c93a6fd200b0ffaac933e128e1333c3b75083037b217ddfd9c3ff07685",
+      "vrtsim-2-ue.log": "4686eb0220cd76cca45a023ca62f6529eec6cc9e5ecf9ecb1db24267d0c95c5d",
+      "vrtsim-3-attachment.json": "1cef8df4c5cfe33adb5da087c0497acb02deef5051657022ebc194f91ea095e3",
+      "vrtsim-3-evaluation.json": "08771a4759f07b0ceb2fa3db04d01f896caa96038c32670f3c4b8fdf9809d692",
+      "vrtsim-3-gnb.log": "489c1d6b9e130339f1862bbf5ed7fe863f563268e5e0b2b8ebb4cee7efb25b41",
+      "vrtsim-3-ping.log": "57a4694afb6a70780d293fc50a1ac0ea213c05dabc937796873ad6e34c622d64",
+      "vrtsim-3-ue.log": "6e0a40f8e0a8942958314391bb32c39d2e89d94c0b3217c19ae9dfbe40816472"
+    }
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "gnb_original_and_restored_image_id": "sha256:25a77d04f2bcd4f2c650bf21971f1eac864e846c5b0150a8ad26132ca65542c5",
+    "ue_original_and_restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "gnb_health_after": "healthy",
+    "ue_attached_after": true
+  },
+  "decision": {
+    "phase3c7_passthrough_gate": "passed",
+    "clean_vrtsim_passthrough_established_under_frozen_window": true,
+    "cirdb_replay_may_be_proposed_in_a_separate_committed_amendment": true,
+    "cirdb_replay_currently_authorized": false,
+    "new_reservation_needed_for_immediate_next_step": false,
+    "absolute_rsrp_calibration_gate": "closed",
+    "mmd_or_abc_gate": "closed"
+  },
+  "claim_limits": {
+    "measured_UPV_channel_replayed": false,
+    "cirdb_transport_validated": false,
+    "time_varying_attachment_robustness_established": false,
+    "environmental_realism_established": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}
