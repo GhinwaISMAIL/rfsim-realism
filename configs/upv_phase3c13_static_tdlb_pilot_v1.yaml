@@ -105,12 +105,18 @@ claim_limits:
   abc: prohibited
 
 reservation:
-  gate_state: open_for_build_and_smoke_only
-  reservation_should_be_requested_now: true
-  authorized_scope: build_debug_image_verify_identity_and_run_one_baseline_attachment_smoke
+  gate_state: closed_pending_profile_publication
+  reservation_should_be_requested_now: false
+  next_authorized_scope: publish_the_pinned_profile_revision_after_user_approval
   pilot_execution_authorized: false
   preparation_lead_time_minutes: 30
   notification_rule: notify_user_at_least_30_minutes_before_the_first_POWDER_dependent_action
+  remote_profile_state:
+    checked_at: "2026-08-26T12:20:00+02:00"
+    remote_branch: refs/heads/feature/rfsim-rsrp-calibration
+    observed_revision: 3f83693c4e5ddab25a9bd74282909f2394d9c1e7
+    required_revision: 181f9daa5d633ffa2cc74cb72e233387bef37298
+    required_revision_available_remotely: false
   next_requested_profile_parameters:
     number_of_cell_nodes_gnbs: 1
     ues_per_cell: 1
@@ -120,7 +126,9 @@ reservation:
     tdl_rms_delay_spread_ns: 30
     initial_per_ue_channel_layout: uniform
   pilot_execution_blockers:
+    - publish_the_pinned_profile_revision_to_a_POWDER_fetchable_remote_ref
     - build_the_new_debug_image_from_the_pinned_profile_and_OAI_revisions
     - record_the_debug_image_ID_and_generated_configuration_checksums
     - pass_a_baseline_TDL_B_attachment_smoke_test_and_mandatory_rollback
-  pilot_opening_rule: create_a_committed_execution_amendment_only_after_all_blockers_pass
+  build_reservation_opening_rule: verify_the_required_profile_revision_is_remotely_fetchable_then_commit_a_gate_update
+  pilot_opening_rule: create_a_committed_execution_amendment_only_after_all_build_and_smoke_blockers_pass

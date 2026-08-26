@@ -2,10 +2,10 @@
   "schema_version": 1,
   "stage": "phase_3c13_static_tdlb_reservation_gate",
   "recorded_at": "2026-08-26T12:15:12+02:00",
-  "decision": "reservation_required_for_build_and_smoke_only",
-  "reservation_should_be_requested_now": true,
+  "decision": "do_not_reserve_profile_revision_not_remotely_available",
+  "reservation_should_be_requested_now": false,
   "notice_lead_time_minutes": 30,
-  "authorized_scope": [
+  "next_build_and_smoke_scope_after_publication": [
     "build the uniquely tagged Phase 3C13 UE debug image from the pinned sources",
     "record the image ID and generated configuration checksums",
     "run one baseline TDL-B attachment and telemetry smoke test",
@@ -13,6 +13,14 @@
   ],
   "five_execution_pilot_authorized": false,
   "abc_authorized": false,
+  "remote_profile_state": {
+    "remote": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "refs/heads/feature/rfsim-rsrp-calibration",
+    "observed_revision": "3f83693c4e5ddab25a9bd74282909f2394d9c1e7",
+    "required_revision": "181f9daa5d633ffa2cc74cb72e233387bef37298",
+    "required_revision_available": false
+  },
+  "blocking_action": "fast-forward a POWDER-fetchable profile ref to 181f9daa5d633ffa2cc74cb72e233387bef37298 after explicit user authorization",
   "required_profile": {
     "profile": "oai-5g-ric",
     "refspec": "refs/heads/feature/rfsim-rsrp-calibration",
@@ -36,5 +44,5 @@
     "mandatory rollback passes",
     "a separate execution amendment is committed"
   ],
-  "stopping_rule": "Do not run the five seeded scalar executions during the build/smoke stage."
+  "stopping_rule": "Do not reserve until the required profile revision is remotely fetchable; after publication, authorize build/smoke only in a separate gate update."
 }

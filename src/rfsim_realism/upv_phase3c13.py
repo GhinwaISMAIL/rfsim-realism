@@ -127,10 +127,10 @@ def validate_phase3c13_config(config: dict[str, Any]) -> None:
         raise ValueError("this pilot does not establish MCS/BLER realism")
 
     reservation = config.get("reservation") or {}
-    if reservation.get("gate_state") != "open_for_build_and_smoke_only" or not bool(
+    if reservation.get("gate_state") != "closed_pending_profile_publication" or bool(
         reservation.get("reservation_should_be_requested_now")
     ):
-        raise ValueError("Phase 3C13 must request only the build-and-smoke reservation")
+        raise ValueError("Phase 3C13 cannot request a reservation before profile publication")
     if reservation.get("pilot_execution_authorized") is not False:
         raise ValueError("the five-execution pilot remains unauthorized before the build")
     if int(reservation.get("preparation_lead_time_minutes", 0)) < 30:
