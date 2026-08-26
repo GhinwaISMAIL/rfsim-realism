@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "phase_3c13_static_tdlb_reservation_gate",
-  "recorded_at": "2026-08-26T12:15:12+02:00",
+  "recorded_at": "2026-08-26T12:26:17+02:00",
   "decision": "reservation_required_for_build_and_smoke_only",
   "reservation_should_be_requested_now": true,
   "notice_lead_time_minutes": 30,
