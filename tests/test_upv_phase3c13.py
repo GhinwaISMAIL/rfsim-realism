@@ -99,8 +99,8 @@ def test_phase3c13_config_is_scoped_and_fail_closed() -> None:
     validate_phase3c13_config(config)
     assert config["execution_authorized"] is False
     assert config["abc_authorized"] is False
-    assert config["reservation"]["reservation_should_be_requested_now"] is False
-    assert config["reservation"]["gate_state"] == "closed_pending_profile_publication"
+    assert config["reservation"]["reservation_should_be_requested_now"] is True
+    assert config["reservation"]["gate_state"] == "open_for_build_and_smoke_only"
     assert config["reservation"]["pilot_execution_authorized"] is False
     assert config["design"]["control"].startswith("phase3c1_static_awgn")
     assert config["claim_limits"]["fully_time_varying_tdl_b"] == "prohibited"
