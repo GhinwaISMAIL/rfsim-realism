@@ -18,6 +18,7 @@ from .upv_measurement_audit import run_measurement_equivalence_audit
 from .upv_phase3b import analyze_phase3b_support
 from .upv_phase3c import build_phase3c_plan, write_deterministic_replay_evaluation
 from .upv_phase3c2 import run_phase3c2_trace_validation
+from .upv_phase3c13 import write_static_tdlb_pilot_evaluation
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -174,6 +175,12 @@ def _parser() -> argparse.ArgumentParser:
     phase3c2.add_argument("--oai-source", required=True)
     phase3c2.add_argument("--output", required=True)
     phase3c2.add_argument("--manifest-output", required=True)
+
+    phase3c13 = commands.add_parser("evaluate-upv-phase3c13-static-tdlb")
+    phase3c13.add_argument("--telemetry", required=True)
+    phase3c13.add_argument("--execution-state", required=True)
+    phase3c13.add_argument("--config", required=True)
+    phase3c13.add_argument("--output", required=True)
     return parser
 
 
@@ -381,6 +388,15 @@ def main() -> None:
             manifest_dir=args.manifest_output,
         )
         print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "evaluate-upv-phase3c13-static-tdlb":
+        output = write_static_tdlb_pilot_evaluation(
+            telemetry_path=args.telemetry,
+            execution_state_path=args.execution_state,
+            config_path=args.config,
+            output_path=args.output,
+        )
+        print(json.dumps({"evaluation": str(output)}, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

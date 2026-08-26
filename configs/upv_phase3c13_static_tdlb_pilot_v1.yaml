@@ -1,0 +1,124 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3c13_static_tdlb_scalar_pilot_v1
+stage: phase_3c13_static_tdlb_scalar_pilot
+execution_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  oai_revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  profile_revision: 181f9daa5d633ffa2cc74cb72e233387bef37298
+  profile_runner_sha256: eb5bb8edaa25030bd35589a5a4313593529b3be1317e35e9306c4867b1f152a1
+  profile_tap_telemetry_patch_sha256: 4d27fcb277865d74e9ecf47f9cadae33f9afbac7f159b4cfbcf7a4095412392d
+  phase3c1_awgn_result: manifests/upv_phase3c1_execution_v1/execution_result.json
+  phase3c1_awgn_result_sha256: 491b6c933032f28f36803343f4ef4f03d51086f91ce655e087b6ba115971b68b
+  phase3c1_awgn_telemetry: data/model_runs/upv_phase3c1_scalar_v1/deterministic_scalar_telemetry.csv
+  phase3c1_awgn_telemetry_sha256: 12ce943762697fbc6f16b3f1151cdea8f8095ad47db6a07652813db71190b61b
+  phase3c12_cirdb_result_sha256: 9678a035addac84ed9e98fa06e7f9d5dc1610ed35df131ac0f1fa02a714c04ec
+
+design:
+  control: phase3c1_static_awgn_scalar_transfer
+  control_status: structurally_valid_but_only_two_execution_repetitions
+  primary_candidate: static_TDL_B_plus_time_varying_scalar_gain
+  within_execution_small_scale_state: one_fixed_seeded_frequency_selective_realization
+  between_execution_small_scale_state: distinct_explicit_seed_and_verified_tap_fingerprint
+  within_execution_large_scale_state: five_level_scalar_gain_envelope
+  continuous_multipath_or_doppler: not_modelled
+  inference_unit: execution
+  raw_samples_must_not_be_pooled_as_independent: true
+
+pilot:
+  topology: {gnb_count: 1, ue_count: 1, physical_rf_or_sdr: false}
+  channel_family: TDL_B
+  tdl_rms_delay_spread_ns: 30
+  direction: downlink
+  fixed_noise_power_db: -30.0
+  gain_db_sequence: [0.0, -2.0, -4.0, -2.0, 0.0]
+  segment_labels: [baseline, descent, nadir, return, recovery]
+  segment_duration_seconds: 10.0
+  settling_seconds_per_segment: 3.0
+  analysis_seconds_per_segment: 7.0
+  independent_executions: 5
+  rng_seeds: [31001, 31002, 31003, 31004, 31005]
+  independent_execution_definition: clean_UE_container_recreation_with_unique_explicit_OAI_RNGSEED
+  expected_duration_seconds_excluding_attachment_and_rollback: 250.0
+
+acceptance:
+  valid_executions_required: 5
+  required_telemetry_fields:
+    - replay_id
+    - oai_rng_seed
+    - t_s
+    - commanded_gain_db
+    - applied_gain_db
+    - channel_family
+    - channel_model_name
+    - channel_snapshot_id
+    - channel_snapshot_timestamp_ns
+    - tap_energy_linear
+    - tap_fingerprint_fnv1a64
+    - channel_length
+    - nb_taps
+    - nb_tx
+    - nb_rx
+    - noise_power_db
+    - rsrp_digital_power_linear
+    - rsrp_db_per_re_unquantized
+    - ss_rsrp_dbm_integer
+    - ss_sinr_db
+    - attached
+  minimum_analysis_rows_per_segment: 5
+  attachment_fraction_required: 1.0
+  critical_failure_count_maximum: 0
+  ue_restart_count_maximum: 0
+  gnb_restart_count_change_maximum: 0
+  gnb_health_required: healthy
+  commanded_applied_gain_max_abs_error_db: 1.0e-9
+  float_rsrp_transfer_slope_range: [0.90, 1.10]
+  float_rsrp_transfer_r_squared_minimum: 0.99
+  float_rsrp_delta_max_abs_error_db: 0.50
+  integer_rsrp_delta_max_abs_error_db: 1.50
+  repeated_level_hysteresis_max_abs_db: 0.50
+  tap_energy_coefficient_of_variation_maximum: 1.0e-6
+  unique_snapshots_per_execution_required: 1
+  unique_fingerprints_per_execution_required: 1
+  distinct_fingerprints_required: 5
+  channel_length_minimum: 2
+  nb_taps_minimum: 2
+  between_execution_baseline_rsrp_range_max_db: 3.0
+  between_execution_baseline_sinr_range_max_db: 6.0
+
+decision_branches:
+  pass: {code: static_tdlb_scalar_candidate_accepted, action: complete_the_execution_level_AWGN_control_before_distribution_claims}
+  transfer_or_attachment_failure: {code: static_tdlb_scalar_candidate_rejected, action: retain_dynamic_scalar_AWGN_as_primary}
+  duplicate_or_unstable_realizations: {code: static_tdlb_realization_gate_failed, action: audit_RNG_and_treat_static_TDL_B_as_uncontrolled}
+  between_execution_instability: {code: static_tdlb_execution_variance_too_large, action: retain_TDL_B_as_sensitivity_analysis_only}
+
+claim_limits:
+  absolute_rsrp_calibration: prohibited
+  physical_propagation_loss_inference: prohibited
+  fully_time_varying_tdl_b: prohibited
+  doppler: not_modelled
+  continuously_evolving_multipath: not_modelled
+  mcs_bler_realism: not_tested_by_this_pilot
+  UPV_distribution_support: not_tested_by_this_pilot
+  abc: prohibited
+
+reservation:
+  gate_state: closed
+  reservation_should_be_requested_now: false
+  preparation_lead_time_minutes: 30
+  notification_rule: notify_user_at_least_30_minutes_before_the_first_POWDER_dependent_action
+  next_requested_profile_parameters:
+    number_of_cell_nodes_gnbs: 1
+    ues_per_cell: 1
+    core_node_hardware_type: d430
+    cell_node_hardware_type: d740
+    rfsim_channel_family: TDL_B
+    tdl_rms_delay_spread_ns: 30
+    initial_per_ue_channel_layout: uniform
+  blockers:
+    - build_the_new_debug_image_from_the_pinned_profile_and_OAI_revisions
+    - record_the_debug_image_ID_and_generated_configuration_checksums
+    - pass_a_baseline_TDL_B_attachment_smoke_test_and_mandatory_rollback
+  opening_rule: create_a_committed_execution_amendment_only_after_all_blockers_pass
