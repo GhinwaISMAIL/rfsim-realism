@@ -2,21 +2,21 @@
   "schema_version": 1,
   "stage": "phase_3c13_static_tdlb_scalar_pilot_protocol_freeze",
   "recorded_at": "2026-08-26T12:15:12+02:00",
-  "research_implementation_revision": "b8dc03c1bb673a35d490160224777653903811a4",
+  "research_implementation_revision": "298b01b80e4378ccf3b4fbc6064219bd8a76e35d",
   "profile_revision": "181f9daa5d633ffa2cc74cb72e233387bef37298",
   "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
   "frozen_files": {
     "config": {
       "path": "configs/upv_phase3c13_static_tdlb_pilot_v1.yaml",
-      "sha256": "6d453b8081e916135fb9d60508858bf3c670c06eb72df8d469beb1e94ab6ca96"
+      "sha256": "5afdf154b921094829cfd2a3b827402da2daa5198300d583ff33bbf54de35016"
     },
     "evaluator": {
       "path": "src/rfsim_realism/upv_phase3c13.py",
-      "sha256": "8707c536933e9cc21a88f126edc528a9891526fac5728b301f144d4599beb54e"
+      "sha256": "c5bc67e4f392d0e1e7c103dda8a766f14ffe3949d1c77965a6ba0d0c10b2eff0"
     },
     "tests": {
       "path": "tests/test_upv_phase3c13.py",
-      "sha256": "d3d1e59375aaa7edfda4de97f447049be387a26fb21282604e70efb818c06ccf"
+      "sha256": "500809cfcbdcd7ac3ce8b146b8b6c7c3b51196fe0fde8a472a808f0ee3317255"
     },
     "cli": {
       "path": "src/rfsim_realism/cli.py",
