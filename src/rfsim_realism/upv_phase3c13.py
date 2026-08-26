@@ -127,10 +127,12 @@ def validate_phase3c13_config(config: dict[str, Any]) -> None:
         raise ValueError("this pilot does not establish MCS/BLER realism")
 
     reservation = config.get("reservation") or {}
-    if reservation.get("gate_state") != "closed" or bool(
+    if reservation.get("gate_state") != "open_for_build_and_smoke_only" or not bool(
         reservation.get("reservation_should_be_requested_now")
     ):
-        raise ValueError("the offline Phase 3C13 reservation gate must remain closed")
+        raise ValueError("Phase 3C13 must request only the build-and-smoke reservation")
+    if reservation.get("pilot_execution_authorized") is not False:
+        raise ValueError("the five-execution pilot remains unauthorized before the build")
     if int(reservation.get("preparation_lead_time_minutes", 0)) < 30:
         raise ValueError("reservation notice must allow at least 30 minutes")
 
@@ -427,7 +429,7 @@ def evaluate_static_tdlb_pilot(
         "pilot_gate_pass": overall,
         "decision_code": decision_code,
         "next_action": next_action,
-        "reservation_should_be_requested_now": False,
+        "additional_reservation_should_be_requested_now": False,
         "abc_authorized": False,
         "claim_limits": config["claim_limits"],
     }

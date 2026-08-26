@@ -105,8 +105,10 @@ claim_limits:
   abc: prohibited
 
 reservation:
-  gate_state: closed
-  reservation_should_be_requested_now: false
+  gate_state: open_for_build_and_smoke_only
+  reservation_should_be_requested_now: true
+  authorized_scope: build_debug_image_verify_identity_and_run_one_baseline_attachment_smoke
+  pilot_execution_authorized: false
   preparation_lead_time_minutes: 30
   notification_rule: notify_user_at_least_30_minutes_before_the_first_POWDER_dependent_action
   next_requested_profile_parameters:
@@ -117,8 +119,8 @@ reservation:
     rfsim_channel_family: TDL_B
     tdl_rms_delay_spread_ns: 30
     initial_per_ue_channel_layout: uniform
-  blockers:
+  pilot_execution_blockers:
     - build_the_new_debug_image_from_the_pinned_profile_and_OAI_revisions
     - record_the_debug_image_ID_and_generated_configuration_checksums
     - pass_a_baseline_TDL_B_attachment_smoke_test_and_mandatory_rollback
-  opening_rule: create_a_committed_execution_amendment_only_after_all_blockers_pass
+  pilot_opening_rule: create_a_committed_execution_amendment_only_after_all_blockers_pass
