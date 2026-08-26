@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_static_tdlb_source_audit",
+  "recorded_at": "2026-08-26T12:15:12+02:00",
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "profile_revision": "181f9daa5d633ffa2cc74cb72e233387bef37298",
+  "evidence": [
+    {
+      "repository": "OAI",
+      "path": "radio/rfsimulator/simulator.cpp",
+      "sha256": "8d78932b06903344d4a137bdafb5729173b40a98330116d1609a0abca0315c3a",
+      "line": 365,
+      "snippet": "random_channel(ptr->channel_model, false);",
+      "fact": "RFsim generates the configured realization when the peer channel is created."
+    },
+    {
+      "repository": "OAI",
+      "path": "radio/rfsimulator/simulator.cpp",
+      "sha256": "8d78932b06903344d4a137bdafb5729173b40a98330116d1609a0abca0315c3a",
+      "line": 1295,
+      "snippet": "bool reGenerateChannel = false;",
+      "fact": "The pinned receive path does not regenerate terrestrial taps during an execution."
+    },
+    {
+      "repository": "OAI",
+      "path": "radio/rfsimulator/apply_channelmod.c",
+      "sha256": "d87fb051292bdb7da91cac2358110f6d0df8a06652cf106c71a2ad5d31fdf6f8",
+      "line": 222,
+      "snippet": "pow(10, channelDesc->path_loss_dB / 20.0)",
+      "fact": "The runtime path-gain control is an amplitude multiplier applied after the fixed channel realization."
+    },
+    {
+      "repository": "OAI",
+      "path": "openair1/SIMULATION/TOOLS/rangen_double.c",
+      "sha256": "4da94fe17c1fa4267e232e5b3f71ceca7334a3be1644d63d7399bb7071199078",
+      "line": 40,
+      "snippet": "getenv(\"OAI_RNGSEED\")",
+      "fact": "OAI accepts an explicit reproducible random seed from the environment."
+    },
+    {
+      "repository": "OAI",
+      "path": "openair1/SIMULATION/TOOLS/random_channel.c",
+      "sha256": "187f0d4e872e5fbe8e63e17d421183f6fca70ae9f64240f4976626083cd391c7",
+      "line": 1783,
+      "snippet": "gaussZiggurat(0.0, 1.0)",
+      "fact": "The fading coefficients consume the seeded Gaussian generator."
+    },
+    {
+      "repository": "profile",
+      "path": "bin/patch-oai-rfsim-rng-init.py",
+      "sha256": "5909fc68a16d674d20312283c8204e378e442980ea6bdcb4fba95ba7be78aae2",
+      "line": 10,
+      "fact": "The build patch initializes the seeded generator before configured fading channels are loaded."
+    },
+    {
+      "repository": "profile",
+      "path": "bin/patch-oai-rfsim-debug-telemetry.py",
+      "sha256": "4d27fcb277865d74e9ecf47f9cadae33f9afbac7f159b4cfbcf7a4095412392d",
+      "line": 54,
+      "fact": "The debug image computes a normalized FNV-1a fingerprint of the interpolated complex tap vector."
+    },
+    {
+      "repository": "profile",
+      "path": "bin/run-phase3c13-static-tdlb-pilot.py",
+      "sha256": "eb5bb8edaa25030bd35589a5a4313593529b3be1317e35e9306c4867b1f152a1",
+      "line": 43,
+      "fact": "The runner freezes five explicit seeds and verifies one fixed fingerprint per execution and five distinct fingerprints across executions."
+    }
+  ],
+  "supported_interpretation": "The proposed model combines one fixed, seeded TDL-B realization per execution with a runtime scalar large-scale gain envelope.",
+  "prohibited_interpretations": [
+    "continuously time-varying TDL-B",
+    "Doppler-capable route channel",
+    "absolute OAI-to-NEMO RSRP equivalence",
+    "physical propagation-loss inference"
+  ]
+}

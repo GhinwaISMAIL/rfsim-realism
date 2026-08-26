@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_static_tdlb_scalar_pilot_protocol_freeze",
+  "recorded_at": "2026-08-26T12:15:12+02:00",
+  "research_implementation_revision": "b8dc03c1bb673a35d490160224777653903811a4",
+  "profile_revision": "181f9daa5d633ffa2cc74cb72e233387bef37298",
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "frozen_files": {
+    "config": {
+      "path": "configs/upv_phase3c13_static_tdlb_pilot_v1.yaml",
+      "sha256": "6d453b8081e916135fb9d60508858bf3c670c06eb72df8d469beb1e94ab6ca96"
+    },
+    "evaluator": {
+      "path": "src/rfsim_realism/upv_phase3c13.py",
+      "sha256": "8707c536933e9cc21a88f126edc528a9891526fac5728b301f144d4599beb54e"
+    },
+    "tests": {
+      "path": "tests/test_upv_phase3c13.py",
+      "sha256": "d3d1e59375aaa7edfda4de97f447049be387a26fb21282604e70efb818c06ccf"
+    },
+    "cli": {
+      "path": "src/rfsim_realism/cli.py",
+      "sha256": "aece0d87da6f6d57494ee9e634fbfa518b3b92f03a13e17c8429cdefc2c3bfba"
+    },
+    "profile_runner": {
+      "path": "bin/run-phase3c13-static-tdlb-pilot.py",
+      "sha256": "eb5bb8edaa25030bd35589a5a4313593529b3be1317e35e9306c4867b1f152a1"
+    },
+    "profile_tap_telemetry_patch": {
+      "path": "bin/patch-oai-rfsim-debug-telemetry.py",
+      "sha256": "4d27fcb277865d74e9ecf47f9cadae33f9afbac7f159b4cfbcf7a4095412392d"
+    }
+  },
+  "design": {
+    "control": "existing Phase 3C1 static AWGN scalar transfer; two executions",
+    "primary_candidate": "static RFsim TDL-B with a time-varying scalar gain",
+    "candidate_executions": 5,
+    "rng_seeds": [31001, 31002, 31003, 31004, 31005],
+    "gain_db_sequence": [0.0, -2.0, -4.0, -2.0, 0.0],
+    "segment_duration_seconds": 10.0,
+    "settling_seconds": 3.0,
+    "fixed_noise_power_db": -30.0,
+    "tdl_rms_delay_spread_ns": 30
+  },
+  "fail_closed_gates": {
+    "continuous_attachment": true,
+    "critical_failure_count_maximum": 0,
+    "unintended_ue_restart_count_maximum": 0,
+    "gnb_restart_count_change_maximum": 0,
+    "gnb_health": "healthy",
+    "float_rsrp_transfer_slope_range": [0.9, 1.1],
+    "float_rsrp_transfer_r_squared_minimum": 0.99,
+    "one_fixed_tap_fingerprint_per_execution": true,
+    "distinct_tap_fingerprints_across_executions": 5,
+    "between_execution_baseline_rsrp_range_max_db": 3.0,
+    "between_execution_baseline_sinr_range_max_db": 6.0,
+    "mandatory_rollback": true
+  },
+  "verification": {
+    "research_tests_passed": 91,
+    "profile_tests_passed": 93,
+    "ruff_passed": true,
+    "diff_check_passed": true,
+    "hardware_build_tested": false
+  },
+  "claim_limits": {
+    "absolute_rsrp_calibration": "prohibited",
+    "fully_time_varying_tdl_b": "prohibited",
+    "doppler": "not_modelled",
+    "mcs_bler_realism": "not_tested_by_this_pilot",
+    "upv_distribution_support": "not_tested_by_this_pilot",
+    "abc": "prohibited"
+  }
+}

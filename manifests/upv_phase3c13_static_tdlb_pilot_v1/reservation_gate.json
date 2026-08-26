@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_static_tdlb_reservation_gate",
+  "recorded_at": "2026-08-26T12:15:12+02:00",
+  "decision": "reservation_required_for_build_and_smoke_only",
+  "reservation_should_be_requested_now": true,
+  "notice_lead_time_minutes": 30,
+  "authorized_scope": [
+    "build the uniquely tagged Phase 3C13 UE debug image from the pinned sources",
+    "record the image ID and generated configuration checksums",
+    "run one baseline TDL-B attachment and telemetry smoke test",
+    "restore the original UE image and verify rollback"
+  ],
+  "five_execution_pilot_authorized": false,
+  "abc_authorized": false,
+  "required_profile": {
+    "profile": "oai-5g-ric",
+    "refspec": "refs/heads/feature/rfsim-rsrp-calibration",
+    "profile_revision_required_in_checkout": "181f9daa5d633ffa2cc74cb72e233387bef37298",
+    "number_of_gnbs": 1,
+    "ues_per_cell": 1,
+    "core_hardware": "d430",
+    "cell_hardware": "d740",
+    "rfsim_channel_family": "TDL_B",
+    "tdl_rms_delay_spread_ns": 30,
+    "initial_per_ue_layout": "uniform"
+  },
+  "recommended_reservation_duration_hours": 4,
+  "minimum_reservation_duration_hours": 3,
+  "pilot_opening_conditions": [
+    "the debug image builds successfully and its ID is pinned",
+    "the runtime profile, runner, OAI and generated-config identities match",
+    "the active downlink model is TDL_B with channel length greater than one",
+    "the baseline UE attaches without critical failure markers or container restarts",
+    "the telemetry exposes the expected RNG seed, tap fingerprint, tap energy and dimensions",
+    "mandatory rollback passes",
+    "a separate execution amendment is committed"
+  ],
+  "stopping_rule": "Do not run the five seeded scalar executions during the build/smoke stage."
+}
