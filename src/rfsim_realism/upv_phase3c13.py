@@ -155,17 +155,51 @@ def _attached(series: pd.Series) -> pd.Series:
     return result.astype(bool)
 
 
-def _state_gates(state: dict[str, Any], config: dict[str, Any]) -> dict[str, bool]:
+def _identity_from_amendment(amendment: dict[str, Any]) -> dict[str, str]:
+    if amendment.get("schema_version") != 1:
+        raise ValueError("Phase 3C13 identity amendment schema_version must be 1")
+    if amendment.get("stage") != "phase_3c13_fixed_tap_scalar_control_correction":
+        raise ValueError("unexpected Phase 3C13 identity amendment stage")
+    if amendment.get("decision") != "corrected_five_execution_pilot_authorized":
+        raise ValueError("the Phase 3C13 corrected pilot is not authorized")
+    if amendment.get("stopping_rules_unchanged") is not True:
+        raise ValueError("Phase 3C13 stopping rules must remain unchanged")
+    if amendment.get("claim_limits_unchanged") is not True:
+        raise ValueError("Phase 3C13 claim limits must remain unchanged")
+    identity = amendment.get("rerun_identity") or {}
+    expected = {
+        "profile_revision": "ca4e78b0f2fe0630c3a77c3f2e7506fa38f8206b",
+        "debug_image_id": (
+            "sha256:d6b87ce2e446f8750727121a2463dfb06eee747b599492bdb78afc36c9dcc664"
+        ),
+        "runner_sha256": "d1fb090550299d9f3b9e4a51593af636422975c0c03fd08bf6955c6a6d498f8e",
+    }
+    for key, value in expected.items():
+        if identity.get(key) != value:
+            raise ValueError(f"unexpected amended {key}")
+    return expected
+
+
+def _state_gates(
+    state: dict[str, Any],
+    config: dict[str, Any],
+    amended_identity: dict[str, str] | None = None,
+) -> dict[str, bool]:
     frozen = config["frozen_inputs"]
     pilot = config["pilot"]
     summaries = state.get("replays") or []
-    return {
+    expected_profile = frozen["profile_revision"]
+    expected_runner = frozen["profile_runner_sha256"]
+    if amended_identity is not None:
+        expected_profile = amended_identity["profile_revision"]
+        expected_runner = amended_identity["runner_sha256"]
+    gates = {
         "stage": state.get("stage") == "phase_3c13_static_tdlb_scalar_pilot_execution",
         "execution_completed": state.get("execution_completed") is True,
         "error_absent": state.get("error") is None,
         "oai_revision": state.get("oai_revision") == frozen["oai_revision"],
-        "profile_revision": state.get("profile_revision") == frozen["profile_revision"],
-        "runner_sha256": state.get("runner_sha256") == frozen["profile_runner_sha256"],
+        "profile_revision": state.get("profile_revision") == expected_profile,
+        "runner_sha256": state.get("runner_sha256") == expected_runner,
         "channel_family": state.get("channel_family") == pilot["channel_family"],
         "delay_spread": int(state.get("tdl_rms_delay_spread_ns", -1))
         == int(pilot["tdl_rms_delay_spread_ns"]),
@@ -176,6 +210,9 @@ def _state_gates(state: dict[str, Any], config: dict[str, Any]) -> dict[str, boo
         "rollback": (state.get("rollback") or {}).get("passed") is True,
         "gnb_untouched": state.get("gNB_untouched") is True,
     }
+    if amended_identity is not None:
+        gates["debug_image_id"] = state.get("debug_image_id") == amended_identity["debug_image_id"]
+    return gates
 
 
 def _segment_summary(
@@ -263,6 +300,7 @@ def evaluate_static_tdlb_pilot(
     telemetry_path: str | Path,
     execution_state_path: str | Path,
     config_path: str | Path,
+    identity_amendment_path: str | Path | None = None,
 ) -> dict[str, Any]:
     telemetry_file = _require_file(telemetry_path, "Phase 3C13 telemetry")
     state_file = _require_file(execution_state_path, "Phase 3C13 execution state")
@@ -270,7 +308,15 @@ def evaluate_static_tdlb_pilot(
     config = _read_yaml(config_file)
     validate_phase3c13_config(config)
     state = _read_json(state_file)
-    state_gates = _state_gates(state, config)
+    amendment_file = (
+        _require_file(identity_amendment_path, "Phase 3C13 identity amendment")
+        if identity_amendment_path is not None
+        else None
+    )
+    amended_identity = (
+        _identity_from_amendment(_read_json(amendment_file)) if amendment_file is not None else None
+    )
+    state_gates = _state_gates(state, config, amended_identity)
     telemetry = pd.read_csv(
         telemetry_file,
         dtype={
@@ -406,14 +452,17 @@ def evaluate_static_tdlb_pilot(
     else:
         decision_code = "static_tdlb_scalar_candidate_rejected"
         next_action = "retain_AWGN_as_primary_and_stop_static_TDL_B_escalation"
+    input_sha256 = {
+        "telemetry": _sha256(telemetry_file),
+        "execution_state": _sha256(state_file),
+        "config": _sha256(config_file),
+    }
+    if amendment_file is not None:
+        input_sha256["identity_amendment"] = _sha256(amendment_file)
     return {
         "schema_version": 1,
         "stage": "phase_3c13_static_tdlb_scalar_pilot_evaluation",
-        "input_sha256": {
-            "telemetry": _sha256(telemetry_file),
-            "execution_state": _sha256(state_file),
-            "config": _sha256(config_file),
-        },
+        "input_sha256": input_sha256,
         "state_gate_results": state_gates,
         "segment_results": segment_results,
         "replay_results": replay_results,
@@ -441,6 +490,7 @@ def write_static_tdlb_pilot_evaluation(
     execution_state_path: str | Path,
     config_path: str | Path,
     output_path: str | Path,
+    identity_amendment_path: str | Path | None = None,
 ) -> Path:
     output = Path(output_path).resolve()
     if output.exists():
@@ -449,6 +499,7 @@ def write_static_tdlb_pilot_evaluation(
         telemetry_path=telemetry_path,
         execution_state_path=execution_state_path,
         config_path=config_path,
+        identity_amendment_path=identity_amendment_path,
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")

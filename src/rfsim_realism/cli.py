@@ -180,6 +180,7 @@ def _parser() -> argparse.ArgumentParser:
     phase3c13.add_argument("--telemetry", required=True)
     phase3c13.add_argument("--execution-state", required=True)
     phase3c13.add_argument("--config", required=True)
+    phase3c13.add_argument("--identity-amendment")
     phase3c13.add_argument("--output", required=True)
     return parser
 
@@ -395,6 +396,7 @@ def main() -> None:
             execution_state_path=args.execution_state,
             config_path=args.config,
             output_path=args.output,
+            identity_amendment_path=args.identity_amendment,
         )
         print(json.dumps({"evaluation": str(output)}, sort_keys=True))
         return

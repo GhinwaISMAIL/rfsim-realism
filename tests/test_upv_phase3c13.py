@@ -147,3 +147,52 @@ def test_phase3c13_rejects_between_execution_rsrp_instability(
     assert result["pilot_gate_pass"] is False
     assert result["cross_execution"]["gate_results"]["baseline_rsrp_range"] is False
     assert result["decision_code"] == "static_tdlb_execution_variance_too_large"
+
+
+def test_phase3c13_validates_corrected_runtime_identity(tmp_path: Path) -> None:
+    telemetry, state_path = _inputs(tmp_path)
+    state = json.loads(state_path.read_text())
+    state.update(
+        {
+            "profile_revision": "ca4e78b0f2fe0630c3a77c3f2e7506fa38f8206b",
+            "runner_sha256": "d1fb090550299d9f3b9e4a51593af636422975c0c03fd08bf6955c6a6d498f8e",
+            "debug_image_id": (
+                "sha256:d6b87ce2e446f8750727121a2463dfb06eee747b599492bdb78afc36c9dcc664"
+            ),
+        }
+    )
+    state_path.write_text(json.dumps(state))
+    amendment = tmp_path / "identity_amendment.json"
+    amendment.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "stage": "phase_3c13_fixed_tap_scalar_control_correction",
+                "decision": "corrected_five_execution_pilot_authorized",
+                "stopping_rules_unchanged": True,
+                "claim_limits_unchanged": True,
+                "rerun_identity": {
+                    "profile_revision": "ca4e78b0f2fe0630c3a77c3f2e7506fa38f8206b",
+                    "runner_sha256": (
+                        "d1fb090550299d9f3b9e4a51593af636422975c0c03fd08bf6955c6a6d498f8e"
+                    ),
+                    "debug_image_id": (
+                        "sha256:d6b87ce2e446f8750727121a2463dfb06eee747b599492bdb78afc36c9dcc664"
+                    ),
+                },
+            }
+        )
+    )
+
+    result = evaluate_static_tdlb_pilot(
+        telemetry_path=telemetry,
+        execution_state_path=state_path,
+        config_path=CONFIG,
+        identity_amendment_path=amendment,
+    )
+
+    assert result["pilot_gate_pass"] is True
+    assert result["state_gate_results"]["profile_revision"] is True
+    assert result["state_gate_results"]["runner_sha256"] is True
+    assert result["state_gate_results"]["debug_image_id"] is True
+    assert result["input_sha256"]["identity_amendment"]
