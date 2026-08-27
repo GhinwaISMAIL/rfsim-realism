@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_static_tdlb_scalar_pilot_result",
+  "recorded_at": "2026-08-27T14:28:19+02:00",
+  "decision": "static_tdlb_execution_variance_too_large",
+  "revisions": {
+    "build_smoke_amendment": "35a9a46d831b4bfa2ba36e03a56729b127b6efdc",
+    "scalar_control_correction": "1aa37c56a8694e09b5a37859e86879cfaeb8a854",
+    "identity_aware_evaluator": "81c6d90c6f3cafbf06f66f19abf257c8eef104de",
+    "profile": "ca4e78b0f2fe0630c3a77c3f2e7506fa38f8206b",
+    "oai": "70508ebaf52f2aae420566d380c6537f2efb9f0c"
+  },
+  "reservation": {
+    "experiment": "ghinwa-313971",
+    "profile": "oai-5g-ric-v2",
+    "core_node": "pc809.emulab.net",
+    "core_hardware": "d430",
+    "cell_node": "pc06-fort.emulab.net",
+    "cell_hardware": "d740"
+  },
+  "runtime_identity": {
+    "debug_image": "oai-nr-ue-phase3c13-static:70508eb",
+    "debug_image_id": "sha256:d6b87ce2e446f8750727121a2463dfb06eee747b599492bdb78afc36c9dcc664",
+    "runner_sha256": "d1fb090550299d9f3b9e4a51593af636422975c0c03fd08bf6955c6a6d498f8e",
+    "compose_sha256": "dbd69d455fa2bf67b6ef1231ff5c3900d95ee8c1eca891cbb358bb50a9ce8457",
+    "channel_config_sha256": "184462e0adaca61b2a51db0e3b42e434813c5b8f45714ffb85f43f4a97e09c34",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e",
+    "channel_family": "TDL_B",
+    "tdl_rms_delay_spread_ns": 30,
+    "channel_length": 15,
+    "nb_taps": 12
+  },
+  "raw_bundle": {
+    "remote_path": "/local/logs/phase3c13/phase3c13-static-tdlb-20260827T121820Z",
+    "local_path": "data/model_runs/upv_phase3c13_static_tdlb_v1",
+    "tracking_policy": "raw and generated outputs are gitignored; checksums are committed",
+    "remote_to_local_checksum_match": true,
+    "files": {
+      "execution_state.json": "41aa26fdd5723b6570fee9f623840fa3ca499f4c70a715891134949303919c39",
+      "static_tdlb_pilot_evaluation.json": "b2c27889116e762062622812d753bac947ab6d233163cf2564772bbb19b5661f",
+      "static_tdlb_pilot_evaluation_amended.json": "19ea9a549edb152d3199d1dadca084f5852bbe4cb430540e5a807bbf6fd76859",
+      "static_tdlb_scalar_telemetry.csv": "1668ce13e5dc96db443ec3d7c4c01e6fc116f495f0ee82e3eafcf784e316b6f2",
+      "tdlb-1-attachment.json": "9011021dfe43e1dba19db3709578b01c214786e238770b2c2d1790a31a3aff14",
+      "tdlb-1-control.json": "26f698c79a9886e3e599ab674de4b24d1775a0e378dfdfa820d34ca0f682dc02",
+      "tdlb-1-gnb.log": "74b147329a666da595495c2c9dd10a9243a04856d43bb768c73b84b0f4f2c96a",
+      "tdlb-1-telemetry.csv": "994d2d1e71eeb3c99e6721a3d50474a3ab4f1ae2168f6f0f650d4053c962cd76",
+      "tdlb-1-ue.log": "b43124712b7ccb44accb91b4e0d94e3e2c8d1401b195c9dc669d7eff6ed9051b",
+      "tdlb-2-attachment.json": "51b7498ca2bc356bb79c3ad8fc1f29e5dd9a4c58b898e7f0f6f70fa953b9753d",
+      "tdlb-2-control.json": "07d144195bb84eae28e196ae9c5e5902be5dee00319c39d5fa1c73201840c37b",
+      "tdlb-2-gnb.log": "026a8b375a4f17091ef79c229abfb03a414d6b318e18cd2c206470c6f0ff4e9f",
+      "tdlb-2-telemetry.csv": "0301fbc4c2d6d8ad0e50e6b63d58f6316cb2753e2196fa25489f34b41f1ae0e7",
+      "tdlb-2-ue.log": "8eed448bd544a1376f8cfd58a5318419a3831f6f9becdc481a6afb70b1099775",
+      "tdlb-3-attachment.json": "66a3635920b939caf88fe563c50d946866fb6e3d4439a6a2e5fd96985916f131",
+      "tdlb-3-control.json": "d85c98196fd24d8e623714fcd3b8dfa9a30525bb4cc48d7b7348542d1a3ee4e8",
+      "tdlb-3-gnb.log": "fed63823750810029a1c8f24ac019622ecc7cb8bec34a11dbd4bf4d276f093b9",
+      "tdlb-3-telemetry.csv": "82810ce53d9cdc9979cce472ca56dfac30f1f39b7d6a9de5f2abff11513d7550",
+      "tdlb-3-ue.log": "70625f435e14b4b318948247171eb924b901cb97eef4ecd6d8518a90479f4853",
+      "tdlb-4-attachment.json": "9a6cbb0dceda5ffb7815eb5478e01f6ad99446c9f3fc0464d143db7127669736",
+      "tdlb-4-control.json": "b0ac0690cd541d6ea977dbd888949adc8667ded45b43f98afb49c774979f30ab",
+      "tdlb-4-gnb.log": "09ff5b4caef46c63fe59ee7f85327e437e8a5e035d5ac099076edda45ed33f19",
+      "tdlb-4-telemetry.csv": "aeb39e1022979a5f1acfd8b554d7a6d7b7d3ad0632e68666b3286b527ccf2102",
+      "tdlb-4-ue.log": "98edd225d4fd0a960bb235a2655c6c268a95c949c0f75ff499dd6b82f98fe7cd",
+      "tdlb-5-attachment.json": "5142007f74f7b3bd538da75d360c9262d30e61249473f09aa83e0fe0b0650b0f",
+      "tdlb-5-control.json": "627d30cfceb40fec39003768d41b1cedec2f07817c4b0911a703d74fa924e48a",
+      "tdlb-5-gnb.log": "648749e3c900c9167b13198b7f2e03bfcc5830f6a0a8509d7bf54fdc306bb88c",
+      "tdlb-5-telemetry.csv": "9a0af45034d3a60e5ab1f819e78bc87db8022f484520f612d0f21a1c72ad7f67",
+      "tdlb-5-ue.log": "2d1abebdfa9e8504c6fb43c3a7c917fabe879da7cbf04acc2754c8c0306bfebf"
+    }
+  },
+  "execution": {
+    "completed": true,
+    "replays_completed": 5,
+    "rng_seeds": [31001, 31002, 31003, 31004, 31005],
+    "matched_rows_per_replay": 50,
+    "missing_channel_rows_per_replay": 0,
+    "continuous_attachment_all_replays": true,
+    "critical_failure_count_all_replays": 0,
+    "ue_restart_count_all_replays": 0,
+    "gnb_restart_count": 0,
+    "distinct_tap_fingerprint_count": 5,
+    "tap_fingerprints": [
+      "884ea84cf44fd43e",
+      "387178b6372ba77a",
+      "186a9c050df18344",
+      "2959fd4163ec8273",
+      "94f69546895d6104"
+    ]
+  },
+  "rollback": {
+    "passed": true,
+    "restored_image": "ghinwa555/oai-nr-ue-chan:v5",
+    "restored_image_id": "sha256:a3a46d5eb2252c71bce25166e86c855d55caabf00ae58f47723669b3e2c8c862",
+    "ue_attached_address": "12.1.1.2/24",
+    "gnb_healthy": true,
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "active_downlink_channel": "TDL_B"
+  },
+  "evaluation": {
+    "frozen_config_sha256": "9650148fab3d62769381dc7d152a76051299f04973ee3883176ac6cdaca66945",
+    "identity_amendment_sha256": "3cd55ce823fd06dbdb66a3cd38ee368058614f41869ca46fb570b90a109923e8",
+    "evaluator_sha256": "22974df68b1ec0ea8841dad9417a4437daa3f72de666ce6c5db1e6307293f80a",
+    "thresholds_changed": false,
+    "identity_amendment_changes_metrics": false,
+    "all_runtime_identity_gates_pass": true,
+    "all_individual_replays_pass": true,
+    "float_rsrp_transfer_slope_range": [1.0009481428571434, 1.0031338571428576],
+    "float_rsrp_transfer_r_squared_range": [0.9999998583439006, 0.9999999986757702],
+    "float_rsrp_delta_max_abs_error_db": 0.012709499999999707,
+    "integer_rsrp_delta_max_abs_error_db": 0.0,
+    "repeated_level_hysteresis_max_abs_db": 0.0008279999999984966,
+    "tap_energy_coefficient_of_variation_maximum": 2.1318956624294844e-16,
+    "baseline_rsrp_by_seed_db_per_re": {
+      "31001": 46.733995,
+      "31002": 56.619830500000006,
+      "31003": 51.895416,
+      "31004": 50.2657555,
+      "31005": 51.198024000000004
+    },
+    "baseline_sinr_by_seed_db": {
+      "31001": 45.099998,
+      "31002": 49.0,
+      "31003": 46.900002,
+      "31004": 45.424999,
+      "31005": 47.2500005
+    },
+    "baseline_rsrp_range_db": 9.885835500000006,
+    "baseline_rsrp_range_limit_db": 3.0,
+    "baseline_rsrp_range_gate_pass": false,
+    "baseline_sinr_range_db": 3.9000020000000006,
+    "baseline_sinr_range_limit_db": 6.0,
+    "baseline_sinr_range_gate_pass": true,
+    "pilot_gate_pass": false,
+    "decision_code": "static_tdlb_execution_variance_too_large",
+    "next_action": "retain_TDL_B_as_sensitivity_analysis_only"
+  },
+  "initial_evaluation_correction": {
+    "initial_result_retained": true,
+    "initial_result_sha256": "b2c27889116e762062622812d753bac947ab6d233163cf2564772bbb19b5661f",
+    "initial_identity_gate_issue": "The immutable v1 configuration contains the superseded pre-correction profile and runner identities.",
+    "amended_result_sha256": "19ea9a549edb152d3199d1dadca084f5852bbe4cb430540e5a807bbf6fd76859",
+    "scientific_metrics_or_decision_changed": false
+  },
+  "interpretation": {
+    "supported": [
+      "Static TDL-B with a fixed realization transfers commanded scalar gain to unquantized and integer RSRP with approximately unit slope.",
+      "Each explicit RNG seed produced a distinct realization that remained fixed throughout its execution.",
+      "The five tested realizations remained attached and operational under the frozen gain envelope."
+    ],
+    "limitation": "The 9.89 dB between-realization baseline RSRP range is too large for static TDL-B to serve as the primary calibration channel under the frozen 3 dB stability rule.",
+    "working_model": "Use dynamic scalar AWGN as the primary calibration model and retain static TDL-B only for sensitivity analysis.",
+    "not_supported": [
+      "absolute OAI-to-NEMO RSRP equivalence",
+      "fully time-varying TDL-B",
+      "Doppler or continuously evolving multipath",
+      "MCS or BLER realism",
+      "UPV distribution support",
+      "physical propagation-loss inference",
+      "ABC posterior inference"
+    ]
+  },
+  "next_gate": {
+    "additional_reservation_needed_now": false,
+    "powder_work_complete_for_this_pilot": true,
+    "abc_authorized": false,
+    "next_action": "complete the execution-level AWGN control before any distribution-support claim"
+  }
+}
