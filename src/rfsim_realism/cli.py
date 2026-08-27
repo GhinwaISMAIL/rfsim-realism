@@ -190,6 +190,7 @@ def _parser() -> argparse.ArgumentParser:
     phase3c14.add_argument("--config", required=True)
     phase3c14.add_argument("--tdlb-evaluation", required=True)
     phase3c14.add_argument("--tdlb-result", required=True)
+    phase3c14.add_argument("--identity-amendment")
     phase3c14.add_argument("--output", required=True)
     return parser
 
@@ -417,6 +418,7 @@ def main() -> None:
             tdlb_evaluation_path=args.tdlb_evaluation,
             tdlb_result_path=args.tdlb_result,
             output_path=args.output,
+            identity_amendment_path=args.identity_amendment,
         )
         print(json.dumps({"evaluation": str(output)}, sort_keys=True))
         return

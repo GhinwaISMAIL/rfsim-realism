@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c14_awgn_rollback_identity_correction",
+  "recorded_at": "2026-08-27T15:26:00+02:00",
+  "trigger": "The reservation preflight showed that the generated compose file and attached baseline UE use v4, while the initial runner expected v5.",
+  "reservation": {
+    "experiment": "ghinwa-313975",
+    "cell_node": "pc04-meb.emulab.net",
+    "cell_hardware": "d740",
+    "core_node": "pc836.emulab.net",
+    "core_hardware": "d430"
+  },
+  "preflight_evidence": {
+    "active_channel_family": "AWGN",
+    "active_model_name": "rfsimu_channel_enB0",
+    "active_ue_attached_address": "12.1.1.2/24",
+    "active_ue_restart_count": 0,
+    "active_gnb_restart_count": 0,
+    "active_gnb_health": "healthy",
+    "generated_compose_ue_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "generated_compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "generated_channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "generated_ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "superseded_execution_identity": {
+    "profile_revision": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+    "runner_sha256": "01eb1944b6bdc5c88373612b4590b37343a93f1b76bc894ad916d60f45d6970b",
+    "runner_original_image": "ghinwa555/oai-nr-ue-chan:v5"
+  },
+  "corrected_execution_identity": {
+    "profile_revision": "cf27748ee6c3592cb4ee1581ac47bc50e52739ef",
+    "runner_sha256": "608009e9aeab7eedd4c4595452723db07d8950c57fbc2cc2c82c2e743fd9212f",
+    "original_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "original_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "identity_aware_evaluation": {
+    "evaluator_path": "src/rfsim_realism/upv_phase3c14.py",
+    "evaluator_sha256": "ca6b19f4c30ceae06b7ff60702715f37f5f1ba9bd09a515030edadf1d053a71e",
+    "tests_path": "tests/test_upv_phase3c14.py",
+    "tests_sha256": "8b982074a7bf59c7d0ae0fae11f6dd09df24c6b2936b83884bb78d351eeb6991",
+    "cli_path": "src/rfsim_realism/cli.py",
+    "cli_sha256": "fe5248cf8ccaec0bb22208d58c54fc4abeeaea82a42cfe872e3efcfc50edaee3"
+  },
+  "scientific_design_unchanged": true,
+  "thresholds_and_claim_limits_unchanged": true,
+  "original_protocol_snapshot_retained": true,
+  "profile_tests_passed": 101,
+  "decision": "corrected_five_execution_control_authorized"
+}

@@ -185,3 +185,50 @@ def test_phase3c14_rejects_unfrozen_tdlb_evidence(tmp_path: Path) -> None:
             tdlb_evaluation_path=altered,
             tdlb_result_path=TDLB_RESULT,
         )
+
+
+def test_phase3c14_accepts_preflight_identity_correction(tmp_path: Path) -> None:
+    telemetry, state_path = _inputs(tmp_path)
+    corrected_identity = {
+        "profile_revision": "cf27748ee6c3592cb4ee1581ac47bc50e52739ef",
+        "runner_sha256": ("608009e9aeab7eedd4c4595452723db07d8950c57fbc2cc2c82c2e743fd9212f"),
+        "original_image": "ghinwa555/oai-nr-ue-chan:v4",
+        "original_image_id": (
+            "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f"
+        ),
+        "compose_sha256": ("db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260"),
+        "channel_config_sha256": (
+            "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72"
+        ),
+        "ue_config_sha256": ("d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"),
+    }
+    state = json.loads(state_path.read_text())
+    state.update(corrected_identity)
+    state_path.write_text(json.dumps(state))
+    amendment = tmp_path / "identity_amendment.json"
+    amendment.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "stage": "phase_3c14_awgn_rollback_identity_correction",
+                "decision": "corrected_five_execution_control_authorized",
+                "scientific_design_unchanged": True,
+                "thresholds_and_claim_limits_unchanged": True,
+                "corrected_execution_identity": corrected_identity,
+            }
+        )
+    )
+
+    result = evaluate_awgn_execution_control(
+        telemetry_path=telemetry,
+        execution_state_path=state_path,
+        config_path=CONFIG,
+        tdlb_evaluation_path=TDLB_EVALUATION,
+        tdlb_result_path=TDLB_RESULT,
+        identity_amendment_path=amendment,
+    )
+
+    assert result["control_gate_pass"] is True
+    assert result["state_gate_results"]["profile_revision"] is True
+    assert result["state_gate_results"]["original_image"] is True
+    assert result["input_sha256"]["identity_amendment"]

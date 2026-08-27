@@ -158,18 +158,27 @@ def _validate_prerequisites(
     return evaluation
 
 
-def _validate_execution_identity(state: dict[str, Any], config: dict[str, Any]) -> dict[str, bool]:
+def _validate_execution_identity(
+    state: dict[str, Any],
+    config: dict[str, Any],
+    amended_identity: dict[str, str] | None = None,
+) -> dict[str, bool]:
     frozen = config["frozen_inputs"]
     control = config["control"]
     summaries = state.get("replays") or []
     image_id = str(state.get("debug_image_id", ""))
+    expected_profile = frozen["profile_revision"]
+    expected_runner = frozen["profile_runner_sha256"]
+    if amended_identity is not None:
+        expected_profile = amended_identity["profile_revision"]
+        expected_runner = amended_identity["runner_sha256"]
     gates = {
         "stage": state.get("stage") == "phase_3c14_awgn_execution_control",
         "execution_completed": state.get("execution_completed") is True,
         "error_absent": state.get("error") is None,
         "oai_revision": state.get("oai_revision") == frozen["oai_revision"],
-        "profile_revision": state.get("profile_revision") == frozen["profile_revision"],
-        "runner_sha256": state.get("runner_sha256") == frozen["profile_runner_sha256"],
+        "profile_revision": state.get("profile_revision") == expected_profile,
+        "runner_sha256": state.get("runner_sha256") == expected_runner,
         "channel_family": state.get("channel_family") == control["channel_family"],
         "process_seeds": state.get("rng_seeds") == control["process_seeds"],
         "replay_count": len(summaries) == int(control["independent_executions"]),
@@ -178,7 +187,51 @@ def _validate_execution_identity(state: dict[str, Any], config: dict[str, Any]) 
         "gNB_untouched": state.get("gNB_untouched") is True,
         "rollback": (state.get("rollback") or {}).get("passed") is True,
     }
+    if amended_identity is not None:
+        gates.update(
+            {
+                "original_image": state.get("original_image") == amended_identity["original_image"],
+                "original_image_id": state.get("original_image_id")
+                == amended_identity["original_image_id"],
+                "compose_sha256": state.get("compose_sha256") == amended_identity["compose_sha256"],
+                "channel_config_sha256": state.get("channel_config_sha256")
+                == amended_identity["channel_config_sha256"],
+                "ue_config_sha256": state.get("ue_config_sha256")
+                == amended_identity["ue_config_sha256"],
+            }
+        )
     return {name: bool(value) for name, value in gates.items()}
+
+
+def _identity_from_amendment(amendment: dict[str, Any]) -> dict[str, str]:
+    if amendment.get("schema_version") != 1:
+        raise ValueError("Phase 3C14 identity amendment schema_version must be 1")
+    if amendment.get("stage") != "phase_3c14_awgn_rollback_identity_correction":
+        raise ValueError("unexpected Phase 3C14 identity amendment stage")
+    if amendment.get("decision") != "corrected_five_execution_control_authorized":
+        raise ValueError("the corrected Phase 3C14 execution is not authorized")
+    if amendment.get("scientific_design_unchanged") is not True:
+        raise ValueError("the Phase 3C14 scientific design must remain unchanged")
+    if amendment.get("thresholds_and_claim_limits_unchanged") is not True:
+        raise ValueError("Phase 3C14 thresholds and claim limits must remain unchanged")
+    identity = amendment.get("corrected_execution_identity") or {}
+    expected = {
+        "profile_revision": "cf27748ee6c3592cb4ee1581ac47bc50e52739ef",
+        "runner_sha256": ("608009e9aeab7eedd4c4595452723db07d8950c57fbc2cc2c82c2e743fd9212f"),
+        "original_image": "ghinwa555/oai-nr-ue-chan:v4",
+        "original_image_id": (
+            "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f"
+        ),
+        "compose_sha256": ("db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260"),
+        "channel_config_sha256": (
+            "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72"
+        ),
+        "ue_config_sha256": ("d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"),
+    }
+    for key, value in expected.items():
+        if identity.get(key) != value:
+            raise ValueError(f"unexpected amended {key}")
+    return expected
 
 
 def evaluate_awgn_execution_control(
@@ -188,6 +241,7 @@ def evaluate_awgn_execution_control(
     config_path: str | Path,
     tdlb_evaluation_path: str | Path,
     tdlb_result_path: str | Path,
+    identity_amendment_path: str | Path | None = None,
 ) -> dict[str, Any]:
     telemetry_file = _require_file(telemetry_path, "Phase 3C14 telemetry")
     state_file = _require_file(execution_state_path, "Phase 3C14 execution state")
@@ -198,7 +252,15 @@ def evaluate_awgn_execution_control(
     validate_phase3c14_config(config)
     tdlb_evaluation = _validate_prerequisites(config, tdlb_evaluation_file, tdlb_result_file)
     state = _read_json(state_file)
-    state_gates = _validate_execution_identity(state, config)
+    amendment_file = (
+        _require_file(identity_amendment_path, "Phase 3C14 identity amendment")
+        if identity_amendment_path is not None
+        else None
+    )
+    amended_identity = (
+        _identity_from_amendment(_read_json(amendment_file)) if amendment_file is not None else None
+    )
+    state_gates = _validate_execution_identity(state, config, amended_identity)
 
     telemetry = pd.read_csv(
         telemetry_file,
@@ -348,16 +410,19 @@ def evaluate_awgn_execution_control(
     tdlb_cross = tdlb_evaluation["cross_execution"]
     tdlb_rsrp_range = float(tdlb_cross["baseline_rsrp_range_db"])
     tdlb_sinr_range = float(tdlb_cross["baseline_sinr_range_db"])
+    input_sha256 = {
+        "telemetry": _sha256(telemetry_file),
+        "execution_state": _sha256(state_file),
+        "config": _sha256(config_file),
+        "tdlb_evaluation": _sha256(tdlb_evaluation_file),
+        "tdlb_result": _sha256(tdlb_result_file),
+    }
+    if amendment_file is not None:
+        input_sha256["identity_amendment"] = _sha256(amendment_file)
     return {
         "schema_version": 1,
         "stage": "phase_3c14_awgn_execution_control_evaluation",
-        "input_sha256": {
-            "telemetry": _sha256(telemetry_file),
-            "execution_state": _sha256(state_file),
-            "config": _sha256(config_file),
-            "tdlb_evaluation": _sha256(tdlb_evaluation_file),
-            "tdlb_result": _sha256(tdlb_result_file),
-        },
+        "input_sha256": input_sha256,
         "state_gate_results": state_gates,
         "segment_results": segment_results,
         "replay_results": replay_results,
@@ -395,6 +460,7 @@ def write_awgn_execution_control_evaluation(
     tdlb_evaluation_path: str | Path,
     tdlb_result_path: str | Path,
     output_path: str | Path,
+    identity_amendment_path: str | Path | None = None,
 ) -> Path:
     output = Path(output_path).resolve()
     if output.exists():
@@ -405,6 +471,7 @@ def write_awgn_execution_control_evaluation(
         config_path=config_path,
         tdlb_evaluation_path=tdlb_evaluation_path,
         tdlb_result_path=tdlb_result_path,
+        identity_amendment_path=identity_amendment_path,
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
