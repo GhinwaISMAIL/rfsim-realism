@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c15_offline_awgn_support_result",
+  "recorded_at": "2026-08-27T16:31:10+02:00",
+  "decision": "gain_only_rejected_noise_control_required",
+  "protocol_revision": "4b3ec7a8f81fc00314926c37a210da73452646a6",
+  "inputs": {
+    "phase3c14_decision": "awgn_execution_control_accepted",
+    "phase3b_decision": "relative_rsrp_shape_mismatch",
+    "upv_split": "one locked calibration trace and four untouched locked spatial holdouts",
+    "rfsim_candidate": "five independent AWGN control executions at fixed noise=-30 dB"
+  },
+  "output_bundle": {
+    "path": "data/model_runs/upv_phase3c15_offline_support_v1",
+    "tracking_policy": "generated outputs are gitignored; checksums and the result summary are committed",
+    "files": {
+      "SHA256SUMS.json": "4a9b60835ddbbed2e481fdccc57aec69dfbe648e5a4f3c68841093d7a1075529",
+      "analysis_manifest.json": "4817197e066cff95bdcb2bc9dad5b5f17c4532af861687ffa77584be5f330a58",
+      "awgn_control_analysis_rows.csv": "d481c8b19c6af248518fde45607ff7294b1b04d6fc71e2450fbc3d51561847d1",
+      "awgn_replay_summaries.csv": "1dbeb1ae6b88dacaa986075540cf6a39b0181d09896eee2212bed16b2935af7a",
+      "conditional_thresholds.json": "3ec12c85d4bbf07721f7ade00a3a5eb860a3e14fb51eb311a56e2d82e3e7f946",
+      "phase3c15_decision.json": "26f92f10d82954b01130ecf70bbc44cf1d4e8d507faca551602509b7657ea153",
+      "preprocessing_specification.json": "60b11fa767beb0f56d9c8219f07050bac2728c55243db5c4f74b3373685992ca",
+      "replay_distances.csv": "d398cea77e33ac500ecef0e9b529f7fe611a31099c366d913ddf2361002edba9",
+      "support_results.csv": "a2941b33278b3f4e3b15b31beadb76bdf491a099e7285482c4373518fb872d4f",
+      "upv_aggregated_traces.csv": "8ecb0db07dc2544f7db0310d01636bdc5120aca25978fb6d40546ceff4a9e002",
+      "upv_trace_summaries.csv": "4b51ac58d2cdddbe9fa1dc37e5435f43639b1b12db7766ea15e8a388b180d26e"
+    }
+  },
+  "conditional_thresholds": {
+    "interpretation": "traversal conditional, not between-route repetition uncertainty",
+    "bootstrap_repetitions": 2000,
+    "block_length_rows": 3,
+    "support_quantile": 0.9,
+    "relative_rsrp_mmd_squared": 0.3188523549967419,
+    "sinr_mmd_squared": 0.24998719128040958,
+    "joint_mmd_squared": 0.2826919155597994,
+    "relative_rsrp_max_abs_acf_difference": 0.8321614792155888,
+    "sinr_max_abs_acf_difference": 0.7995326886182517
+  },
+  "calibration_trace": {
+    "relative_rsrp_range_db": [-3.25, 4.0],
+    "relative_rsrp_iqr_db": 3.925,
+    "relative_rsrp_mean_mmd_squared": 0.108822,
+    "relative_rsrp_distribution_pass": true,
+    "relative_rsrp_max_abs_acf_difference": 0.465788,
+    "relative_rsrp_temporal_pass": true,
+    "sinr_range_db": [10.25, 21.4],
+    "sinr_iqr_db": 4.175,
+    "sinr_mean_mmd_squared": 1.180246,
+    "sinr_distribution_pass": false,
+    "sinr_max_abs_acf_difference": 0.308639,
+    "sinr_temporal_pass": true,
+    "joint_mean_mmd_squared": 1.111949,
+    "joint_distribution_pass": false,
+    "relationship_pass": true,
+    "relative_rsrp_interval_coverage_fraction": 0.4375,
+    "sinr_interval_coverage_fraction": 0.0,
+    "joint_rectangle_coverage_fraction": 0.0,
+    "overall_trace_gate_pass": false
+  },
+  "locked_holdouts": {
+    "evaluated": 4,
+    "overall_trace_gates_passed": 0,
+    "relative_rsrp_distribution_gates_passed": 4,
+    "relative_rsrp_temporal_gates_passed": 2,
+    "sinr_distribution_gates_passed": 0,
+    "sinr_temporal_gates_passed": 4,
+    "joint_distribution_gates_passed": 0,
+    "relationship_gates_passed": 0,
+    "preprocessing_or_threshold_refit_on_holdouts": false
+  },
+  "awgn_control": {
+    "relative_rsrp_range_across_replays_db": [-2.005331, 2.004174],
+    "sinr_range_across_replays_db": [42.299999, 51.099998],
+    "sinr_overlap_with_UPV_calibration": false,
+    "sinr_overlap_with_any_locked_UPV_trace": false
+  },
+  "prior_fixed_noise_evidence": {
+    "candidate": "ploss=0|noise=-10",
+    "calibration_supported": true,
+    "locked_holdouts_supported": 2,
+    "locked_holdouts_evaluated": 4,
+    "interpretation": "one fixed noise setting did not generalize across all locked regions"
+  },
+  "interpretation": {
+    "supported": [
+      "The tested scalar-gain envelope supports the calibration relative-RSRP distribution under the traversal-conditional MMD rule.",
+      "All four locked holdouts pass the relative-RSRP marginal distribution gate.",
+      "A noise-control dimension is required because fixed-noise gain control has no SINR or joint support."
+    ],
+    "limitations": [
+      "Relative-RSRP temporal support generalizes to only two of four locked holdouts.",
+      "The tested five-step envelope is a control sequence, not a fitted UPV trace model.",
+      "The analysis does not establish that time-varying noise alone will be sufficient.",
+      "Conditional bootstrap thresholds do not represent between-route repetition uncertainty."
+    ],
+    "working_model": "Design a paired correlated-gain and noise-control trace, with gain temporal structure fitted only on calibration and evaluated unchanged on the four holdouts.",
+    "control_envelope_failure_proves_AWGN_model_class_impossibility": false
+  },
+  "next_gate": {
+    "next_phase": "offline paired gain-noise trace design",
+    "additional_reservation_needed_now": false,
+    "reservation_notice_minutes": 30,
+    "abc_authorized": false,
+    "reservation_authorized": false
+  },
+  "verification": {
+    "research_tests_passed": 103,
+    "output_checksums_verified": 10
+  }
+}
