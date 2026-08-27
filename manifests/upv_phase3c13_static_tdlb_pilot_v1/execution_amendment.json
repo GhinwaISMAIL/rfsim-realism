@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_static_tdlb_execution_amendment",
+  "recorded_at": "2026-08-27T13:58:10+02:00",
+  "decision": "five_execution_pilot_authorized",
+  "basis": [
+    "The pinned debug image built successfully.",
+    "The unchanged original v5 UE attached under a fresh static TDL-B realization.",
+    "The debug UE attached and emitted both radio and channel telemetry.",
+    "The smoke telemetry identified a static multipath TDL-B channel and the explicit RNG seed.",
+    "The original UE image was restored and reattached with no gNB restart.",
+    "The Phase 3C13 rollback target was corrected to the profile's v5 UE image and all profile tests passed."
+  ],
+  "required_runtime_identity": {
+    "profile_revision": "757e904c15fcef6b53f88714101ab72293c18f5b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "debug_image": "oai-nr-ue-phase3c13-debug:70508eb",
+    "debug_image_id": "sha256:2861f6a9592dea95384fbd7b808904e4025fa074a2b0d80f85405f78acf52c93",
+    "runner_sha256": "3f973705efe315a239a0837af57aede93a71674a012b9cab7ffa56dcced3e922",
+    "compose_sha256": "dbd69d455fa2bf67b6ef1231ff5c3900d95ee8c1eca891cbb358bb50a9ce8457",
+    "channel_config_sha256": "184462e0adaca61b2a51db0e3b42e434813c5b8f45714ffb85f43f4a97e09c34",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "authorized_scope": {
+    "channel_family": "TDL_B",
+    "rms_delay_spread_ns": 30,
+    "rng_seeds": [31001, 31002, 31003, 31004, 31005],
+    "gain_db_sequence": [0.0, -2.0, -4.0, -2.0, 0.0],
+    "segment_duration_seconds": 10.0,
+    "settling_seconds": 3.0,
+    "noise_power_db": -30.0,
+    "independent_ue_recreations": 5
+  },
+  "stopping_rules": [
+    "Stop on attachment loss, any critical failure marker, an unintended UE restart, or any gNB restart.",
+    "Stop if the active channel is not TDL_B or does not expose multipath dimensions.",
+    "Stop if a seed is missing, a tap fingerprint changes within an execution, or fingerprints are not distinct across executions.",
+    "Always restore the original v5 UE image and verify attachment."
+  ],
+  "known_risk": "The initially provisioned uninstrumented TDL-B realization did not synchronize, while a recreated realization attached. The pilot therefore treats attachment as a per-seed operational outcome and fails closed.",
+  "still_prohibited": [
+    "absolute OAI-to-NEMO RSRP calibration",
+    "fully time-varying TDL-B claims",
+    "Doppler claims",
+    "UPV distribution-support claims from this pilot alone",
+    "ABC inference"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_static_tdlb_build_and_smoke",
+  "recorded_at": "2026-08-27T13:58:10+02:00",
+  "decision": "build_and_smoke_passed",
+  "reservation": {
+    "experiment": "ghinwa-313971",
+    "profile": "oai-5g-ric-v2",
+    "core_node": "pc809",
+    "core_hardware": "d430",
+    "cell_node": "pc06-fort",
+    "cell_hardware": "d740"
+  },
+  "runtime_identity": {
+    "profile_revision_at_build": "181f9daa5d633ffa2cc74cb72e233387bef37298",
+    "profile_revision_after_runner_correction": "757e904c15fcef6b53f88714101ab72293c18f5b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "debug_image": "oai-nr-ue-phase3c13-debug:70508eb",
+    "debug_image_id": "sha256:2861f6a9592dea95384fbd7b808904e4025fa074a2b0d80f85405f78acf52c93",
+    "debug_image_created": "2026-08-27T05:44:26.57390957-06:00",
+    "debug_image_size_bytes": 176035964,
+    "original_ue_image": "ghinwa555/oai-nr-ue-chan:v5",
+    "original_ue_image_id": "sha256:a3a46d5eb2252c71bce25166e86c855d55caabf00ae58f47723669b3e2c8c862",
+    "gnb_image_id": "sha256:e95099009cee3a301bf1bb6d17e480b04402f12e3fb9893bb45ec9d8506376a9"
+  },
+  "frozen_hashes": {
+    "runner_sha256": "3f973705efe315a239a0837af57aede93a71674a012b9cab7ffa56dcced3e922",
+    "compose_sha256": "dbd69d455fa2bf67b6ef1231ff5c3900d95ee8c1eca891cbb358bb50a9ce8457",
+    "channel_config_sha256": "184462e0adaca61b2a51db0e3b42e434813c5b8f45714ffb85f43f4a97e09c34",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "build": {
+    "passed": true,
+    "clean_pinned_checkout_before_patching": true,
+    "patches_applied": [
+      "NR UE measurement telemetry",
+      "RFsim RNG initialization",
+      "RFsim RSRP calibration",
+      "RFsim channel telemetry",
+      "TDL model support"
+    ],
+    "live_containers_replaced_during_build": false
+  },
+  "baseline": {
+    "as_provisioned_attachment": false,
+    "as_provisioned_observation": "RFsim socket connected and the UE remained in repeated synchronization failure before any image replacement.",
+    "recovery_action": "Recreated the unchanged original v5 UE container once to obtain a fresh static TDL-B realization.",
+    "recovery_attachment": true,
+    "recovery_attachment_seconds": 10,
+    "ue_image_unchanged": true,
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "interpretation": "The recovery is consistent with realization-dependent static TDL-B attachment, but the failed realization had no tap fingerprint and is not used as quantitative evidence."
+  },
+  "smoke": {
+    "passed": true,
+    "rng_seed": 31001,
+    "attachment": true,
+    "attachment_seconds": 10,
+    "ue_restart_count": 0,
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "radio_marker_count_at_gate": 2,
+    "channel_marker_count_at_gate": 8,
+    "channel_family": "TDL_B",
+    "channel_model": "rfsimu_channel_enB0",
+    "channel_snapshot_id": "static-0",
+    "tap_fingerprint_fnv1a64": "884ea84cf44fd43e",
+    "tap_energy_linear": 0.35066764515263876,
+    "channel_length": 15,
+    "nb_taps": 12,
+    "nb_tx": 1,
+    "nb_rx": 1,
+    "applied_gain_db": 0.0,
+    "noise_power_db": -30.0,
+    "sample_ss_rsrp_dbm_integer": -101,
+    "sample_ss_sinr_db_range": [44.963635, 46.599998]
+  },
+  "rollback": {
+    "passed": true,
+    "restored_original_image_id": "sha256:a3a46d5eb2252c71bce25166e86c855d55caabf00ae58f47723669b3e2c8c862",
+    "attachment": true,
+    "attachment_seconds": 10,
+    "gnb_restart_count": 0,
+    "gnb_health": "healthy",
+    "active_downlink_channel": "TDL_B"
+  },
+  "runner_correction": {
+    "issue": "The Phase 3C13 runner inherited the historical v4 rollback target while the active profile uses v5.",
+    "scope": "Phase 3C13 runner only",
+    "profile_commit": "757e904c15fcef6b53f88714101ab72293c18f5b",
+    "profile_tests_passed": 93,
+    "lint_passed": true,
+    "published_branch": "refs/heads/feature/rfsim-rsrp-calibration"
+  },
+  "claim_limits": {
+    "scalar_transfer_evaluated": false,
+    "between_seed_variability_evaluated": false,
+    "upv_support_evaluated": false,
+    "absolute_rsrp_calibration": "prohibited",
+    "abc": "prohibited"
+  }
+}

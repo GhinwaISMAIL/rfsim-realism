@@ -1,4 +1,6 @@
 {
+  "build_smoke_result.json": "85709411a67be08ac0ab4ce0e189e3799da87b0a204e0fd3169135b1cf96f204",
+  "execution_amendment.json": "f6ccd95d5a401eb830ee8a42e23c7340db1ecd5f78babba8c5f9a1cad4332693",
   "protocol_freeze.json": "b26bfd069764c5e2f0fbd7e8164462b365e26dd4acfcfec30026c43ae42837f9",
   "reservation_gate.json": "5db60aafd09ec2a3a91e9a5237cf2e20105d82ab86f37a9d64842652393ccc2c",
   "source_audit.json": "00937cb5e494a90a60d165c2fac742d82442fcfcff312d695ae8d06f83d8856c"
