@@ -20,6 +20,7 @@ from .upv_phase3c import build_phase3c_plan, write_deterministic_replay_evaluati
 from .upv_phase3c2 import run_phase3c2_trace_validation
 from .upv_phase3c13 import write_static_tdlb_pilot_evaluation
 from .upv_phase3c14 import write_awgn_execution_control_evaluation
+from .upv_phase3c15 import write_phase3c15_support_analysis
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -192,6 +193,18 @@ def _parser() -> argparse.ArgumentParser:
     phase3c14.add_argument("--tdlb-result", required=True)
     phase3c14.add_argument("--identity-amendment")
     phase3c14.add_argument("--output", required=True)
+
+    phase3c15 = commands.add_parser("analyze-upv-phase3c15-support")
+    phase3c15.add_argument("--route-observations", required=True)
+    phase3c15.add_argument("--locked-spatial-split", required=True)
+    phase3c15.add_argument("--phase3c14-telemetry", required=True)
+    phase3c15.add_argument("--phase3c14-evaluation", required=True)
+    phase3c15.add_argument("--phase3c14-result", required=True)
+    phase3c15.add_argument("--phase3b-decision", required=True)
+    phase3c15.add_argument("--phase3b-distribution-diagnostics", required=True)
+    phase3c15.add_argument("--phase3b-locked-validation-support", required=True)
+    phase3c15.add_argument("--config", required=True)
+    phase3c15.add_argument("--output", required=True)
     return parser
 
 
@@ -421,6 +434,21 @@ def main() -> None:
             identity_amendment_path=args.identity_amendment,
         )
         print(json.dumps({"evaluation": str(output)}, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3c15-support":
+        result = write_phase3c15_support_analysis(
+            route_observations=args.route_observations,
+            locked_spatial_split=args.locked_spatial_split,
+            phase3c14_telemetry=args.phase3c14_telemetry,
+            phase3c14_evaluation=args.phase3c14_evaluation,
+            phase3c14_result=args.phase3c14_result,
+            phase3b_decision=args.phase3b_decision,
+            phase3b_distribution_diagnostics=args.phase3b_distribution_diagnostics,
+            phase3b_locked_validation_support=args.phase3b_locked_validation_support,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
         return
     output = build_report(args.manifest, args.output)
     print(json.dumps({"report": str(output)}, sort_keys=True))

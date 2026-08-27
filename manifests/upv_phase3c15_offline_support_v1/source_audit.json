@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c15_offline_awgn_support_source_audit",
+  "recorded_at": "2026-08-27T16:28:18+02:00",
+  "inputs": {
+    "route_observations": {
+      "path": "data/curated/upv_protocol_v1/route_observations.parquet",
+      "sha256": "2f02d7749621f991c282d24850ca0b131ae1b099e6ba0c6bbc3063e889c1ee91"
+    },
+    "locked_spatial_split": {
+      "path": "data/curated/upv_protocol_v1/locked_spatial_split.csv",
+      "sha256": "3992ef7a2e31377debeb4abcaa1808c12202f2f06d9cdf8635d1556619163cee"
+    },
+    "phase3c14_telemetry": {
+      "path": "data/model_runs/upv_phase3c14_awgn_control_v1/awgn_scalar_telemetry.csv",
+      "sha256": "46af700883d4d596b6987025493c48ad9fd172232df320a17c36506532ced362"
+    },
+    "phase3c14_evaluation": {
+      "path": "data/model_runs/upv_phase3c14_awgn_control_v1/awgn_control_evaluation_amended.json",
+      "sha256": "e4e550599c43182cd0650e9c6dbabb07cd6c6dd34766aac4ca17b11f8a12e70d",
+      "required_decision": "awgn_execution_control_accepted"
+    },
+    "phase3c14_result": {
+      "path": "manifests/upv_phase3c14_awgn_control_v1/execution_result.json",
+      "sha256": "51c8f9a15316791d2abf9b3f6e407eff7319af4883eaace39cdc1ce73a1b662b"
+    },
+    "phase3b_decision": {
+      "path": "manifests/upv_phase3b_support_v1/phase3b_decision.json",
+      "sha256": "411d5ede00131841bd2a710b6fd9f6b24f5fccdfdfd54280a6e27fb17f716a3f",
+      "required_decision": "relative_rsrp_shape_mismatch"
+    },
+    "phase3b_distribution_diagnostics": {
+      "path": "manifests/upv_phase3b_support_v1/distribution_diagnostics.csv",
+      "sha256": "993db02483ba1cd7f63245756c6cd6b1abfb9a7105f93d8c322a926a01617f27"
+    },
+    "phase3b_locked_validation_support": {
+      "path": "manifests/upv_phase3b_support_v1/locked_validation_support.csv",
+      "sha256": "f602e0df5fc6c5f944a4b136d99c0bcb85c2ecbc58bdc205e24f9372f8117d8f"
+    }
+  },
+  "split_audit": {
+    "split_created_before_phase3c15": true,
+    "calibration_role_count": 1,
+    "holdout_role_count": 4,
+    "holdouts_affect_preprocessing": false,
+    "holdouts_affect_bandwidths": false,
+    "holdouts_affect_thresholds": false
+  },
+  "prior_evidence": {
+    "phase3c14_awgn_control_replays": 5,
+    "phase3c14_fixed_noise_power_db": -30.0,
+    "phase3b_best_fixed_noise_candidate": "ploss=0|noise=-10",
+    "phase3b_best_fixed_noise_calibration_supported": true,
+    "phase3b_best_fixed_noise_locked_holdouts_supported": 2,
+    "phase3b_best_fixed_noise_locked_holdouts_evaluated": 4
+  },
+  "audit_decision": "inputs_and_locked_split_are_sufficient_for_the_frozen_offline_diagnostic"
+}

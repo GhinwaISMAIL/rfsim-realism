@@ -1,0 +1,136 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3c15_offline_awgn_support_v1
+stage: phase_3c15_offline_awgn_support_diagnostic
+execution_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  route_observations_sha256: 2f02d7749621f991c282d24850ca0b131ae1b099e6ba0c6bbc3063e889c1ee91
+  locked_spatial_split_sha256: 3992ef7a2e31377debeb4abcaa1808c12202f2f06d9cdf8635d1556619163cee
+  phase3c14_telemetry_sha256: 46af700883d4d596b6987025493c48ad9fd172232df320a17c36506532ced362
+  phase3c14_evaluation_sha256: e4e550599c43182cd0650e9c6dbabb07cd6c6dd34766aac4ca17b11f8a12e70d
+  phase3c14_result_sha256: 51c8f9a15316791d2abf9b3f6e407eff7319af4883eaace39cdc1ce73a1b662b
+  phase3b_decision_sha256: 411d5ede00131841bd2a710b6fd9f6b24f5fccdfdfd54280a6e27fb17f716a3f
+  phase3b_distribution_diagnostics_sha256: 993db02483ba1cd7f63245756c6cd6b1abfb9a7105f93d8c322a926a01617f27
+  phase3b_locked_validation_support_sha256: f602e0df5fc6c5f944a4b136d99c0bcb85c2ecbc58bdc205e24f9372f8117d8f
+  required_phase3c14_decision: awgn_execution_control_accepted
+  required_phase3b_decision: relative_rsrp_shape_mismatch
+
+measurement:
+  source_path: Test_2/Test_2_ASUS.csv
+  device: ASUS
+  route_bin_size_m: 15
+  calibration_role: calibration
+  holdout_roles:
+    - spatial_validation_1
+    - spatial_validation_2
+    - spatial_validation_3
+    - spatial_validation_4
+  required_columns:
+    - source_path
+    - seconds_of_day
+    - route_bin_15m
+    - rsrp_dbm
+    - sinr_db
+  temporal_aggregation_seconds: 1.0
+  aggregation_statistic: median
+  relative_rsrp_transform: subtract_within_trace_median_after_aggregation
+
+rfsim:
+  channel_family: AWGN
+  expected_replays: [awgn-1, awgn-2, awgn-3, awgn-4, awgn-5]
+  expected_noise_power_db: -30.0
+  segment_duration_seconds: 10.0
+  distribution_settling_exclusion_seconds: 3.0
+  distribution_rsrp_column: rsrp_db_per_re_unquantized
+  sinr_column: ss_sinr_db
+  temporal_rows: all_one_second_rows_with_verified_applied_gain
+  distribution_rows: post_settling_rows_only
+  interpretation: validated_control_envelope_not_a_calibrated_UPV_trace
+
+preprocessing:
+  fitted_from: UPV_calibration_trace_only
+  holdouts_excluded_from_all_fit_and_threshold_steps: true
+  robust_center: median
+  robust_scale: normalized_mad
+  normalized_mad_factor: 1.4826
+  zero_mad_fallback: iqr_divided_by_1.349_then_population_standard_deviation
+  joint_feature_order: [relative_RSRP, SINR]
+  kernel: rbf
+  mmd_estimator: biased_mmd_squared_v_statistic
+  bandwidth: calibration_only_median_heuristic
+  posthoc_clipping: prohibited
+
+conditional_reference:
+  method: paired_circular_moving_block_bootstrap_of_calibration_trace
+  block_length_rows: 3
+  repetitions: 2000
+  support_quantile: 0.90
+  seed: 20260827
+  interpretation: traversal_conditional_not_between_route_repetitions
+
+temporal:
+  statistic: sample_autocorrelation
+  lags_seconds: [1, 2, 3]
+  comparison: maximum_absolute_difference_across_lags
+  threshold_source: paired_calibration_block_bootstrap
+
+relationship:
+  metrics:
+    - spearman_correlation
+    - standardized_ols_slope
+    - standardized_residual_sd
+  threshold_source: paired_calibration_block_bootstrap_per_metric
+  joint_support_metric: two_dimensional_biased_MMD_squared
+
+support_rules:
+  execution_unit: clean_UE_replay
+  candidate_distance: mean_MMD_squared_across_five_replays
+  candidate_temporal_statistic: mean_ACF_across_five_replays
+  calibration_support: candidate_statistic_not_above_calibration_conditional_threshold
+  holdout_evaluation: apply_calibration_preprocessing_bandwidths_and_thresholds_without_refitting
+  holdout_generalization: all_four_locked_holdout_traces_must_pass
+  marginal_interval_coverage_diagnostic_only: true
+  control_envelope_failure_does_not_prove_AWGN_model_class_impossibility: true
+
+noise_dimension_evidence:
+  phase3b_fixed_noise_candidate: ploss=0|noise=-10
+  phase3b_calibration_SINR_supported: true
+  phase3b_locked_holdouts_supported: 2
+  phase3b_locked_holdouts_evaluated: 4
+  inference: a_single_fixed_noise_candidate_did_not_generalize_to_all_locked_regions
+
+decision_rules:
+  all_calibration_and_holdout_gates_pass:
+    code: gain_only_control_envelope_supported
+    action: design_a_longer_independent_replay_before_any_inference
+  SINR_or_joint_gate_fails:
+    code: gain_only_rejected_noise_control_required
+    action: design_a_paired_gain_and_noise_trace_candidate_before_requesting_a_reservation
+  relative_RSRP_or_temporal_gate_fails_without_SINR_failure:
+    code: gain_envelope_trace_revision_required
+    action: revise_the_gain_process_and_repeat_offline_support_analysis
+  calibration_passes_but_any_holdout_fails:
+    code: calibration_trace_does_not_generalize
+    action: revise_the_trace_model_without_refitting_on_holdouts
+
+claim_limits:
+  current_control_envelope_is_final_model: prohibited
+  absolute_rsrp_calibration: prohibited
+  physical_ploss_inference: prohibited
+  absolute_noise_power_calibration: prohibited
+  time_varying_noise_sufficiency: not_established
+  UPV_population_generalization: not_established
+  joint_identifiability: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  gate_state: closed_for_offline_analysis
+  preparation_lead_time_minutes: 30
+  next_possible_request_requires:
+    - frozen_paired_gain_noise_trace
+    - executable_attachment_and_failure_rules
+    - bounded_control_ranges
+    - rollback_plan

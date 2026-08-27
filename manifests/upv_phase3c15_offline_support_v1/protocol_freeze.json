@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c15_offline_awgn_support_protocol_freeze",
+  "recorded_at": "2026-08-27T16:28:18+02:00",
+  "parent_result_revision": "13c81040ef909ca31e12b532f9e50ad16bc9ed74",
+  "files": {
+    "config": {
+      "path": "configs/upv_phase3c15_offline_support_v1.yaml",
+      "sha256": "37308a98946b206aeec4ec2658b5994455af0044c1aeddcb0a83490ee311e96f"
+    },
+    "evaluator": {
+      "path": "src/rfsim_realism/upv_phase3c15.py",
+      "sha256": "6365e56079bb17492f3e44e5adb0255b16f8f74dae09423aee2fff18841eabfe"
+    },
+    "tests": {
+      "path": "tests/test_upv_phase3c15.py",
+      "sha256": "b1cc19d4f9f95431852d14923829a21f860859daee8fe21d100598e713dfbcb8"
+    },
+    "cli": {
+      "path": "src/rfsim_realism/cli.py",
+      "sha256": "ce66ff9e964c8a252e1c77798befc2bbc38120ba893fe32c86ba7f547ea7df17"
+    }
+  },
+  "frozen_analysis": {
+    "measurement_target": "ASUS corrected Test 1 route represented by Test_2/Test_2_ASUS.csv",
+    "calibration_trace": "locked 15 m calibration region",
+    "holdout_traces": [
+      "spatial_validation_1",
+      "spatial_validation_2",
+      "spatial_validation_3",
+      "spatial_validation_4"
+    ],
+    "holdouts_excluded_from_fit": true,
+    "relative_rsrp_definition": "one-second median followed by within-trace median centring",
+    "sinr_definition": "one-second empirical device-conditioned median without an offset",
+    "joint_feature_order": [
+      "relative_RSRP",
+      "SINR"
+    ],
+    "temporal_lags_seconds": [
+      1,
+      2,
+      3
+    ],
+    "mmd_estimator": "biased nonnegative V-statistic",
+    "threshold_reference": "paired circular moving-block bootstrap of calibration trace",
+    "bootstrap_repetitions": 2000,
+    "bootstrap_block_length_rows": 3,
+    "support_quantile": 0.9,
+    "control_interpretation": "validated control envelope, not a calibrated UPV trace"
+  },
+  "decision_boundary": {
+    "gain_only_requires": "all calibration gates and all four locked holdout trace gates",
+    "sinr_or_joint_failure": "require a noise-control dimension before requesting another reservation",
+    "relative_rsrp_or_temporal_failure": "revise the gain process before inference",
+    "control_failure_does_not_prove_awgn_model_class_impossibility": true
+  },
+  "claim_limits": {
+    "absolute_rsrp_calibration": "prohibited",
+    "physical_ploss_inference": "prohibited",
+    "absolute_noise_power_calibration": "prohibited",
+    "time_varying_noise_sufficiency": "not established",
+    "joint_identifiability": "prohibited",
+    "abc": "prohibited"
+  },
+  "reservation": {
+    "request_now": false,
+    "gate_state": "closed_for_offline_analysis",
+    "preparation_lead_time_minutes": 30
+  },
+  "tests_passed": 103,
+  "analysis_executed_at_freeze": false
+}
