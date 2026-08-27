@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c13_fixed_tap_scalar_control_correction",
+  "recorded_at": "2026-08-27T14:15:08+02:00",
+  "decision": "corrected_five_execution_pilot_authorized",
+  "failed_execution": {
+    "remote_path": "/local/logs/phase3c13/phase3c13-static-tdlb-20260827T120219Z",
+    "local_path": "data/model_runs/upv_phase3c13_failed_scalar_v1",
+    "profile_revision": "757e904c15fcef6b53f88714101ab72293c18f5b",
+    "image_id": "sha256:2861f6a9592dea95384fbd7b808904e4025fa074a2b0d80f85405f78acf52c93",
+    "runner_sha256": "3f973705efe315a239a0837af57aede93a71674a012b9cab7ffa56dcced3e922",
+    "rng_seed": 31001,
+    "attachment_samples": 50,
+    "continuous_attachment": true,
+    "telemetry_rows": 50,
+    "observed_fingerprints": [
+      "06f5df720677698f",
+      "5dff7a7baa6675d8",
+      "609a793425f391db",
+      "cded5330b6ae2464",
+      "e318549e6aab83f9"
+    ],
+    "observed_tap_energies": [
+      0.24425989497116049,
+      0.51522025034567775,
+      0.8534169601225644,
+      0.961615782049838,
+      1.6767726534587279
+    ],
+    "fingerprint_to_segment_correspondence": true,
+    "runner_error": "tdlb-1 did not retain exactly one tap fingerprint",
+    "later_seeds_executed": false,
+    "rollback_passed": true,
+    "gnb_restart_count": 0,
+    "files": {
+      "execution_state.json": "cd04f0b77d571bbfd806070888e42dac3ce7aca13b2f9b529cf0dd419c1cc123",
+      "tdlb-1-attachment.json": "b1868c6f2861050075de5a3a46502e755cfb448c0701f2345e4fe94eb1fc4f88",
+      "tdlb-1-control.json": "e225cef6368337f44126b4ff7127135577cf19a00570825ee521399670c8438b",
+      "tdlb-1-gnb.log": "ffc01716acd8303732bb85745b79b6adfa3ac9f015f56a467126205ffe04ac61",
+      "tdlb-1-telemetry.csv": "fe8db3ac2d359a50de865c729bcb6e3c91b6ea475e1df31127f5871b3d0d57f0",
+      "tdlb-1-ue.log": "a8e75e1f8bd11b65d01951590c66d9a4ff4ccfea7ab53964d266773ffcba5762"
+    }
+  },
+  "root_cause": {
+    "oai_path": "openair1/SIMULATION/TOOLS/random_channel.c",
+    "function": "channelmod_modify_cmd",
+    "behavior": "The pinned handler called random_channel() after every successful parameter modification, including ploss and noise_power_dB.",
+    "impact": "Every scalar gain command generated new fading coefficients, so the failed execution was not static TDL-B with a scalar envelope.",
+    "diagnostic_value": "The tap fingerprint gate detected the model-contract violation even though the channel snapshot identifier and timestamp did not change."
+  },
+  "correction": {
+    "profile_revision": "ca4e78b0f2fe0630c3a77c3f2e7506fa38f8206b",
+    "profile_branch": "refs/heads/feature/rfsim-rsrp-calibration",
+    "patch_path": "bin/patch-oai-channelmod-scalar-control.py",
+    "patch_sha256": "30097378239025dd23934bb7816dbc78c7fba5d8f0400d890c11fc6a66211e24",
+    "build_script_sha256": "c2e20a406ba98429b5978abb6bc05d4436bf687855e8822bae219fe65b01dcb2",
+    "runner_sha256": "d1fb090550299d9f3b9e4a51593af636422975c0c03fd08bf6955c6a6d498f8e",
+    "tests_passed": 95,
+    "lint_passed": true,
+    "scope": "Skip random_channel() only for ploss and noise_power_dB; retain regeneration for channel-shape controls.",
+    "new_image": "oai-nr-ue-phase3c13-static:70508eb",
+    "new_image_id": "sha256:d6b87ce2e446f8750727121a2463dfb06eee747b599492bdb78afc36c9dcc664",
+    "new_image_size_bytes": 176036055,
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c"
+  },
+  "corrected_smoke": {
+    "remote_path": "/local/logs/phase3c13/fixed-tap-scalar-smoke-v2",
+    "local_path": "data/model_runs/upv_phase3c13_fixed_tap_smoke_v2",
+    "rng_seed": 31001,
+    "gain_db_sequence": [0.0, -2.0, -4.0, -2.0, 0.0],
+    "attachment": true,
+    "attachment_seconds": 10,
+    "channel_marker_count": 30,
+    "tap_fingerprints": ["884ea84cf44fd43e"],
+    "tap_energies": [0.35066764515263876],
+    "channel_length": 15,
+    "nb_taps": 12,
+    "rollback_passed": true,
+    "gnb_restart_count": 0,
+    "files": {
+      "gnb.log": "a0c528b319dcc10b1a937b23d77fb3a2f97571aaed002244818fa3cbb8173f15",
+      "result.json": "b58c3c1a4af21bd35e5af83a38a01b982d408b848c8d232940a910dff1310268",
+      "ue.log": "14e7ce249fa593de69d6697b13aeab7cb59e6994338d9a99d1d4fbc00e7367ed"
+    }
+  },
+  "rerun_identity": {
+    "profile_revision": "ca4e78b0f2fe0630c3a77c3f2e7506fa38f8206b",
+    "debug_image_id": "sha256:d6b87ce2e446f8750727121a2463dfb06eee747b599492bdb78afc36c9dcc664",
+    "runner_sha256": "d1fb090550299d9f3b9e4a51593af636422975c0c03fd08bf6955c6a6d498f8e",
+    "compose_sha256": "dbd69d455fa2bf67b6ef1231ff5c3900d95ee8c1eca891cbb358bb50a9ce8457",
+    "channel_config_sha256": "184462e0adaca61b2a51db0e3b42e434813c5b8f45714ffb85f43f4a97e09c34",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "stopping_rules_unchanged": true,
+  "claim_limits_unchanged": true
+}
