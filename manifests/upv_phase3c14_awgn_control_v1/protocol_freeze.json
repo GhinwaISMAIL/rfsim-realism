@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c14_awgn_execution_control_protocol_freeze",
+  "recorded_at": "2026-08-27T14:58:50+02:00",
+  "research_implementation_revision": "d66fe2ce77680bc1c756effebebf7d0d4d235408",
+  "profile_revision": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+  "profile_remote_branch": "refs/heads/feature/rfsim-rsrp-calibration",
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "frozen_files": {
+    "config": {
+      "path": "configs/upv_phase3c14_awgn_control_v1.yaml",
+      "sha256": "1c20a08e9836d47400e0f09f43564f0919bc708f11bec009eed923014ec8a95c"
+    },
+    "evaluator": {
+      "path": "src/rfsim_realism/upv_phase3c14.py",
+      "sha256": "9e2cfc8fc33a92aedd191ae4a31cd53ce9139ff64bfa43f72e3a337ac81f5d11"
+    },
+    "tests": {
+      "path": "tests/test_upv_phase3c14.py",
+      "sha256": "297ffefde2c0b9f6156f9b44cf9194b2044855ee1e1d7172a2bc58412d683677"
+    },
+    "cli": {
+      "path": "src/rfsim_realism/cli.py",
+      "sha256": "aec526a43e117d43314a364768e1b84e8fe1db093a1cf5dc4d17eb685dc3a72b"
+    },
+    "profile_runner": {
+      "path": "bin/run-phase3c14-awgn-control.py",
+      "sha256": "01eb1944b6bdc5c88373612b4590b37343a93f1b76bc894ad916d60f45d6970b"
+    },
+    "profile_build_script": {
+      "path": "bin/build-ue-radio-image.sh",
+      "sha256": "c2e20a406ba98429b5978abb6bc05d4436bf687855e8822bae219fe65b01dcb2"
+    }
+  },
+  "design": {
+    "channel_family": "AWGN",
+    "executions": 5,
+    "process_seeds": [32001, 32002, 32003, 32004, 32005],
+    "gain_db_sequence": [0.0, -2.0, -4.0, -2.0, 0.0],
+    "segment_duration_seconds": 10.0,
+    "settling_seconds": 3.0,
+    "fixed_noise_power_db": -30.0,
+    "execution_unit": "clean UE container recreation"
+  },
+  "fail_closed_gates": {
+    "valid_executions_required": 5,
+    "continuous_attachment": true,
+    "critical_failure_count_maximum": 0,
+    "unintended_ue_restart_count_maximum": 0,
+    "gnb_restart_count_change_maximum": 0,
+    "gnb_health": "healthy",
+    "awgn_channel_length": 1,
+    "awgn_taps": 1,
+    "awgn_tap_energy": 1.0,
+    "one_common_identity_fingerprint": true,
+    "float_rsrp_transfer_slope_range": [0.9, 1.1],
+    "float_rsrp_transfer_r_squared_minimum": 0.99,
+    "between_execution_baseline_rsrp_range_max_db": 3.0,
+    "between_execution_baseline_sinr_range_max_db": 6.0,
+    "mandatory_rollback": true
+  },
+  "comparison": {
+    "static_tdlb_baseline_rsrp_range_db": 9.885835500000006,
+    "static_tdlb_baseline_sinr_range_db": 3.9000020000000006,
+    "range_ratios_are_descriptive_only": true
+  },
+  "verification": {
+    "research_tests_passed": 98,
+    "profile_tests_passed": 101,
+    "focused_ruff_passed": true,
+    "diff_check_passed": true,
+    "profile_revision_verified_on_remote_branch": true,
+    "hardware_execution_completed": false
+  },
+  "claim_limits": {
+    "absolute_rsrp_calibration": "prohibited",
+    "physical_propagation_loss_inference": "prohibited",
+    "multipath": "not_modelled_by_AWGN_control",
+    "upv_distribution_support": "not_tested_by_this_control",
+    "abc": "prohibited"
+  }
+}

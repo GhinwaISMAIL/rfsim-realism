@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c14_awgn_control_source_audit",
+  "recorded_at": "2026-08-27T14:58:50+02:00",
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "profile_revision": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+  "evidence": [
+    {
+      "repository": "OAI",
+      "path": "openair1/SIMULATION/TOOLS/random_channel.c",
+      "sha256": "187f0d4e872e5fbe8e63e17d421183f6fca70ae9f64240f4976626083cd391c7",
+      "line": 1347,
+      "snippet": "case AWGN:",
+      "fact": "The pinned AWGN descriptor is a one-tap, channel-length-one model with zero Doppler."
+    },
+    {
+      "repository": "OAI",
+      "path": "openair1/SIMULATION/TOOLS/random_channel.c",
+      "sha256": "187f0d4e872e5fbe8e63e17d421183f6fca70ae9f64240f4976626083cd391c7",
+      "line": 1762,
+      "snippet": "if (desc->modelid == AWGN || desc->modelid == SAT_LEO_TRANS || desc->modelid == SAT_LEO_REGEN)",
+      "fact": "The pinned AWGN channel matrix is assigned as the identity matrix rather than a random fading realization."
+    },
+    {
+      "repository": "OAI",
+      "path": "radio/rfsimulator/apply_channelmod.c",
+      "sha256": "d87fb051292bdb7da91cac2358110f6d0df8a06652cf106c71a2ad5d31fdf6f8",
+      "line": 222,
+      "snippet": "pow(10, channelDesc->path_loss_dB / 20.0)",
+      "fact": "The runtime path-gain control is an amplitude multiplier downstream of the AWGN identity channel."
+    },
+    {
+      "repository": "profile",
+      "path": "bin/build-ue-radio-image.sh",
+      "sha256": "c2e20a406ba98429b5978abb6bc05d4436bf687855e8822bae219fe65b01dcb2",
+      "fact": "The build is pinned to the OAI revision and applies the measurement, seed, RSRP, channel-telemetry and scalar-control patches before constructing the UE image."
+    },
+    {
+      "repository": "profile",
+      "path": "bin/run-phase3c14-awgn-control.py",
+      "sha256": "01eb1944b6bdc5c88373612b4590b37343a93f1b76bc894ad916d60f45d6970b",
+      "fact": "The runner recreates the UE five times, verifies AWGN identity and unit tap energy, enforces operational stopping rules, and restores the original UE."
+    },
+    {
+      "repository": "research",
+      "path": "data/model_runs/upv_phase3c13_static_tdlb_v1/static_tdlb_pilot_evaluation_amended.json",
+      "sha256": "19ea9a549edb152d3199d1dadca084f5852bbe4cb430540e5a807bbf6fd76859",
+      "fact": "The preceding static TDL-B pilot had a 9.8858355 dB between-execution baseline RSRP range and was retained only for sensitivity analysis."
+    }
+  ],
+  "supported_interpretation": "Phase 3C14 is an execution-level stability control for AWGN with a time-varying scalar gain, matched to the Phase 3C13 test design.",
+  "prohibited_interpretations": [
+    "absolute OAI-to-NEMO RSRP equivalence",
+    "physical propagation-loss inference",
+    "multipath or Doppler realism",
+    "UPV distribution support before the control passes",
+    "ABC posterior inference"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c14_awgn_control_reservation_gate",
+  "recorded_at": "2026-08-27T14:58:50+02:00",
+  "decision": "reservation_required_for_build_and_five_execution_control",
+  "reservation_should_be_requested_now": true,
+  "notice_lead_time_minutes": 30,
+  "first_powder_dependent_action_not_before": "2026-08-27T15:28:50+02:00",
+  "authorized_scope": [
+    "build the uniquely tagged Phase 3C14 UE telemetry image from the pinned profile and OAI revisions",
+    "record the image ID, revision label and generated configuration checksums",
+    "run the five frozen AWGN scalar executions",
+    "restore the original UE and verify rollback",
+    "copy and checksum the raw output bundle"
+  ],
+  "remote_profile_state": {
+    "remote": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "refs/heads/feature/rfsim-rsrp-calibration",
+    "required_revision": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+    "observed_revision": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+    "required_revision_available": true,
+    "verified_at": "2026-08-27T14:45:00+02:00"
+  },
+  "required_profile": {
+    "profile": "oai-5g-ric-v2",
+    "refspec": "refs/heads/feature/rfsim-rsrp-calibration",
+    "profile_revision_required_in_checkout": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+    "number_of_gnbs": 1,
+    "ues_per_cell": 1,
+    "core_hardware": "d430",
+    "cell_hardware": "d740",
+    "rfsim_channel_family": "AWGN",
+    "tdl_rms_delay_spread_ns": 30,
+    "initial_per_ue_layout": "uniform"
+  },
+  "recommended_reservation_duration_hours": 4,
+  "minimum_reservation_duration_hours": 3,
+  "execution_identity": {
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "profile_revision": "90bfa2f470ba0f796123ba363bd27b4988a4518e",
+    "runner_sha256": "01eb1944b6bdc5c88373612b4590b37343a93f1b76bc894ad916d60f45d6970b",
+    "debug_image_tag": "oai-nr-ue-phase3c14-awgn:70508eb",
+    "debug_image_id": "record_after_build",
+    "generated_compose_sha256": "record_after_reservation_startup",
+    "generated_channel_config_sha256": "record_after_reservation_startup",
+    "generated_ue_config_sha256": "record_after_reservation_startup"
+  },
+  "stopping_rules": [
+    "stop if the profile, OAI, runner, image label or generated configuration identity does not match",
+    "stop if the active downlink channel is not AWGN with one tap, length one and unit energy",
+    "stop on attachment loss, a critical PBCH/PUSCH failure marker, a UE restart, a gNB restart or unhealthy gNB state",
+    "always restore the original UE image before releasing the reservation"
+  ],
+  "post_execution_gate": "Do not begin UPV distribution-support analysis unless all five execution units pass the frozen evaluator.",
+  "abc_authorized": false
+}
