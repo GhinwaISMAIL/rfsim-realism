@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3c14_awgn_execution_control_result",
+  "recorded_at": "2026-08-27T15:59:51+02:00",
+  "decision": "awgn_execution_control_accepted",
+  "revisions": {
+    "protocol_freeze": "d66fe2ce77680bc1c756effebebf7d0d4d235408a",
+    "reservation_gate": "a0cd4a65a3e2f3c7c07e49d3c3beeba42b7ce2db",
+    "preflight_correction": "565080a2278718da3add609c53354b79d35c9ed0",
+    "profile": "cf27748ee6c3592cb4ee1581ac47bc50e52739ef",
+    "oai": "70508ebaf52f2aae420566d380c6537f2efb9f0c"
+  },
+  "reservation": {
+    "experiment": "ghinwa-313975",
+    "profile": "oai-5g-ric-v2",
+    "core_node": "pc836.emulab.net",
+    "core_hardware": "d430",
+    "cell_node": "pc04-meb.emulab.net",
+    "cell_hardware": "d740"
+  },
+  "runtime_identity": {
+    "debug_image": "oai-nr-ue-phase3c14-awgn:70508eb",
+    "debug_image_id": "sha256:33e635064c482b71004562694975152041c7ea4ccfbbeebdb141d3675730ffae",
+    "runner_sha256": "608009e9aeab7eedd4c4595452723db07d8950c57fbc2cc2c82c2e743fd9212f",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e",
+    "channel_family": "AWGN",
+    "channel_model_name": "rfsimu_channel_enB0",
+    "channel_length": 1,
+    "nb_taps": 1
+  },
+  "raw_bundle": {
+    "remote_path": "/local/logs/phase3c14/phase3c14-awgn-control-20260827T134813Z",
+    "local_path": "data/model_runs/upv_phase3c14_awgn_control_v1",
+    "tracking_policy": "raw and generated outputs are gitignored; checksums are committed",
+    "remote_to_local_checksum_match": true,
+    "files": {
+      "awgn-1-attachment.json": "817fe9e1d70f7047c2da467b2b49054aec419d6fbb32e20eb83a898df2e90149",
+      "awgn-1-control.json": "95673d5cf698c1f07af2cd086a76d2fc9f24f80ac20e7ff98d511bf23a6e691f",
+      "awgn-1-gnb.log": "bbcc8b7050f5551455ac67a856223b07ba4a514ffc10d5655b7a0c88f7b5ad74",
+      "awgn-1-telemetry.csv": "7451cebd26e877448da95069b4da030f136e0f21ec7399602f08921bf0bbe022",
+      "awgn-1-ue.log": "ad8852ee1a2ec23cd70c7e8a6e261e5cca26925c7f94e8a648ab98d143be6a70",
+      "awgn-2-attachment.json": "d2102d58bd95dacf283791c95e2e66c218dd635acb90a714fec472c61f980ca0",
+      "awgn-2-control.json": "f9b8bed381bd8dabfeb6ee34d9322bb19af87fd27e9b574c3d26e7f69a24826a",
+      "awgn-2-gnb.log": "3764a116c1d13f0ac52db74093872310692bbcd8a807330323ad074b3f21372a",
+      "awgn-2-telemetry.csv": "42522765ec061bc2ce2a0c5b8cfe6fa51cc59741a254ee89c5f2eeea3a1ff0d2",
+      "awgn-2-ue.log": "e5ab69749c0c90feb0facd8827aa05d3fab62c674a8f1262469caba914e8f426",
+      "awgn-3-attachment.json": "0d7850a7445320c93a322d3ad1b36fd1c7e129c1b09b3f0f4cdd83d73f929124",
+      "awgn-3-control.json": "c57f8f7415a2c35d3baf9bdfed7d7398080111d5037bce03a2eced8524162742",
+      "awgn-3-gnb.log": "b42d371a46e2574160250e7e9497715f1dd75672739559e2fe741eba88faa215",
+      "awgn-3-telemetry.csv": "0f9c358ced0755fa866a63c9bf809e60bcbb759749570c074440df4090001c26",
+      "awgn-3-ue.log": "3627c0f1857801f0ee1cafdf3411a89b8320b5f4907b1879742e156b510ceae2",
+      "awgn-4-attachment.json": "a8ef956c6dae1670406e0689ba340cc223ff81dd0f71fe5d2880bf060c757944",
+      "awgn-4-control.json": "1300c423d8553a3f616f274495feed96a2a3fd438a8f2a267f6e17bc50071c83",
+      "awgn-4-gnb.log": "379738c7dbbc250f8907b950e7d4e0fccea39e3846c533116b1acb6574428c3f",
+      "awgn-4-telemetry.csv": "569a271383643d38a40f2a5dce37b15abc33959ca39220fddf91459bfa07e5e1",
+      "awgn-4-ue.log": "5056ad49ba1b89789af40c0ed828b116499a312a54c1b66878f2ede52b48a936",
+      "awgn-5-attachment.json": "913bebcb6e528ad6d67df52f5c67fddcfea2d95e5e3eb74894c54712097e7d6e",
+      "awgn-5-control.json": "b38766f5abd36ba212638e7f31d853df0c5055a63578da2b93c70caadd6913b1",
+      "awgn-5-gnb.log": "a1d9a999a13627c008cbec9e05916f8062bc4ca1c689b252de4b76f957d22abf",
+      "awgn-5-telemetry.csv": "1a13a4fe3ee09f0379504879e3d011050da8a706af899de70548589756c114d5",
+      "awgn-5-ue.log": "4ddbcb087ec95cac1d5013c96abc25d1b2199049f0ccf0325f66cc16a55782bd",
+      "awgn_scalar_telemetry.csv": "46af700883d4d596b6987025493c48ad9fd172232df320a17c36506532ced362",
+      "execution_state.json": "56bb78ef5a5f9f8d542eddc1e0d736e346088756dfaab4da5b83ab7bb4c64424",
+      "awgn_control_evaluation_amended.json": "e4e550599c43182cd0650e9c6dbabb07cd6c6dd34766aac4ca17b11f8a12e70d"
+    }
+  },
+  "execution": {
+    "completed": true,
+    "replays_completed": 5,
+    "rng_seeds": [32001, 32002, 32003, 32004, 32005],
+    "matched_rows_per_replay": 50,
+    "continuous_attachment_all_replays": true,
+    "critical_failure_count_all_replays": 0,
+    "ue_restart_count_all_replays": 0,
+    "gnb_restart_count": 0,
+    "common_tap_fingerprint_count": 1,
+    "tap_fingerprint": "14bd144574d32d9e"
+  },
+  "rollback": {
+    "passed": true,
+    "restored_image": "ghinwa555/oai-nr-ue-chan:v4",
+    "restored_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "ue_attached_address": "12.1.1.2/24",
+    "gnb_healthy": true,
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0
+  },
+  "evaluation": {
+    "frozen_config_sha256": "1c20a08e9836d47400e0f09f43564f0919bc708f11bec009eed923014ec8a95c",
+    "identity_amendment_sha256": "8cd853983ce203ec0d6061acc58cb54a068528af026342decb205e29b98587b0",
+    "evaluator_sha256": "ca6b19f4c30ceae06b7ff60702715f37f5f1ba9bd09a515030edadf1d053a71e",
+    "all_runtime_identity_gates_pass": true,
+    "all_individual_replays_pass": true,
+    "float_rsrp_transfer_slope_range": [1.0014379999999998, 1.0016357857142866],
+    "float_rsrp_transfer_r_squared_range": [0.999999946760373, 0.9999999970319966],
+    "float_rsrp_delta_max_abs_error_db": 0.006582999999999117,
+    "integer_rsrp_delta_max_abs_error_db": 0.0,
+    "repeated_level_hysteresis_max_abs_db": 0.0006440000000011992,
+    "baseline_rsrp_range_db": 0.00026849999999001284,
+    "baseline_rsrp_range_limit_db": 3.0,
+    "baseline_rsrp_range_gate_pass": true,
+    "baseline_sinr_range_db": 3.2999989999999997,
+    "baseline_sinr_range_limit_db": 6.0,
+    "baseline_sinr_range_gate_pass": true,
+    "control_gate_pass": true,
+    "decision_code": "awgn_execution_control_accepted",
+    "next_action": "proceed_to_relative_RSRP_and_SINR_distribution_support_analysis"
+  },
+  "static_tdlb_comparison": {
+    "awgn_baseline_rsrp_range_db": 0.00026849999999001284,
+    "tdlb_baseline_rsrp_range_db": 9.885835500000006,
+    "awgn_to_tdlb_baseline_rsrp_range_ratio": 0.00002716007159840083,
+    "awgn_baseline_sinr_range_db": 3.2999989999999997,
+    "tdlb_baseline_sinr_range_db": 3.9000020000000006,
+    "awgn_to_tdlb_baseline_sinr_range_ratio": 0.8461531558188943,
+    "descriptive_only": true
+  },
+  "interpretation": {
+    "supported": [
+      "AWGN transfers the commanded scalar gain to unquantized and integer RSRP with approximately unit slope.",
+      "The five clean UE executions remained attached and operational under the frozen gain envelope.",
+      "AWGN satisfies the frozen execution-level RSRP and SINR stability gates and is accepted as the primary control channel."
+    ],
+    "working_model": "Use AWGN with time-varying scalar gain as the primary model and retain static TDL-B only for sensitivity analysis.",
+    "not_supported": [
+      "absolute OAI-to-NEMO RSRP equivalence",
+      "multipath or Doppler realism",
+      "MCS or BLER realism",
+      "UPV distribution support",
+      "physical propagation-loss inference",
+      "ABC posterior inference"
+    ]
+  },
+  "next_gate": {
+    "additional_reservation_needed_now": false,
+    "powder_work_complete_for_this_control": true,
+    "abc_authorized": false,
+    "next_action": "run the offline relative-RSRP and SINR distribution-support analysis"
+  }
+}
