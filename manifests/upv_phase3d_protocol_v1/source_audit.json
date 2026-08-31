@@ -1,0 +1,11 @@
+{
+  "archive_checksum_verified": true,
+  "development_member_checksums_verified": true,
+  "development_member_payloads_opened": 5,
+  "final_member_payload_opened": false,
+  "final_member_presence_verified_from_zip_directory": true,
+  "phase3c15_prerequisite_verified": true,
+  "prior_global_inspection_disclosed": true,
+  "schema_version": 1,
+  "stage": "phase_3d_radio_process_source_audit"
+}

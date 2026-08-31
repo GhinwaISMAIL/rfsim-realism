@@ -1,0 +1,63 @@
+{
+  "abc_authorized": false,
+  "development_sessions": 5,
+  "execution_authorized": false,
+  "files": {
+    "cli": {
+      "path": "src/rfsim_realism/cli.py",
+      "sha256": "4c8ba8d5688bc128c96574ade5ebeb635d1339b8c6c7bc930d5a913dc38e5a78"
+    },
+    "config": {
+      "path": "configs/upv_phase3d_radio_process_v1.yaml",
+      "sha256": "d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7"
+    },
+    "evaluator": {
+      "path": "src/rfsim_realism/upv_phase3d.py",
+      "sha256": "86850537f92db645baa2febfc6f3472fc89bfd49e787c61475f2ce062ff4e702"
+    },
+    "makefile": {
+      "path": "Makefile",
+      "sha256": "cd33c7d238bf283b83e8cbc3196c23d2d36fa904c4c1df4a3611d2d24c819e68"
+    },
+    "protocol_report": {
+      "path": "reports/UPV_PHASE3D_RADIO_PROCESS_PROTOCOL.md",
+      "sha256": "b563b5bdd819a23b06bf3f26472855f21ad94ef0fe5b2d4048295b9d919fdf10"
+    },
+    "tests": {
+      "path": "tests/test_upv_phase3d.py",
+      "sha256": "864aa930c52a375c6e8c04b8f7bf2f33338a90bfd733d2ad5b8dcb51eab3bfa8"
+    }
+  },
+  "final_evaluation_authorized": false,
+  "final_evaluation_payload_opened": false,
+  "phase3c15_result": {
+    "path": "/Users/ghinwaismail/Desktop/rfsim-realism/manifests/upv_phase3c15_offline_support_v1/analysis_result.json",
+    "required_decision": "gain_only_rejected_noise_control_required",
+    "sha256": "7c1d274a435842920aa485dfadfc40d895ce0163a3b1cf49049aa9782e0341b5"
+  },
+  "protocol_revision": "1.0",
+  "repository": {
+    "revision": "589cdadb4de9c0450fbf02afd32d21f1c1e7469f",
+    "tracked_worktree_dirty": false
+  },
+  "research_question": "Can a stochastic radio-condition model learned from one-cell measurements, when translated into RFsim scalar-gain and effective-noise controls, reproduce predefined marginal, joint, and temporal properties of held-out relative RSRP and SINR in OAI?",
+  "reservation": {
+    "gate_state": "closed_for_offline_development",
+    "next_possible_request_requires": [
+      "selected_offline_process_passes_development_gate",
+      "frozen_two_dimensional_gain_noise_response_design",
+      "executable_attachment_and_failure_rules",
+      "bounded_control_ranges",
+      "independent_execution_repetitions",
+      "rollback_plan"
+    ],
+    "preparation_lead_time_minutes": 30,
+    "request_now": false
+  },
+  "schema_version": 1,
+  "source_archive": {
+    "path": "/Users/ghinwaismail/Desktop/rfsim-realism/data/raw/upv_remote_driving_n40_v1.zip",
+    "sha256": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753"
+  },
+  "stage": "phase_3d_radio_process_protocol_freeze"
+}

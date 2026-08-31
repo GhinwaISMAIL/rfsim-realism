@@ -1,0 +1,13 @@
+{
+  "access_rule": "a_separate_post_freeze_command_and_recorded_authorization_are_required",
+  "archive_member_crc32": "0x467c39b1",
+  "archive_member_size_bytes": 1399472,
+  "payload_opened_by_development_analysis": false,
+  "payload_opened_by_freeze": false,
+  "prior_inspection_disclosure": "Phase 1 parsed every source file to produce inventory, completeness, GPS, and global-range diagnostics. This session is untouched by Phase 3D model fitting, selection, threshold tuning, and development evaluation, but it is not represented as never previously parsed.",
+  "schema_version": 1,
+  "source_path": "Test_6/Test_6_ASUS.csv",
+  "source_sha256_from_frozen_phase1_inventory": "88a971aa2c3169862cfb788a65fc5206f8ee94a410b0c2e964a0dbfa3149c1dd",
+  "stage": "phase_3d_final_evaluation_access_lock",
+  "status": "locked_not_opened_by_phase3d_development_analysis"
+}
