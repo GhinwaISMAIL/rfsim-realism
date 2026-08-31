@@ -51,9 +51,13 @@ UPV_PHASE3C_DECISION ?= manifests/upv_phase3b_support_v1/phase3b_decision.json
 UPV_PHASE3C_GATE ?= manifests/upv_phase3b_support_v1/reservation_gate_v3.json
 UPV_PHASE3C_OAI_SOURCE ?= /private/tmp/oai-phase3a-source
 UPV_PHASE3C_OUTPUT ?= manifests/upv_phase3c0_protocol_v1
+UPV_PHASE3D_CONFIG ?= configs/upv_phase3d_radio_process_v1.yaml
+UPV_PHASE3D_PHASE3C15_RESULT ?= manifests/upv_phase3c15_offline_support_v1/analysis_result.json
+UPV_PHASE3D_PROTOCOL ?= manifests/upv_phase3d_protocol_v1
+UPV_PHASE3D_OUTPUT ?= data/model_runs/upv_phase3d_radio_process_v1
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan upv-phase3b upv-phase3c-plan test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan upv-phase3b upv-phase3c-plan upv-phase3d-freeze upv-phase3d test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -176,6 +180,21 @@ upv-phase3c-plan:
 		--oai-source $(UPV_PHASE3C_OAI_SOURCE) \
 		--config $(UPV_PHASE3C_CONFIG) \
 		--output $(UPV_PHASE3C_OUTPUT)
+
+upv-phase3d-freeze:
+	$(UV) run --locked rfsim-realism freeze-upv-phase3d-radio-process \
+		--archive $(UPV_ARCHIVE) \
+		--phase3c15-result $(UPV_PHASE3D_PHASE3C15_RESULT) \
+		--config $(UPV_PHASE3D_CONFIG) \
+		--output $(UPV_PHASE3D_PROTOCOL)
+
+upv-phase3d:
+	$(UV) run --locked rfsim-realism analyze-upv-phase3d-radio-process \
+		--archive $(UPV_ARCHIVE) \
+		--phase3c15-result $(UPV_PHASE3D_PHASE3C15_RESULT) \
+		--protocol-dir $(UPV_PHASE3D_PROTOCOL) \
+		--config $(UPV_PHASE3D_CONFIG) \
+		--output $(UPV_PHASE3D_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q

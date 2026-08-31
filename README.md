@@ -145,6 +145,25 @@ transport, and the temporal validity of any CIR generator is a separate gate.
 POWDER remains unnecessary until deterministic replay, temporal validation,
 and the attachment/PBCH/PUSCH parser all pass offline.
 
+Phase 3D replaces the former ABC/path-loss objective with a narrower
+measurement-informed radio-condition process. Corrected ASUS Tests 1 through 5
+form a leave-one-session-out development corpus. Test 6 ASUS is locked out of
+all fitting, threshold selection, and development evaluation. The protocol
+compares one-state and two-state Gaussian, Student-t, and Gamma-compatible
+joint models with a synchronized moving-block bootstrap baseline:
+
+```bash
+make upv-phase3d-freeze
+make upv-phase3d
+```
+
+The freeze command verifies the source archive and development members without
+opening the final-evaluation payload. The analysis fits route conditioning
+inside each fold, prohibits interpolation and spatial extrapolation, evaluates
+joint MMD, temporal ACF/increments, and held-out predictive scores, and keeps
+the POWDER gate closed. The complete claim boundary and numerical decision
+rules are in `reports/UPV_PHASE3D_RADIO_PROCESS_PROTOCOL.md`.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

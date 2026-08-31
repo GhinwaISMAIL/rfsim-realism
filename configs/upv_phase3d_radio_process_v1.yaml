@@ -1,0 +1,205 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3d_radio_process_v1
+stage: phase_3d_offline_radio_process_feasibility
+research_question: >-
+  Can a stochastic radio-condition model learned from one-cell measurements,
+  when translated into RFsim scalar-gain and effective-noise controls,
+  reproduce predefined marginal, joint, and temporal properties of held-out
+  relative RSRP and SINR in OAI?
+execution_authorized: false
+abc_authorized: false
+final_evaluation_authorized: false
+
+source:
+  archive_name: upv_remote_driving_n40_v1.zip
+  expected_sha256: a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753
+  phase3c15_result: manifests/upv_phase3c15_offline_support_v1/analysis_result.json
+  required_phase3c15_decision: gain_only_rejected_noise_control_required
+  serving_pci: 41
+  minimum_serving_pci_fraction: 0.99
+
+development:
+  device: ASUS
+  cross_validation: leave_one_complete_session_out
+  sessions:
+    - source_path: Test_2/Test_2_ASUS.csv
+      source_sha256: 2bfdb1f3f805990ee6a170bf2b24f5c7968e1f88e94fb88774b712988a5feb61
+      corrected_test_id: 1
+      trim_last_seconds: 0
+    - source_path: Test_1/Test_1_Asus.csv
+      source_sha256: f8d563fea1df3e1bebbbbe23abfa170c7a4f02d8a876f5fc38b90badd5dc0b94
+      corrected_test_id: 2
+      trim_last_seconds: 60
+    - source_path: Test_3/Test_3_ASUS.csv
+      source_sha256: d1ad2fc46d99b31d8438717ccc36d8859c47a426cd97dd686e62a268bcf7328d
+      corrected_test_id: 3
+      trim_last_seconds: 0
+    - source_path: Test_4/Test_4_ASUS.csv
+      source_sha256: 30ed11d9f468e9ed843c3fc71fceb53e304e736e936caf17893c8828cf89e071
+      corrected_test_id: 4
+      trim_last_seconds: 0
+    - source_path: Test_5/Test 5 ASUS.csv
+      source_sha256: 4c0523675f7c4302947dfabf175ce70fef80066eb7c45615cd821d5f1fced16d
+      corrected_test_id: 5
+      trim_last_seconds: 0
+
+final_evaluation:
+  status: locked_not_opened_by_phase3d_development_analysis
+  source_path: Test_6/Test_6_ASUS.csv
+  source_sha256: 88a971aa2c3169862cfb788a65fc5206f8ee94a410b0c2e964a0dbfa3149c1dd
+  corrected_test_id: 6
+  device: ASUS
+  prior_inspection_disclosure: >-
+    Phase 1 parsed every source file to produce inventory, completeness, GPS,
+    and global-range diagnostics. This session is untouched by Phase 3D model
+    fitting, selection, threshold tuning, and development evaluation, but it
+    is not represented as never previously parsed.
+  access_rule: a_separate_post_freeze_command_and_recorded_authorization_are_required
+
+external_device_transfer:
+  status: excluded_from_phase3d_development_and_final_model_selection
+  device: S25
+  interpretation: optional_post_final_device_transfer_analysis
+
+preprocessing:
+  temporal_aggregation_seconds: 1.0
+  aggregation_statistic: median
+  interpolation: prohibited
+  maximum_gap_seconds: 2.0
+  long_gap_rule: split_sequence_and_never_bridge
+  minimum_sequence_rows: 20
+  relative_rsrp_definition: subtract_complete_session_median_after_aggregation
+  sinr_definition: empirical_device_conditioned_db_without_offset
+  paired_missing_value_rule: drop_row_if_either_relative_rsrp_or_sinr_is_missing
+  preserve_session_boundaries: true
+  preserve_synchronized_pairs: true
+  spatial_conditioning:
+    coordinate: route_fraction
+    bin_width: 0.05
+    estimator: median_of_per_session_bin_medians
+    minimum_training_sessions_per_bin: 3
+    fitted_inside_each_cross_validation_fold: true
+    unsupported_position_rule: exclude_and_report
+    interpolation_between_spatial_bins: prohibited
+    extrapolation: prohibited
+
+models:
+  feature_order: [relative_RSRP_dB, SINR_dB]
+  latent_state_labels: statistical_only
+  label_alignment: increasing_state_expected_relative_RSRP
+  candidates:
+    - id: gaussian_1state
+      states: 1
+      emission: multivariate_gaussian_db
+    - id: gaussian_2state
+      states: 2
+      emission: multivariate_gaussian_db
+    - id: student_t_1state
+      states: 1
+      emission: multivariate_student_t_db
+      degrees_of_freedom: 5.0
+    - id: student_t_2state
+      states: 2
+      emission: multivariate_student_t_db
+      degrees_of_freedom: 5.0
+    - id: gamma_gaussian_1state
+      states: 1
+      emission: gamma_relative_power_gaussian_sinr
+    - id: gamma_gaussian_2state
+      states: 2
+      emission: gamma_relative_power_gaussian_sinr
+  hmm:
+    initializations: 20
+    maximum_iterations: 250
+    relative_log_likelihood_tolerance: 0.00001
+    covariance_regularization: 0.0001
+    transition_probability_floor: 0.000001
+    minimum_state_occupancy: 0.05
+    minimum_expected_dwell_rows: 1.25
+    reject_nonfinite_fit: true
+
+block_bootstrap:
+  id: paired_moving_block_bootstrap
+  source: fold_training_residual_sequences_only
+  block_length_rows: 5
+  circular_within_session: true
+  paired_features: true
+  preserve_session_boundaries_in_source_blocks: true
+
+evaluation:
+  generation_repetitions: 100
+  seed: 20260831
+  joint_distribution:
+    statistic: biased_rbf_mmd_squared_v_statistic
+    scaling: training_only_session_balanced_median_and_normalized_mad
+    bandwidth: training_only_median_heuristic
+    maximum_rows_per_trace: 240
+  temporal:
+    autocorrelation_lags_seconds: [1, 2, 3, 5, 10]
+    increment_lag_seconds: 1
+    statistic: mean_of_feature_acf_rmse_and_scaled_increment_wasserstein
+  predictive_score:
+    statistic: held_out_log_likelihood_nats_per_supported_row
+    comparison: two_state_against_same_emission_one_state
+  fold_outputs:
+    - supported_position_fraction
+    - joint_mmd_squared
+    - temporal_error
+    - predictive_log_score_per_row
+    - state_occupancy
+    - transition_matrix
+    - expected_dwell_rows
+
+decision_rules:
+  required_development_folds: 5
+  maximum_unsupported_position_fraction_per_fold: 0.05
+  hmm_better_than_bootstrap:
+    minimum_median_joint_mmd_relative_improvement: 0.10
+    minimum_median_temporal_relative_improvement: 0.10
+    minimum_joint_metric_fold_wins: 4
+    minimum_temporal_metric_fold_wins: 4
+    maximum_median_primary_metric_degradation: 0.0
+  two_state_predictive_requirement:
+    minimum_median_log_score_improvement_nats_per_row_over_matching_one_state: 0.01
+  state_stability:
+    minimum_occupancy_in_every_fold: 0.05
+    minimum_expected_dwell_rows_in_every_fold: 1.25
+    deterministic_label_alignment_required: true
+  block_bootstrap_support:
+    reference: fold_training_real_session_pairwise_90th_percentile
+    minimum_joint_supported_folds: 4
+    minimum_temporal_supported_folds: 4
+  outcomes:
+    stable_hmm_advantage:
+      code: joint_temporal_model_supported
+      next_action: freeze_selected_process_then_design_gain_noise_response_experiment
+    bootstrap_supported_without_hmm_advantage:
+      code: paired_block_replay_preferred
+      next_action: freeze_block_replay_then_design_gain_noise_response_experiment
+    no_stable_process:
+      code: radio_process_model_revision_required
+      next_action: revise_conditioning_targets_or_dataset_without_requesting_powder
+
+claim_limits:
+  physical_channel_reconstruction: prohibited
+  multipath_or_doppler_reconstruction: prohibited
+  causal_interference_state_interpretation: prohibited
+  absolute_rsrp_calibration: prohibited
+  physical_ploss_inference: prohibited
+  absolute_noise_power_calibration: prohibited
+  attachment_distribution_validation: prohibited
+  final_device_or_population_generalization_before_final_evaluation: prohibited
+  abc_primary_pipeline: prohibited
+
+reservation:
+  request_now: false
+  gate_state: closed_for_offline_development
+  preparation_lead_time_minutes: 30
+  next_possible_request_requires:
+    - selected_offline_process_passes_development_gate
+    - frozen_two_dimensional_gain_noise_response_design
+    - executable_attachment_and_failure_rules
+    - bounded_control_ranges
+    - independent_execution_repetitions
+    - rollback_plan
