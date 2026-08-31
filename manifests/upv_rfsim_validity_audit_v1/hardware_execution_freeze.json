@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "stage": "corrected_rfsim_noise_hardware_execution_freeze",
+  "recorded_at": "2026-08-31T12:19:34+02:00",
+  "reservation": {
+    "experiment": "ghinwa-314205",
+    "cell_node": "pc06-fort.emulab.net",
+    "core_node": "pc793.emulab.net",
+    "profile": "oai-5g-ric-v2",
+    "channel_family": "AWGN",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1
+  },
+  "revision_identity": {
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "image_build_profile_revision": "21d0713c7fa56656086ef2eb3313651e2271a3f8",
+    "execution_profile_revision": "cba9bbd2e6e4dd18fbdc03754a441cc3d954d792",
+    "runner_only_fast_forward_after_image_build": true,
+    "runner_sha256": "96d04937edb3a0aab0c1ee116494093278eea6488f90092371f354bfa741bc85"
+  },
+  "configuration_identity": {
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e",
+    "derived_attach_minus60_config_sha256": "1987b95089fe3bd8cf21e3ff053d6ceb01088c8bfd625caf6b2011426951aabc",
+    "derived_config_rule": "replace every exact generated noise_power_dB = -30; value with -60; and change no other text"
+  },
+  "image_identity": {
+    "corrected_tag": "oai-nr-ue-rfsim-noise-v1:70508eb-21d0713",
+    "corrected_image_id": "sha256:1a1c932025011b60760b29c3d181bfa593bb00e91b48a82ea5dceec2fa6e3e9f",
+    "corrected_image_created": "2026-08-31T03:39:09.372532624-06:00",
+    "corrected_image_size_bytes": 176036052,
+    "rollback_tag": "ghinwa555/oai-nr-ue-chan:v4",
+    "rollback_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f",
+    "rollback_image_created": "2026-08-06T07:56:17.583645953-06:00",
+    "rollback_image_size_bytes": 176030963
+  },
+  "execution_plan": [
+    {"repetition": 1, "position": 1, "noise_power_db": -60.0, "oai_rng_seed": 41001},
+    {"repetition": 1, "position": 2, "noise_power_db": -30.0, "oai_rng_seed": 41002},
+    {"repetition": 1, "position": 3, "noise_power_db": -20.0, "oai_rng_seed": 41003},
+    {"repetition": 1, "position": 4, "noise_power_db": -40.0, "oai_rng_seed": 41004},
+    {"repetition": 1, "position": 5, "noise_power_db": -25.0, "oai_rng_seed": 41005},
+    {"repetition": 2, "position": 1, "noise_power_db": -25.0, "oai_rng_seed": 41006},
+    {"repetition": 2, "position": 2, "noise_power_db": -60.0, "oai_rng_seed": 41007},
+    {"repetition": 2, "position": 3, "noise_power_db": -40.0, "oai_rng_seed": 41008},
+    {"repetition": 2, "position": 4, "noise_power_db": -20.0, "oai_rng_seed": 41009},
+    {"repetition": 2, "position": 5, "noise_power_db": -30.0, "oai_rng_seed": 41010},
+    {"repetition": 3, "position": 1, "noise_power_db": -20.0, "oai_rng_seed": 41011},
+    {"repetition": 3, "position": 2, "noise_power_db": -40.0, "oai_rng_seed": 41012},
+    {"repetition": 3, "position": 3, "noise_power_db": -25.0, "oai_rng_seed": 41013},
+    {"repetition": 3, "position": 4, "noise_power_db": -30.0, "oai_rng_seed": 41014},
+    {"repetition": 3, "position": 5, "noise_power_db": -60.0, "oai_rng_seed": 41015}
+  ],
+  "execution_command": [
+    "sudo",
+    "python3",
+    "/local/repository/bin/run-rfsim-noise-validation.py",
+    "--expected-debug-image-id",
+    "sha256:1a1c932025011b60760b29c3d181bfa593bb00e91b48a82ea5dceec2fa6e3e9f",
+    "--expected-profile-revision",
+    "cba9bbd2e6e4dd18fbdc03754a441cc3d954d792",
+    "--expected-runner-sha256",
+    "96d04937edb3a0aab0c1ee116494093278eea6488f90092371f354bfa741bc85",
+    "--expected-compose-sha256",
+    "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "--expected-channel-config-sha256",
+    "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "--expected-ue-config-sha256",
+    "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  ],
+  "authorization": {
+    "execute_frozen_15_run_validation": true,
+    "gain_replay": false,
+    "final_upv_test6_access": false,
+    "abc": false,
+    "cirdb": false,
+    "multi_ue": false
+  }
+}

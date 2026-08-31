@@ -83,6 +83,22 @@ def test_audit_manifest_checksums() -> None:
         assert hashlib.sha256((AUDIT / relative_path).read_bytes()).hexdigest() == expected
 
 
+def test_hardware_execution_freeze_matches_protocol() -> None:
+    protocol = json.loads((AUDIT / "corrected_noise_validation_protocol.json").read_text())
+    freeze = json.loads((AUDIT / "hardware_execution_freeze.json").read_text())
+    plan = freeze["execution_plan"]
+    expected = [
+        state
+        for repetition in protocol["design"]["state_order_by_repetition"]
+        for state in repetition
+    ]
+    assert [row["noise_power_db"] for row in plan] == expected
+    assert len({row["oai_rng_seed"] for row in plan}) == 15
+    assert freeze["image_identity"]["corrected_image_id"].startswith("sha256:")
+    assert freeze["authorization"]["execute_frozen_15_run_validation"] is True
+    assert freeze["authorization"]["final_upv_test6_access"] is False
+
+
 def test_audit_preserves_independent_results() -> None:
     audit = json.loads((AUDIT / "source_audit.json").read_text())
     assert audit["findings"]["noise_power_scaling"]["decision"] == "confirmed_in_pinned_source"
