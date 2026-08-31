@@ -26,6 +26,7 @@ from .upv_phase3d import analyze_phase3d_radio_process, write_phase3d_protocol_f
 from .upv_phase3e import analyze_phase3e_radio_process, write_phase3e_protocol_freeze
 from .upv_phase3f import analyze_phase3f_exchangeability
 from .upv_phase3g import prepare_phase3g_direct_trace
+from .upv_phase3g_diagnosis import diagnose_phase3g_boundary
 from .upv_phase3g_response import analyze_phase3g_bounded_response
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
@@ -272,6 +273,11 @@ def _parser() -> argparse.ArgumentParser:
     phase3g_response.add_argument("--direct-config", required=True)
     phase3g_response.add_argument("--execution-config", required=True)
     phase3g_response.add_argument("--output", required=True)
+
+    phase3g_diagnosis = commands.add_parser("diagnose-upv-phase3g-boundary")
+    phase3g_diagnosis.add_argument("--response-dir", required=True)
+    phase3g_diagnosis.add_argument("--direct-trace", required=True)
+    phase3g_diagnosis.add_argument("--output", required=True)
     return parser
 
 
@@ -598,6 +604,14 @@ def main() -> None:
             archive_path=args.archive,
             direct_config_path=args.direct_config,
             execution_config_path=args.execution_config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "diagnose-upv-phase3g-boundary":
+        result = diagnose_phase3g_boundary(
+            response_dir=args.response_dir,
+            direct_trace_path=args.direct_trace,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
