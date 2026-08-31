@@ -10,9 +10,9 @@
   "profile": {
     "repository_url": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
     "branch": "feature/rfsim-rsrp-calibration",
-    "revision": "e8838de48c31179bf4376d845d4d47731020d2af",
+    "revision": "3e37f74ed0fc0a75ff22bf737fe9d115cdb53383",
     "published": true,
-    "runner_sha256": "a909760f1c2e3c1b1304716bf3432f80508ebde38001b69b44fa0e04f3a299df",
+    "runner_sha256": "9563e8368997f470a82868d05762933014bb811da493125c3b001df5109a2f03",
     "execution_plan_sha256": "8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f"
   },
   "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
@@ -20,6 +20,7 @@
   "planned_ue_recreations": 3,
   "planned_segments": 27,
   "planned_outer_state_observations": 21,
+  "post_attachment_stabilization_seconds": 5,
   "independent_statistical_unit": "complete_staircase_after_clean_ue_recreation",
   "runtime_preflight_required": true,
   "execution_authorization": {

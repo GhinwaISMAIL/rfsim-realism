@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3h_dynamic_staircase_attempt_1",
+  "decision_code": "exclude_complete_attempt_due_to_failure_window_boundary_defect",
+  "source_output_directory": "/local/logs/upv-phase3h-dynamic-staircase-v1/phase3h-dynamic-staircase-20260831T221127Z",
+  "profile_revision": "e8838de48c31179bf4376d845d4d47731020d2af",
+  "runner_sha256": "a909760f1c2e3c1b1304716bf3432f80508ebde38001b69b44fa0e04f3a299df",
+  "execution_plan_sha256": "8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f",
+  "sequence": "s1-r1-seed45001",
+  "measurement_completion": {
+    "segments_collected": 9,
+    "paired_rows_per_segment": 10,
+    "ping_successes": 81,
+    "ping_attempts": 81,
+    "continuous_attachment": true,
+    "anchor_start_median_rsrp_dbm": -106.0,
+    "anchor_end_median_rsrp_dbm": -106.0,
+    "anchor_start_median_sinr_db": 15.515,
+    "anchor_end_median_sinr_db": 15.486
+  },
+  "trigger": {
+    "rlc_max_retx_count_in_observation_suffix": 2,
+    "unhandled_rlf_indication_count_in_observation_suffix": 2,
+    "ue_failure_count": 0,
+    "description": "A recovered RRC-setup retransmission burst crossed the log-prefix boundary while the recreated UE was completing RRC setup. The burst preceded the dynamic measurement states, but the original runner opened its failure window immediately after the first telemetry markers appeared."
+  },
+  "disposition": {
+    "included_in_phase3h_inference": false,
+    "included_in_three_sequence_gate": false,
+    "individual_states_reused": false,
+    "complete_attempt_rerun_allowed": true,
+    "reason": "The measurement design is unchanged. Runner revision 1.1 adds a fixed five-second continuous-attachment stabilization interval before opening the measurement failure window."
+  },
+  "rollback": {
+    "attempted": true,
+    "passed": true,
+    "original_ue_image_restored": true,
+    "attachment_restored": true,
+    "gnb_restart_count": 0
+  },
+  "claim_limits": {
+    "attempt_is_valid_replication": false,
+    "trace_replay_authorized": false,
+    "test6_accessed": false,
+    "abc_authorized": false
+  }
+}

@@ -9,6 +9,9 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/upv_phase3h_execution_v1.yaml"
 FREEZE = ROOT / "manifests/upv_phase3h_execution_v1/hardware_freeze.json"
+EXCLUDED_ATTEMPT = (
+    ROOT / "manifests/upv_phase3h_attempt1_exclusion_v1/exclusion_decision.json"
+)
 
 
 def test_phase3h_execution_freeze_pins_protocol_profile_runner_and_plan() -> None:
@@ -60,6 +63,8 @@ def test_phase3h_execution_limits_hardware_work_to_three_staircases() -> None:
     assert freeze["planned_ue_recreations"] == 3
     assert freeze["planned_segments"] == 27
     assert freeze["independent_statistical_unit"].startswith("complete_staircase")
+    assert config["execution_scope"]["post_attachment_stabilization_seconds"] >= 5
+    assert freeze["post_attachment_stabilization_seconds"] >= 5
 
 
 def test_phase3h_execution_reservation_is_ready_with_lead_time() -> None:
@@ -78,3 +83,16 @@ def test_phase3h_execution_reservation_is_ready_with_lead_time() -> None:
 def test_phase3h_execution_freeze_checksum() -> None:
     checksums = json.loads((FREEZE.parent / "SHA256SUMS.json").read_text())
     assert hashlib.sha256(FREEZE.read_bytes()).hexdigest() == checksums[FREEZE.name]
+
+
+def test_phase3h_attempt1_is_immutable_and_excluded() -> None:
+    decision = json.loads(EXCLUDED_ATTEMPT.read_text())
+    checksums = json.loads((EXCLUDED_ATTEMPT.parent / "SHA256SUMS.json").read_text())
+    assert decision["disposition"]["included_in_phase3h_inference"] is False
+    assert decision["disposition"]["individual_states_reused"] is False
+    assert decision["measurement_completion"]["continuous_attachment"] is True
+    assert decision["measurement_completion"]["ping_successes"] == 81
+    assert hashlib.sha256(EXCLUDED_ATTEMPT.read_bytes()).hexdigest() == checksums[
+        EXCLUDED_ATTEMPT.name
+    ]
+    assert len(checksums) == 8
