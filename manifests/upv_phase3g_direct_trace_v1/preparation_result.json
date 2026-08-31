@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3g_direct_measured_trace_control_preparation",
+  "decision_code": "bounded_response_experiment_ready_for_runner_freeze",
+  "repository": {
+    "implementation_revision": "3b8f3946c74ea7ee96691cfdfc96b2ccb94b77e9",
+    "protocol_config_sha256": "deae9dd0991242c9ef585a6492d31014001bda1f600ca1549df36564b5a507b4"
+  },
+  "target_trace": {
+    "session_id": "corrected_test_1_ASUS",
+    "scenario": "clean_single_active_ue_radio_survey",
+    "rows": 305,
+    "duration_seconds": 305.0,
+    "interpolation_used": false,
+    "relative_rsrp_db": {
+      "minimum": -7.700000000000003,
+      "median": 0.0,
+      "maximum": 10.0
+    },
+    "sinr_db": {
+      "minimum": 9.149999999999999,
+      "median": 15.35,
+      "maximum": 25.799999999999997
+    }
+  },
+  "provisional_control_envelope": {
+    "status": "unvalidated_two_dimensional_engineering_hypothesis",
+    "gain_db": {
+      "minimum": -17.67378504273207,
+      "median": -9.985189289679134,
+      "maximum": 0.0
+    },
+    "noise_power_db": {
+      "minimum": -34.886207320431616,
+      "median": -25.411720364152767,
+      "maximum": -17.279390395968253
+    },
+    "direct_replay_authorized": false
+  },
+  "bounded_response_experiment": {
+    "channel_family": "AWGN",
+    "total_execution_units": 45,
+    "stage_counts": {
+      "gain_safety": 4,
+      "noise_safety": 2,
+      "factorial": 27,
+      "boundary": 12
+    },
+    "execution_unit": "clean_ue_container_recreation",
+    "execution_authorized": false,
+    "authorization_requirement": "freeze_and_publish_the_runner_and_profile_revision"
+  },
+  "generated_artifacts": {
+    "bounded_response_execution_plan.csv": "63b8d0e8880c1ccc418923d10e375f43f3c71c99b80ff75b0fedb57cbc7e21e7",
+    "control_envelope.json": "3c4a39e04aec43afb3f95033f6a6340528ba996315202269c92aebb3694ee66d",
+    "direct_test1_target_trace.csv": "ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e",
+    "response_protocol.json": "cdb380ce09d31790eaef6cfa49ede25278f9ba7af1eb2141e44f8a36eca84c33"
+  },
+  "authorizations": {
+    "direct_trace_replay": false,
+    "final_test6_access": false,
+    "abc": false,
+    "absolute_rsrp_calibration": false,
+    "cross_session_generalization": false
+  },
+  "reservation": {
+    "request_now": false,
+    "gate_state": "closed_pending_runner_and_profile_freeze",
+    "preparation_lead_time_minutes": 30,
+    "planned_shape": {
+      "cell_nodes_gnbs": 1,
+      "ues_per_cell": 1,
+      "channel_family": "AWGN",
+      "core_hardware": "d430",
+      "cell_hardware": "d740",
+      "recommended_duration_hours": 4
+    }
+  }
+}
