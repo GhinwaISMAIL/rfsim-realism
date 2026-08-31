@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3f_development_exchangeability_result",
+  "decision_code": "cross_session_exchangeability_not_established",
+  "exchangeable_folds": 3,
+  "required_exchangeable_folds": 4,
+  "oracle_supported_folds": 3,
+  "required_oracle_supported_folds": 4,
+  "fold_diagnosis": [
+    {
+      "session": "corrected_test_1_ASUS",
+      "real_to_real_joint_and_temporal_exchangeable": true,
+      "holdout_fitted_oracle_supported": true
+    },
+    {
+      "session": "corrected_test_2_ASUS",
+      "real_to_real_joint_and_temporal_exchangeable": false,
+      "failure": "joint_distribution",
+      "holdout_fitted_oracle_supported": false
+    },
+    {
+      "session": "corrected_test_3_ASUS",
+      "real_to_real_joint_and_temporal_exchangeable": true,
+      "holdout_fitted_oracle_supported": true
+    },
+    {
+      "session": "corrected_test_4_ASUS",
+      "real_to_real_joint_and_temporal_exchangeable": true,
+      "holdout_fitted_oracle_supported": true
+    },
+    {
+      "session": "corrected_test_5_ASUS",
+      "real_to_real_joint_and_temporal_exchangeable": false,
+      "failure": "temporal_structure",
+      "holdout_fitted_oracle_supported": false
+    }
+  ],
+  "interpretation": [
+    "The five development sessions cannot support the frozen cross-session stochastic-generalization claim.",
+    "Corrected Test 2 exhibits a joint-distribution shift relative to its training-session envelope.",
+    "Corrected Test 5 exhibits a temporal-structure shift relative to its training-session envelope.",
+    "Further global HMM or VAR tuning is not justified as the immediate next step.",
+    "A scenario-conditioned or direct measured-trace replay claim is the supported alternative."
+  ],
+  "next_action": "freeze_direct_corrected_test1_measured_trace_replay_and_bounded_control_validation",
+  "process_selection_authorized": false,
+  "final_evaluation": {
+    "payload_opened": false,
+    "authorized": false,
+    "source_path": "Test_6/Test_6_ASUS.csv"
+  },
+  "reservation": {
+    "request_now": false,
+    "gate_state": "closed_pending_direct_trace_control_protocol",
+    "notice_lead_time_minutes": 30
+  },
+  "output_sha256": {
+    "analysis_manifest.json": "47968b7851280b44e6a63d47dbc68aa90d9fd1424c0a9be2a7aa80c35ae9f931",
+    "development_input_quality.csv": "fd835abe9a3fe1cbb76b5a297a68daa5e5ee0f70bd2ecb8a194ce2b8059cd425",
+    "fold_exchangeability.csv": "e05f4bb325ba08dcc27159d1d994b6b2e3498d2babbba4d302c0c3f77fce1a46",
+    "phase3f_decision.json": "a92b462d2bd7812d8fa70120b95488b0db7743e3e056cd212eea04c4b01ea59b",
+    "real_holdout_training_pairs.csv": "8a624628de51ebc68c48af6d5876b1bab0a249ccb9bc1edb751b5317a1295220"
+  }
+}
