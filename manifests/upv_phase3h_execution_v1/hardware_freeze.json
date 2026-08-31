@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3h_dynamic_staircase_execution_freeze",
+  "decision_code": "dynamic_staircase_hardware_execution_conditionally_authorized",
+  "research_revision": "1f7f66640772df86a2df1448c2d3136183e2a063",
+  "protocol": {
+    "config_sha256": "bdc48fb3d54ea3ade7a977e0233ed19f0289b6ebd64d6dc30a7965a63f1a89c9",
+    "manifest_sha256": "be9c1d72e2abd9a62b079313edfce7bf984515da4af6c53e979359e88a5f029c"
+  },
+  "profile": {
+    "repository_url": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "feature/rfsim-rsrp-calibration",
+    "revision": "e8838de48c31179bf4376d845d4d47731020d2af",
+    "published": true,
+    "runner_sha256": "a909760f1c2e3c1b1304716bf3432f80508ebde38001b69b44fa0e04f3a299df",
+    "execution_plan_sha256": "8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f"
+  },
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "planned_execution_units": 3,
+  "planned_ue_recreations": 3,
+  "planned_segments": 27,
+  "planned_outer_state_observations": 21,
+  "independent_statistical_unit": "complete_staircase_after_clean_ue_recreation",
+  "runtime_preflight_required": true,
+  "execution_authorization": {
+    "dynamic_staircase_experiment": true,
+    "short_trace_replay": false,
+    "full_trace_replay": false,
+    "final_test6_access": false,
+    "abc": false
+  },
+  "reservation": {
+    "request_now": true,
+    "user_notified": true,
+    "preparation_lead_time_minutes": 30,
+    "profile": "oai-5g-ric-v2",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "cell_hardware": "d740",
+    "duration_hours": 3
+  },
+  "claim_limits": {
+    "cross_session_generalization": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "environmental_noise_inference": "prohibited",
+    "physical_channel_reconstruction": "prohibited",
+    "sample_level_independence": "prohibited"
+  }
+}
