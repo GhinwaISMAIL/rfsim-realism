@@ -1,0 +1,127 @@
+schema_version: 1
+protocol_revision: "1.0"
+stage: phase_3i_representative_short_trace_replay
+objective: validate_one_hz_dynamic_replay_of_a_representative_test1_segment
+execution_authorized: false
+full_trace_replay_authorized: false
+final_evaluation_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3h_decision_sha256: d0f08081e3c1cb6cd4313612d1032a49a4a8eff10c1d1e46ec487afb7ea2c12a
+  phase3g_execution_medians_sha256: c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f
+  phase3h_state_validation_sha256: 82aed42046194479a8fef362e007f79d1595dd822212a0329128fd9fab7a058f
+  direct_test1_trace_sha256: ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e
+  required_phase3h_decision: dynamic_staircase_translation_validation_passed
+
+target_trace:
+  session_id: corrected_test_1_ASUS
+  rows: 305
+  sampling_interval_seconds: 1.0
+  final_test6_access: false
+  relative_rsrp_definition: subtract_complete_session_median
+  absolute_rsrp_calibration: prohibited
+
+window_selection:
+  length_rows: 60
+  stride_rows: 1
+  require_one_contiguous_sequence: true
+  require_every_target_inside_validated_hull: true
+  quantiles: [0.10, 0.25, 0.50, 0.75, 0.90]
+  quantile_normalization: full_trace_q95_minus_q05_per_feature
+  score:
+    marginal_quantile_mean_absolute_weight: 1.0
+    rsrp_sinr_pearson_absolute_difference_weight: 0.5
+    rsrp_lag1_autocorrelation_absolute_difference_weight: 0.25
+    sinr_lag1_autocorrelation_absolute_difference_weight: 0.25
+  tie_break: earliest_start_row
+
+translator:
+  method: bounded_piecewise_affine_interpolation
+  triangulation: matplotlib_delaunay_in_scaled_output_space
+  support:
+    phase3g_stages: [factorial, boundary]
+    phase3g_state_summary: execution_level_mean
+    phase3g_relative_rsrp_anchor_control: [-10.0, -25.0]
+    phase3h_state_summary: mean_of_three_sequence_medians
+  output_space_scaling:
+    relative_rsrp_db: 1.0
+    sinr_db: 2.0
+  extrapolation: prohibited
+  outside_hull_rule: project_to_nearest_convex_hull_edge_and_flag_clipped
+  short_trace_maximum_clipped_fraction: 0.0
+  command_rounding_decimal_places: 9
+
+channel:
+  family: AWGN
+  attach_gain_db: 0.0
+  attach_noise_power_db: -60.0
+  anchor_gain_db: -10.0
+  anchor_noise_power_db: -25.0
+
+execution:
+  oai_rng_seed: 46001
+  post_attachment_stabilization_seconds: 5.0
+  anchor_start_settling_seconds: 5.0
+  anchor_end_settling_seconds: 5.0
+  anchor_usable_seconds: 10.0
+  command_interval_seconds: 1.0
+  command_start_alignment: next_integer_utc_second_plus_two_seconds
+  sample_assignment: utc_second_midpoint_must_follow_command_completion
+  ping_interval_commands: 10
+
+runtime_gates:
+  continuous_attachment: required
+  minimum_paired_trace_rows: 55
+  minimum_ping_success_fraction: 0.9
+  maximum_command_completion_lateness_seconds: 0.5
+  maximum_critical_radio_failures: 0
+  maximum_unintended_ue_restarts: 0
+  maximum_gnb_restart_count_change: 0
+  commanded_and_applied_controls_must_match: true
+  active_channel_family: AWGN
+  channel_length: 1
+  taps: 1
+  tap_energy: 1.0
+
+fidelity_gates:
+  maximum_relative_rsrp_mae_db: 1.5
+  maximum_sinr_mae_db: 3.0
+  minimum_relative_rsrp_pearson_correlation: 0.75
+  minimum_sinr_pearson_correlation: 0.5
+  maximum_anchor_start_end_relative_rsrp_drift_db: 0.25
+  maximum_anchor_start_end_sinr_drift_db: 1.0
+  primary_alignment: zero_lag_only
+  lag_search_for_gate_selection: prohibited
+  diagnostic_lags_seconds: [-3, -2, -1, 0, 1, 2, 3]
+
+decision_rules:
+  pass:
+    code: representative_short_trace_replay_passed
+    next_action: freeze_complete_test1_development_trace_replay
+  fail_runtime:
+    code: representative_short_trace_runtime_failed
+    next_action: stop_and_diagnose_command_timing_or_radio_operation
+  fail_fidelity:
+    code: representative_short_trace_fidelity_failed
+    next_action: stop_and_diagnose_kpi_filtering_or_dynamic_response
+
+claim_limits:
+  full_trace_replay_currently_authorized: false
+  final_test6_validation: prohibited
+  cross_session_generalization: prohibited
+  cross_scenario_generalization: prohibited
+  physical_channel_reconstruction: prohibited
+  environmental_noise_inference: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  reuse_current_if_healthy: true
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
