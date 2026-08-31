@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "corrected_rfsim_noise_response_validation_protocol",
-  "protocol_status": "frozen_offline_pending_remote_profile_and_hardware_execution",
+  "protocol_status": "frozen_remote_profile_available_hardware_execution_pending",
   "purpose": [
     "verify the corrected per-channel power-to-RMS implementation on the pinned OAI revision",
     "measure the one-UE AWGN SINR response before revisiting fixed-noise support",
@@ -10,6 +10,8 @@
   "required_revisions": {
     "analysis_parent_revision": "c155a472b52795c5c8b9b3d84b6cf6059c757134",
     "profile_revision": "21d0713c7fa56656086ef2eb3313651e2271a3f8",
+    "profile_remote_branch": "refs/heads/feature/rfsim-rsrp-calibration",
+    "profile_remote_revision_verified_at": "2026-08-31T10:51:26+02:00",
     "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
     "noise_patch_sha256": "5c3bbdf4bd391244c79868c60f90db0a0f2e2b5690dbb2bf5e521f9b91c6e2e7"
   },

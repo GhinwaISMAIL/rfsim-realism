@@ -56,11 +56,11 @@ and the complete profile suite passes.
 
 ## Next gate
 
-No reservation is requested by this audit. The state order, repetitions, and
-executable operational gates are now frozen in
-`corrected_noise_validation_protocol.json`. Before requesting POWDER time, the
-corrected profile revision must be available to POWDER and its committed
-protocol checksum must be verified. The next reservation remains one gNB and
-one UE using AWGN for four hours (three hours minimum). Its only purpose is to
-build the corrected image and validate the corrected noise response. It does
-not select a replay noise state or authorize a gain-noise inverse mapping.
+The corrected profile revision is available on the POWDER profile branch, and
+the state order, repetitions, and executable operational gates are frozen in
+`corrected_noise_validation_protocol.json`. The reservation gate is therefore
+open. Request one gNB and one UE using AWGN for four hours (three hours
+minimum), with the first POWDER-dependent action no earlier than the timestamp
+in `reservation_gate.json`. Its only purpose is to build the corrected image
+and validate the corrected noise response. It does not select a replay noise
+state or authorize a gain-noise inverse mapping.

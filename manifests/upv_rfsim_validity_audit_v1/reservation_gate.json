@@ -1,23 +1,30 @@
 {
   "schema_version": 1,
   "stage": "corrected_rfsim_noise_validation_gate",
-  "gate_state": "closed_pending_remote_profile_availability",
-  "request_now": false,
+  "gate_state": "ready_to_request",
+  "request_now": true,
   "reservation_notice_minutes": 30,
+  "reservation_notice_started_at": "2026-08-31T10:51:26+02:00",
+  "first_powder_dependent_action_not_before": "2026-08-31T11:21:26+02:00",
   "offline_completed": [
     "pinned source expression verified",
     "reproducible profile patch committed",
     "power-to-RMS regression tests passed",
     "complete profile test suite passed",
     "legacy result erratum frozen",
-    "TDL repeated-model mitigation verified"
+    "TDL repeated-model mitigation verified",
+    "corrected execution protocol frozen and checksummed",
+    "profile revision 21d0713c7fa56656086ef2eb3313651e2271a3f8 published to the POWDER profile branch"
   ],
-  "requirements_before_request": [
-    "make profile revision 21d0713c7fa56656086ef2eb3313651e2271a3f8 available to POWDER",
-    "freeze corrected image tags and rollback image digests",
-    "verify that the frozen execution protocol checksum matches the committed audit",
-    "announce the reservation at least 30 minutes before the first POWDER-dependent action"
-  ],
+  "requirements_before_request": [],
+  "remote_profile_state": {
+    "remote": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "refs/heads/feature/rfsim-rsrp-calibration",
+    "required_revision": "21d0713c7fa56656086ef2eb3313651e2271a3f8",
+    "observed_revision": "21d0713c7fa56656086ef2eb3313651e2271a3f8",
+    "required_revision_available": true,
+    "verified_at": "2026-08-31T10:51:26+02:00"
+  },
   "next_reservation_shape": {
     "profile": "oai-5g-ric-v2",
     "cell_nodes_gnbs": 1,

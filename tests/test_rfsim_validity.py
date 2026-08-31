@@ -51,16 +51,20 @@ def test_erratum_mapping_is_computed_not_relabelled() -> None:
     assert erratum["raw_data_policy"] == "preserve_commands_and_outputs_without_relabelling"
 
 
-def test_reservation_stays_closed_until_profile_is_available_remotely() -> None:
+def test_reservation_opens_after_profile_is_available_remotely() -> None:
     gate = json.loads((AUDIT / "reservation_gate.json").read_text())
-    assert gate["request_now"] is False
-    assert gate["gate_state"] == "closed_pending_remote_profile_availability"
+    assert gate["request_now"] is True
+    assert gate["gate_state"] == "ready_to_request"
     assert gate["reservation_notice_minutes"] == 30
+    assert gate["remote_profile_state"]["required_revision_available"] is True
 
 
 def test_corrected_noise_validation_protocol_is_bounded() -> None:
     protocol = json.loads((AUDIT / "corrected_noise_validation_protocol.json").read_text())
     design = protocol["design"]
+    assert (
+        protocol["protocol_status"] == "frozen_remote_profile_available_hardware_execution_pending"
+    )
     assert protocol["reservation"]["cell_nodes_gnbs"] == 1
     assert protocol["reservation"]["ues_per_cell"] == 1
     assert protocol["reservation"]["channel_family"] == "AWGN"
