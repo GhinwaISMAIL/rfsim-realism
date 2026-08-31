@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -22,6 +23,7 @@ from rfsim_realism.upv_phase3e import (
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/upv_phase3e_radio_process_v1.yaml"
 PHASE3D_CONFIG = ROOT / "configs/upv_phase3d_radio_process_v1.yaml"
+RESULT = ROOT / "manifests/upv_phase3e_analysis_v1/analysis_result.json"
 CANDIDATES = [
     "paired_block_10",
     "paired_block_20",
@@ -136,3 +138,15 @@ def test_phase3e_protocol_freeze_records_clean_revision(
             phase3d_config_path=PHASE3D_CONFIG,
             output_dir=output,
         )
+
+
+def test_phase3e_recorded_result_keeps_hardware_and_final_gates_closed() -> None:
+    result = json.loads(RESULT.read_text())
+    assert result["decision_code"] == "temporal_process_revision_still_unsupported"
+    assert result["selected_process"] is None
+    assert result["diagnosis"]["model_selection_authorized"] is False
+    assert result["final_evaluation"]["payload_opened"] is False
+    assert result["reservation"]["request_now"] is False
+    assert not any(result["authorizations"].values())
+    checksums = json.loads((RESULT.parent / "SHA256SUMS.json").read_text())
+    assert hashlib.sha256(RESULT.read_bytes()).hexdigest() == checksums[RESULT.name]

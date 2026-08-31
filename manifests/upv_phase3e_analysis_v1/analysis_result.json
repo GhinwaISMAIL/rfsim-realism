@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3e_offline_temporal_process_result",
+  "decision_code": "temporal_process_revision_still_unsupported",
+  "selected_process": null,
+  "development_folds": 5,
+  "candidate_support": [
+    {
+      "candidate_id": "paired_block_10",
+      "joint_supported_folds": 2,
+      "temporal_supported_folds": 1,
+      "joint_and_temporal_supported_folds": 0
+    },
+    {
+      "candidate_id": "paired_block_20",
+      "joint_supported_folds": 2,
+      "temporal_supported_folds": 1,
+      "joint_and_temporal_supported_folds": 0
+    },
+    {
+      "candidate_id": "paired_block_40",
+      "joint_supported_folds": 2,
+      "temporal_supported_folds": 3,
+      "joint_and_temporal_supported_folds": 0
+    },
+    {
+      "candidate_id": "paired_block_60",
+      "joint_supported_folds": 2,
+      "temporal_supported_folds": 3,
+      "joint_and_temporal_supported_folds": 0
+    },
+    {
+      "candidate_id": "empirical_innovation_var1",
+      "joint_supported_folds": 2,
+      "temporal_supported_folds": 4,
+      "joint_and_temporal_supported_folds": 1
+    },
+    {
+      "candidate_id": "student_t_2state_switching_var1",
+      "joint_supported_folds": 2,
+      "temporal_supported_folds": 3,
+      "joint_and_temporal_supported_folds": 0
+    }
+  ],
+  "diagnosis": {
+    "temporal_model_progress": "empirical_innovation_var1_reaches_four_of_five_temporal_folds",
+    "common_joint_failure": "every_candidate_passes_the_same_two_of_five_joint_folds",
+    "interpretation_status": "requires_cross_session_attainability_diagnostic",
+    "model_selection_authorized": false
+  },
+  "next_action": "diagnose_development_session_exchangeability_and_gate_attainability",
+  "final_evaluation": {
+    "payload_opened": false,
+    "authorized": false,
+    "source_path": "Test_6/Test_6_ASUS.csv"
+  },
+  "reservation": {
+    "request_now": false,
+    "gate_state": "closed_for_offline_diagnosis",
+    "notice_lead_time_minutes": 30
+  },
+  "authorizations": {
+    "hardware_execution": false,
+    "final_test6": false,
+    "abc": false
+  },
+  "output_sha256": {
+    "analysis_manifest.json": "21ad2db0c33a0a368e1472b02cf879b54c5c0ab7bd7281df4949cabfe9256f3d",
+    "development_input_quality.csv": "fd835abe9a3fe1cbb76b5a297a68daa5e5ee0f70bd2ecb8a194ce2b8059cd425",
+    "fitted_models.json": "10b1c2eff5dd77bd5af8b0a43f3069230292b4788acd2bd865f4d1a191883d08",
+    "fold_candidate_metrics.csv": "a024a540ed3d1b5c8f1282c28accb4bc64da4f8561ad9a1fc0e1d8c4008604ee",
+    "fold_route_means.csv": "3b548ff7075427446073de2c815469f804027caecd2633ed45da247f1a7f7a69",
+    "phase3e_decision.json": "a4a0f1242d655f5dddaff1698df791cb71a6d1ba511ec8b5c558feec00c5dec2"
+  }
+}
