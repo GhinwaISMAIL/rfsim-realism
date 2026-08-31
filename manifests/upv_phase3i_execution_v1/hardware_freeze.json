@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3i_representative_short_trace_execution_freeze",
+  "decision_code": "representative_short_trace_hardware_execution_conditionally_authorized",
+  "research_revision": "b36a41e4289c2a2635f25efc5aeba607d1a0d5ce",
+  "protocol": {
+    "config_sha256": "34bdd27b0f5ba4f3c6aa44bb9ae5ce678235072a6fe0f9491d8f0f84895e71d2",
+    "manifest_sha256": "530cc3544635d9c12b898e5afb463c82fe3ab797568e2a68e96d63b1d55d2e2f",
+    "commands_sha256": "92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf",
+    "selected_trace_sha256": "3e57fc9d88afd3046cda15cfca51b34fbcbc5530dad952c50a245387eae4084b"
+  },
+  "profile": {
+    "repository_url": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "feature/rfsim-rsrp-calibration",
+    "revision": "9cc171932a9975ffc554944be65ecd41d713823f",
+    "published": true,
+    "runner_sha256": "715f5398862da0d87c3822c46cfef525534dba5d8776edc287ae964d63421b47",
+    "commands_sha256": "92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf"
+  },
+  "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+  "instrumented_image": "oai-nr-ue-rfsim-phase3h:70508eb",
+  "instrumented_image_id": "sha256:9fcf39575e5b3695813a44c68e976a746948f4b6c40617fab2518526daa39fa1",
+  "planned_execution_units": 1,
+  "planned_ue_recreations": 1,
+  "planned_commands": 60,
+  "command_interval_seconds": 1.0,
+  "runtime_preflight_required": true,
+  "execution_authorization": {
+    "representative_short_trace": true,
+    "complete_test1_trace": false,
+    "final_test6_access": false,
+    "abc": false
+  },
+  "reservation": {
+    "request_now": false,
+    "reuse_current_if_healthy": true,
+    "user_notified_before_required_reservation": true,
+    "preparation_lead_time_minutes": 30,
+    "profile": "oai-5g-ric-v2",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "cell_hardware": "d740"
+  },
+  "claim_limits": {
+    "complete_test1_replay": "not_yet_authorized",
+    "final_test6_validation": "prohibited",
+    "cross_session_generalization": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "environmental_noise_inference": "prohibited",
+    "physical_channel_reconstruction": "prohibited"
+  }
+}

@@ -1,0 +1,78 @@
+schema_version: 1
+protocol_revision: "1.0"
+stage: phase_3i_representative_short_trace_execution
+
+frozen_research:
+  repository_revision: b36a41e4289c2a2635f25efc5aeba607d1a0d5ce
+  protocol_config_sha256: 34bdd27b0f5ba4f3c6aa44bb9ae5ce678235072a6fe0f9491d8f0f84895e71d2
+  protocol_manifest_sha256: 530cc3544635d9c12b898e5afb463c82fe3ab797568e2a68e96d63b1d55d2e2f
+  commands_sha256: 92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf
+  selected_trace_sha256: 3e57fc9d88afd3046cda15cfca51b34fbcbc5530dad952c50a245387eae4084b
+  final_test6_access: false
+  abc_authorized: false
+
+frozen_profile:
+  repository_url: https://github.com/GhinwaISMAIL/oai-5g-ric.git
+  branch: feature/rfsim-rsrp-calibration
+  revision: 9cc171932a9975ffc554944be65ecd41d713823f
+  published: true
+  tracked_worktree_clean_at_freeze: true
+  runner_path: bin/run-phase3i-short-trace.py
+  runner_sha256: 715f5398862da0d87c3822c46cfef525534dba5d8776edc287ae964d63421b47
+  commands_path: etc/phase3i-short-trace-commands.csv
+  commands_sha256: 92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf
+  profile_source_sha256: 17204c49871aec5fda78b5637ca048166da1c8e33a2e5981f0636d5d72aa991d
+
+frozen_oai:
+  revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  image: oai-nr-ue-rfsim-phase3h:70508eb
+  image_id: sha256:9fcf39575e5b3695813a44c68e976a746948f4b6c40617fab2518526daa39fa1
+
+reservation:
+  request_now: false
+  reuse_current_if_healthy: true
+  user_notified_before_required_reservation: true
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+
+execution_authorization:
+  representative_short_trace: conditional_on_all_runtime_preflight_checks
+  complete_test1_trace: false
+  final_test6_access: false
+  abc: false
+
+execution_scope:
+  source_session: corrected_test_1_ASUS
+  source_rows_inclusive: [154, 213]
+  target_rows: 60
+  command_interval_seconds: 1.0
+  clean_ue_recreations: 1
+  command_trace_clipped_fraction: 0.0
+  primary_alignment: zero_lag_only
+
+runtime_identity_requirements:
+  - profile_revision_equals_frozen_revision
+  - runner_sha256_equals_frozen_sha256
+  - commands_sha256_equals_frozen_sha256
+  - generated_compose_channel_and_ue_config_hashes_recorded
+  - instrumented_ue_image_id_equals_frozen_image_id
+  - instrumented_ue_image_revision_equals_frozen_oai_revision
+  - live_ue_uses_original_rollback_image_before_execution
+  - gnb_is_healthy_before_execution
+
+artifact_requirements:
+  - complete_output_directory
+  - execution_state_json
+  - command_events_json
+  - anchor_windows_json
+  - ping_checks_json
+  - paired_trace_telemetry_csv
+  - anchor_telemetry_csv
+  - raw_ue_and_gnb_logs
+
+failure_rule: stop_preserve_evidence_restore_original_ue_and_do_not_repeat_or_tune
