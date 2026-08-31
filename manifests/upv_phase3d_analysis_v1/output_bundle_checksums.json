@@ -1,0 +1,8 @@
+{
+  "analysis_manifest.json": "390ca68cfbd125f9cface527462e7004fb2b8363b9590e45b47ff2621abe41ec",
+  "development_input_quality.csv": "fd835abe9a3fe1cbb76b5a297a68daa5e5ee0f70bd2ecb8a194ce2b8059cd425",
+  "fitted_models.json": "57d27d6b98d24499c3685db2a1de1eddb1e251ddfc1a3d34a125950337b2ab1a",
+  "fold_model_metrics.csv": "8667b03a8a7d39277e9a3b77517717d04934b214bb56f2f7c155cfcd6d09522f",
+  "fold_route_means.csv": "3b548ff7075427446073de2c815469f804027caecd2633ed45da247f1a7f7a69",
+  "phase3d_decision.json": "58a468e9866430b30940830f7ba4b4f38d48616544e008aaea238d62af70fa59"
+}

@@ -1,0 +1,95 @@
+{
+  "abc_authorized": false,
+  "analysis_repository": {
+    "revision": "2c9ee17d6a93c02fed20d8f5647eb8d6eb99a7b5",
+    "tracked_worktree_dirty": false
+  },
+  "block_bootstrap": {
+    "joint_supported_folds": 3,
+    "passes": false,
+    "temporal_supported_folds": 0
+  },
+  "claim_limits": {
+    "abc_primary_pipeline": "prohibited",
+    "absolute_noise_power_calibration": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "attachment_distribution_validation": "prohibited",
+    "causal_interference_state_interpretation": "prohibited",
+    "final_device_or_population_generalization_before_final_evaluation": "prohibited",
+    "multipath_or_doppler_reconstruction": "prohibited",
+    "physical_channel_reconstruction": "prohibited",
+    "physical_ploss_inference": "prohibited"
+  },
+  "decision_code": "radio_process_model_revision_required",
+  "development_folds": 5,
+  "development_sessions": [
+    "corrected_test_1_ASUS",
+    "corrected_test_2_ASUS",
+    "corrected_test_3_ASUS",
+    "corrected_test_4_ASUS",
+    "corrected_test_5_ASUS"
+  ],
+  "final_evaluation": {
+    "authorized": false,
+    "payload_opened": false,
+    "prior_inspection_disclosure": "Phase 1 parsed every source file to produce inventory, completeness, GPS, and global-range diagnostics. This session is untouched by Phase 3D model fitting, selection, threshold tuning, and development evaluation, but it is not represented as never previously parsed.",
+    "source_path": "Test_6/Test_6_ASUS.csv"
+  },
+  "final_evaluation_authorized": false,
+  "hmm_candidate_comparisons": [
+    {
+      "all_folds_model_eligible": true,
+      "candidate_id": "gamma_gaussian_2state",
+      "joint_fold_wins": 0,
+      "median_joint_relative_improvement": -0.15629815196800156,
+      "median_predictive_log_score_improvement_nats_per_row": 0.3031059840927517,
+      "median_temporal_relative_improvement": -0.7815059773469837,
+      "passes": false,
+      "temporal_fold_wins": 0
+    },
+    {
+      "all_folds_model_eligible": true,
+      "candidate_id": "gaussian_2state",
+      "joint_fold_wins": 3,
+      "median_joint_relative_improvement": 0.0035063030662721983,
+      "median_predictive_log_score_improvement_nats_per_row": 0.13131496029641632,
+      "median_temporal_relative_improvement": -1.0789873198448667,
+      "passes": false,
+      "temporal_fold_wins": 0
+    },
+    {
+      "all_folds_model_eligible": true,
+      "candidate_id": "student_t_2state",
+      "joint_fold_wins": 3,
+      "median_joint_relative_improvement": 0.00024362905875607854,
+      "median_predictive_log_score_improvement_nats_per_row": 0.1871946397191282,
+      "median_temporal_relative_improvement": -0.8988242123723935,
+      "passes": false,
+      "temporal_fold_wins": 0
+    }
+  ],
+  "next_action": "revise_conditioning_targets_or_dataset_without_requesting_powder",
+  "powder_reservation_authorized": false,
+  "protocol_repository": {
+    "revision": "589cdadb4de9c0450fbf02afd32d21f1c1e7469f",
+    "tracked_worktree_dirty": false
+  },
+  "protocol_revision": "1.0",
+  "research_question": "Can a stochastic radio-condition model learned from one-cell measurements, when translated into RFsim scalar-gain and effective-noise controls, reproduce predefined marginal, joint, and temporal properties of held-out relative RSRP and SINR in OAI?",
+  "reservation": {
+    "gate_state": "closed_for_offline_development",
+    "next_possible_request_requires": [
+      "selected_offline_process_passes_development_gate",
+      "frozen_two_dimensional_gain_noise_response_design",
+      "executable_attachment_and_failure_rules",
+      "bounded_control_ranges",
+      "independent_execution_repetitions",
+      "rollback_plan"
+    ],
+    "preparation_lead_time_minutes": 30,
+    "request_now": false
+  },
+  "schema_version": 1,
+  "selected_process": null,
+  "stage": "phase_3d_offline_radio_process_result"
+}

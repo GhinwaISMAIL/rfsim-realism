@@ -1,0 +1,11 @@
+{
+  "archive_sha256": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753",
+  "config_sha256": "d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7",
+  "final_evaluation_payload_opened": false,
+  "folds": 5,
+  "generation_repetitions_per_candidate_fold": 100,
+  "protocol_freeze_sha256": "d3863f75f9cc2a12ff16920e8f68ac762399a1704fe1940920653df68f75b877",
+  "reservation_requested": false,
+  "schema_version": 1,
+  "stage": "phase_3d_analysis_manifest"
+}
