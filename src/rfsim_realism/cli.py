@@ -26,6 +26,7 @@ from .upv_phase3d import analyze_phase3d_radio_process, write_phase3d_protocol_f
 from .upv_phase3e import analyze_phase3e_radio_process, write_phase3e_protocol_freeze
 from .upv_phase3f import analyze_phase3f_exchangeability
 from .upv_phase3g import prepare_phase3g_direct_trace
+from .upv_phase3g_response import analyze_phase3g_bounded_response
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -264,6 +265,13 @@ def _parser() -> argparse.ArgumentParser:
     phase3g.add_argument("--corrected-noise-result", required=True)
     phase3g.add_argument("--config", required=True)
     phase3g.add_argument("--output", required=True)
+
+    phase3g_response = commands.add_parser("analyze-upv-phase3g-bounded-response")
+    phase3g_response.add_argument("--campaign-dir", required=True)
+    phase3g_response.add_argument("--archive", required=True)
+    phase3g_response.add_argument("--direct-config", required=True)
+    phase3g_response.add_argument("--execution-config", required=True)
+    phase3g_response.add_argument("--output", required=True)
     return parser
 
 
@@ -580,6 +588,16 @@ def main() -> None:
             scalar_control_result_path=args.scalar_control_result,
             corrected_noise_result_path=args.corrected_noise_result,
             config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3g-bounded-response":
+        result = analyze_phase3g_bounded_response(
+            campaign_dir=args.campaign_dir,
+            archive_path=args.archive,
+            direct_config_path=args.direct_config,
+            execution_config_path=args.execution_config,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
