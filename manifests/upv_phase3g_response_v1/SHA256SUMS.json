@@ -1,0 +1,9 @@
+{
+  "analysis_manifest.json": "da8c8dddbdeb2559adaafeec86fb3a538dd6e1fa7417bd4eb9d16ac320eece56",
+  "boundary_execution_validation.csv": "5c3aeea66b84d46fa4322f7452e37c2b1326f5bd983a7d57fdec98856a494996",
+  "boundary_state_validation.csv": "f6412672ed282dfb1e9c5c87bb0a985ddbb056241822794570d63498529bfd7f",
+  "execution_medians.csv": "c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f",
+  "factorial_fit.csv": "317047667f57921ec2fa625e5e55926d703416ab00b763300d788c97df85ab97",
+  "phase3g_response_decision.json": "7e123da7acb96768153fb78ebffd2cffc4d2bd5468e63056e0fefbcd6e31799d",
+  "response_coefficients.csv": "b3cfc1ae4bae22e1b281ce2ab62db8311a069523952836540a30afe315682c8f"
+}

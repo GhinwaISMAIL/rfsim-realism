@@ -1,0 +1,9 @@
+response,term,estimate,ci_low,ci_high,gate_low,gate_high,point_estimate_passed,confidence_interval_inside_gate
+relative_RSRP,intercept,41.4071581111,41.404958887,41.4093806019,,,,
+relative_RSRP,gain,0.967096916667,0.965557327083,0.968556697917,0.8,1.2,True,True
+relative_RSRP,noise,0.0348637592593,0.0338655180556,0.0358185884259,-0.2,0.2,True,True
+relative_RSRP,gain_noise_interaction,-0.00756565277778,-0.00818755694444,-0.00691002777778,,,,
+SINR,intercept,15.2508465556,15.159717375,15.3439858148,,,,
+SINR,gain,1.04093913889,0.982022868056,1.10172085069,0.5,1.5,True,True
+SINR,noise,-0.998977018519,-1.03790202963,-0.959611558333,-1.2,-0.7,True,True
+SINR,gain_noise_interaction,0.00949736111111,-0.013439125,0.0353576076389,,,,

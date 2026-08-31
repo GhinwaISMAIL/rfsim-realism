@@ -1,0 +1,11 @@
+{
+  "abc_authorized": false,
+  "bootstrap_repetitions": 20000,
+  "bootstrap_seed": 20260831,
+  "boundary_executions": 12,
+  "direct_trace_replay_authorized": false,
+  "factorial_executions": 27,
+  "final_test6_accessed": false,
+  "schema_version": 1,
+  "stage": "phase_3g_bounded_gain_noise_response_analysis_manifest"
+}

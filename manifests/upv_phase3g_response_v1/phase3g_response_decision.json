@@ -1,0 +1,97 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "20c32311a12a89434560fbf326b0c58bda43d47d",
+    "tracked_worktree_dirty": false
+  },
+  "boundary_validation": {
+    "bootstrap_maximum_absolute_rsrp_error_ci": [
+      0.5538320189814854,
+      0.6678834453703599
+    ],
+    "bootstrap_maximum_absolute_sinr_error_ci": [
+      0.289188539351849,
+      3.757804632870366
+    ],
+    "maximum_absolute_rsrp_error_db": 0.6087653703703779,
+    "maximum_absolute_sinr_error_db": 1.2536076851851625
+  },
+  "campaign": {
+    "all_execution_ping_success_fraction": 1.0,
+    "all_executions_attached": true,
+    "completed_executions": 45,
+    "gNB_untouched": true,
+    "original_ue_image_restored": true,
+    "paired_samples": 675,
+    "planned_executions": 45,
+    "rollback_passed": true
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "cross_scenario_generalization": "prohibited",
+    "cross_session_generalization": "prohibited",
+    "direct_trace_replay_currently_authorized": false,
+    "environmental_noise_inference": "prohibited",
+    "final_test6_validation": "prohibited",
+    "physical_channel_reconstruction": "prohibited"
+  },
+  "decision_code": "gain_noise_mapping_not_identifiable_in_target_region",
+  "direct_trace_replay_authorized": false,
+  "final_test6_accessed": false,
+  "gates": {
+    "all_analysis_gates_passed": false,
+    "boundary_mapping_point_estimates_passed": true,
+    "boundary_mapping_uncertainty_passed": false,
+    "coefficient_point_estimates_passed": true,
+    "coefficient_uncertainty_passed": true,
+    "condition_number_point_estimate_passed": true,
+    "condition_number_uncertainty_passed": true,
+    "interaction_point_estimates_passed": true,
+    "interaction_uncertainty_passed": true
+  },
+  "input_sha256": {
+    "campaign_archive": "3764e3bc400287df9fb008c6363daedaceb60dc7f890e6551a6b88ada8275408",
+    "direct_response_config": "deae9dd0991242c9ef585a6492d31014001bda1f600ca1549df36564b5a507b4",
+    "execution_config": "e9b101475ec0e6eaab8227126a2a5fb0e0e19ba602382bf1310813f003f1b3e7",
+    "execution_state": "4e6a928ae2170b77ee9e591fd33bcc332ce3075aa86aca3564c815c0c1a0c424",
+    "paired_telemetry": "95f19f0abd11da5a8f54f165f7d66b054335e24d798b551c46e560aef02423b9"
+  },
+  "interaction": {
+    "SINR": 0.00949736111111092,
+    "maximum_absolute_allowed": 0.1,
+    "relative_RSRP": -0.007565652777777825
+  },
+  "jacobian": {
+    "SINR_by_gain": 1.040939138888889,
+    "SINR_by_noise": -0.998977018518519,
+    "condition_number": 2.630644530466943,
+    "condition_number_ci_high": 2.7804530991399337,
+    "condition_number_ci_low": 2.4961106321536692,
+    "relative_RSRP_by_gain": 0.9670969166666663,
+    "relative_RSRP_by_noise": 0.0348637592592592
+  },
+  "model": {
+    "controls": [
+      "gain",
+      "noise"
+    ],
+    "fit_unit": "execution_median",
+    "gain_center_db": -10.0,
+    "noise_center_db": -25.0,
+    "responses": [
+      "relative_RSRP",
+      "SINR"
+    ],
+    "terms": [
+      "intercept",
+      "gain",
+      "noise",
+      "gain_noise_interaction"
+    ]
+  },
+  "next_action": "stop_before_replay_and_revise_the_control_model",
+  "protocol_revision": "1.0",
+  "schema_version": 1,
+  "stage": "phase_3g_bounded_gain_noise_response_result"
+}
