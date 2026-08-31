@@ -1,0 +1,10 @@
+{
+  "analysis_manifest.json": "c9780deb16c5b0b2ddeead2580778ad3afd33ab73a5b390fed157df6babb33fb",
+  "boundary_bootstrap_attribution.csv": "d906e61ff38d253087994f716993bdab0bcd8464e85ad57f50a549633ed73932",
+  "current_tested_hull.csv": "6739c7a763843a705b9c7c713fc4914f72d1faecef7dd16562abe77d63386063",
+  "curvature_diagnostics.csv": "08883d48ebf1d6e801dd9045279395e8d18e41927f39d3e45c7c5e305c4cd38e",
+  "direct_test1_trace_support.csv": "3f67062961fad60525ff4ea0a908bb02439fb9eca2e234f201aa2b0540fd1fd0",
+  "operational_target_hull.csv": "d073d480ba54061bff0552f899fd0cb91de797c63c3fe40aaf934090a490748f",
+  "phase3g_boundary_diagnosis.json": "8b27251e5be2c84aec40a5c040fbbc520f5a46092fdefcd02901fa4358709db5",
+  "preliminary_validation_states.csv": "384f097fc9fdfa1eea9a196cbfc0206a85512088355ae4478dac2e493beb31de"
+}

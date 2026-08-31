@@ -1,0 +1,8 @@
+commanded_gain_db,commanded_noise_power_db,expanded_13_state_prediction_leverage,target_rows_within_scaled_radius_1,status,recommended_execution_repetitions
+-14,-34,0.480635789918,3,preliminary_not_frozen_not_authorized,5
+-2,-28,1.57909297423,3,preliminary_not_frozen_not_authorized,5
+-0,-21,0.598270569173,15,preliminary_not_frozen_not_authorized,5
+-6,-18,0.408959229478,8,preliminary_not_frozen_not_authorized,5
+-10,-20,0.426461843409,11,preliminary_not_frozen_not_authorized,5
+-14,-23,0.515723182083,32,preliminary_not_frozen_not_authorized,5
+-18,-27,0.610691065633,2,preliminary_not_frozen_not_authorized,5

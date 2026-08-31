@@ -1,0 +1,9 @@
+{
+  "abc_authorized": false,
+  "development_trace": "corrected_test_1_ASUS",
+  "direct_trace_replay_authorized": false,
+  "final_test6_accessed": false,
+  "reservation_requested": false,
+  "schema_version": 1,
+  "stage": "phase_3g_boundary_and_trace_support_diagnosis_manifest"
+}

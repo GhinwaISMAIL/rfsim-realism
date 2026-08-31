@@ -1,0 +1,106 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "6fcad8c367719a9b2e5bd170d0930aee9b82b16c",
+    "tracked_worktree_dirty": false
+  },
+  "bootstrap": {
+    "dominant_sinr_boundary_state": {
+      "commanded_gain_db": 0.0,
+      "commanded_noise_power_db": -17.0,
+      "dominant_uncertainty_component": "central_model_extrapolation",
+      "maximum_error_attribution_fraction": 0.73715
+    },
+    "maximum_error": {
+      "SINR": {
+        "ci_high": 3.757804632870366,
+        "ci_low": 0.289188539351849,
+        "limit_db": 2.0,
+        "median": 1.320476277777777
+      },
+      "relative_RSRP": {
+        "ci_high": 0.6678834453703599,
+        "ci_low": 0.5538320189814854,
+        "limit_db": 1.0,
+        "median": 0.6117887962962953
+      }
+    },
+    "repetitions": 20000,
+    "seed": 20260831
+  },
+  "curvature": {
+    "bilinear_sinr_boundary_max_error_db": 1.2536076851851625,
+    "bilinear_sinr_loso_rmse_db": 0.3456024236702096,
+    "quadratic_revision_supported": false,
+    "quadratic_sinr_boundary_max_error_db": 2.306138259259235,
+    "quadratic_sinr_loso_rmse_db": 0.44138122656949924,
+    "reason": "quadratic_worsens_sinr_loso_and_boundary_prediction"
+  },
+  "diagnosis_code": "targeted_outer_envelope_validation_extension_required",
+  "direct_trace_replay_authorized": false,
+  "expanded_13_state_development_fit": {
+    "coefficients": {
+      "SINR": {
+        "gain": 0.9948955177513124,
+        "gain_noise_interaction": 0.0005870266072203868,
+        "intercept": 15.240397199982121,
+        "noise": -1.0073567313475962
+      },
+      "relative_RSRP": {
+        "gain": 0.9696309189752279,
+        "gain_noise_interaction": -0.00024305522952324912,
+        "intercept": 41.408608322715494,
+        "noise": 0.03314810871094892
+      }
+    },
+    "condition_number_at_center": 2.520732456281635,
+    "execution_count": 39,
+    "responses": {
+      "SINR": {
+        "fit_rmse_db": 0.27466958964351157,
+        "state_loso_max_absolute_error_db": 0.8138672165589664,
+        "state_loso_rmse_db": 0.2943397468430953
+      },
+      "relative_RSRP": {
+        "fit_rmse_db": 0.031179734349044894,
+        "state_loso_max_absolute_error_db": 0.1218437985712626,
+        "state_loso_rmse_db": 0.053673066978668305
+      }
+    },
+    "state_count": 13
+  },
+  "final_test6_accessed": false,
+  "input_sha256": {
+    "direct_test1_target_trace": "ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e",
+    "phase3g_execution_medians": "c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f",
+    "phase3g_response_decision": "7e123da7acb96768153fb78ebffd2cffc4d2bd5468e63056e0fefbcd6e31799d"
+  },
+  "next_action": "freeze_a_new_protocol_that_uses_all_13_existing_states_for_development_and_collects_new_trace_informed_held_out_validation_states",
+  "preliminary_repetitions_per_state": 5,
+  "preliminary_validation_state_count": 7,
+  "reason": "the failed SINR uncertainty gate is dominated by central-model extrapolation, while the central rectangle covers too little of the designated trace",
+  "reservation_request_now": false,
+  "schema_version": 1,
+  "stage": "phase_3g_boundary_and_trace_support_diagnosis",
+  "trace_support": {
+    "central_factorial_rectangle_fraction": 0.2754098360655738,
+    "central_factorial_rectangle_rows": 84,
+    "central_model_leverage_quantiles": {
+      "maximum": 37.82789528307348,
+      "median": 0.6783151897576607,
+      "q95": 9.939786607518904
+    },
+    "current_tested_hull_fraction": 0.7245901639344262,
+    "current_tested_hull_rows": 221,
+    "expanded_13_state_leverage_quantiles": {
+      "maximum": 1.497081325266009,
+      "median": 0.18114157472857648,
+      "q95": 0.5752484398386027
+    },
+    "inverse_maximum_residual_db": 7.105427357601002e-15,
+    "outside_tested_operational_bounds_rows": 6,
+    "target_rows": 305,
+    "tested_operational_bounds_fraction": 0.980327868852459,
+    "tested_operational_bounds_rows": 299
+  }
+}
