@@ -1,0 +1,85 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "cf468a79f19165cc08242f2072295628d6977824",
+    "tracked_worktree_dirty": false
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "cross_scenario_generalization": "prohibited",
+    "cross_session_generalization": "prohibited",
+    "final_test6_validation": "prohibited",
+    "full_trace_replay_currently_authorized": false,
+    "physical_channel_reconstruction": "prohibited",
+    "response_model_is_research_objective": false,
+    "short_trace_replay_currently_authorized": false,
+    "translator_is_supporting_tool_only": true
+  },
+  "design": {
+    "individual_radio_samples_are_independent_repetitions": false,
+    "return_to_anchor_between_states": true,
+    "segments_per_sequence": 9,
+    "sequence_units": 3,
+    "state_observations": 21,
+    "ue_recreations": 3,
+    "validation_states_per_sequence": 7
+  },
+  "execution_authorized": false,
+  "execution_gates": {
+    "maximum_absolute_mean_relative_rsrp_error_db": 1.0,
+    "maximum_absolute_mean_sinr_error_db": 2.0,
+    "maximum_anchor_start_end_relative_rsrp_drift_db": 0.25,
+    "maximum_anchor_start_end_sinr_drift_db": 1.0,
+    "maximum_critical_pbch_failures": 0,
+    "maximum_critical_pusch_failures": 0,
+    "maximum_gnb_restart_count_change": 0,
+    "maximum_unintended_ue_restarts": 0,
+    "stop_campaign_after_failed_sequence": true,
+    "stop_sequence_on_attachment_loss_or_critical_failure": true
+  },
+  "final_test6_accessed": false,
+  "full_trace_replay_authorized": false,
+  "input_sha256": {
+    "config": "bdc48fb3d54ea3ade7a977e0233ed19f0289b6ebd64d6dc30a7965a63f1a89c9",
+    "direct_test1_target_trace": "ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e",
+    "phase3g_diagnosis": "8b27251e5be2c84aec40a5c040fbbc520f5a46092fdefcd02901fa4358709db5",
+    "phase3g_execution_medians": "c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f"
+  },
+  "protocol_revision": "1.0",
+  "reservation": {
+    "cell_hardware": "d740",
+    "cell_nodes_gnbs": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "preparation_lead_time_minutes": 30,
+    "profile": "oai-5g-ric-v2",
+    "recommended_duration_hours": 3,
+    "request_now": false,
+    "ues_per_cell": 1
+  },
+  "schema_version": 1,
+  "short_trace_replay_authorized": false,
+  "stage": "phase_3h_dynamic_staircase_translation_validation",
+  "timing": {
+    "anchor_reset_seconds_between_states": 3.0,
+    "anchor_start_settling_seconds": 5.0,
+    "anchor_usable_seconds": 10.0,
+    "return_to_anchor_between_validation_states": true,
+    "state_settling_seconds": 5.0,
+    "state_usable_seconds": 10.0
+  },
+  "translator": {
+    "extrapolation": "prohibited",
+    "output_hull_projection_metric": {
+      "relative_rsrp_scale_db": 1.0,
+      "sinr_scale_db": 2.0
+    },
+    "outside_hull_rule": "project_to_nearest_validated_output_hull_point_and_flag_clipped",
+    "post_validation_method": "bounded_piecewise_affine_interpolation",
+    "primary_fidelity_population": "unclipped_rows_only",
+    "provisional_validation_target_model": "bilinear_fit_to_all_13_phase3g_development_states",
+    "realism_source": "measured_upv_test1_trace",
+    "role": "convert_measured_relative_rsrp_and_sinr_to_rfsim_gain_and_effective_noise",
+    "secondary_fidelity_population": "all_rows_with_clipping_reported"
+  }
+}
