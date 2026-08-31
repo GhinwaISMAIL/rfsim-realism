@@ -1,0 +1,133 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "4106524e19cccd4e193a02d96be97535d20bffe4",
+    "tracked_worktree_dirty": false
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "cross_scenario_generalization": "prohibited",
+    "cross_session_generalization": "prohibited",
+    "environmental_noise_inference": "prohibited",
+    "final_test6_validation": "prohibited",
+    "full_trace_replay_currently_authorized": false,
+    "physical_channel_reconstruction": "prohibited"
+  },
+  "decision_rules": {
+    "fail_fidelity": {
+      "code": "representative_short_trace_fidelity_failed",
+      "next_action": "stop_and_diagnose_kpi_filtering_or_dynamic_response"
+    },
+    "fail_runtime": {
+      "code": "representative_short_trace_runtime_failed",
+      "next_action": "stop_and_diagnose_command_timing_or_radio_operation"
+    },
+    "pass": {
+      "code": "representative_short_trace_replay_passed",
+      "next_action": "freeze_complete_test1_development_trace_replay"
+    }
+  },
+  "execution": {
+    "anchor_end_settling_seconds": 5.0,
+    "anchor_start_settling_seconds": 5.0,
+    "anchor_usable_seconds": 10.0,
+    "command_interval_seconds": 1.0,
+    "command_start_alignment": "next_integer_utc_second_plus_two_seconds",
+    "oai_rng_seed": 46001,
+    "ping_interval_commands": 10,
+    "post_attachment_stabilization_seconds": 5.0,
+    "sample_assignment": "utc_second_midpoint_must_follow_command_completion"
+  },
+  "execution_authorized": false,
+  "fidelity_gates": {
+    "diagnostic_lags_seconds": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3
+    ],
+    "lag_search_for_gate_selection": "prohibited",
+    "maximum_anchor_start_end_relative_rsrp_drift_db": 0.25,
+    "maximum_anchor_start_end_sinr_drift_db": 1.0,
+    "maximum_relative_rsrp_mae_db": 1.5,
+    "maximum_sinr_mae_db": 3.0,
+    "minimum_relative_rsrp_pearson_correlation": 0.75,
+    "minimum_sinr_pearson_correlation": 0.5,
+    "primary_alignment": "zero_lag_only"
+  },
+  "final_test6_accessed": false,
+  "full_trace_replay_authorized": false,
+  "input_sha256": {
+    "direct_test1_target_trace.csv": "ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e",
+    "execution_medians.csv": "c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f",
+    "phase3h_staircase_decision.json": "d0f08081e3c1cb6cd4313612d1032a49a4a8eff10c1d1e46ec487afb7ea2c12a",
+    "state_translation_validation.csv": "82aed42046194479a8fef362e007f79d1595dd822212a0329128fd9fab7a058f"
+  },
+  "protocol_revision": "1.0",
+  "reservation": {
+    "cell_hardware": "d740",
+    "cell_nodes_gnbs": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "preparation_lead_time_minutes": 30,
+    "profile": "oai-5g-ric-v2",
+    "request_now": false,
+    "reuse_current_if_healthy": true,
+    "ues_per_cell": 1
+  },
+  "runtime_gates": {
+    "active_channel_family": "AWGN",
+    "channel_length": 1,
+    "commanded_and_applied_controls_must_match": true,
+    "continuous_attachment": "required",
+    "maximum_command_completion_lateness_seconds": 0.5,
+    "maximum_critical_radio_failures": 0,
+    "maximum_gnb_restart_count_change": 0,
+    "maximum_unintended_ue_restarts": 0,
+    "minimum_paired_trace_rows": 55,
+    "minimum_ping_success_fraction": 0.9,
+    "tap_energy": 1.0,
+    "taps": 1
+  },
+  "schema_version": 1,
+  "selection": {
+    "clipped_fraction": 0.0,
+    "end_row_inclusive": 213,
+    "end_trace_second": 213.0,
+    "inside_fraction": 1.0,
+    "rows": 60,
+    "selection_score": 0.0989515990086938,
+    "start_row": 154,
+    "start_trace_second": 154.0
+  },
+  "stage": "phase_3i_representative_short_trace_replay",
+  "translator": {
+    "command_rounding_decimal_places": 9,
+    "extrapolation": "prohibited",
+    "method": "bounded_piecewise_affine_interpolation",
+    "output_space_scaling": {
+      "relative_rsrp_db": 1.0,
+      "sinr_db": 2.0
+    },
+    "outside_hull_rule": "project_to_nearest_convex_hull_edge_and_flag_clipped",
+    "short_trace_maximum_clipped_fraction": 0.0,
+    "support": {
+      "phase3g_relative_rsrp_anchor_control": [
+        -10.0,
+        -25.0
+      ],
+      "phase3g_stages": [
+        "factorial",
+        "boundary"
+      ],
+      "phase3g_state_summary": "execution_level_mean",
+      "phase3h_state_summary": "mean_of_three_sequence_medians"
+    },
+    "support_nodes": 20,
+    "triangles": 29,
+    "triangulation": "matplotlib_delaunay_in_scaled_output_space"
+  }
+}

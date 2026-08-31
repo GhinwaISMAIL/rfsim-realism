@@ -1,0 +1,12 @@
+{
+  "clipped_rows": 0,
+  "execution_authorized": false,
+  "final_test6_accessed": false,
+  "full_trace_replay_authorized": false,
+  "schema_version": 1,
+  "selected_end_row_inclusive": 213,
+  "selected_start_row": 154,
+  "stage": "phase_3i_short_trace_protocol_manifest",
+  "support_nodes": 20,
+  "trace_rows": 60
+}
