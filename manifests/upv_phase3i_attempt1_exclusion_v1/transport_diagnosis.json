@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3i_command_transport_diagnosis",
+  "old_path": {
+    "gain_and_noise_helper_processes_per_command_pair": 2,
+    "telnet_connections_per_helper_set": 2,
+    "first_pair_elapsed_seconds": 2.89813232421875
+  },
+  "replacement_path": {
+    "persistent_telnet_connections_per_trace": 1,
+    "commands_per_pair": [
+      "modify_ploss",
+      "modify_noise_power_db",
+      "show_current_for_joint_verification"
+    ],
+    "read_only_persistent_show_probe_seconds": [
+      0.0008144378662109375,
+      0.04262852668762207,
+      0.047989606857299805
+    ],
+    "maximum_command_completion_lateness_seconds_unchanged": 0.5,
+    "readback_verification_retained": true
+  },
+  "decision": "freeze_new_runner_revision_and_allow_one_replacement_attempt_without_changing_scientific_targets_or_gates"
+}

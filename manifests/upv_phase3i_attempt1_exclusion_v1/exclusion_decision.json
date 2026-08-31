@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3i_representative_short_trace_attempt_1_exclusion",
+  "decision_code": "attempt_excluded_before_scientific_trace_due_to_command_transport_deadline_failure",
+  "attempt": {
+    "output_directory": "data/model_runs/upv_phase3i_short_trace_v1/attempt-1-timing-failed",
+    "profile_revision": "9cc171932a9975ffc554944be65ecd41d713823f",
+    "runner_sha256": "715f5398862da0d87c3822c46cfef525534dba5d8776edc287ae964d63421b47",
+    "commands_sha256": "92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf",
+    "first_command_completion_lateness_seconds": 2.89813232421875,
+    "maximum_allowed_lateness_seconds": 0.5,
+    "commands_attempted": 1,
+    "paired_trace_rows": 0,
+    "execution_completed": false
+  },
+  "cause": {
+    "classification": "command_transport_implementation",
+    "description": "The timed path invoked the channel helper separately for gain and noise. Each invocation opened and verified multiple telnet sessions, so the first pair missed the fixed deadline.",
+    "rfsim_response_failure_established": false,
+    "translator_failure_established": false,
+    "radio_failure_established": false
+  },
+  "integrity": {
+    "original_ue_restored": true,
+    "ue_attached_after_rollback": true,
+    "gnb_restart_count_before": 0,
+    "gnb_restart_count_after": 0,
+    "rollback_passed": true
+  },
+  "raw_evidence_sha256": {
+    "channelmod-attach-minus60.conf": "1987b95089fe3bd8cf21e3ff053d6ceb01088c8bfd625caf6b2011426951aabc",
+    "execution_state.json": "7d84cf26b941fb8cbbbe650b1ea487e5177d418a1ba8dcd30923fb72672b846a",
+    "phase3i-command-events.json": "225c2b1e0dedaaecad29886000d6b3223427ff4834c5558c7c30ebf46f3e3e3c",
+    "phase3i-gnb.log": "cce834a8a8be4a9c712b785734fcca38c78f344cfd35c9991f1c96ce1a258795",
+    "phase3i-ping-checks.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "phase3i-ue.log": "6cca7caa010c324f9948d973728dd30bc96afb9acf06614c3c33ab9e17956269"
+  },
+  "disposition": {
+    "included_in_phase3i_fidelity_analysis": false,
+    "individual_command_reused_as_measurement": false,
+    "scientific_protocol_or_threshold_changed": false,
+    "replacement_attempt_conditionally_authorized": true,
+    "required_correction": "persistent_single_connection_gain_noise_write_with_readback_verification"
+  },
+  "claim_limits": {
+    "short_trace_fidelity_conclusion": "prohibited",
+    "complete_test1_replay": "not_authorized",
+    "final_test6_access": "prohibited"
+  }
+}

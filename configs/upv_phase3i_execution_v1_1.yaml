@@ -1,0 +1,64 @@
+schema_version: 1
+protocol_revision: "1.1"
+stage: phase_3i_representative_short_trace_execution
+
+immutable_scientific_protocol:
+  repository_revision: b36a41e4289c2a2635f25efc5aeba607d1a0d5ce
+  protocol_config_sha256: 34bdd27b0f5ba4f3c6aa44bb9ae5ce678235072a6fe0f9491d8f0f84895e71d2
+  protocol_manifest_sha256: 530cc3544635d9c12b898e5afb463c82fe3ab797568e2a68e96d63b1d55d2e2f
+  commands_sha256: 92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf
+  selected_trace_sha256: 3e57fc9d88afd3046cda15cfca51b34fbcbc5530dad952c50a245387eae4084b
+  scientific_targets_or_gates_changed: false
+  final_test6_access: false
+  abc_authorized: false
+
+superseded_execution:
+  config_sha256: ab4d2f5ef456662b7f66be657066f9b1e7d64d5653e932555f2e8eb92faeb087
+  hardware_freeze_sha256: 92611f9fbd0e54e342b6ac2b1795cc3344563ae345a389f994d8ec3cbc732e40
+  exclusion_decision_sha256: bd9fcce9ac152d61e448e6b940939803fe9939ef6f6eb9001b001a76d9fd0955
+  disposition: excluded_before_scientific_trace
+
+frozen_profile:
+  repository_url: https://github.com/GhinwaISMAIL/oai-5g-ric.git
+  branch: feature/rfsim-rsrp-calibration
+  revision: ff0680d92346251e101bd7c2388347fa49a3d730
+  published: true
+  tracked_worktree_clean_at_freeze: true
+  runner_path: bin/run-phase3i-short-trace.py
+  runner_sha256: efb9866fab37a85b8eacbca98c8c66edf7a8e30589a0f0261defe79c205eee1a
+  commands_path: etc/phase3i-short-trace-commands.csv
+  commands_sha256: 92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf
+
+frozen_oai:
+  revision: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  image: oai-nr-ue-rfsim-phase3h:70508eb
+  image_id: sha256:9fcf39575e5b3695813a44c68e976a746948f4b6c40617fab2518526daa39fa1
+
+transport:
+  mode: persistent_telnet_session
+  channel_connections_per_trace: 1
+  operations_per_command_pair: [modify_ploss, modify_noise_power_db, show_current]
+  readback_verification: required
+  maximum_command_completion_lateness_seconds: 0.5
+  timing_gate_changed: false
+
+reservation:
+  request_now: false
+  reuse_current_if_healthy: true
+  user_notified_before_required_reservation: true
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+
+execution_authorization:
+  one_replacement_representative_short_trace: conditional_on_all_runtime_preflight_checks
+  additional_repeat_after_replacement: false
+  complete_test1_trace: false
+  final_test6_access: false
+  abc: false
+
+failure_rule: stop_preserve_evidence_restore_original_ue_and_do_not_repeat_or_tune
