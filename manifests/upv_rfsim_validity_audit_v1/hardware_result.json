@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "stage": "corrected_rfsim_noise_response_result",
+  "recorded_at": "2026-08-31T12:46:57+02:00",
+  "decision_code": "corrected_control_valid",
+  "control_gate_pass": true,
+  "execution": {
+    "experiment": "ghinwa-314205",
+    "cell_node": "pc06-fort.emulab.net",
+    "channel_family": "AWGN",
+    "executions_planned": 15,
+    "executions_valid": 15,
+    "paired_radio_samples": 225,
+    "attachment_success_fraction": 1.0,
+    "ping_success_fraction": 1.0,
+    "critical_failures": 0,
+    "unintended_ue_restarts": 0,
+    "gnb_restarts": 0,
+    "rollback_passed": true,
+    "rollback_image_id": "sha256:7d66805b1da7bf6704821b9975b93af6db557874e6a0f17e12831da158a1f01f"
+  },
+  "state_mean_execution_medians": [
+    {
+      "noise_power_db": -60.0,
+      "ss_sinr_db": 47.88571266666667,
+      "ss_sinr_between_execution_std_db": 0.37115308465016716,
+      "ss_rsrp_dbm_integer": -97.0,
+      "rsrp_db_per_re_unquantized": 51.263305
+    },
+    {
+      "noise_power_db": -40.0,
+      "ss_sinr_db": 39.38186666666667,
+      "ss_sinr_between_execution_std_db": 0.18137500915046947,
+      "ss_rsrp_dbm_integer": -97.0,
+      "rsrp_db_per_re_unquantized": 51.264273333333335
+    },
+    {
+      "noise_power_db": -30.0,
+      "ss_sinr_db": 30.395079666666664,
+      "ss_sinr_between_execution_std_db": 0.26223624752564906,
+      "ss_rsrp_dbm_integer": -97.0,
+      "rsrp_db_per_re_unquantized": 51.26966766666666
+    },
+    {
+      "noise_power_db": -25.0,
+      "ss_sinr_db": 25.207142333333334,
+      "ss_sinr_between_execution_std_db": 0.06102829721804004,
+      "ss_rsrp_dbm_integer": -97.0,
+      "rsrp_db_per_re_unquantized": 51.27560966666667
+    },
+    {
+      "noise_power_db": -20.0,
+      "ss_sinr_db": 19.91127,
+      "ss_sinr_between_execution_std_db": 0.17690482276919495,
+      "ss_rsrp_dbm_integer": -96.66666666666667,
+      "rsrp_db_per_re_unquantized": 51.305578000000004
+    }
+  ],
+  "monotonicity": {
+    "repetitions_passing": 3,
+    "repetitions_tested": 3,
+    "maximum_upward_step_db": 0.0,
+    "gate_pass": true
+  },
+  "adjacent_sinr_differences": [
+    {
+      "lower_noise_power_db": -60.0,
+      "higher_noise_power_db": -40.0,
+      "difference_db": -8.503846000000003,
+      "bootstrap_95_percent_interval_db": [-8.838827666666667, -8.10219733333333]
+    },
+    {
+      "lower_noise_power_db": -40.0,
+      "higher_noise_power_db": -30.0,
+      "difference_db": -8.986787000000003,
+      "bootstrap_95_percent_interval_db": [-9.276848333333337, -8.695199666666667]
+    },
+    {
+      "lower_noise_power_db": -30.0,
+      "higher_noise_power_db": -25.0,
+      "difference_db": -5.1879373333333305,
+      "bootstrap_95_percent_interval_db": [-5.462858000000001, -4.9714296666666655]
+    },
+    {
+      "lower_noise_power_db": -25.0,
+      "higher_noise_power_db": -20.0,
+      "difference_db": -5.295872333333335,
+      "bootstrap_95_percent_interval_db": [-5.483332666666669, -5.151110666666668]
+    }
+  ],
+  "development_comparison": {
+    "source": "five Phase 3D development folds only",
+    "rows": 100,
+    "upv_route_sinr_db": {
+      "minimum": 10.775,
+      "median": 15.5,
+      "maximum": 22.1125
+    },
+    "upv_route_relative_rsrp_q05_to_q95_span_db": 9.976249999999993,
+    "noise_only_rfsim_relative_rsrp_q05_to_q95_span_db": 0.022372399999994727,
+    "closest_validated_noise_state_to_upv_median": -20.0,
+    "closest_state_sinr_gap_db": 4.411269999999998,
+    "upv_median_inside_validated_sinr_range": false,
+    "final_test6_accessed": false
+  },
+  "interpretation": [
+    "The corrected RFsim per-channel noise control is operational, repeatable, and monotonic on the pinned OAI/profile/hardware configuration.",
+    "Within the validated -40 to -20 dB region, commanded noise changes produce approximately equal-and-opposite SINR changes; the -60 dB state approaches the reported high-SINR ceiling.",
+    "Noise-only control does not reproduce the UPV relative-RSRP spread and the validated states do not reach the UPV development median SINR.",
+    "No fixed noise value is selected from this response experiment."
+  ],
+  "prior_result_impact": {
+    "legacy_noise_response": "superseded_by_corrected_control_result",
+    "phase3d_measurement_only_analysis": "unchanged",
+    "cirdb_timing_diagnosis": "unchanged"
+  },
+  "next_action": "freeze_separate_gain_noise_replay_protocol_using_development_data",
+  "reservation": {
+    "request_now": false,
+    "gate_state": "closed_for_offline_replay_design",
+    "notice_lead_time_minutes": 30
+  },
+  "authorizations": {
+    "fixed_noise_selection": false,
+    "gain_noise_inverse_mapping": false,
+    "final_upv_test6": false,
+    "abc": false,
+    "additional_hardware_execution": false
+  },
+  "provenance": {
+    "analysis_revision": "c2151b70fa87910054a3b7c4ae417256ee3b5b61",
+    "raw_archive_sha256": "ae4315a7252568b0827a605b554324a3cde81c56d4f6faa284d67bd204c8f154",
+    "telemetry_sha256": "9edd45a670a6e15014e66e5bfe82d197504f2a0275ca6f7a848b87d32ffee13b",
+    "execution_state_sha256": "f30e13bbdc550f5dc8c912fb27a3d8b5074785bfcf8eb581d077f9025c7e84fe",
+    "evaluation_outputs": {
+      "corrected_noise_response_evaluation.json": "c998cf7003ca59c3c1a4383449a9e80a391b3c1864df8cc776b6a33b58642f5f",
+      "execution_medians.csv": "8e176ca39e12d5738145966da520c3344c18bdb3768886227b42d34e8e907b76",
+      "pairwise_differences.csv": "109067d35b5f3dda8df714c9d5c559190f06e242da1974c614cb64e47fb1c9ad",
+      "state_summary.csv": "ea6cc689dd6e2705b4535e9b039fadcae4d83ac04c72ceed6ca81d351ffffc44"
+    }
+  }
+}

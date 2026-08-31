@@ -99,6 +99,18 @@ def test_hardware_execution_freeze_matches_protocol() -> None:
     assert freeze["authorization"]["final_upv_test6_access"] is False
 
 
+def test_corrected_noise_hardware_result_is_scoped() -> None:
+    result = json.loads((AUDIT / "hardware_result.json").read_text())
+    assert result["decision_code"] == "corrected_control_valid"
+    assert result["control_gate_pass"] is True
+    assert result["execution"]["executions_valid"] == 15
+    assert result["monotonicity"]["repetitions_passing"] == 3
+    assert result["development_comparison"]["final_test6_accessed"] is False
+    assert result["development_comparison"]["upv_median_inside_validated_sinr_range"] is False
+    assert result["reservation"]["request_now"] is False
+    assert not any(result["authorizations"].values())
+
+
 def test_audit_preserves_independent_results() -> None:
     audit = json.loads((AUDIT / "source_audit.json").read_text())
     assert audit["findings"]["noise_power_scaling"]["decision"] == "confirmed_in_pinned_source"
