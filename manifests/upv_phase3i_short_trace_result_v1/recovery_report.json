@@ -1,0 +1,49 @@
+{
+  "anchor_rows": 20,
+  "channel_verification_alignment_seconds": 1,
+  "command_events": 60,
+  "critical_failure_count": 0,
+  "failure_marker_counts": {
+    "gnb": {
+      "pusch_ul_failure": 0,
+      "radio_link_failure": 0,
+      "random_access_failure": 0,
+      "rlc_max_retx": 0,
+      "unhandled_rlf_indication": 0
+    },
+    "ue": {
+      "lost_sync": 0,
+      "pbch_decode_error": 0,
+      "radio_link_failure": 0,
+      "random_access_failure": 0
+    }
+  },
+  "failure_observation_cutoff_monotonic": 42279.43326163292,
+  "final_test6_accessed": false,
+  "full_trace_replay_currently_authorized": false,
+  "hardware_rerun_used": false,
+  "maximum_command_completion_lateness_seconds": 0.16335535049438477,
+  "next_second_channel_matches": 60,
+  "paired_trace_rows": 60,
+  "ping_checks": 24,
+  "ping_successes": 24,
+  "primary_kpi_alignment_seconds": 0,
+  "recovery_repository_revision": {
+    "revision": "121f9d64d2919a17aeeb1a3c6e709981113cd31d",
+    "tracked_worktree_dirty": false
+  },
+  "rollback_passed": true,
+  "same_second_channel_matches": 0,
+  "schema_version": 1,
+  "scientific_target_or_gate_changed": false,
+  "source_error": "applied gain mismatch at command 0",
+  "source_sha256": {
+    "events": "68f95df2643e35bd63741fa9f51292740294f541a064b7551efba79842af29e7",
+    "gnb_log": "5f9811d05ac771c6515d3ce9832a9de4c6540d50808e44e794f326876f528e71",
+    "pings": "79d7eac84fb042e0e73720af83caa289471adb227f61ff5a1a1d1497fe1bf7bb",
+    "state": "edc08765dc2be783c06445fe7d60703011c7f2c726444eca0cf8a933b57898c1",
+    "ue_log": "376b07151d88820a33dc4d4cbcd164f725c3bbef10303398adac015f7931a850",
+    "windows": "d528f4ef4ac11419affdcbc97c0f311e7b568ac93bc41e0f15e8f9369929e28f"
+  },
+  "stage": "phase_3i_timestamp_alignment_recovery"
+}

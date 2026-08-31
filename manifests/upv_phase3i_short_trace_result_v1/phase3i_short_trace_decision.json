@@ -1,0 +1,44 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "121f9d64d2919a17aeeb1a3c6e709981113cd31d",
+    "tracked_worktree_dirty": false
+  },
+  "campaign": {
+    "clipped_rows": 0,
+    "lag_search_used_for_gate_selection": false,
+    "paired_rows": 60,
+    "primary_alignment_seconds": 0,
+    "target_rows": 60
+  },
+  "decision_code": "representative_short_trace_replay_passed",
+  "final_test6_accessed": false,
+  "full_trace_protocol_freeze_authorized": true,
+  "full_trace_replay_currently_authorized": false,
+  "gates": {
+    "all_gates_passed": true,
+    "fidelity_gate_passed": true,
+    "runtime_gate_passed": true
+  },
+  "input_sha256": {
+    "campaign_anchors": "88eb15751e8a98e13851ad5479dcf623259d28e814c4796060c9d45be5d39748",
+    "campaign_execution_state": "c90a4e019a872a9a764c479950d14c598007866477d9dd9e2b96406a559a81cd",
+    "campaign_telemetry": "373576c5cb8b0a086bbabbed19dcab0942b3d539ab680d4d071c766cd529dfc4",
+    "commands": "92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf",
+    "config": "34bdd27b0f5ba4f3c6aa44bb9ae5ce678235072a6fe0f9491d8f0f84895e71d2",
+    "protocol": "530cc3544635d9c12b898e5afb463c82fe3ab797568e2a68e96d63b1d55d2e2f"
+  },
+  "metrics": {
+    "anchor_rsrp_drift_db": -0.00851050000000697,
+    "anchor_sinr_drift_db": 0.055713999999998265,
+    "maximum_command_completion_lateness_seconds": 0.163355350494,
+    "p95_command_completion_lateness_seconds": 0.1588248729701,
+    "relative_rsrp_mae_db": 0.061398741666667464,
+    "relative_rsrp_pearson_correlation": 0.9995525215908235,
+    "sinr_mae_db": 1.7355873666666666,
+    "sinr_pearson_correlation": 0.7694649814555825
+  },
+  "next_action": "freeze_complete_test1_development_trace_replay",
+  "schema_version": 1,
+  "stage": "phase_3i_representative_short_trace_result"
+}
