@@ -24,6 +24,7 @@ from .upv_phase3c14 import write_awgn_execution_control_evaluation
 from .upv_phase3c15 import write_phase3c15_support_analysis
 from .upv_phase3d import analyze_phase3d_radio_process, write_phase3d_protocol_freeze
 from .upv_phase3e import analyze_phase3e_radio_process, write_phase3e_protocol_freeze
+from .upv_phase3f import analyze_phase3f_exchangeability
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -246,6 +247,13 @@ def _parser() -> argparse.ArgumentParser:
     phase3e.add_argument("--protocol-dir", required=True)
     phase3e.add_argument("--config", required=True)
     phase3e.add_argument("--output", required=True)
+
+    phase3f = commands.add_parser("analyze-upv-phase3f-exchangeability")
+    phase3f.add_argument("--archive", required=True)
+    phase3f.add_argument("--phase3d-config", required=True)
+    phase3f.add_argument("--phase3e-result", required=True)
+    phase3f.add_argument("--config", required=True)
+    phase3f.add_argument("--output", required=True)
     return parser
 
 
@@ -539,6 +547,16 @@ def main() -> None:
             phase3d_decision_path=args.phase3d_decision,
             corrected_noise_result_path=args.corrected_noise_result,
             protocol_dir=args.protocol_dir,
+            config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3f-exchangeability":
+        result = analyze_phase3f_exchangeability(
+            archive_path=args.archive,
+            phase3d_config_path=args.phase3d_config,
+            phase3e_result_path=args.phase3e_result,
             config_path=args.config,
             output_dir=args.output,
         )

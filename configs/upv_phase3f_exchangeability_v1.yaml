@@ -1,0 +1,62 @@
+schema_version: 1
+protocol_revision: "1.0"
+stage: phase_3f_development_exchangeability_diagnostic
+execution_authorized: false
+final_evaluation_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  archive_sha256: a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753
+  phase3d_config_sha256: d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7
+  phase3e_result_sha256: da15303c76d135067549ab113a6313e95629be2cf3ec39065ab329d360606516
+  required_phase3e_decision: temporal_process_revision_still_unsupported
+
+development:
+  cross_validation: leave_one_complete_session_out
+  folds_required: 5
+  final_test6_access: false
+
+diagnostics:
+  real_to_real:
+    compare_each_holdout_with_each_training_session: true
+    joint_statistic: biased_rbf_mmd_squared_v_statistic
+    temporal_statistic: mean_of_feature_acf_rmse_and_scaled_increment_wasserstein
+    fold_summary: median_holdout_to_training_distance
+    reference: training_session_pairwise_90th_percentile
+  holdout_fitted_oracle:
+    purpose: diagnostic_attainability_only
+    selectable_process: false
+    model: paired_circular_block_replay
+    block_length_rows: 60
+    generation_repetitions: 100
+    seed: 20260831
+  inherited_metrics:
+    autocorrelation_lags_seconds: [1, 2, 3, 5, 10]
+    maximum_rows_per_trace: 240
+
+decision_rules:
+  required_exchangeable_folds: 4
+  required_oracle_supported_folds: 4
+  outcomes:
+    cross_session_shift:
+      code: cross_session_exchangeability_not_established
+      next_action: choose_scenario_conditioned_or_direct_measured_trace_replay_claim
+    unattainable_metric:
+      code: current_joint_temporal_gate_not_attainable
+      next_action: revise_predefined_targets_before_any_replay_selection
+    model_failure:
+      code: training_process_model_still_inadequate
+      next_action: revise_model_without_hardware
+
+claim_limits:
+  oracle_model_selection: prohibited
+  final_test6_access: prohibited
+  cross_scenario_generalization: prohibited
+  physical_channel_reconstruction: prohibited
+  hardware_execution: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  gate_state: closed_for_offline_exchangeability_diagnostic
+  preparation_lead_time_minutes: 30
