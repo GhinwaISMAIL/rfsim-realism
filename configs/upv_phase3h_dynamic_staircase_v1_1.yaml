@@ -1,0 +1,165 @@
+schema_version: 1
+protocol_revision: "1.1"
+stage: phase_3h_dynamic_staircase_translation_validation
+objective: validate_a_bounded_gain_noise_translator_for_the_designated_test1_trace
+execution_authorized: false
+short_trace_replay_authorized: false
+full_trace_replay_authorized: false
+final_evaluation_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  diagnosis_sha256: 8b27251e5be2c84aec40a5c040fbbc520f5a46092fdefcd02901fa4358709db5
+  execution_medians_sha256: c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f
+  direct_test1_trace_sha256: ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e
+  required_diagnosis: targeted_outer_envelope_validation_extension_required
+  research_revision: ad697c9fecc5dc4529a7f6702afd1869d7eb5fdb
+
+target_trace:
+  session_id: corrected_test_1_ASUS
+  rows: 305
+  final_test6_access: false
+  relative_rsrp_definition: subtract_complete_session_median
+  absolute_rsrp_calibration: prohibited
+
+translator:
+  role: convert_measured_relative_rsrp_and_sinr_to_rfsim_gain_and_effective_noise
+  realism_source: measured_upv_test1_trace
+  provisional_validation_target_model: bilinear_fit_to_all_13_phase3g_development_states
+  post_validation_method: bounded_piecewise_affine_interpolation
+  extrapolation: prohibited
+  output_hull_projection_metric:
+    relative_rsrp_scale_db: 1.0
+    sinr_scale_db: 2.0
+  outside_hull_rule: project_to_nearest_validated_output_hull_point_and_flag_clipped
+  primary_fidelity_population: unclipped_rows_only
+  secondary_fidelity_population: all_rows_with_clipping_reported
+
+channel:
+  family: AWGN
+  attach_gain_db: 0.0
+  attach_noise_power_db: -60.0
+  anchor_gain_db: -10.0
+  anchor_noise_power_db: -25.0
+  anchor_expected_relative_rsrp_db: 0.0
+  anchor_expected_sinr_db: 15.240397199982121
+
+validation_states:
+  - id: A
+    gain_db: -14.0
+    noise_power_db: -34.0
+    expected_relative_rsrp_db: -4.185606642971859
+    expected_sinr_db: 20.34815866868764
+  - id: B
+    gain_db: -2.0
+    noise_power_db: -28.0
+    expected_relative_rsrp_db: 7.663436351153562
+    expected_sinr_db: 26.20754289657365
+  - id: C
+    gain_db: 0.0
+    noise_power_db: -21.0
+    expected_relative_rsrp_db: 9.81917941479894
+    expected_sinr_db: 21.183406516169343
+  - id: D
+    gain_db: -6.0
+    noise_power_db: -18.0
+    expected_relative_rsrp_db: 4.103754890366288
+    expected_sinr_db: 12.18491889718216
+  - id: E
+    gain_db: -10.0
+    noise_power_db: -20.0
+    expected_relative_rsrp_db: 0.16574054355474432
+    expected_sinr_db: 10.20361354324414
+  - id: F
+    gain_db: -14.0
+    noise_power_db: -23.0
+    expected_relative_rsrp_db: -3.8102830168103243
+    expected_sinr_db: 9.241405452594012
+  - id: G
+    gain_db: -18.0
+    noise_power_db: -27.0
+    expected_relative_rsrp_db: -7.827232453031992
+    expected_sinr_db: 9.305338945535097
+
+sequences:
+  - repetition: 1
+    oai_rng_seed: 45001
+    state_order: [A, B, C, D, E, F, G]
+  - repetition: 2
+    oai_rng_seed: 45002
+    state_order: [C, D, E, F, G, A, B]
+  - repetition: 3
+    oai_rng_seed: 45003
+    state_order: [E, F, G, A, B, C, D]
+
+timing:
+  state_settling_seconds: 5.0
+  state_usable_seconds: 10.0
+  anchor_start_settling_seconds: 5.0
+  anchor_end_settling_seconds: 5.0
+  anchor_usable_seconds: 10.0
+  anchor_reset_seconds_between_states: 3.0
+  return_to_anchor_between_validation_states: true
+
+statistical_design:
+  independent_unit: complete_staircase_after_clean_ue_recreation
+  sequence_repetitions: 3
+  state_summary_within_sequence: median_of_usable_paired_samples
+  individual_radio_samples_are_independent_repetitions: false
+  confidence_intervals: diagnostic_only_due_to_three_sequence_units
+  hardware_or_environment_independence: false
+
+valid_segment_rules:
+  minimum_paired_radio_samples: 7
+  continuous_attachment: required
+  ping_success_fraction_minimum: 0.9
+  commanded_and_applied_controls_must_match: true
+  active_channel_family: AWGN
+  channel_length: 1
+  taps: 1
+  tap_energy: 1.0
+
+execution_gates:
+  maximum_absolute_mean_relative_rsrp_error_db: 1.0
+  maximum_absolute_mean_sinr_error_db: 2.0
+  maximum_anchor_start_end_relative_rsrp_drift_db: 0.25
+  maximum_anchor_start_end_sinr_drift_db: 1.0
+  maximum_critical_pbch_failures: 0
+  maximum_critical_pusch_failures: 0
+  maximum_unintended_ue_restarts: 0
+  maximum_gnb_restart_count_change: 0
+  stop_sequence_on_attachment_loss_or_critical_failure: true
+  stop_campaign_after_failed_sequence: true
+
+decision_rules:
+  pass:
+    code: dynamic_staircase_translation_validation_passed
+    next_action: freeze_and_run_representative_60_second_test1_segment
+  fail_translation:
+    code: bounded_translator_validation_failed
+    next_action: stop_before_trace_replay_and_report_unsupported_regions
+  fail_operation:
+    code: dynamic_control_operation_failed
+    next_action: stop_before_trace_replay_and_diagnose_transition_failure
+
+claim_limits:
+  response_model_is_research_objective: false
+  translator_is_supporting_tool_only: true
+  short_trace_replay_currently_authorized: false
+  full_trace_replay_currently_authorized: false
+  final_test6_validation: prohibited
+  cross_session_generalization: prohibited
+  cross_scenario_generalization: prohibited
+  physical_channel_reconstruction: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+  recommended_duration_hours: 3

@@ -7,6 +7,7 @@ from rfsim_realism.upv_phase3h import _build_plan, validate_phase3h_config
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs" / "upv_phase3h_dynamic_staircase_v1.yaml"
+CONFIG_V1_1 = ROOT / "configs" / "upv_phase3h_dynamic_staircase_v1_1.yaml"
 
 
 def test_phase3h_config_freezes_three_dynamic_sequence_units() -> None:
@@ -32,3 +33,11 @@ def test_phase3h_plan_counterbalances_positions_and_uses_unique_seeds() -> None:
         is False
     )
     assert config["reservation"]["request_now"] is False
+
+
+def test_phase3h_v1_1_equalizes_final_anchor_settling() -> None:
+    config = _read_yaml(CONFIG_V1_1)
+    validate_phase3h_config(config)
+    assert config["protocol_revision"] == "1.1"
+    assert config["timing"]["anchor_end_settling_seconds"] == 5.0
+    assert _build_plan(config).equals(_build_plan(_read_yaml(CONFIG)))

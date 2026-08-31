@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3h_dynamic_staircase_attempt_2_gate_diagnosis",
+  "decision_code": "translation_passed_but_final_anchor_sinr_settling_failed",
+  "source_output_directory": "/local/logs/upv-phase3h-dynamic-staircase-v1/phase3h-dynamic-staircase-20260831T222414Z",
+  "profile_revision": "3e37f74ed0fc0a75ff22bf737fe9d115cdb53383",
+  "runner_sha256": "9563e8368997f470a82868d05762933014bb811da493125c3b001df5109a2f03",
+  "execution_plan_sha256": "8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f",
+  "campaign": {
+    "execution_completed": true,
+    "sequence_units": 3,
+    "segments": 27,
+    "paired_radio_rows": 270,
+    "all_sequence_ping_success_fraction": 1.0,
+    "continuous_attachment": true,
+    "critical_failure_count": 0,
+    "ue_restart_count": 0,
+    "gnb_restart_count": 0,
+    "rollback_passed": true
+  },
+  "frozen_gate_result": {
+    "translation_gate_passed": true,
+    "operational_gate_passed": false,
+    "all_gates_passed": false,
+    "maximum_absolute_mean_relative_rsrp_error_db": 0.2292485655131049,
+    "maximum_absolute_mean_sinr_error_db": 0.6112541686876382,
+    "maximum_absolute_anchor_rsrp_drift_db": 0.0070169999999976085,
+    "maximum_absolute_anchor_sinr_drift_db": 1.6392855000000015,
+    "frozen_anchor_sinr_drift_limit_db": 1.0
+  },
+  "anchor_sinr_drift_by_sequence_db": {
+    "1": -0.792857,
+    "2": 0.977619,
+    "3": -1.6392855
+  },
+  "diagnosis": {
+    "classification": "final_anchor_settling_transient",
+    "evidence": [
+      "Final-anchor drift signs follow the preceding state's direction relative to the anchor.",
+      "Across the three sequences, preceding-state SINR offset and final-anchor drift have diagnostic correlation 0.8858878051840069.",
+      "In sequence 3, final-anchor per-second SINR rises from 11.766667 dB to 15.121429 dB while RSRP remains stable.",
+      "Validation states receive five seconds of settling, but protocol v1.0 gave the measured final anchor only the three-second anchor reset."
+    ],
+    "claim": "The evidence supports residual KPI filtering or settling carryover; it does not establish a physical channel effect."
+  },
+  "revision": {
+    "next_protocol": "1.1",
+    "change": "Add five seconds of final-anchor settling after the existing anchor reset.",
+    "unchanged": [
+      "all seven gain and noise validation states",
+      "three RNG seeds and counterbalanced state orders",
+      "usable window durations",
+      "all translation and operational thresholds",
+      "the complete-staircase independent unit"
+    ],
+    "repeat_entire_three_sequence_plan": true,
+    "reuse_individual_states": false
+  },
+  "authorization": {
+    "short_trace_protocol_freeze": false,
+    "short_trace_replay": false,
+    "full_trace_replay": false,
+    "final_test6_access": false,
+    "abc": false
+  }
+}

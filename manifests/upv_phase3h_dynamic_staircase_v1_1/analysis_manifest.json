@@ -1,0 +1,10 @@
+{
+  "execution_authorized": false,
+  "final_test6_accessed": false,
+  "plan_rows": 27,
+  "reservation_requested": false,
+  "schema_version": 1,
+  "sequence_units": 3,
+  "stage": "phase_3h_dynamic_staircase_protocol_manifest",
+  "validation_states": 7
+}

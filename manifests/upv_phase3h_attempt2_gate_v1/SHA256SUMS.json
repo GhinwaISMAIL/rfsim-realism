@@ -1,0 +1,11 @@
+{
+  "campaign_execution_state.json": "cdcfbc67ebcf8ee9d92b78bd1d3f0ed35a2f8cd79a12365478d2e9bc75670bfe",
+  "campaign_telemetry.csv": "65da9d40d7cdf5a33040e4cab0c2b1e1fd28615e6c99531ddd3a479f70bc4d6c",
+  "evaluation_SHA256SUMS.json": "df353490410261df12ed900befe384bde8849d321682e6f8f2497df573238d63",
+  "gate_diagnosis.json": "b697be81399287cb13d4fb2aad52a0b9b9c6ab9806308c75a4c49df6f58c39d6",
+  "phase3h_staircase_decision.json": "a136af2fc8e9922df2226764f4f5c5db1eb5e594ceb6793aed878774f0b067b7",
+  "segment_medians.csv": "ef0ccf8b4784259c15824a0c8b56308595434d6cbc7d55d450fbcf2f80a7763d",
+  "sequence_anchor_drift.csv": "9c41508f9e9815e9e570b0f0ec18913a65d8fc4c167a6bd6f1c0bf5f11343038",
+  "sequence_state_validation.csv": "fd69e78c74823b7ddf743c46602359dbd4ca0e4a1d7f5323e39498806959af57",
+  "state_translation_validation.csv": "eabcdb860401864f251d7ae3c34d6551c8ce085d5b29e8e3b02ad0441fc3e7c6"
+}

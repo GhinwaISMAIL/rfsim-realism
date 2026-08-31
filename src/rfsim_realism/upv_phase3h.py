@@ -104,6 +104,10 @@ def validate_phase3h_config(config: dict[str, Any]) -> None:
     ):
         if float(timing[name]) <= 0:
             raise ValueError(f"{name} must be positive")
+    if config.get("protocol_revision") != "1.0" and float(
+        timing.get("anchor_end_settling_seconds", 0)
+    ) <= 0:
+        raise ValueError("anchor_end_settling_seconds must be positive")
     design = config["statistical_design"]
     if design.get("independent_unit") != "complete_staircase_after_clean_ue_recreation":
         raise ValueError("the independent unit must be the complete staircase")
