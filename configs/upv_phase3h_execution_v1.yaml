@@ -1,11 +1,11 @@
 schema_version: 1
-protocol_revision: "1.1"
+protocol_revision: "1.2"
 stage: phase_3h_dynamic_staircase_execution
 
 frozen_research:
-  repository_revision: 1f7f66640772df86a2df1448c2d3136183e2a063
-  protocol_config_sha256: bdc48fb3d54ea3ade7a977e0233ed19f0289b6ebd64d6dc30a7965a63f1a89c9
-  protocol_manifest_sha256: be9c1d72e2abd9a62b079313edfce7bf984515da4af6c53e979359e88a5f029c
+  repository_revision: 631525b7df8e6b86483e3518b69e2a5d30892456
+  protocol_config_sha256: 194dfbc0ebf8a08fc994e84ece4cbad16d065f621f0526bbd5f29d68c3b03fa6
+  protocol_manifest_sha256: 871e484f55ea666212be70259c01fcb0f06ed4c8d83b1deb7d6588b0b6c586ac
   short_trace_replay_authorized: false
   full_trace_replay_authorized: false
   final_test6_access: false
@@ -14,11 +14,11 @@ frozen_research:
 frozen_profile:
   repository_url: https://github.com/GhinwaISMAIL/oai-5g-ric.git
   branch: feature/rfsim-rsrp-calibration
-  revision: 3e37f74ed0fc0a75ff22bf737fe9d115cdb53383
+  revision: 051c57942ff9787bea6f3783aba5bda48899e994
   published: true
   tracked_worktree_clean_at_freeze: true
   runner_path: bin/run-phase3h-dynamic-staircase.py
-  runner_sha256: 9563e8368997f470a82868d05762933014bb811da493125c3b001df5109a2f03
+  runner_sha256: 24c41ceac4447db0058f8beed552d0f98fc7c48cc6b52da8cf78fd61d7e7e633
   execution_plan_path: etc/phase3h-dynamic-staircase-plan.csv
   execution_plan_sha256: 8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f
   profile_source_sha256: 17204c49871aec5fda78b5637ca048166da1c8e33a2e5981f0636d5d72aa991d
@@ -68,6 +68,7 @@ execution_scope:
   independent_statistical_unit: complete_staircase_after_clean_ue_recreation
   within_segment_samples_independent: false
   post_attachment_stabilization_seconds: 5
+  final_anchor_settling_seconds: 5
 
 runtime_identity_requirements:
   - profile_revision_equals_frozen_revision

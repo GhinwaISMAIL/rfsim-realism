@@ -2,17 +2,17 @@
   "schema_version": 1,
   "stage": "phase_3h_dynamic_staircase_execution_freeze",
   "decision_code": "dynamic_staircase_hardware_execution_conditionally_authorized",
-  "research_revision": "1f7f66640772df86a2df1448c2d3136183e2a063",
+  "research_revision": "631525b7df8e6b86483e3518b69e2a5d30892456",
   "protocol": {
-    "config_sha256": "bdc48fb3d54ea3ade7a977e0233ed19f0289b6ebd64d6dc30a7965a63f1a89c9",
-    "manifest_sha256": "be9c1d72e2abd9a62b079313edfce7bf984515da4af6c53e979359e88a5f029c"
+    "config_sha256": "194dfbc0ebf8a08fc994e84ece4cbad16d065f621f0526bbd5f29d68c3b03fa6",
+    "manifest_sha256": "871e484f55ea666212be70259c01fcb0f06ed4c8d83b1deb7d6588b0b6c586ac"
   },
   "profile": {
     "repository_url": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
     "branch": "feature/rfsim-rsrp-calibration",
-    "revision": "3e37f74ed0fc0a75ff22bf737fe9d115cdb53383",
+    "revision": "051c57942ff9787bea6f3783aba5bda48899e994",
     "published": true,
-    "runner_sha256": "9563e8368997f470a82868d05762933014bb811da493125c3b001df5109a2f03",
+    "runner_sha256": "24c41ceac4447db0058f8beed552d0f98fc7c48cc6b52da8cf78fd61d7e7e633",
     "execution_plan_sha256": "8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f"
   },
   "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
@@ -21,6 +21,7 @@
   "planned_segments": 27,
   "planned_outer_state_observations": 21,
   "post_attachment_stabilization_seconds": 5,
+  "final_anchor_settling_seconds": 5,
   "independent_statistical_unit": "complete_staircase_after_clean_ue_recreation",
   "runtime_preflight_required": true,
   "execution_authorization": {

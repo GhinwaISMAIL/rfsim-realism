@@ -65,6 +65,8 @@ def test_phase3h_execution_limits_hardware_work_to_three_staircases() -> None:
     assert freeze["independent_statistical_unit"].startswith("complete_staircase")
     assert config["execution_scope"]["post_attachment_stabilization_seconds"] >= 5
     assert freeze["post_attachment_stabilization_seconds"] >= 5
+    assert config["execution_scope"]["final_anchor_settling_seconds"] >= 5
+    assert freeze["final_anchor_settling_seconds"] >= 5
 
 
 def test_phase3h_execution_reservation_is_ready_with_lead_time() -> None:
