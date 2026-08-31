@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import math
+import re
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +40,28 @@ COMMAND_COLUMNS = (
     "barycentric_1",
     "barycentric_2",
 )
+
+MARKER_FIELD = re.compile(r"(\w+)=([^\s]+)")
+LEADING_MONOTONIC = re.compile(r"^(\d+(?:\.\d+)?)")
+REJECTED_RUNNER_SHA256 = "8c41175ad59a2eb6221c543d4136d9e0ef91a2e5b78ab903408852389e43fa3b"
+UE_FAILURE_PATTERNS = {
+    "pbch_decode_error": re.compile(r"Error decoding PBCH!", re.IGNORECASE),
+    "random_access_failure": re.compile(r"RA (?:Procedure|procedure) failed"),
+    "radio_link_failure": re.compile(r"RLF detected|radio link failure", re.IGNORECASE),
+    "lost_sync": re.compile(r"LOST SYNC|out of sync", re.IGNORECASE),
+}
+GNB_FAILURE_PATTERNS = {
+    "pusch_ul_failure": re.compile(r"Detected UL Failure on PUSCH after"),
+    "random_access_failure": re.compile(r"RA (?:Procedure|procedure) failed"),
+    "rlc_max_retx": re.compile(r"max RETX reached", re.IGNORECASE),
+    "unhandled_rlf_indication": re.compile(
+        r"RLF detected, but no callable RLF handler registered", re.IGNORECASE
+    ),
+    "radio_link_failure": re.compile(
+        r"RLF detected(?!,\s*but no callable RLF handler registered)|radio link failure",
+        re.IGNORECASE,
+    ),
+}
 
 
 def validate_phase3i_config(config: dict[str, Any]) -> None:
@@ -493,6 +517,271 @@ def freeze_phase3i_short_trace(
         "clipped_rows": str(int(commands["clipped"].sum())),
         "execution_authorized": "false",
         "full_trace_replay_authorized": "false",
+        "final_test6_accessed": "false",
+    }
+
+
+def _marker_rows(log_text: str, marker: str) -> dict[int, dict[str, str]]:
+    rows: dict[int, dict[str, str]] = {}
+    for line in log_text.splitlines():
+        position = line.find(marker)
+        if position < 0:
+            continue
+        fields = dict(MARKER_FIELD.findall(line[position + len(marker) :]))
+        if "utc_second" in fields:
+            rows[int(fields["utc_second"])] = fields
+    return rows
+
+
+def _observation_suffix(log_text: str, cutoff_monotonic: float) -> str:
+    kept: list[str] = []
+    for line in log_text.splitlines():
+        match = LEADING_MONOTONIC.match(line)
+        if match and float(match.group(1)) >= cutoff_monotonic:
+            kept.append(line)
+    return "\n".join(kept)
+
+
+def _failure_counts(
+    text: str, patterns: dict[str, re.Pattern[str]]
+) -> dict[str, int]:
+    return {name: len(pattern.findall(text)) for name, pattern in patterns.items()}
+
+
+def recover_phase3i_short_trace(
+    *,
+    campaign_dir: str | Path,
+    config_path: str | Path,
+    output_dir: str | Path,
+) -> dict[str, str]:
+    campaign = Path(campaign_dir).resolve()
+    config_file = Path(config_path).resolve()
+    output = Path(output_dir).resolve()
+    if output.exists():
+        raise FileExistsError(f"Phase 3I recovery output already exists: {output}")
+    config = _read_yaml(config_file)
+    validate_phase3i_config(config)
+    paths = {
+        "state": campaign / "execution_state.json",
+        "events": campaign / "phase3i-command-events.json",
+        "windows": campaign / "phase3i-anchor-windows.json",
+        "pings": campaign / "phase3i-ping-checks.json",
+        "ue_log": campaign / "phase3i-ue.log",
+        "gnb_log": campaign / "phase3i-gnb.log",
+    }
+    for name, path in paths.items():
+        if not path.is_file() or path.is_symlink():
+            raise ValueError(f"missing or unsafe Phase 3I {name}: {path}")
+    state = _read_json(paths["state"])
+    events = json.loads(paths["events"].read_text())
+    windows = json.loads(paths["windows"].read_text())
+    pings = json.loads(paths["pings"].read_text())
+    if state.get("execution_completed") is not False:
+        raise ValueError("recovery requires the fail-closed rejected execution state")
+    if state.get("error") != "applied gain mismatch at command 0":
+        raise ValueError("recovery is not authorized for this execution error")
+    if state.get("runner_sha256") != REJECTED_RUNNER_SHA256:
+        raise ValueError("the rejected runner identity is not authorized for recovery")
+    if state.get("research_protocol_sha256") != _sha256(config_file):
+        raise ValueError("the rejected execution used a different scientific protocol")
+    if state.get("rollback", {}).get("passed") is not True:
+        raise ValueError("the rejected execution did not pass rollback")
+    if not isinstance(events, list) or len(events) != 60:
+        raise ValueError("recovery requires all 60 command events")
+    if [int(row["command_index"]) for row in events] != list(range(60)):
+        raise ValueError("recovery command indices are incomplete or reordered")
+    if not isinstance(windows, list) or len(windows) != 2:
+        raise ValueError("recovery requires both anchor windows")
+    if not isinstance(pings, list) or not pings:
+        raise ValueError("recovery requires recorded ping checks")
+
+    ue_log = paths["ue_log"].read_text(errors="replace")
+    gnb_log = paths["gnb_log"].read_text(errors="replace")
+    ue_rows = _marker_rows(ue_log, "UE_RADIO_DEBUG_V1")
+    channel_rows = _marker_rows(ue_log, "RFSIM_CHANNEL_DEBUG_V1")
+    telemetry: list[dict[str, Any]] = []
+    for event in events:
+        second = int(event["sample_utc_second"])
+        ue = ue_rows.get(second)
+        channel = channel_rows.get(second + 1)
+        if ue is None or channel is None:
+            raise ValueError(
+                f"missing recovered UE or next-second channel row for command "
+                f"{event['command_index']}"
+            )
+        gain = float(channel["applied_gain_db"])
+        noise = float(channel["noise_power_db"])
+        if not math.isclose(gain, float(event["commanded_gain_db"]), abs_tol=1e-6):
+            raise ValueError(f"recovered gain mismatch at command {event['command_index']}")
+        if not math.isclose(
+            noise, float(event["commanded_noise_power_db"]), abs_tol=1e-6
+        ):
+            raise ValueError(f"recovered noise mismatch at command {event['command_index']}")
+        if float(event["command_completion_lateness_seconds"]) > float(
+            config["runtime_gates"]["maximum_command_completion_lateness_seconds"]
+        ):
+            raise ValueError(f"late recovered command {event['command_index']}")
+        if float(event["command_complete_epoch"]) > second + 0.5:
+            raise ValueError(f"recovered command missed midpoint {event['command_index']}")
+        if channel.get("model") != "rfsimu_channel_enB0":
+            raise ValueError("the recovered trace did not use the active AWGN model")
+        if channel.get("channel_length") != "1" or channel.get("nb_taps") != "1":
+            raise ValueError("the recovered trace did not retain one-tap AWGN")
+        if not math.isclose(float(channel["tap_energy_linear"]), 1.0, abs_tol=1e-9):
+            raise ValueError("the recovered AWGN tap energy changed")
+        telemetry.append(
+            {
+                **event,
+                "channel_verification_utc_second": second + 1,
+                "channel_verification_emitted_epoch_us": channel["emitted_epoch_us"],
+                "ue_measurement_emitted_epoch_us": ue["emitted_epoch_us"],
+                "applied_gain_db": gain,
+                "applied_noise_power_db": noise,
+                "channel_family": "AWGN",
+                "channel_model_name": channel["model"],
+                "channel_snapshot_id": channel["channel_snapshot_id"],
+                "channel_snapshot_timestamp_ns": channel[
+                    "channel_snapshot_timestamp_ns"
+                ],
+                "tap_energy_linear": channel["tap_energy_linear"],
+                "tap_fingerprint_fnv1a64": channel["tap_fingerprint_fnv1a64"],
+                "channel_length": channel["channel_length"],
+                "nb_taps": channel["nb_taps"],
+                "nb_tx": channel["nb_tx"],
+                "nb_rx": channel["nb_rx"],
+                "rsrp_digital_power_linear": ue["rsrp_digital_power_linear"],
+                "rsrp_db_per_re_unquantized": ue["rsrp_db_per_re_unquantized"],
+                "ss_rsrp_dbm_integer": ue["ss_rsrp_dbm_integer"],
+                "ss_sinr_db": ue["ss_sinr_db"],
+                "attached": True,
+            }
+        )
+
+    anchors: list[dict[str, Any]] = []
+    for anchor_type, window in zip(("anchor_start", "anchor_end"), windows, strict=True):
+        start = float(window["usable_start_epoch"])
+        end = float(window["usable_end_epoch"])
+        for second, ue in sorted(ue_rows.items()):
+            if not start <= second + 0.5 < end:
+                continue
+            channel = channel_rows.get(second)
+            if channel is None:
+                continue
+            gain = float(channel["applied_gain_db"])
+            noise = float(channel["noise_power_db"])
+            if not math.isclose(gain, -10.0, abs_tol=1e-6) or not math.isclose(
+                noise, -25.0, abs_tol=1e-6
+            ):
+                raise ValueError(f"{anchor_type} controls changed")
+            anchors.append(
+                {
+                    "anchor_type": anchor_type,
+                    "utc_second": second,
+                    "rsrp_db_per_re_unquantized": ue["rsrp_db_per_re_unquantized"],
+                    "ss_sinr_db": ue["ss_sinr_db"],
+                    "applied_gain_db": gain,
+                    "applied_noise_power_db": noise,
+                    "channel_model_name": channel["model"],
+                    "channel_length": channel["channel_length"],
+                    "nb_taps": channel["nb_taps"],
+                    "tap_energy_linear": channel["tap_energy_linear"],
+                }
+            )
+    anchor_counts = pd.DataFrame(anchors)["anchor_type"].value_counts().to_dict()
+    if anchor_counts.get("anchor_start", 0) < 7 or anchor_counts.get("anchor_end", 0) < 7:
+        raise ValueError(f"insufficient recovered anchors: {anchor_counts}")
+
+    first_marker = re.search(
+        r"(?m)^(\d+(?:\.\d+)?).*RFSIM_CHANNEL_DEBUG_V1 .*emitted_epoch_us=(\d+)",
+        ue_log,
+    )
+    if first_marker is None:
+        raise ValueError("cannot establish the log monotonic-to-epoch relationship")
+    boot_epoch = int(first_marker.group(2)) / 1_000_000 - float(first_marker.group(1))
+    cutoff_monotonic = float(windows[0]["usable_start_epoch"]) - boot_epoch
+    ue_observation = _observation_suffix(ue_log, cutoff_monotonic)
+    gnb_observation = _observation_suffix(gnb_log, cutoff_monotonic)
+    failures = {
+        "ue": _failure_counts(ue_observation, UE_FAILURE_PATTERNS),
+        "gnb": _failure_counts(gnb_observation, GNB_FAILURE_PATTERNS),
+    }
+    critical_failure_count = sum(
+        count for domain in failures.values() for count in domain.values()
+    )
+    if critical_failure_count != 0:
+        raise ValueError(f"critical failure in recovered observation window: {failures}")
+    if ue_log.count("== Starting NR UE soft modem") != 1:
+        raise ValueError("the recovered UE log does not contain exactly one process start")
+    if not all(bool(item["passed"]) for item in pings):
+        raise ValueError("the recovered run contains a failed ping")
+    if not all(
+        bool(item["attached"])
+        for window in windows
+        for item in window["attachment_checks"]
+    ):
+        raise ValueError("the recovered run contains anchor attachment loss")
+    gnb_before = int(state["rollback"]["gnb_restart_count_before"])
+    gnb_after = int(state["rollback"]["gnb_restart_count_after"])
+    recovered_state = {
+        **state,
+        "execution_completed": True,
+        "error": None,
+        "paired_trace_rows": len(telemetry),
+        "anchor_rows": len(anchors),
+        "ping_success_fraction": 1.0,
+        "critical_failure_count": critical_failure_count,
+        "ue_restart_count": 0,
+        "gnb_restart_count_change": gnb_after - gnb_before,
+        "gnb_health": "healthy_after_rollback",
+        "recovered_from_fail_closed_execution": True,
+        "source_execution_state_sha256": _sha256(paths["state"]),
+        "channel_verification_alignment_seconds": 1,
+        "primary_kpi_alignment_seconds": 0,
+        "recovery_repository_revision": _git_revision(),
+    }
+    recovery_report = {
+        "schema_version": 1,
+        "stage": "phase_3i_timestamp_alignment_recovery",
+        "recovery_repository_revision": _git_revision(),
+        "source_sha256": {name: _sha256(path) for name, path in paths.items()},
+        "source_error": state["error"],
+        "command_events": len(events),
+        "paired_trace_rows": len(telemetry),
+        "anchor_rows": len(anchors),
+        "same_second_channel_matches": 0,
+        "next_second_channel_matches": len(telemetry),
+        "channel_verification_alignment_seconds": 1,
+        "primary_kpi_alignment_seconds": 0,
+        "maximum_command_completion_lateness_seconds": max(
+            float(row["command_completion_lateness_seconds"]) for row in events
+        ),
+        "failure_observation_cutoff_monotonic": cutoff_monotonic,
+        "failure_marker_counts": failures,
+        "critical_failure_count": critical_failure_count,
+        "ping_successes": len(pings),
+        "ping_checks": len(pings),
+        "rollback_passed": True,
+        "hardware_rerun_used": False,
+        "scientific_target_or_gate_changed": False,
+        "full_trace_replay_currently_authorized": False,
+        "final_test6_accessed": False,
+    }
+    output.mkdir(parents=True)
+    _write_csv(output / "phase3i_short_trace_telemetry.csv", pd.DataFrame(telemetry))
+    _write_csv(output / "phase3i_anchor_telemetry.csv", pd.DataFrame(anchors))
+    _write_json(output / "execution_state.json", recovered_state)
+    _write_json(output / "recovery_report.json", recovery_report)
+    checksums = {
+        path.name: _sha256(path)
+        for path in sorted(output.iterdir())
+        if path.is_file() and path.name != "SHA256SUMS.json"
+    }
+    _write_json(output / "SHA256SUMS.json", checksums)
+    return {
+        "output": str(output),
+        "paired_rows": str(len(telemetry)),
+        "hardware_rerun_used": "false",
+        "full_trace_replay_currently_authorized": "false",
         "final_test6_accessed": "false",
     }
 

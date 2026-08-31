@@ -29,7 +29,11 @@ from .upv_phase3g import prepare_phase3g_direct_trace
 from .upv_phase3g_diagnosis import diagnose_phase3g_boundary
 from .upv_phase3g_response import analyze_phase3g_bounded_response
 from .upv_phase3h import analyze_phase3h_dynamic_staircase, freeze_phase3h_dynamic_staircase
-from .upv_phase3i import analyze_phase3i_short_trace, freeze_phase3i_short_trace
+from .upv_phase3i import (
+    analyze_phase3i_short_trace,
+    freeze_phase3i_short_trace,
+    recover_phase3i_short_trace,
+)
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -301,6 +305,11 @@ def _parser() -> argparse.ArgumentParser:
     phase3i_freeze.add_argument("--phase3h-state-validation", required=True)
     phase3i_freeze.add_argument("--direct-trace", required=True)
     phase3i_freeze.add_argument("--output", required=True)
+
+    phase3i_recover = commands.add_parser("recover-upv-phase3i-short-trace")
+    phase3i_recover.add_argument("--campaign-dir", required=True)
+    phase3i_recover.add_argument("--config", required=True)
+    phase3i_recover.add_argument("--output", required=True)
 
     phase3i = commands.add_parser("analyze-upv-phase3i-short-trace")
     phase3i.add_argument("--campaign-dir", required=True)
@@ -671,6 +680,14 @@ def main() -> None:
             phase3g_execution_medians_path=args.phase3g_execution_medians,
             phase3h_state_validation_path=args.phase3h_state_validation,
             direct_trace_path=args.direct_trace,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "recover-upv-phase3i-short-trace":
+        result = recover_phase3i_short_trace(
+            campaign_dir=args.campaign_dir,
+            config_path=args.config,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
