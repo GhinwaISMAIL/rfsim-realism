@@ -23,6 +23,7 @@ from .upv_phase3c13 import write_static_tdlb_pilot_evaluation
 from .upv_phase3c14 import write_awgn_execution_control_evaluation
 from .upv_phase3c15 import write_phase3c15_support_analysis
 from .upv_phase3d import analyze_phase3d_radio_process, write_phase3d_protocol_freeze
+from .upv_phase3e import analyze_phase3e_radio_process, write_phase3e_protocol_freeze
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -231,6 +232,20 @@ def _parser() -> argparse.ArgumentParser:
     noise_response.add_argument("--development-route-means", required=True)
     noise_response.add_argument("--phase3d-decision", required=True)
     noise_response.add_argument("--output", required=True)
+
+    phase3e_freeze = commands.add_parser("freeze-upv-phase3e-radio-process")
+    phase3e_freeze.add_argument("--config", required=True)
+    phase3e_freeze.add_argument("--phase3d-config", required=True)
+    phase3e_freeze.add_argument("--output", required=True)
+
+    phase3e = commands.add_parser("analyze-upv-phase3e-radio-process")
+    phase3e.add_argument("--archive", required=True)
+    phase3e.add_argument("--phase3d-config", required=True)
+    phase3e.add_argument("--phase3d-decision", required=True)
+    phase3e.add_argument("--corrected-noise-result", required=True)
+    phase3e.add_argument("--protocol-dir", required=True)
+    phase3e.add_argument("--config", required=True)
+    phase3e.add_argument("--output", required=True)
     return parser
 
 
@@ -505,6 +520,26 @@ def main() -> None:
             analysis_spec_path=args.analysis_spec,
             development_route_means_path=args.development_route_means,
             phase3d_decision_path=args.phase3d_decision,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "freeze-upv-phase3e-radio-process":
+        result = write_phase3e_protocol_freeze(
+            config_path=args.config,
+            phase3d_config_path=args.phase3d_config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3e-radio-process":
+        result = analyze_phase3e_radio_process(
+            archive_path=args.archive,
+            phase3d_config_path=args.phase3d_config,
+            phase3d_decision_path=args.phase3d_decision,
+            corrected_noise_result_path=args.corrected_noise_result,
+            protocol_dir=args.protocol_dir,
+            config_path=args.config,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))

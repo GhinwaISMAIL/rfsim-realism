@@ -1,0 +1,108 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3e_radio_process_v1
+stage: phase_3e_offline_temporal_process_revision
+research_question: >-
+  Can a predeclared block or autoregressive joint residual process reproduce
+  the marginal, joint, and temporal properties of held-out UPV development
+  sessions well enough to justify a later RFsim gain/noise response design?
+execution_authorized: false
+abc_authorized: false
+final_evaluation_authorized: false
+
+frozen_inputs:
+  phase3d_config_sha256: d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7
+  phase3d_decision_sha256: 58a468e9866430b30940830f7ba4b4f38d48616544e008aaea238d62af70fa59
+  corrected_noise_result_sha256: d8a5b9b06759924a83161f31183f43ce5fb2f3e2f14e470d47c8b1e99c6ff2a0
+  archive_sha256: a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753
+  required_phase3d_decision: radio_process_model_revision_required
+  required_corrected_noise_decision: corrected_control_valid
+
+development:
+  cross_validation: leave_one_complete_session_out
+  folds_required: 5
+  inherit_sessions_and_preprocessing_from_phase3d: true
+  final_test6_access: false
+
+candidates:
+  block_replays:
+    source: fold_training_residual_sequences_only
+    lengths_rows: [10, 20, 40, 60]
+    circular_within_session: true
+    paired_features: true
+    preserve_session_boundaries_in_source_blocks: true
+  empirical_innovation_var1:
+    id: empirical_innovation_var1
+    intercept: true
+    paired_empirical_innovations: true
+    initialization: empirical_training_residual_row
+    maximum_spectral_radius: 0.995
+    covariance_regularization: 0.000001
+  switching_var1:
+    id: student_t_2state_switching_var1
+    state_model: phase3d_student_t_2state
+    weighted_state_specific_var1: true
+    paired_empirical_state_weighted_innovations: true
+    maximum_spectral_radius: 0.995
+    covariance_regularization: 0.000001
+    minimum_effective_transitions_per_state: 20
+    state_labels: increasing_expected_relative_rsrp
+
+evaluation:
+  generation_repetitions: 100
+  seed: 20260831
+  joint_distribution:
+    statistic: biased_rbf_mmd_squared_v_statistic
+    scaling: training_only_session_balanced_median_and_normalized_mad
+    bandwidth: training_only_median_heuristic
+    maximum_rows_per_trace: 240
+  temporal:
+    autocorrelation_lags_seconds: [1, 2, 3, 5, 10]
+    increment_lag_seconds: 1
+    statistic: mean_of_feature_acf_rmse_and_scaled_increment_wasserstein
+  reference: fold_training_real_session_pairwise_90th_percentile
+
+decision_rules:
+  required_development_folds: 5
+  minimum_joint_supported_folds: 4
+  minimum_temporal_supported_folds: 4
+  minimum_joint_and_temporal_supported_folds: 4
+  model_must_be_eligible_in_every_fold: true
+  ranking:
+    - descending_joint_and_temporal_supported_folds
+    - ascending_median_sum_of_reference_normalized_joint_and_temporal_error
+    - ascending_complexity_rank
+  complexity_order:
+    - paired_block_10
+    - paired_block_20
+    - paired_block_40
+    - paired_block_60
+    - empirical_innovation_var1
+    - student_t_2state_switching_var1
+  outcomes:
+    supported:
+      code: development_radio_process_supported
+      next_action: freeze_bounded_two_dimensional_gain_noise_response_protocol
+    unsupported:
+      code: temporal_process_revision_still_unsupported
+      next_action: stop_before_hardware_and_reassess_dataset_or_temporal_targets
+
+claim_limits:
+  physical_channel_reconstruction: prohibited
+  multipath_or_doppler_reconstruction: prohibited
+  causal_state_interpretation: prohibited
+  absolute_rsrp_calibration: prohibited
+  absolute_noise_power_calibration: prohibited
+  attachment_distribution_validation: prohibited
+  final_test6_validation: prohibited
+  device_or_population_generalization: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  gate_state: closed_for_offline_phase3e
+  preparation_lead_time_minutes: 30
+  next_possible_request_requires:
+    - selected_process_passes_development_gate
+    - frozen_bounded_gain_noise_response_protocol
+    - executable_attachment_failure_and_rollback_rules
