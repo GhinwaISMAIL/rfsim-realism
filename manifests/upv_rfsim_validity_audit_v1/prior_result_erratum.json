@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "stage": "legacy_rfsim_noise_control_erratum",
+  "affected_implementation": {
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "control": "per_channel_noise_power_dB",
+    "legacy_amplitude_conversion": "10^(noise_power_dB/10)",
+    "corrected_amplitude_conversion": "10^(noise_power_dB/20)"
+  },
+  "raw_data_policy": "preserve_commands_and_outputs_without_relabelling",
+  "legacy_to_corrected_equivalence": [
+    {
+      "legacy_command_noise_power_db": -30.0,
+      "legacy_effective_relative_power_db": -60.0,
+      "corrected_equivalent_noise_power_db": -60.0
+    },
+    {
+      "legacy_command_noise_power_db": -20.0,
+      "legacy_effective_relative_power_db": -40.0,
+      "corrected_equivalent_noise_power_db": -40.0
+    },
+    {
+      "legacy_command_noise_power_db": -10.0,
+      "legacy_effective_relative_power_db": -20.0,
+      "corrected_equivalent_noise_power_db": -20.0
+    },
+    {
+      "legacy_command_noise_power_db": -7.0,
+      "legacy_effective_relative_power_db": -14.0,
+      "corrected_equivalent_noise_power_db": -14.0
+    },
+    {
+      "legacy_command_noise_power_db": -5.0,
+      "legacy_effective_relative_power_db": -10.0,
+      "corrected_equivalent_noise_power_db": -10.0
+    }
+  ],
+  "affected_results": {
+    "phase2_and_phase3b": "candidate distances remain empirical observations, but the noise coordinate is not a correctly scaled power parameter",
+    "phase3c14": "the gain-to-RSRP transfer remains evidence; its fixed legacy -30 noise condition is corrected-equivalent -60",
+    "phase3c15": "the 42.3 to 51.1 dB SINR range was produced at corrected-equivalent -60, not intended -30; fixed-noise insufficiency must be retested",
+    "older_ucc_and_family_sweeps": "retain as historical executed-state catalogs only; do not interpret legacy noise coordinates physically",
+    "phase3d": "the UPV-only development result and locked final-evaluation boundary are unchanged"
+  },
+  "rerun_rule": "new executions must record the corrected profile revision, patch checksum, image digest, requested control, and verified applied control",
+  "forbidden_shortcuts": [
+    "renaming legacy commands in raw data",
+    "applying a fitted offset to make legacy and corrected results agree",
+    "assuming corrected SINR from a dB subtraction without execution",
+    "opening ABC or final validation before corrected support analysis"
+  ]
+}

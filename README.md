@@ -164,6 +164,16 @@ joint MMD, temporal ACF/increments, and held-out predictive scores, and keeps
 the POWDER gate closed. The complete claim boundary and numerical decision
 rules are in `reports/UPV_PHASE3D_RADIO_PROCESS_PROTOCOL.md`.
 
+The RFsim control-validity audit confirms that the pinned per-channel noise
+path converted a power-domain dB command as an amplitude with `/10` rather
+than `/20`. Historical commands and outputs remain immutable; their noise
+coordinate is covered by an explicit erratum. The profile revision containing
+the reproducible correction must be used for all new executions. The audit
+does not authorize an RSRP offset, ABC, CIRDB optimization, or multi-UE claims.
+Its next hardware step is a frozen one-cell, one-UE AWGN validation of the
+corrected noise response. See `reports/RFSIM_VALIDITY_AUDIT_V1.md` and
+`manifests/upv_rfsim_validity_audit_v1/`.
+
 ## Current static reference catalog
 
 The official `v1.0.0` archive contains 23 static traces: 8 Amazon Prime,

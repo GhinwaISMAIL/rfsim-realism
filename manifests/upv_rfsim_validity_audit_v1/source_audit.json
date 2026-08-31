@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "stage": "upv_rfsim_validity_audit",
+  "recorded_at": "2026-08-31T00:00:00+02:00",
+  "scope": "one_cell_one_ue_rfsim_awgn_and_static_tdl_controls",
+  "repositories": {
+    "analysis_revision_before_audit": "c155a472b52795c5c8b9b3d84b6cf6059c757134",
+    "profile_revision_with_noise_fix": "21d0713c7fa56656086ef2eb3313651e2271a3f8",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c"
+  },
+  "upstream_issue_snapshot": [
+    {
+      "issue": "https://gitlab.eurecom.fr/oai/openairinterface5g/-/work_items/781",
+      "title": "Wrong noise power scaling of SNR in the RF simulator",
+      "state_checked": "open",
+      "relevance": "direct"
+    },
+    {
+      "issue": "https://gitlab.eurecom.fr/oai/openairinterface5g/-/work_items/986",
+      "title": "OAI nrUE measured SSB RSRP mismatch with third-party gNB",
+      "state_checked": "open",
+      "relevance": "measurement_equivalence_warning_only"
+    },
+    {
+      "issue": "https://gitlab.eurecom.fr/oai/openairinterface5g/-/work_items/790",
+      "title": "Wrong RFsim sampling-rate units for delay scaling",
+      "state_checked": "open",
+      "relevance": "audited_for_static_tdl"
+    },
+    {
+      "issue": "https://gitlab.eurecom.fr/oai/openairinterface5g/-/work_items/895",
+      "title": "Per-channel noise accumulation with multiple UEs",
+      "state_checked": "open",
+      "relevance": "out_of_scope_for_one_ue"
+    }
+  ],
+  "source_checksums": {
+    "oai_apply_channelmod_c": "d87fb051292bdb7da91cac2358110f6d0df8a06652cf106c71a2ad5d31fdf6f8",
+    "oai_rfsimulator_cpp": "8d78932b06903344d4a137bdafb5729173b40a98330116d1609a0abca0315c3a",
+    "oai_random_channel_c": "187f0d4e872e5fbe8e63e17d421183f6fca70ae9f64240f4976626083cd391c7",
+    "profile_noise_patch": "5c3bbdf4bd391244c79868c60f90db0a0f2e2b5690dbb2bf5e521f9b91c6e2e7",
+    "profile_tdl_patch": "3e2716a1555364a820faddb351c5484726b400e05a08e4e279bc3471695ea417"
+  },
+  "findings": {
+    "noise_power_scaling": {
+      "decision": "confirmed_in_pinned_source",
+      "legacy_expression": "256 * 10^(noise_power_dB/10)",
+      "corrected_expression": "256 * 10^(noise_power_dB/20)",
+      "effect": "legacy relative noise-power changes are twice the commanded dB value",
+      "profile_mitigation": "bin/patch-oai-rfsim-noise-scaling.py",
+      "tests_passed": 106
+    },
+    "global_noise_power_dbfs": {
+      "present_in_pinned_source": true,
+      "conversion": "amplitude uses 10^(dBFS/20)",
+      "decision": "consistent_reference_implementation_but_not_dynamic_per_channel_control"
+    },
+    "absolute_rsrp": {
+      "oai_issue_986_environment": "physical_B210_nrUE_against_third_party_gNB",
+      "reported_under_reading_db": "6_to_7",
+      "transfer_to_rfsim": "not_established",
+      "offset_application": "prohibited",
+      "decision": "retain_relative_rsrp_only"
+    },
+    "tdl_delay_scaling": {
+      "configured_rms_delay_spread_seconds": 3e-08,
+      "observed_channel_length": 15,
+      "observed_nb_taps": 12,
+      "only_first_tap_failure_observed": false,
+      "decision": "issue_790_not_supported_as_cause_of_tested_downlink_tdl_result"
+    },
+    "tdl_repeated_model_storage": {
+      "upstream_source_mutates_static_normalized_delay_array": true,
+      "profile_mitigation": "bin/patch-oai-tdl-model.py",
+      "mitigation_behavior": "allocate_per_channel_delay_storage_without_mutating_model_tables",
+      "decision": "future_tdl_images_must_retain_patch_and_regression_test"
+    },
+    "multi_ue_noise_accumulation": {
+      "current_ue_count": 1,
+      "decision": "out_of_scope",
+      "future_rule": "use_global_noise_or_validate_single_addition_before_multi_ue_claims"
+    }
+  },
+  "result_impact": {
+    "phase3b_empirical_candidate_ranking": "preserve_outputs_but_reinterpret_noise_axis",
+    "phase3c13_tdl_rsrp_repeatability": "unchanged",
+    "phase3c14_gain_to_rsrp_transfer": "unchanged",
+    "phase3c15_fixed_noise_conclusion": "reopen",
+    "phase3d_measurement_only_analysis": "unchanged",
+    "absolute_rsrp_equivalence": "still_unresolved",
+    "cirdb_timing_diagnosis": "unchanged"
+  },
+  "claim_limits": {
+    "absolute_noise_power_from_legacy_commands": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "fixed_noise_insufficiency_from_phase3c15": "prohibited_until_corrected_rerun",
+    "cirdb_realtime_multipath": "prohibited",
+    "multi_ue_noise_semantics": "prohibited",
+    "abc": "prohibited"
+  }
+}

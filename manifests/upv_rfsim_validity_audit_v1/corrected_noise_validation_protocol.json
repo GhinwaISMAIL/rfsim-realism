@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "stage": "corrected_rfsim_noise_response_validation_protocol",
+  "protocol_status": "frozen_offline_pending_remote_profile_and_hardware_execution",
+  "purpose": [
+    "verify the corrected per-channel power-to-RMS implementation on the pinned OAI revision",
+    "measure the one-UE AWGN SINR response before revisiting fixed-noise support",
+    "preserve a bounded decision gate for the measurement-informed replay study"
+  ],
+  "required_revisions": {
+    "analysis_parent_revision": "c155a472b52795c5c8b9b3d84b6cf6059c757134",
+    "profile_revision": "21d0713c7fa56656086ef2eb3313651e2271a3f8",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "noise_patch_sha256": "5c3bbdf4bd391244c79868c60f90db0a0f2e2b5690dbb2bf5e521f9b91c6e2e7"
+  },
+  "reservation": {
+    "profile": "oai-5g-ric-v2",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "cell_hardware": "d740",
+    "recommended_duration_hours": 4,
+    "minimum_duration_hours": 3,
+    "notice_lead_time_minutes": 30
+  },
+  "image_identity": {
+    "corrected_image_tag": "oai-nr-ue-rfsim-noise-v1:70508eb-21d0713",
+    "corrected_image_digest": "record_after_build",
+    "rollback_image_tag": "record_before_build",
+    "rollback_image_digest": "record_before_build",
+    "generated_compose_sha256": "record_after_startup",
+    "generated_channel_config_sha256": "record_after_startup",
+    "generated_ue_config_sha256": "record_after_startup"
+  },
+  "design": {
+    "fixed_scalar_gain_db": 0.0,
+    "noise_power_db_states": [
+      -60.0,
+      -40.0,
+      -30.0,
+      -25.0,
+      -20.0
+    ],
+    "independent_executions_per_state": 3,
+    "execution_unit": "clean UE container recreation",
+    "attach_noise_power_db": -60.0,
+    "state_order_by_repetition": [
+      [-60.0, -30.0, -20.0, -40.0, -25.0],
+      [-25.0, -60.0, -40.0, -20.0, -30.0],
+      [-20.0, -40.0, -25.0, -30.0, -60.0]
+    ],
+    "settling_seconds_after_state_change": 5.0,
+    "minimum_usable_telemetry_seconds": 15.0,
+    "sample_pairing": "synchronized RSRP and SINR rows only",
+    "state_change_rule": "attach at -60 dB, command exactly one tested state, settle, collect, restore -60 dB, then recreate the UE",
+    "independence_limit": "execution-level process recreation; not independent RF hardware or environmental repetitions"
+  },
+  "valid_execution_rules": {
+    "required_valid_executions_per_state": 3,
+    "attachment_before_test_state": "required",
+    "attachment_during_usable_window": "required",
+    "minimum_usable_telemetry_seconds": 15.0,
+    "paired_radio_samples_minimum": 10,
+    "critical_pbch_failure_count_maximum": 0,
+    "critical_pusch_failure_count_maximum": 0,
+    "unintended_ue_restart_count_maximum": 0,
+    "gnb_restart_count_change_maximum": 0,
+    "gnb_health": "healthy",
+    "ping_success_fraction_minimum": 0.9,
+    "active_channel_identity": {
+      "model": "AWGN",
+      "channel_length": 1,
+      "taps": 1,
+      "tap_energy": 1.0
+    },
+    "applied_noise_value_must_equal_command": true,
+    "mandatory_rollback_after_each_execution": true
+  },
+  "analysis_unit": "execution",
+  "predeclared_checks": {
+    "implementation_semantics": "source checksum and image identity match the corrected profile; logs report the commanded power-domain dB value",
+    "noise_monotonicity": "median SINR is non-increasing as commanded noise power increases in every complete repetition, allowing ties up to 0.5 dB",
+    "response_evidence": "report execution medians and all pairwise state differences with execution-level bootstrap intervals",
+    "rsrp_diagnostic": "report relative RSRP by state but do not treat it as an absolute calibration target",
+    "upv_comparison": "development sessions only; Test 6 remains untouched"
+  },
+  "decision_rules": [
+    {
+      "decision": "corrected_control_valid",
+      "when": "all state identities and valid-execution rules pass, and the predeclared SINR monotonicity check passes"
+    },
+    {
+      "decision": "implementation_or_transport_invalid",
+      "when": "source/image identity, applied-value telemetry, or monotonicity fails; stop before replay design"
+    },
+    {
+      "decision": "operational_boundary_before_minus20",
+      "when": "three valid executions cannot be obtained for any state from -60 through -20 dB; retain the failures and do not extrapolate"
+    },
+    {
+      "decision": "fixed_noise_support_requires_new_replay",
+      "when": "the corrected control is valid; select no fixed-noise value from this response test alone and freeze a separate gain-replay protocol using development data"
+    }
+  ],
+  "stopping_rules": [
+    "stop before execution if any required revision, patch checksum, image tag, or generated configuration identity differs",
+    "stop the current execution on attachment loss, a critical PBCH/PUSCH failure, a UE restart, a gNB restart, unhealthy gNB state, or wrong active channel identity",
+    "do not substitute an unplanned noise state after a failed state",
+    "do not inspect or score the pre-designated untouched Test 6 session",
+    "restore the rollback UE image before releasing the reservation"
+  ],
+  "not_authorized": [
+    "absolute RSRP calibration",
+    "absolute environmental noise calibration",
+    "gain-noise inverse mapping",
+    "final UPV validation",
+    "ABC",
+    "CIRDB optimization",
+    "multi-UE claims"
+  ]
+}

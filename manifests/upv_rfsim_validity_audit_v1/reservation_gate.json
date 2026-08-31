@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "stage": "corrected_rfsim_noise_validation_gate",
+  "gate_state": "closed_pending_remote_profile_availability",
+  "request_now": false,
+  "reservation_notice_minutes": 30,
+  "offline_completed": [
+    "pinned source expression verified",
+    "reproducible profile patch committed",
+    "power-to-RMS regression tests passed",
+    "complete profile test suite passed",
+    "legacy result erratum frozen",
+    "TDL repeated-model mitigation verified"
+  ],
+  "requirements_before_request": [
+    "make profile revision 21d0713c7fa56656086ef2eb3313651e2271a3f8 available to POWDER",
+    "freeze corrected image tags and rollback image digests",
+    "verify that the frozen execution protocol checksum matches the committed audit",
+    "announce the reservation at least 30 minutes before the first POWDER-dependent action"
+  ],
+  "next_reservation_shape": {
+    "profile": "oai-5g-ric-v2",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "cell_hardware": "d740",
+    "recommended_duration_hours": 4,
+    "minimum_duration_hours": 3,
+    "purpose": "build corrected images and execute the frozen per-channel noise response validation before any gain-noise replay"
+  },
+  "execution_not_authorized": [
+    "two-dimensional gain-noise response experiment",
+    "final UPV evaluation",
+    "ABC",
+    "CIRDB optimization",
+    "multi-UE validation"
+  ]
+}
