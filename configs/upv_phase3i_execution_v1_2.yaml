@@ -1,0 +1,59 @@
+schema_version: 1
+protocol_revision: "1.2"
+stage: phase_3i_representative_short_trace_execution
+
+immutable_scientific_protocol:
+  repository_revision: b36a41e4289c2a2635f25efc5aeba607d1a0d5ce
+  protocol_config_sha256: 34bdd27b0f5ba4f3c6aa44bb9ae5ce678235072a6fe0f9491d8f0f84895e71d2
+  protocol_manifest_sha256: 530cc3544635d9c12b898e5afb463c82fe3ab797568e2a68e96d63b1d55d2e2f
+  commands_sha256: 92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf
+  scientific_targets_or_gates_changed: false
+  final_test6_access: false
+
+superseded_execution_revision:
+  config_sha256: f99f231ccd72683a499c7098f236cb8c119a613222d2fac818249210fbb9c39d
+  hardware_freeze_sha256: 04b9222c6f4cb3b481dc5b95b591acd1161891f79372338021042e2cfd64b11d
+  disposition: pre_execution_import_failure_no_radio_mutation
+
+deployment_compatibility:
+  node_python_version: "3.10"
+  failure: typing_Self_unavailable
+  output_directory_created: false
+  ue_recreated: false
+  channel_controls_applied: false
+  correction: bounded_type_annotation_only
+
+frozen_profile:
+  repository_url: https://github.com/GhinwaISMAIL/oai-5g-ric.git
+  branch: feature/rfsim-rsrp-calibration
+  revision: 9757ef945e6725e1a8e99327eb5ac409a14c1e22
+  published: true
+  runner_path: bin/run-phase3i-short-trace.py
+  runner_sha256: 8c41175ad59a2eb6221c543d4136d9e0ef91a2e5b78ab903408852389e43fa3b
+  commands_sha256: 92025f840ef690c76ad016ad3c9b22c66474c72758c4baabf00ae140b6afe6bf
+
+transport:
+  mode: persistent_telnet_session
+  readback_verification: required
+  maximum_command_completion_lateness_seconds: 0.5
+  timing_gate_changed: false
+
+reservation:
+  request_now: false
+  reuse_current_if_healthy: true
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+
+execution_authorization:
+  one_replacement_representative_short_trace: conditional_on_all_runtime_preflight_checks
+  additional_repeat_after_replacement: false
+  complete_test1_trace: false
+  final_test6_access: false
+  abc: false
+
+failure_rule: stop_preserve_evidence_restore_original_ue_and_do_not_repeat_or_tune
