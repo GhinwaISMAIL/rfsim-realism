@@ -12,6 +12,11 @@ FREEZE = ROOT / "manifests/upv_phase3h_execution_v1/hardware_freeze.json"
 EXCLUDED_ATTEMPT = (
     ROOT / "manifests/upv_phase3h_attempt1_exclusion_v1/exclusion_decision.json"
 )
+PASS_RESULT = (
+    ROOT
+    / "manifests/upv_phase3h_translation_validation_v1_1"
+    / "phase3h_staircase_decision.json"
+)
 
 
 def test_phase3h_execution_freeze_pins_protocol_profile_runner_and_plan() -> None:
@@ -98,3 +103,17 @@ def test_phase3h_attempt1_is_immutable_and_excluded() -> None:
         EXCLUDED_ATTEMPT.name
     ]
     assert len(checksums) == 8
+
+
+def test_phase3h_v1_1_pass_result_is_immutable_and_limited() -> None:
+    decision = json.loads(PASS_RESULT.read_text())
+    checksums = json.loads((PASS_RESULT.parent / "SHA256SUMS.json").read_text())
+    assert decision["decision_code"] == "dynamic_staircase_translation_validation_passed"
+    assert decision["gates"]["all_gates_passed"] is True
+    assert decision["short_trace_protocol_freeze_authorized"] is True
+    assert decision["short_trace_replay_currently_authorized"] is False
+    assert decision["full_trace_replay_currently_authorized"] is False
+    assert decision["final_test6_accessed"] is False
+    for name, expected in checksums.items():
+        path = PASS_RESULT.parent / name
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected

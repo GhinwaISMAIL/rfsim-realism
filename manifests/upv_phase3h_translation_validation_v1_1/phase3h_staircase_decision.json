@@ -1,0 +1,43 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "07f630435e3e5671d3671dd9a33e9ff256bb0da0",
+    "tracked_worktree_dirty": false
+  },
+  "campaign": {
+    "gNB_untouched": true,
+    "individual_radio_samples_are_independent_repetitions": false,
+    "segments": 27,
+    "sequence_units": 3,
+    "validation_state_observations": 21
+  },
+  "decision_code": "dynamic_staircase_translation_validation_passed",
+  "final_test6_accessed": false,
+  "full_trace_replay_currently_authorized": false,
+  "gates": {
+    "all_gates_passed": true,
+    "confidence_intervals_are_diagnostic_only": true,
+    "operational_gate_passed": true,
+    "translation_gate_passed": true
+  },
+  "input_sha256": {
+    "campaign_execution_state": "799450ba8f097416c2223fe031d86badba17c8d3c4b8efc72a09f97aaf5c5b53",
+    "campaign_telemetry": "9752f18e0356e5941c3bf4197bd31d3c5edc859dc82949293753b9bf286b499a",
+    "config": "194dfbc0ebf8a08fc994e84ece4cbad16d065f621f0526bbd5f29d68c3b03fa6",
+    "plan": "8505f2f3137d08f94eaefe016827950b8782b4b6b9452ec4466425787959fc7f",
+    "protocol": "871e484f55ea666212be70259c01fcb0f06ed4c8d83b1deb7d6588b0b6c586ac"
+  },
+  "maximum_anchor_drift": {
+    "relative_rsrp_db": 0.03166950000000668,
+    "sinr_db": 0.9107140000000022
+  },
+  "maximum_errors": {
+    "relative_rsrp_db": 0.23612898217977296,
+    "sinr_db": 0.5939701028178413
+  },
+  "next_action": "freeze_and_run_representative_60_second_test1_segment",
+  "schema_version": 1,
+  "short_trace_protocol_freeze_authorized": true,
+  "short_trace_replay_currently_authorized": false,
+  "stage": "phase_3h_dynamic_staircase_translation_validation_result"
+}

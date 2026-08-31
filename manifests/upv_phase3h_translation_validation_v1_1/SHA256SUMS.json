@@ -1,0 +1,7 @@
+{
+  "phase3h_staircase_decision.json": "d0f08081e3c1cb6cd4313612d1032a49a4a8eff10c1d1e46ec487afb7ea2c12a",
+  "segment_medians.csv": "ce294f2bb6a8acf81a6db9a8e8a56df2fbe5716b993bebb6a088c35c451bf93f",
+  "sequence_anchor_drift.csv": "38a216c2950142b17574475c5ac950b7b02c15df74a7115e042eb9a10f6d4a8d",
+  "sequence_state_validation.csv": "45e6b0986e3e3465c8c4ed90ebd82fff90a5b0bfbe6feb7bec2b5a2ed63cccfe",
+  "state_translation_validation.csv": "82aed42046194479a8fef362e007f79d1595dd822212a0329128fd9fab7a058f"
+}
