@@ -9,6 +9,7 @@ from .family_compare import run_family_comparison
 from .fetch import fetch_archive
 from .mapping import run_static_mapping
 from .mmd_abc import run_mmd_abc, write_mmd_abc_plan, write_posterior_predictive_plan
+from .noise_response import write_corrected_noise_response_evaluation
 from .report import build_report
 from .static_grid import plan_document as static_grid_plan
 from .static_grid import run_campaign as run_static_grid
@@ -219,6 +220,17 @@ def _parser() -> argparse.ArgumentParser:
     phase3d.add_argument("--protocol-dir", required=True)
     phase3d.add_argument("--config", required=True)
     phase3d.add_argument("--output", required=True)
+
+    noise_response = commands.add_parser("evaluate-corrected-rfsim-noise-response")
+    noise_response.add_argument("--raw-archive", required=True)
+    noise_response.add_argument("--telemetry", required=True)
+    noise_response.add_argument("--execution-state", required=True)
+    noise_response.add_argument("--protocol", required=True)
+    noise_response.add_argument("--hardware-freeze", required=True)
+    noise_response.add_argument("--analysis-spec", required=True)
+    noise_response.add_argument("--development-route-means", required=True)
+    noise_response.add_argument("--phase3d-decision", required=True)
+    noise_response.add_argument("--output", required=True)
     return parser
 
 
@@ -479,6 +491,20 @@ def main() -> None:
             phase3c15_result_path=args.phase3c15_result,
             protocol_dir=args.protocol_dir,
             config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "evaluate-corrected-rfsim-noise-response":
+        result = write_corrected_noise_response_evaluation(
+            raw_archive_path=args.raw_archive,
+            telemetry_path=args.telemetry,
+            execution_state_path=args.execution_state,
+            protocol_path=args.protocol,
+            hardware_freeze_path=args.hardware_freeze,
+            analysis_spec_path=args.analysis_spec,
+            development_route_means_path=args.development_route_means,
+            phase3d_decision_path=args.phase3d_decision,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))

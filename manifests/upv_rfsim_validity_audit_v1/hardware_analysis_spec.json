@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "stage": "corrected_rfsim_noise_response_analysis_specification",
+  "status": "frozen_before_confirmatory_evaluation",
+  "timing_disclosure": {
+    "operational_pass_lines_inspected": true,
+    "exploratory_state_medians_inspected": true,
+    "bootstrap_intervals_inspected_before_this_freeze": false,
+    "decision_gate_changed_after_execution": false,
+    "note": "The monotonicity and validity gates were predeclared. Bootstrap settings affect descriptive intervals only and do not determine the decision."
+  },
+  "frozen_inputs": {
+    "raw_archive_sha256": "ae4315a7252568b0827a605b554324a3cde81c56d4f6faa284d67bd204c8f154",
+    "telemetry_sha256": "9edd45a670a6e15014e66e5bfe82d197504f2a0275ca6f7a848b87d32ffee13b",
+    "execution_state_sha256": "f30e13bbdc550f5dc8c912fb27a3d8b5074785bfcf8eb581d077f9025c7e84fe",
+    "protocol_sha256": "740c268864e58a6e9d70ad5e1946ee95f07c6750b5db63c18845c1c1cc0ac14f",
+    "hardware_freeze_sha256": "7815a9da8e9fe75de0dbe816b5bfe08756ee4fa847590b51005010a720ecf785",
+    "development_route_means_sha256": "3b548ff7075427446073de2c815469f804027caecd2633ed45da247f1a7f7a69",
+    "phase3d_decision_sha256": "58a468e9866430b30940830f7ba4b4f38d48616544e008aaea238d62af70fa59"
+  },
+  "analysis": {
+    "unit": "execution",
+    "within_execution_summary": "median",
+    "state_summary": "mean_of_three_execution_medians",
+    "metrics": [
+      "rsrp_db_per_re_unquantized",
+      "ss_rsrp_dbm_integer",
+      "ss_sinr_db"
+    ],
+    "monotonic_metric": "ss_sinr_db",
+    "monotonic_check": "within_each_repetition_after_sorting_commanded_noise_power_db_in_ascending_order",
+    "maximum_allowed_upward_sinr_step_db": 0.5,
+    "pairwise_direction": "higher_noise_power_state_minus_lower_noise_power_state",
+    "bootstrap": {
+      "resampling_unit": "execution_median",
+      "groups_resampled_independently": true,
+      "repetitions": 20000,
+      "seed": 20260831,
+      "confidence_level": 0.95,
+      "interval": "percentile"
+    }
+  },
+  "development_comparison": {
+    "source": "phase3d_fold_route_means",
+    "include_only_supported_rows": true,
+    "descriptive_only": true,
+    "final_test6_access": false,
+    "fixed_noise_selection_authorized": false
+  },
+  "claim_limits": {
+    "corrected_control_semantics": "testable",
+    "absolute_environmental_noise_calibration": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "gain_noise_inverse_mapping": "not_tested",
+    "final_upv_validation": "prohibited",
+    "abc": "prohibited"
+  }
+}
