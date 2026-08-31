@@ -28,6 +28,7 @@ from .upv_phase3f import analyze_phase3f_exchangeability
 from .upv_phase3g import prepare_phase3g_direct_trace
 from .upv_phase3g_diagnosis import diagnose_phase3g_boundary
 from .upv_phase3g_response import analyze_phase3g_bounded_response
+from .upv_phase3h import analyze_phase3h_dynamic_staircase, freeze_phase3h_dynamic_staircase
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -278,6 +279,19 @@ def _parser() -> argparse.ArgumentParser:
     phase3g_diagnosis.add_argument("--response-dir", required=True)
     phase3g_diagnosis.add_argument("--direct-trace", required=True)
     phase3g_diagnosis.add_argument("--output", required=True)
+
+    phase3h_freeze = commands.add_parser("freeze-upv-phase3h-dynamic-staircase")
+    phase3h_freeze.add_argument("--config", required=True)
+    phase3h_freeze.add_argument("--diagnosis", required=True)
+    phase3h_freeze.add_argument("--execution-medians", required=True)
+    phase3h_freeze.add_argument("--direct-trace", required=True)
+    phase3h_freeze.add_argument("--output", required=True)
+
+    phase3h = commands.add_parser("analyze-upv-phase3h-dynamic-staircase")
+    phase3h.add_argument("--campaign-dir", required=True)
+    phase3h.add_argument("--protocol-dir", required=True)
+    phase3h.add_argument("--config", required=True)
+    phase3h.add_argument("--output", required=True)
     return parser
 
 
@@ -612,6 +626,25 @@ def main() -> None:
         result = diagnose_phase3g_boundary(
             response_dir=args.response_dir,
             direct_trace_path=args.direct_trace,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "freeze-upv-phase3h-dynamic-staircase":
+        result = freeze_phase3h_dynamic_staircase(
+            config_path=args.config,
+            diagnosis_path=args.diagnosis,
+            execution_medians_path=args.execution_medians,
+            direct_trace_path=args.direct_trace,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3h-dynamic-staircase":
+        result = analyze_phase3h_dynamic_staircase(
+            campaign_dir=args.campaign_dir,
+            protocol_dir=args.protocol_dir,
+            config_path=args.config,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
