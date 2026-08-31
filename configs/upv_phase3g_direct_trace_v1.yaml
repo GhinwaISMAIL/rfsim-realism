@@ -1,0 +1,140 @@
+schema_version: 1
+protocol_revision: "1.0"
+stage: phase_3g_direct_measured_trace_control_preparation
+execution_authorized: false
+final_evaluation_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  archive_sha256: a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753
+  phase3d_config_sha256: d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7
+  phase3f_result_sha256: ab29be2992eeed717ff829c650c9ac53408b7879e8f33269f32ced12bc03ec2d
+  scalar_control_result_sha256: 491b6c933032f28f36803343f4ef4f03d51086f91ce655e087b6ba115971b68b
+  corrected_noise_result_sha256: d8a5b9b06759924a83161f31183f43ce5fb2f3e2f14e470d47c8b1e99c6ff2a0
+  required_phase3f_decision: cross_session_exchangeability_not_established
+  required_scalar_decision: passed
+  required_noise_decision: corrected_control_valid
+
+target_trace:
+  session_id: corrected_test_1_ASUS
+  scenario: clean_single_active_ue_radio_survey
+  selection_timing: designated_before_phase3f_exchangeability_diagnostic
+  temporal_aggregation_seconds: 1.0
+  interpolation: prohibited
+  maximum_gap_seconds: 2.0
+  relative_rsrp_definition: subtract_complete_session_median
+  final_test6_access: false
+
+provisional_mapping:
+  gain:
+    response_slope: mean_of_two_phase3c1_execution_slopes
+    offset_rule: strongest_target_relative_rsrp_maps_to_zero_gain
+    equation: gain_db=(relative_rsrp_db-max_relative_rsrp_db)/gain_response_slope
+  noise:
+    response_fit_states_db: [-40.0, -30.0, -25.0, -20.0]
+    fit: ordinary_least_squares_of_mean_execution_median_sinr_on_noise_command
+    assumed_gain_to_sinr_coefficient: 1.0
+    equation: noise_db=(target_sinr_db-intercept-assumed_gain_to_sinr_coefficient*gain_db)/noise_slope
+  status: engineering_hypothesis_for_response_design_only
+  replay_authorized: false
+
+hardware_design:
+  channel_family: AWGN
+  attach_noise_power_db: -60.0
+  fixed_gain_for_attach_db: 0.0
+  safety_gain_states_db: [-8.0, -12.0, -16.0, -18.0]
+  safety_gain_noise_power_db: -60.0
+  safety_noise_states_db: [-18.0, -17.0]
+  safety_noise_gain_db: 0.0
+  safety_executions_per_state: 1
+  factorial_gain_states_db: [-8.0, -10.0, -12.0]
+  factorial_noise_states_db: [-28.0, -25.0, -22.0]
+  factorial_executions_per_state: 3
+  boundary_pairs_gain_noise_db:
+    - [0.0, -17.0]
+    - [-4.0, -23.0]
+    - [-16.0, -30.0]
+    - [-18.0, -35.0]
+  boundary_executions_per_pair: 3
+  settling_seconds: 5.0
+  usable_telemetry_seconds: 15.0
+  execution_unit: clean_ue_container_recreation
+  independent_hardware_or_environment_repetitions: false
+
+valid_execution_rules:
+  attachment_before_test_state: required
+  continuous_attachment_during_usable_window: required
+  paired_radio_samples_minimum: 10
+  ping_success_fraction_minimum: 0.9
+  critical_pbch_failure_count_maximum: 0
+  critical_pusch_failure_count_maximum: 0
+  unintended_ue_restart_count_maximum: 0
+  gnb_restart_count_change_maximum: 0
+  gnb_health: healthy
+  active_channel_family: AWGN
+  channel_length: 1
+  taps: 1
+  tap_energy: 1.0
+  applied_gain_and_noise_must_equal_command: true
+  restore_attach_state_after_each_execution: true
+  restore_original_ue_image_after_campaign: true
+
+analysis_gates:
+  unit: execution_median
+  valid_factorial_executions_per_state: 3
+  jacobian_rows: [relative_RSRP, SINR]
+  jacobian_columns: [gain, noise]
+  maximum_condition_number: 10.0
+  coefficient_ranges:
+    relative_RSRP_by_gain: [0.8, 1.2]
+    relative_RSRP_by_noise: [-0.2, 0.2]
+    SINR_by_gain: [0.5, 1.5]
+    SINR_by_noise: [-1.2, -0.7]
+  maximum_absolute_interaction_coefficient: 0.1
+  boundary_mapping_maximum_absolute_rsrp_error_db: 1.0
+  boundary_mapping_maximum_absolute_sinr_error_db: 2.0
+  uncertainty: execution_level_bootstrap
+  bootstrap_repetitions: 20000
+  bootstrap_seed: 20260831
+  confidence_level: 0.95
+
+stopping_rules:
+  - stop_current_execution_on_attachment_loss_or_any_critical_failure
+  - do_not_advance_past_a_failed_safety_state
+  - do_not_execute_factorial_or_boundary_states_until_all_safety_states_pass
+  - preserve_failed_state_logs_and_do_not_substitute_an_unplanned_state
+  - restore_attach_controls_before_recreating_the_ue
+  - restore_the_original_ue_image_before_releasing_the_reservation
+
+decision_rules:
+  response_supported:
+    code: bounded_gain_noise_response_supported
+    next_action: freeze_open_loop_direct_test1_trace_replay
+  operational_boundary:
+    code: target_control_envelope_exceeds_operational_boundary
+    next_action: clip_and_redefine_the_trace_level_claim_before_replay
+  nonidentifiable_or_nonlinear:
+    code: gain_noise_mapping_not_identifiable_in_target_region
+    next_action: stop_before_replay_and_revise_the_control_model
+
+claim_limits:
+  direct_trace_replay_currently_authorized: false
+  cross_session_generalization: prohibited
+  cross_scenario_generalization: prohibited
+  absolute_rsrp_calibration: prohibited
+  environmental_noise_inference: prohibited
+  physical_channel_reconstruction: prohibited
+  final_test6_validation: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  gate_state: closed_pending_runner_and_profile_freeze
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+  recommended_duration_hours: 4
