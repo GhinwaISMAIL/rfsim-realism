@@ -1,0 +1,39 @@
+{
+  "abc_authorized": false,
+  "candidate_ids": [
+    "paired_block_10",
+    "paired_block_20",
+    "paired_block_40",
+    "paired_block_60",
+    "empirical_innovation_var1",
+    "student_t_2state_switching_var1"
+  ],
+  "development_folds": 5,
+  "execution_authorized": false,
+  "final_test6_access": false,
+  "inputs": {
+    "config": {
+      "path": "/Users/ghinwaismail/Desktop/rfsim-realism/configs/upv_phase3e_radio_process_v1.yaml",
+      "sha256": "82b2ecccd937b9609b9cf0c0cba0d4ed5244865174b4f7744c61538b50755d94"
+    },
+    "implementation": {
+      "path": "/Users/ghinwaismail/Desktop/rfsim-realism/src/rfsim_realism/upv_phase3e.py",
+      "sha256": "5470f012181f55bf19d14f63d907b9ce540b41f069e16970789703eb7a04a760"
+    },
+    "phase3d_config": {
+      "path": "/Users/ghinwaismail/Desktop/rfsim-realism/configs/upv_phase3d_radio_process_v1.yaml",
+      "sha256": "d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7"
+    },
+    "tests": {
+      "path": "/Users/ghinwaismail/Desktop/rfsim-realism/tests/test_upv_phase3e.py",
+      "sha256": "03e53e2cfa4427e0e7f2dbc5113b4aca4c91d51aebafaefbb1f2aed83d499b15"
+    }
+  },
+  "protocol_revision": "1.0",
+  "repository": {
+    "revision": "f158821ffd17ab0f38a0b71e276c566df3c18e11",
+    "tracked_worktree_dirty": false
+  },
+  "schema_version": 1,
+  "stage": "phase_3e_protocol_freeze"
+}
