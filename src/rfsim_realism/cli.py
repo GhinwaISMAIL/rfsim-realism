@@ -37,6 +37,7 @@ from .upv_phase3i import (
 from .upv_phase3j import analyze_phase3j_full_trace, freeze_phase3j_full_trace
 from .upv_phase3k import check_phase3k_test6_support, freeze_phase3k_model_release
 from .upv_phase3l import analyze_phase3l_exploratory_replay, freeze_phase3l_exploratory_protocol
+from .upv_phase3m import analyze_phase3m_sinr_dynamics, freeze_phase3m_sinr_dynamics
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -370,6 +371,23 @@ def _parser() -> argparse.ArgumentParser:
     phase3l_analyze.add_argument("--protocol-dir", required=True)
     phase3l_analyze.add_argument("--config", required=True)
     phase3l_analyze.add_argument("--output", required=True)
+
+    phase3m_freeze = commands.add_parser("freeze-upv-phase3m-sinr-dynamics")
+    phase3m_freeze.add_argument("--config", required=True)
+    phase3m_freeze.add_argument("--phase3j-result-dir", required=True)
+    phase3m_freeze.add_argument("--phase3l-result-dir", required=True)
+    phase3m_freeze.add_argument("--phase3g-execution-medians", required=True)
+    phase3m_freeze.add_argument("--phase3g-campaign-dir", required=True)
+    phase3m_freeze.add_argument("--phase3j-analyzer", required=True)
+    phase3m_freeze.add_argument("--output", required=True)
+
+    phase3m_analyze = commands.add_parser("analyze-upv-phase3m-sinr-dynamics")
+    phase3m_analyze.add_argument("--config", required=True)
+    phase3m_analyze.add_argument("--protocol-dir", required=True)
+    phase3m_analyze.add_argument("--phase3j-result-dir", required=True)
+    phase3m_analyze.add_argument("--phase3l-result-dir", required=True)
+    phase3m_analyze.add_argument("--phase3g-campaign-dir", required=True)
+    phase3m_analyze.add_argument("--output", required=True)
     return parser
 
 
@@ -820,6 +838,29 @@ def main() -> None:
             campaign_dir=args.campaign,
             protocol_dir=args.protocol_dir,
             config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "freeze-upv-phase3m-sinr-dynamics":
+        result = freeze_phase3m_sinr_dynamics(
+            config_path=args.config,
+            phase3j_result_dir=args.phase3j_result_dir,
+            phase3l_result_dir=args.phase3l_result_dir,
+            phase3g_execution_medians_path=args.phase3g_execution_medians,
+            phase3g_campaign_dir=args.phase3g_campaign_dir,
+            phase3j_analyzer_path=args.phase3j_analyzer,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3m-sinr-dynamics":
+        result = analyze_phase3m_sinr_dynamics(
+            config_path=args.config,
+            protocol_dir=args.protocol_dir,
+            phase3j_result_dir=args.phase3j_result_dir,
+            phase3l_result_dir=args.phase3l_result_dir,
+            phase3g_campaign_dir=args.phase3g_campaign_dir,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))

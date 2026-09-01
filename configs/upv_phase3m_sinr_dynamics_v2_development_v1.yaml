@@ -1,0 +1,144 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3m_sinr_dynamics_v2_development_v1
+stage: phase_3m_version2_sinr_dynamics_offline_development
+evaluation_status: posthoc_offline_development_not_final_validation
+objective: >-
+  Determine whether a constrained first-order SINR response model improves
+  complete-execution forward prediction beyond the frozen Version 1 static
+  translator before any Version 2 inverse commands or hardware run are authorized.
+hardware_execution_authorized: false
+inverse_command_generation_authorized: false
+version1_artifacts_mutable: false
+
+frozen_inputs:
+  phase3j_paired_fidelity:
+    path: manifests/upv_phase3j_full_trace_result_v1/paired_full_trace_fidelity.csv
+    sha256: 57108f7c407caa59754c5394dfab5d62058c2ac5cd303d4f92c06d1065784093
+  phase3j_result_checksums:
+    path: manifests/upv_phase3j_full_trace_result_v1/SHA256SUMS.json
+    sha256: 5015e6fd726f2d4997efe0c5cfae581e19628d0e4622628f9b2ff4a5992945b0
+  phase3l_paired_fidelity:
+    path: manifests/upv_phase3l_test6_exploratory_result_v1/paired_test6_fidelity.csv
+    sha256: da6b66be9be8e764cefd0876452fe1c24f1875227cf535efa2d978393e9360fd
+  phase3l_result_checksums:
+    path: manifests/upv_phase3l_test6_exploratory_result_v1/SHA256SUMS.json
+    sha256: bdb6e4bfd2dccd9661b66255670c02218a382813813796ddd528ad5d62e3f0f5
+  phase3g_execution_medians:
+    path: manifests/upv_phase3g_response_v1/execution_medians.csv
+    sha256: c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f
+  phase3l_config:
+    path: configs/upv_phase3l_test6_exploratory_v1.yaml
+    sha256: be6dc98df9bd0985168a79dfc52665bb431039b78c58d838a065eb13264f3f85
+  phase3j_analyzer:
+    path: src/rfsim_realism/upv_phase3j.py
+    sha256: e2c441ed1e6e7cf2fdfe79654734beec6426524f3b9501bb876971dd72b04630
+  phase3g_campaign:
+    path: data/model_runs/upv_phase3g_bounded_response_v1/phase3g-bounded-response-20260831T132110Z
+    telemetry_files: 45
+
+version1_erratum:
+  status: documentation_sign_convention_erratum_only
+  frozen_outputs_recomputed: false
+  thresholds_changed: false
+  declared_config_convention: original_target_minus_projected_feasible_target
+  implemented_column_convention: projected_feasible_target_minus_original_target
+  canonical_version2_convention: projected_feasible_target_minus_original_target
+  additive_identity: total_error_equals_clipping_error_plus_dynamic_error
+  absolute_metrics_affected: false
+  signed_metrics_require_canonical_convention: true
+
+development_data:
+  execution_unit: complete_hardware_replay
+  phase3j_test1_executions: 3
+  phase3l_test6_executions: 1
+  test6_role: posthoc_held_out_trajectory_now_reclassified_as_version2_development
+  final_version2_validation_data: not_yet_selected
+  temporal_order_preserved: true
+  random_row_splitting: prohibited
+  clipped_row_forward_input: projected_feasible_sinr
+  observed_output: ss_sinr_db
+  first_row_scored: false
+
+models:
+  static:
+    equation: predicted_sinr_t_equals_a_plus_b_times_projected_sinr_t
+    alpha_fixed: 0.0
+  memory_only:
+    equation: predicted_t_equals_alpha_times_predicted_previous_plus_one_minus_alpha_times_projected_t
+    a_fixed: 0.0
+    b_fixed: 1.0
+  combined:
+    equation: predicted_t_equals_alpha_times_predicted_previous_plus_one_minus_alpha_times_a_plus_b_times_projected_t
+  recursion_initialization: model_steady_output_at_first_projected_target
+  prediction_mode: recursive_open_loop
+  observed_previous_output_as_predictor: prohibited
+  fitting_loss: execution_balanced_mean_squared_error
+  alpha:
+    minimum: 0.0
+    maximum: 0.95
+    grid_step: 0.001
+  a_db:
+    minimum: -10.0
+    maximum: 10.0
+  b:
+    minimum: 0.5
+    maximum: 1.5
+
+cross_validation:
+  method: leave_one_complete_execution_out
+  folds: 4
+  equal_execution_weight_in_training: true
+  model_selection_order: [memory_only, combined]
+  selection_rule: simplest_candidate_meeting_all_predeclared_gates
+  metrics:
+    - mae_db
+    - rmse_db
+    - p95_absolute_error_db
+    - maximum_absolute_error_db
+    - signed_bias_db
+    - residual_lag1_correlation
+
+candidate_gates_against_static:
+  minimum_absolute_mae_improvement_db: 0.15
+  minimum_relative_mae_improvement_fraction: 0.10
+  minimum_absolute_p95_improvement_db: 0.20
+  minimum_relative_p95_improvement_fraction: 0.08
+  minimum_mean_absolute_residual_lag1_reduction: 0.05
+  maximum_single_fold_mae_degradation_db: 0.10
+  maximum_alpha_range_across_folds: 0.25
+  maximum_b_range_across_folds: 0.30
+  parameter_boundary_tolerance: 0.005
+
+static_variability_reference:
+  included_stages: [factorial, boundary]
+  exclude_safety_stages: true
+  within_execution_statistic: per_second_sinr_about_execution_mean
+  between_execution_statistic: pooled_sd_of_execution_medians_for_states_with_at_least_three_repetitions
+  interpretation: diagnostic_reference_not_an_irreducible_error_proof
+
+decision_rules:
+  candidate_supported:
+    code: version2_forward_sinr_model_supported_for_separate_inverse_design
+    next_action: freeze_a_separate_bounded_joint_inverse_command_design_without_hardware
+  no_candidate_supported:
+    code: version2_dynamic_compensation_not_supported_by_complete_execution_cross_validation
+    next_action: retain_version1_and_report_sinr_variability_without_command_compensation
+  invalid:
+    code: version2_offline_diagnostic_invalid
+    next_action: stop_without_model_or_hardware_changes
+
+claim_limits:
+  version1_confirmatory_status_changed: prohibited
+  version2_hardware_commands: prohibited
+  final_version2_validation: prohibited
+  predictive_radio_condition_model: prohibited
+  physical_channel_dynamics: prohibited
+  physical_noise_or_path_loss_inference: prohibited
+  online_feedback: prohibited
+  cross_device_or_population_generalization: prohibited
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  request_only_after: offline_candidate_and_separate_inverse_protocol_both_pass
