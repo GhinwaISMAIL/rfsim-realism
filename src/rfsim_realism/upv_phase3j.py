@@ -21,6 +21,21 @@ from .upv_phase3d import (
 )
 from .upv_phase3i import COMMAND_COLUMNS, _barycentric, _scaled_points, _support_bank
 
+CONTROL_ECHO_ABS_TOL_DB = 5e-6
+CONTROL_APPLICATION_VERIFICATION_SOURCE = "immediate_persistent_telnet_show"
+CHANNEL_SNAPSHOT_PURPOSE = "static_channel_identity_and_tap_invariants_only"
+EXECUTION_PACKAGE_FIELDS = (
+    "research_revision",
+    "oai_revision",
+    "profile_revision",
+    "runner_sha256",
+    "commands_sha256",
+    "compose_sha256",
+    "channel_config_sha256",
+    "ue_config_sha256",
+    "debug_image_id",
+)
+
 
 def validate_phase3j_config(config: dict[str, Any]) -> None:
     if config.get("stage") != "phase_3j_complete_test1_development_fidelity_and_repeatability":
@@ -585,6 +600,25 @@ def _analyze_phase3j_execution(
         raise ValueError(f"execution {execution_number} authorized translator updates")
     if state.get("gNB_untouched") is not True:
         raise ValueError(f"execution {execution_number} changed the gNB")
+    if not np.isclose(
+        float(state.get("control_echo_abs_tolerance_db", float("nan"))),
+        CONTROL_ECHO_ABS_TOL_DB,
+        atol=0.0,
+        rtol=0.0,
+    ):
+        raise ValueError(f"execution {execution_number} control tolerance mismatch")
+    if (
+        state.get("control_application_verification_source")
+        != CONTROL_APPLICATION_VERIFICATION_SOURCE
+    ):
+        raise ValueError(f"execution {execution_number} control source mismatch")
+    if state.get("channel_snapshot_purpose") != CHANNEL_SNAPSHOT_PURPOSE:
+        raise ValueError(f"execution {execution_number} snapshot purpose mismatch")
+    if state.get("channel_snapshot_control_match_required") is not False:
+        raise ValueError(f"execution {execution_number} misuses channel snapshots")
+    for field in EXECUTION_PACKAGE_FIELDS:
+        if not isinstance(state.get(field), str) or not state[field]:
+            raise ValueError(f"execution {execution_number} is missing {field}")
     if telemetry["command_index"].duplicated().any():
         raise ValueError(f"execution {execution_number} contains duplicate command rows")
     if not telemetry["command_index"].isin(commands["command_index"]).all():
@@ -620,11 +654,14 @@ def _analyze_phase3j_execution(
         raise ValueError(f"execution {execution_number} changed clipping flags")
     paired["clipped"] = clipped_protocol.to_numpy()
     if not np.allclose(
-        paired["commanded_gain_db"], paired["applied_gain_db"], atol=1e-6, rtol=0.0
+        paired["commanded_gain_db"],
+        paired["applied_gain_db"],
+        atol=CONTROL_ECHO_ABS_TOL_DB,
+        rtol=0.0,
     ) or not np.allclose(
         paired["commanded_noise_power_db"],
         paired["applied_noise_power_db"],
-        atol=1e-6,
+        atol=CONTROL_ECHO_ABS_TOL_DB,
         rtol=0.0,
     ):
         raise ValueError(f"execution {execution_number} applied different controls")
@@ -729,6 +766,7 @@ def _analyze_phase3j_execution(
         "execution_number": execution_number,
         "execution_id": state["execution_id"],
         "oai_rng_seed": expected_seed,
+        **{field: state[field] for field in EXECUTION_PACKAGE_FIELDS},
         "paired_rows": len(paired),
         "missing_rows": len(commands) - len(paired),
         "clipped_rows": int(paired["clipped"].sum()),
@@ -818,6 +856,9 @@ def analyze_phase3j_full_trace(
     execution_ids = [row["execution_id"] for row in metric_rows]
     if len(set(execution_ids)) != 3:
         raise ValueError("Phase 3J execution identifiers must be distinct")
+    for field in EXECUTION_PACKAGE_FIELDS:
+        if len({str(row[field]) for row in metric_rows}) != 1:
+            raise ValueError(f"Phase 3J executions used different {field} values")
     paired_all = pd.concat(paired_tables, ignore_index=True)
     common = paired_all.pivot(
         index="command_index",

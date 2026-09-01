@@ -172,6 +172,7 @@ def _synthetic_campaign(
     execution_number: int,
     *,
     sinr_offset_db: float = 0.0,
+    applied_gain_offset_db: float = 0.0,
 ) -> Path:
     campaign = root / f"campaign-{execution_number}"
     campaign.mkdir()
@@ -193,7 +194,9 @@ def _synthetic_campaign(
             "clipped",
         ]
     ].copy()
-    telemetry["applied_gain_db"] = telemetry["commanded_gain_db"]
+    telemetry["applied_gain_db"] = (
+        telemetry["commanded_gain_db"] + applied_gain_offset_db
+    )
     telemetry["applied_noise_power_db"] = telemetry["commanded_noise_power_db"]
     telemetry["rsrp_db_per_re_unquantized"] = (
         telemetry["target_relative_rsrp_db"] + 40.0
@@ -231,6 +234,18 @@ def _synthetic_campaign(
         "test6_accessed": False,
         "translator_update_authorized": False,
         "gNB_untouched": True,
+        "control_echo_abs_tolerance_db": 5e-6,
+        "control_application_verification_source": "immediate_persistent_telnet_show",
+        "channel_snapshot_purpose": "static_channel_identity_and_tap_invariants_only",
+        "channel_snapshot_control_match_required": False,
+        "research_revision": "research-revision",
+        "oai_revision": "oai-revision",
+        "profile_revision": "profile-revision",
+        "runner_sha256": "runner-sha256",
+        "compose_sha256": "compose-sha256",
+        "channel_config_sha256": "channel-config-sha256",
+        "ue_config_sha256": "ue-config-sha256",
+        "debug_image_id": "debug-image-id",
         "ping_success_fraction": 1.0,
         "critical_failure_count": 0,
         "ue_restart_count": 0,
@@ -242,7 +257,14 @@ def _synthetic_campaign(
 
 
 def test_phase3j_analyzer_passes_exact_three_execution_replay(tmp_path: Path) -> None:
-    campaigns = [_synthetic_campaign(tmp_path, number) for number in (1, 2, 3)]
+    campaigns = [
+        _synthetic_campaign(
+            tmp_path,
+            number,
+            applied_gain_offset_db=1.572e-6 if number == 1 else 0.0,
+        )
+        for number in (1, 2, 3)
+    ]
     output = tmp_path / "analysis"
     result = analyze_phase3j_full_trace(
         campaign_dirs=campaigns,
@@ -277,6 +299,26 @@ def test_phase3j_analyzer_rejects_reused_execution_directory(tmp_path: Path) -> 
     with pytest.raises(ValueError, match="must be distinct"):
         analyze_phase3j_full_trace(
             campaign_dirs=[campaign, campaign, campaign],
+            protocol_dir=ROOT / "manifests/upv_phase3j_full_trace_v1",
+            config_path=CONFIG,
+            output_dir=tmp_path / "analysis",
+        )
+
+
+def test_phase3j_analyzer_rejects_control_error_above_frozen_tolerance(
+    tmp_path: Path,
+) -> None:
+    campaigns = [
+        _synthetic_campaign(
+            tmp_path,
+            number,
+            applied_gain_offset_db=1e-5 if number == 1 else 0.0,
+        )
+        for number in (1, 2, 3)
+    ]
+    with pytest.raises(ValueError, match="applied different controls"):
+        analyze_phase3j_full_trace(
+            campaign_dirs=campaigns,
             protocol_dir=ROOT / "manifests/upv_phase3j_full_trace_v1",
             config_path=CONFIG,
             output_dir=tmp_path / "analysis",

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3j_execution_software_patch",
+  "reservation": {
+    "experiment_name": "ghinwa-314296",
+    "cell_node": "pc04-meb",
+    "profile": "oai-5g-ric-v2",
+    "channel_family": "AWGN"
+  },
+  "aborted_execution": {
+    "execution_number": 2,
+    "oai_rng_seed": 47002,
+    "profile_revision": "d5a2e5a5819ba4621abd6e4e96d6dd4370ef1293",
+    "output_path": "/local/logs/upv-phase3j-full-trace-v1/phase3j-full-trace-20260901T094257Z",
+    "error": "applied gain mismatch at command 103",
+    "scientific_status": "audit_only_not_a_completed_execution",
+    "test6_accessed": false,
+    "rollback_passed": true,
+    "gnb_restart_count_change": 0,
+    "baseline_attachment_restored": true
+  },
+  "diagnosis": {
+    "command_index": 103,
+    "requested_gain_db": -13.542553956,
+    "immediate_acknowledged_gain_db": -13.542554,
+    "immediate_acknowledged_noise_power_db": -28.280107,
+    "immediate_acknowledgement_verified": true,
+    "asynchronous_snapshot_gain_db": -8.400771832,
+    "asynchronous_snapshot_noise_power_db": -31.069929123,
+    "asynchronous_snapshot_corresponded_to_command_index": 104,
+    "immediate_acknowledgement_mismatches_over_all_305_commands": 0,
+    "asynchronous_snapshot_mismatch_indices": [103],
+    "cause": "the once-per-second asynchronous channel snapshot skipped a transient command at a UTC boundary",
+    "emulator_or_translator_failure": false
+  },
+  "patch": {
+    "profile_revision": "recorded_in_each_execution_state",
+    "published_branch": "feature/rfsim-rsrp-calibration",
+    "control_application_verification_source": "immediate_persistent_telnet_show",
+    "channel_snapshot_purpose": "static_channel_identity_and_tap_invariants_only",
+    "channel_snapshot_control_match_required": false,
+    "control_echo_abs_tolerance_db": 0.000005,
+    "relative_tolerance": 0.0,
+    "profile_tests_expected": 139,
+    "commands_changed": false,
+    "translator_changed": false,
+    "timing_changed": false,
+    "oai_image_changed": false,
+    "evaluation_thresholds_changed": false
+  },
+  "unchanged_inputs": {
+    "commands_sha256": "c25fb55ea78294e7e7f44a9dddf6b985ba50881d09d6f394fbbc96bd074fcc76",
+    "research_protocol_sha256": "47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "instrumented_image_id": "sha256:bcd49b62d594c805dbc17a01ad923d80a4a2445cdbbd5d39e5df54a82aa7cfcd",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "authorization": {
+    "restart_final_execution_set_from_execution_1": true,
+    "all_three_final_executions_use_one_identical_committed_package": true,
+    "continue_to_next_execution_only_after_prior_gate_passes": true,
+    "reuse_partial_execution_as_scientific_evidence": false,
+    "test6_access": false,
+    "translator_update_authorized": false
+  }
+}
