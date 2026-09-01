@@ -1,0 +1,43 @@
+{
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "attachment_distribution_validation": "prohibited",
+    "cross_device_generalization": "prohibited",
+    "multipath_or_doppler_reconstruction": "prohibited",
+    "physical_channel_reconstruction": "prohibited",
+    "physical_noise_or_path_loss_inference": "prohibited",
+    "population_generalization": "prohibited",
+    "prediction_of_test6_without_observing_it": "prohibited"
+  },
+  "clipped_fraction": 0.0707070707070707,
+  "clipped_rows": 21,
+  "decision_code": "test6_target_unsupported_no_hardware_execution",
+  "evaluation_status": "predesignated_untouched_session_target_trajectory_validation",
+  "gates": {
+    "clipped_fraction_gate_passed": false,
+    "clipping_distance_gate_passed": false,
+    "trajectory_support_gate_passed": false
+  },
+  "hardware_execution_authorized": false,
+  "inside_rows": 276,
+  "maximum_clipping_distance_scaled": 1.0626583375853942,
+  "next_action": "report_target_as_outside_validated_emulator_support_without_calling_it_failure",
+  "one_contiguous_one_hz_sequence": true,
+  "reservation_requested": false,
+  "runtime_gate_for_future_execution": {
+    "minimum_paired_fraction": 0.980327868852459,
+    "minimum_paired_rows": 292,
+    "target_rows": 297
+  },
+  "schema_version": 1,
+  "sequence_count": 1,
+  "serving_pci_fraction": 1.0,
+  "serving_pci_gate_passed": true,
+  "stage": "phase_3k_test6_offline_support_result",
+  "target_rows": 297,
+  "test6_payload_opened": true,
+  "test6_use": "observed_target_trajectory_not_prediction_target",
+  "test6_used_for_fitting_selection_or_threshold_tuning": false,
+  "translator_changed": false
+}

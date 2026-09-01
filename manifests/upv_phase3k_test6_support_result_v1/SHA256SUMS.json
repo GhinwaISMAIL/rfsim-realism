@@ -1,0 +1,7 @@
+{
+  "source_audit.json": "6e86a10ff715e559550e4a58b1c996ca79d66620b7f5b9525c6af25f8eebc6e8",
+  "test6_clipped_targets.csv": "f5b8814cb54f71acc5dc7d5233de28b9fe20814b4b538620fa7cefb402a38ebe",
+  "test6_commands.csv": "f79d244e8c054a95ee895f83f0655dc6136b694c1c8f2db5417043a1cf2bbedc",
+  "test6_support_decision.json": "b9f3fa41ef9ff9f62d41c6352ceedf079242eab786be8a30b783e2e0056c427c",
+  "test6_target_trace.csv": "f973bce73568c1275154f10b6c5366787057fb1632115e566308a0544610ac70"
+}

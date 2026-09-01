@@ -1,0 +1,19 @@
+{
+  "aggregated_target_rows": 297,
+  "archive_path": "/Users/ghinwaismail/Desktop/rfsim-realism/data/raw/upv_remote_driving_n40_v1.zip",
+  "archive_sha256": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753",
+  "member_path": "Test_6/Test_6_ASUS.csv",
+  "member_payload_opened": true,
+  "member_sha256": "88a971aa2c3169862cfb788a65fc5206f8ee94a410b0c2e964a0dbfa3149c1dd",
+  "other_archive_member_payloads_opened_by_this_command": 0,
+  "prior_inspection_disclosure": "Phase 1 parsed every source file for inventory, completeness, GPS, and global-range diagnostics. Test 6 was not used for Phase 3D through Phase 3J fitting, selection, threshold tuning, or development evaluation.",
+  "raw_quality": {
+    "complete_radio_gps_rows": 575,
+    "complete_radio_triplets": 575,
+    "duplicate_route_timestamps": 0,
+    "route_rows_after_timestamp_deduplication": 575
+  },
+  "route_rows": 575,
+  "schema_version": 1,
+  "stage": "phase_3k_test6_source_audit"
+}
