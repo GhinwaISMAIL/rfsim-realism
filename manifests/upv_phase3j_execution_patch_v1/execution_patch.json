@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3j_execution_software_patch",
+  "reservation": {
+    "experiment_name": "ghinwa-314296",
+    "cell_node": "pc04-meb",
+    "profile": "oai-5g-ric-v2",
+    "channel_family": "AWGN"
+  },
+  "aborted_execution": {
+    "execution_number": 1,
+    "oai_rng_seed": 47001,
+    "profile_revision": "5829c55d704fd8c09d017ffc3b23932bb61d8766",
+    "output_path": "/local/logs/upv-phase3j-full-trace-v1/phase3j-full-trace-20260901T092446Z",
+    "error": "applied noise mismatch at command 72",
+    "scientific_status": "audit_only_not_a_completed_execution",
+    "test6_accessed": false,
+    "rollback_passed": true,
+    "gnb_restart_count_change": 0,
+    "baseline_attachment_restored": true
+  },
+  "diagnosis": {
+    "command_index": 72,
+    "requested_noise_power_db": -34.036279572,
+    "observed_noise_power_db": -34.036278,
+    "absolute_difference_db": 0.000001572,
+    "command_event_verified": true,
+    "cause": "inconsistent software tolerances for a float32 control round trip",
+    "emulator_or_translator_failure": false
+  },
+  "patch": {
+    "profile_revision": "d5a2e5a5819ba4621abd6e4e96d6dd4370ef1293",
+    "published_branch": "feature/rfsim-rsrp-calibration",
+    "phase3j_runner_sha256": "af773b459876243540c6323433a86da11c0efd1a9de8aa9ef49fa362ef61ba61",
+    "phase3i_runner_sha256": "cb444794946150fd7585cbd27ffd2105e2e0b37f44ec3923c0d46485438c4c00",
+    "control_echo_abs_tolerance_db": 0.000005,
+    "relative_tolerance": 0.0,
+    "profile_tests_passed": 138,
+    "commands_changed": false,
+    "translator_changed": false,
+    "timing_changed": false,
+    "oai_image_changed": false,
+    "evaluation_thresholds_changed": false
+  },
+  "unchanged_inputs": {
+    "commands_sha256": "c25fb55ea78294e7e7f44a9dddf6b985ba50881d09d6f394fbbc96bd074fcc76",
+    "research_protocol_sha256": "47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b",
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "instrumented_image_id": "sha256:bcd49b62d594c805dbc17a01ad923d80a4a2445cdbbd5d39e5df54a82aa7cfcd",
+    "compose_sha256": "db5aade37a4613a95c3f9682cdddf3bc5bc73d74f398c004105547c80b8d0260",
+    "channel_config_sha256": "8814d9dd7f05ae96093a4f2a327e176f638a0fff8030136a844d1e0950179d72",
+    "ue_config_sha256": "d7f10f47440e67a9395391b11797473dc24a63c90d2faad9292c216fc3a6734e"
+  },
+  "authorization": {
+    "rerun_execution_1_from_the_beginning": true,
+    "continue_to_executions_2_and_3_only_after_each_prior_gate_passes": true,
+    "reuse_partial_execution_as_scientific_evidence": false,
+    "test6_access": false,
+    "translator_update_authorized": false
+  }
+}
