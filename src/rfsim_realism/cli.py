@@ -35,6 +35,7 @@ from .upv_phase3i import (
     recover_phase3i_short_trace,
 )
 from .upv_phase3j import analyze_phase3j_full_trace, freeze_phase3j_full_trace
+from .upv_phase3k import check_phase3k_test6_support, freeze_phase3k_model_release
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -333,6 +334,27 @@ def _parser() -> argparse.ArgumentParser:
     phase3j_analyze.add_argument("--protocol-dir", required=True)
     phase3j_analyze.add_argument("--config", required=True)
     phase3j_analyze.add_argument("--output", required=True)
+
+    phase3k_freeze = commands.add_parser("freeze-upv-phase3k-model-release")
+    phase3k_freeze.add_argument("--config", required=True)
+    phase3k_freeze.add_argument("--phase3d-config", required=True)
+    phase3k_freeze.add_argument("--phase3j-config", required=True)
+    phase3k_freeze.add_argument("--phase3j-protocol-dir", required=True)
+    phase3k_freeze.add_argument("--phase3j-result-dir", required=True)
+    phase3k_freeze.add_argument("--profile-runner", required=True)
+    phase3k_freeze.add_argument("--profile-engine", required=True)
+    phase3k_freeze.add_argument("--pyproject", required=True)
+    phase3k_freeze.add_argument("--uv-lock", required=True)
+    phase3k_freeze.add_argument("--output", required=True)
+
+    phase3k_support = commands.add_parser("check-upv-phase3k-test6-support")
+    phase3k_support.add_argument("--config", required=True)
+    phase3k_support.add_argument("--phase3d-config", required=True)
+    phase3k_support.add_argument("--phase3j-config", required=True)
+    phase3k_support.add_argument("--model-release-dir", required=True)
+    phase3k_support.add_argument("--translator-support", required=True)
+    phase3k_support.add_argument("--archive", required=True)
+    phase3k_support.add_argument("--output", required=True)
     return parser
 
 
@@ -736,6 +758,33 @@ def main() -> None:
             campaign_dirs=args.campaign,
             protocol_dir=args.protocol_dir,
             config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "freeze-upv-phase3k-model-release":
+        result = freeze_phase3k_model_release(
+            config_path=args.config,
+            phase3d_config_path=args.phase3d_config,
+            phase3j_config_path=args.phase3j_config,
+            phase3j_protocol_dir=args.phase3j_protocol_dir,
+            phase3j_result_dir=args.phase3j_result_dir,
+            profile_runner_path=args.profile_runner,
+            profile_engine_path=args.profile_engine,
+            pyproject_path=args.pyproject,
+            uv_lock_path=args.uv_lock,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "check-upv-phase3k-test6-support":
+        result = check_phase3k_test6_support(
+            config_path=args.config,
+            phase3d_config_path=args.phase3d_config,
+            phase3j_config_path=args.phase3j_config,
+            model_release_dir=args.model_release_dir,
+            translator_support_path=args.translator_support,
+            archive_path=args.archive,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))

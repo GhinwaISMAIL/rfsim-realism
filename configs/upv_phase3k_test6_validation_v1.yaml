@@ -1,0 +1,154 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3k_test6_validation_v1
+stage: phase_3k_frozen_model_release_and_unseen_target_support_check
+evaluation_status: predesignated_untouched_session_target_trajectory_validation
+research_question: >-
+  Can the frozen measurement-driven RFsim translator and replay pipeline support
+  and reproduce a previously unseen synchronized relative-RSRP and SINR target
+  trajectory without changing the translator, thresholds, or alignment rules?
+offline_test6_access_authorized_before_release_commit: false
+hardware_execution_authorized: false
+translator_update_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3d_config:
+    path: configs/upv_phase3d_radio_process_v1.yaml
+    sha256: d96f97425d47fe0e4b1238780c8d2a082d26adc28864105fbd73fafd6e8b26a7
+  phase3j_config:
+    path: configs/upv_phase3j_full_trace_v1.yaml
+    sha256: 47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b
+  phase3j_protocol_bundle:
+    path: manifests/upv_phase3j_full_trace_v1
+    checksums_sha256: f44eeb7816fd48aa80949be79b277dd599befb11eb7ed13dd273a01c127ad65d
+    protocol_sha256: 6f254d9c0f9367d637b4a3f6690c102fa89aca2a6f64e11325149af600e63464
+    translator_support_nodes_sha256: e77995a7f7dd5016303512b37c5e637f7a08eb2f0719654cd4ae970e390253a8
+    original_test6_support_rules_sha256: 5dcdcdca308abbdf8115849766b85b9eddcfce08839ff578637e5baffc290ebb
+  phase3j_result_bundle:
+    path: manifests/upv_phase3j_full_trace_result_v1
+    checksums_sha256: 5015e6fd726f2d4997efe0c5cfae581e19628d0e4622628f9b2ff4a5992945b0
+    decision_sha256: 2d4bc0de7862595ef97c0f0fb970b102c375211a230b1f8e91a8f6e99403b8e9
+    per_execution_metrics_sha256: 3c8425abf435c5b0a034c36d258a0d4875f84d178f6f74623a9f624680ef8676
+  software_environment:
+    pyproject_path: pyproject.toml
+    pyproject_sha256: 620973b2932dc18945ee55a6e6d07913c4020a304c426a38d7d61ec3975e3eb0
+    uv_lock_path: uv.lock
+    uv_lock_sha256: 9b51eeac1a9b0e791421723ef962fd2420ff9d6606d338515d4c0609271470f5
+  profile:
+    expected_revision: 86180671da37b1943e80cdec7d817678d4cc94f7
+    full_trace_runner_path: bin/run-phase3j-full-trace.py
+    full_trace_runner_sha256: 1b9b71c41d04948e577ed50bdce73b04b8cfd9b296837d124a172753f77b4630
+    replay_engine_path: bin/run-phase3i-short-trace.py
+    replay_engine_sha256: c549243e1eb0aa849e9e61830c501b005d02caac95bd5787745d4e8d374c5620
+
+required_phase3j_result:
+  decision_code: complete_test1_development_replay_passed
+  all_gates_passed: true
+  model_release_freeze_authorized: true
+  test6_accessed: false
+  translator_update_from_residuals_authorized: false
+  independent_executions: 3
+
+model_freeze:
+  translator_method: bounded_piecewise_affine_interpolation
+  translator_updates_from_phase3j_or_test6: prohibited
+  extrapolation: prohibited
+  target_source: synchronized_measured_relative_rsrp_and_sinr
+  deterministic_trace_replay_primary: true
+  clipping_policy: nearest_validated_hull_boundary
+  primary_kpi_alignment_seconds: 0
+  channel_verification_alignment_seconds: 1
+  post_hoc_lag_selection: prohibited
+
+test6_source:
+  archive_path: data/raw/upv_remote_driving_n40_v1.zip
+  archive_sha256: a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753
+  member_path: Test_6/Test_6_ASUS.csv
+  member_sha256: 88a971aa2c3169862cfb788a65fc5206f8ee94a410b0c2e964a0dbfa3149c1dd
+  corrected_test_id: 6
+  session_id: corrected_test_6_ASUS
+  device: ASUS
+  serving_pci: 41
+  minimum_serving_pci_fraction: 0.99
+  prior_inspection_disclosure: >-
+    Phase 1 parsed every source file for inventory, completeness, GPS, and
+    global-range diagnostics. Test 6 was not used for Phase 3D through Phase 3J
+    fitting, selection, threshold tuning, or development evaluation.
+  use: observed_target_trajectory_not_prediction_target
+
+preprocessing:
+  source: unchanged_from_phase3d_config
+  temporal_aggregation_seconds: 1.0
+  aggregation_statistic: median
+  interpolation: prohibited
+  maximum_gap_seconds: 2.0
+  long_gap_rule: split_sequence_and_never_bridge
+  minimum_sequence_rows: 20
+  relative_rsrp_definition: subtract_complete_session_median_after_aggregation
+  sinr_definition: empirical_device_conditioned_db_without_offset
+  paired_missing_value_rule: drop_row_if_either_relative_rsrp_or_sinr_is_missing
+  preserve_synchronized_pairs: true
+  runner_input_requirement: one_contiguous_one_hz_sequence
+
+test6_support_gate:
+  maximum_clipped_fraction: 0.05
+  maximum_clipping_distance_scaled: 1.0
+  excessive_out_of_hull_status: unsupported_not_emulator_failure
+  hardware_execution_if_unsupported: prohibited
+  clipped_rows_in_primary_distribution_metrics: included_against_original_target
+  clipped_rows_in_supported_only_temporal_metrics: excluded_with_adjacent_crossing_pairs
+  missing_telemetry_interpolation: prohibited
+  temporal_gap_rule: split_at_missing_rows_and_never_bridge
+  pre_access_runtime_gate_amendment:
+    legacy_absolute_minimum_paired_rows: 299
+    reference_target_rows: 305
+    minimum_paired_fraction: 0.980327868852459
+    minimum_paired_rows_formula: ceil_minimum_paired_fraction_times_target_rows
+    basis: >-
+      The absolute 299-row Phase 3J gate was defined for a 305-row Test 1 target.
+      Phase 1 metadata already established before Test 6 KPI access that Test 6
+      is shorter, so the equivalent paired-coverage fraction is used.
+    thresholds_selected_from_test6_kpi_distribution: false
+
+test6_replay_if_supported:
+  repetitions: 3
+  oai_rng_seeds: [48001, 48002, 48003]
+  commands_may_adapt_during_execution: false
+  translator_may_change: false
+  runner_and_command_package_must_be_committed_before_reservation: true
+  hardware_authorization_requires_separate_freeze: true
+
+decision_rules:
+  supported:
+    code: test6_target_supported_runner_freeze_and_reservation_required
+    next_action: freeze_test6_runner_and_commands_then_request_powder_with_30_minute_notice
+  unsupported:
+    code: test6_target_unsupported_no_hardware_execution
+    next_action: report_target_as_outside_validated_emulator_support_without_calling_it_failure
+  invalid_source_or_preprocessing:
+    code: test6_support_check_invalid
+    next_action: stop_without_hardware_execution_or_threshold_changes
+
+claim_limits:
+  prediction_of_test6_without_observing_it: prohibited
+  absolute_rsrp_calibration: prohibited
+  physical_channel_reconstruction: prohibited
+  multipath_or_doppler_reconstruction: prohibited
+  physical_noise_or_path_loss_inference: prohibited
+  attachment_distribution_validation: prohibited
+  cross_device_generalization: prohibited
+  population_generalization: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+  request_only_after: committed_test6_runner_command_and_authorization_bundle
+

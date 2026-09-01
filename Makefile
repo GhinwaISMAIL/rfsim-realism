@@ -55,9 +55,13 @@ UPV_PHASE3D_CONFIG ?= configs/upv_phase3d_radio_process_v1.yaml
 UPV_PHASE3D_PHASE3C15_RESULT ?= manifests/upv_phase3c15_offline_support_v1/analysis_result.json
 UPV_PHASE3D_PROTOCOL ?= manifests/upv_phase3d_protocol_v1
 UPV_PHASE3D_OUTPUT ?= data/model_runs/upv_phase3d_radio_process_v1
+UPV_PHASE3K_CONFIG ?= configs/upv_phase3k_test6_validation_v1.yaml
+UPV_PHASE3K_RELEASE ?= manifests/upv_phase3k_model_release_v1
+UPV_PHASE3K_SUPPORT_OUTPUT ?= data/model_runs/upv_phase3k_test6_support_v1
+UPV_PROFILE_REPO ?= /Users/ghinwaismail/Projects/oai-5g-ric-phase3c
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan upv-phase3b upv-phase3c-plan upv-phase3d-freeze upv-phase3d test check
+.PHONY: setup fetch-ucc curate-static static-report sweep-plan grid-plan static-map rf-distribution distribution-calibrate mmd-abc-plan family-compare prepare-upv upv-support upv-measurement-audit upv-support-v2-plan upv-support-v2-1-plan upv-phase3b upv-phase3c-plan upv-phase3d-freeze upv-phase3d upv-phase3k-freeze upv-phase3k-support test check
 
 setup:
 	$(UV) sync --extra dev --locked
@@ -195,6 +199,29 @@ upv-phase3d:
 		--protocol-dir $(UPV_PHASE3D_PROTOCOL) \
 		--config $(UPV_PHASE3D_CONFIG) \
 		--output $(UPV_PHASE3D_OUTPUT)
+
+upv-phase3k-freeze:
+	$(UV) run --locked rfsim-realism freeze-upv-phase3k-model-release \
+		--config $(UPV_PHASE3K_CONFIG) \
+		--phase3d-config configs/upv_phase3d_radio_process_v1.yaml \
+		--phase3j-config configs/upv_phase3j_full_trace_v1.yaml \
+		--phase3j-protocol-dir manifests/upv_phase3j_full_trace_v1 \
+		--phase3j-result-dir manifests/upv_phase3j_full_trace_result_v1 \
+		--profile-runner $(UPV_PROFILE_REPO)/bin/run-phase3j-full-trace.py \
+		--profile-engine $(UPV_PROFILE_REPO)/bin/run-phase3i-short-trace.py \
+		--pyproject pyproject.toml \
+		--uv-lock uv.lock \
+		--output $(UPV_PHASE3K_RELEASE)
+
+upv-phase3k-support:
+	$(UV) run --locked rfsim-realism check-upv-phase3k-test6-support \
+		--config $(UPV_PHASE3K_CONFIG) \
+		--phase3d-config configs/upv_phase3d_radio_process_v1.yaml \
+		--phase3j-config configs/upv_phase3j_full_trace_v1.yaml \
+		--model-release-dir $(UPV_PHASE3K_RELEASE) \
+		--translator-support manifests/upv_phase3j_full_trace_v1/translator_support_nodes.csv \
+		--archive $(UPV_ARCHIVE) \
+		--output $(UPV_PHASE3K_SUPPORT_OUTPUT)
 
 test:
 	$(UV) run --locked pytest -q
