@@ -397,6 +397,7 @@ def finalize_upv_version1_release(
         path = (repository / specification["path"]).resolve()
         bundle_paths[name] = path
         record = _verify_bundle(path, str(specification["manifest_sha256"]))
+        record["path"] = str(specification["path"])
         record["bundle"] = name
         bundle_records.append(record)
 

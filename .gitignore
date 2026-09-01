@@ -19,3 +19,6 @@ data/model_runs/*
 reports/*.html
 reports/figures/*
 !reports/figures/.gitkeep
+!reports/figures/upv_version1/
+!reports/figures/upv_version1/*.png
+!reports/figures/upv_version1/*.pdf
