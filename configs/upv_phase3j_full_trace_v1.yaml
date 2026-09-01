@@ -60,7 +60,7 @@ test6_support_gate:
   post_hoc_lag_selection: prohibited
 
 clipping_evaluation:
-  translator_error: original_target_minus_projected_feasible_target
+  translator_error: projected_feasible_target_minus_original_target
   dynamic_error: oai_output_minus_projected_feasible_target
   total_error: oai_output_minus_original_target
   clipped_rows_in_total_metrics: included
@@ -118,9 +118,23 @@ fidelity_gates_per_execution:
   lag_search_for_gate_selection: prohibited
   diagnostic_lags_seconds: [-3, -2, -1, 0, 1, 2, 3]
 
+metric_definitions:
+  observed_relative_rsrp_reference: mean_of_start_and_end_anchor_medians
+  pearson_correlation: population_moment_formula_on_paired_rows
+  wasserstein1: exact_equal_weight_empirical_one_dimensional
+  scaled_joint_energy_distance: euclidean_energy_distance_after_rsrp_divide_1_and_sinr_divide_2
+  lag1_correlation: pearson_over_consecutive_command_index_pairs_only
+  increments: first_difference_over_consecutive_command_index_pairs_only
+  missing_rows: omit_and_split_without_interpolation_or_bridging
+  primary_metrics_target: original_measured_target_including_clipped_rows
+  dynamic_metrics_target: projected_feasible_target
+  supported_only_metrics: exclude_clipped_rows_and_all_temporal_pairs_touching_them
+
 repeatability_gates:
   maximum_between_execution_rsrp_standard_deviation_db: 0.5
   maximum_between_execution_sinr_standard_deviation_db: 1.5
+  per_command_statistic: sample_standard_deviation_across_three_executions_ddof_1
+  aggregate_statistic: root_mean_square_over_command_indices_present_in_all_executions
   all_three_executions_must_pass_runtime_and_fidelity: true
   sample_rows_are_not_independent_execution_units: true
 
@@ -147,6 +161,9 @@ decision_rules:
   fail_fidelity:
     code: complete_test1_development_fidelity_failed
     next_action: stop_or_open_formal_new_development_iteration
+  fail_repeatability:
+    code: complete_test1_development_repeatability_failed
+    next_action: stop_and_diagnose_execution_level_variability_without_tuning_translator
 
 claim_limits:
   independent_final_validation: prohibited

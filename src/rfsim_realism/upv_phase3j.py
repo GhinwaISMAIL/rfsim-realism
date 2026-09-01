@@ -88,6 +88,24 @@ def validate_phase3j_config(config: dict[str, Any]) -> None:
         runtime["minimum_paired_rows_per_execution"]
     ):
         raise ValueError("Test 6 and development missing-telemetry gates must agree")
+    metrics = config["metric_definitions"]
+    if metrics.get("primary_metrics_target") != (
+        "original_measured_target_including_clipped_rows"
+    ):
+        raise ValueError("primary fidelity metrics must retain the measured target")
+    if metrics.get("missing_rows") != (
+        "omit_and_split_without_interpolation_or_bridging"
+    ):
+        raise ValueError("metric missing-row handling changed")
+    repeatability = config["repeatability_gates"]
+    if repeatability.get("per_command_statistic") != (
+        "sample_standard_deviation_across_three_executions_ddof_1"
+    ):
+        raise ValueError("the per-command repeatability statistic changed")
+    if repeatability.get("aggregate_statistic") != (
+        "root_mean_square_over_command_indices_present_in_all_executions"
+    ):
+        raise ValueError("the repeatability aggregation changed")
     if (
         config["model_update_policy"].get("translator_update_from_phase3j_residuals")
         != "prohibited"
@@ -348,6 +366,7 @@ def freeze_phase3j_full_trace(
             "execution": config["execution"],
             "runtime_gates": config["runtime_gates"],
             "fidelity_gates_per_execution": config["fidelity_gates_per_execution"],
+            "metric_definitions": config["metric_definitions"],
             "repeatability_gates": config["repeatability_gates"],
             "model_update_policy": config["model_update_policy"],
             "test6_interpretation": config["test6_interpretation"],
@@ -389,5 +408,514 @@ def freeze_phase3j_full_trace(
         "maximum_clipping_distance_scaled": f"{maximum_distance:.12g}",
         "development_support_gate_passed": str(support_gate_passed).lower(),
         "execution_authorized": "false",
+        "test6_accessed": "false",
+    }
+
+
+def _boolean_series(values: pd.Series, label: str) -> pd.Series:
+    if pd.api.types.is_bool_dtype(values):
+        if values.isna().any():
+            raise ValueError(f"{label} contains missing Boolean values")
+        return values.astype(bool)
+    normalized = values.astype(str).str.strip().str.lower()
+    if not normalized.isin({"true", "false"}).all():
+        raise ValueError(f"{label} contains invalid Boolean values")
+    return normalized == "true"
+
+
+def _pearson_exact(left: np.ndarray, right: np.ndarray) -> float:
+    if len(left) != len(right) or len(left) < 2:
+        return float("nan")
+    left_centered = left - left.mean()
+    right_centered = right - right.mean()
+    denominator = float(
+        np.sqrt(np.dot(left_centered, left_centered) * np.dot(right_centered, right_centered))
+    )
+    if denominator == 0.0:
+        return float("nan")
+    return float(np.dot(left_centered, right_centered) / denominator)
+
+
+def _wasserstein_equal_weight(left: np.ndarray, right: np.ndarray) -> float:
+    if len(left) != len(right) or len(left) == 0:
+        raise ValueError("equal-weight empirical Wasserstein inputs must be non-empty and equal")
+    return float(np.mean(np.abs(np.sort(left) - np.sort(right))))
+
+
+def _mean_pairwise_distance(left: np.ndarray, right: np.ndarray) -> float:
+    differences = left[:, None, :] - right[None, :, :]
+    return float(np.sqrt(np.square(differences).sum(axis=2)).mean())
+
+
+def _energy_distance(left: np.ndarray, right: np.ndarray) -> float:
+    value = (
+        2.0 * _mean_pairwise_distance(left, right)
+        - _mean_pairwise_distance(left, left)
+        - _mean_pairwise_distance(right, right)
+    )
+    return max(0.0, float(value))
+
+
+def _metric_bundle(rows: pd.DataFrame, *, target: str) -> dict[str, float]:
+    if target not in {"original", "projected"}:
+        raise ValueError(f"unknown Phase 3J metric target: {target}")
+    prefix = "target" if target == "original" else "projected"
+    ordered = rows.sort_values("command_index")
+    target_rsrp = ordered[f"{prefix}_relative_rsrp_db"].to_numpy(dtype=float)
+    target_sinr = ordered[f"{prefix}_sinr_db"].to_numpy(dtype=float)
+    observed_rsrp = ordered["observed_relative_rsrp_db"].to_numpy(dtype=float)
+    observed_sinr = ordered["ss_sinr_db"].to_numpy(dtype=float)
+    consecutive = np.diff(ordered["command_index"].to_numpy(dtype=int)) == 1
+    target_rsrp_increment = np.diff(target_rsrp)[consecutive]
+    target_sinr_increment = np.diff(target_sinr)[consecutive]
+    observed_rsrp_increment = np.diff(observed_rsrp)[consecutive]
+    observed_sinr_increment = np.diff(observed_sinr)[consecutive]
+    target_joint = np.column_stack([target_rsrp, target_sinr / 2.0])
+    observed_joint = np.column_stack([observed_rsrp, observed_sinr / 2.0])
+    return {
+        "rows": float(len(ordered)),
+        "relative_rsrp_mae_db": float(np.mean(np.abs(observed_rsrp - target_rsrp))),
+        "sinr_mae_db": float(np.mean(np.abs(observed_sinr - target_sinr))),
+        "relative_rsrp_pearson_correlation": _pearson_exact(
+            target_rsrp, observed_rsrp
+        ),
+        "sinr_pearson_correlation": _pearson_exact(target_sinr, observed_sinr),
+        "relative_rsrp_wasserstein1_db": _wasserstein_equal_weight(
+            target_rsrp, observed_rsrp
+        ),
+        "sinr_wasserstein1_db": _wasserstein_equal_weight(target_sinr, observed_sinr),
+        "scaled_joint_energy_distance": _energy_distance(target_joint, observed_joint),
+        "target_relative_rsrp_lag1_correlation": _pearson_exact(
+            target_rsrp[:-1][consecutive], target_rsrp[1:][consecutive]
+        ),
+        "observed_relative_rsrp_lag1_correlation": _pearson_exact(
+            observed_rsrp[:-1][consecutive], observed_rsrp[1:][consecutive]
+        ),
+        "target_sinr_lag1_correlation": _pearson_exact(
+            target_sinr[:-1][consecutive], target_sinr[1:][consecutive]
+        ),
+        "observed_sinr_lag1_correlation": _pearson_exact(
+            observed_sinr[:-1][consecutive], observed_sinr[1:][consecutive]
+        ),
+        "relative_rsrp_increment_wasserstein1_db": _wasserstein_equal_weight(
+            target_rsrp_increment, observed_rsrp_increment
+        ),
+        "sinr_increment_wasserstein1_db": _wasserstein_equal_weight(
+            target_sinr_increment, observed_sinr_increment
+        ),
+    }
+
+
+def _supported_temporal_rows(rows: pd.DataFrame) -> pd.DataFrame:
+    ordered = rows.sort_values("command_index").copy()
+    clipped = _boolean_series(ordered["clipped"], "clipped")
+    ordered.loc[clipped, "command_index"] = -10_000 - np.arange(int(clipped.sum()))
+    return ordered.loc[~clipped]
+
+
+def _lag_diagnostics(rows: pd.DataFrame, lags: list[int]) -> pd.DataFrame:
+    indexed = rows.set_index("command_index").sort_index()
+    records: list[dict[str, Any]] = []
+    for lag in lags:
+        shifted = indexed[["observed_relative_rsrp_db", "ss_sinr_db"]].copy()
+        shifted.index = shifted.index - lag
+        joined = indexed.join(shifted, how="inner", rsuffix="_lagged")
+        records.append(
+            {
+                "lag_seconds": lag,
+                "paired_rows": len(joined),
+                "relative_rsrp_correlation": _pearson_exact(
+                    joined["target_relative_rsrp_db"].to_numpy(dtype=float),
+                    joined["observed_relative_rsrp_db_lagged"].to_numpy(dtype=float),
+                ),
+                "sinr_correlation": _pearson_exact(
+                    joined["target_sinr_db"].to_numpy(dtype=float),
+                    joined["ss_sinr_db_lagged"].to_numpy(dtype=float),
+                ),
+            }
+        )
+    return pd.DataFrame(records)
+
+
+def _verify_protocol_checksums(protocol_root: Path) -> None:
+    checksum_file = protocol_root / "SHA256SUMS.json"
+    checksums = _read_json(checksum_file)
+    for name, expected in checksums.items():
+        path = protocol_root / name
+        if not path.is_file() or path.is_symlink() or _sha256(path) != expected:
+            raise ValueError(f"Phase 3J protocol artifact checksum mismatch: {name}")
+
+
+def _analyze_phase3j_execution(
+    *,
+    campaign: Path,
+    execution_number: int,
+    commands: pd.DataFrame,
+    commands_sha256: str,
+    config: dict[str, Any],
+    config_sha256: str,
+) -> tuple[dict[str, Any], pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    telemetry_file = campaign / "phase3j_full_trace_telemetry.csv"
+    anchors_file = campaign / "phase3j_anchor_telemetry.csv"
+    state_file = campaign / "execution_state.json"
+    for path in (telemetry_file, anchors_file, state_file):
+        if not path.is_file() or path.is_symlink():
+            raise ValueError(f"missing or unsafe Phase 3J campaign artifact: {path}")
+    telemetry = pd.read_csv(telemetry_file)
+    anchors = pd.read_csv(anchors_file)
+    state = _read_json(state_file)
+    expected_seed = int(config["execution"]["oai_rng_seeds"][execution_number - 1])
+    if state.get("stage") != config["stage"]:
+        raise ValueError(f"execution {execution_number} has the wrong stage")
+    if state.get("evaluation_status") != config["evaluation_status"]:
+        raise ValueError(f"execution {execution_number} has the wrong evaluation status")
+    if state.get("execution_number") != execution_number:
+        raise ValueError(f"execution {execution_number} identity mismatch")
+    if state.get("oai_rng_seed") != expected_seed:
+        raise ValueError(f"execution {execution_number} RNG seed mismatch")
+    if state.get("execution_completed") is not True or state.get("error") is not None:
+        raise ValueError(f"execution {execution_number} did not complete cleanly")
+    if state.get("commands_sha256") != commands_sha256:
+        raise ValueError(f"execution {execution_number} command checksum mismatch")
+    if state.get("research_protocol_sha256") != config_sha256:
+        raise ValueError(f"execution {execution_number} protocol checksum mismatch")
+    if state.get("test6_accessed") is not False:
+        raise ValueError(f"execution {execution_number} accessed Test 6")
+    if state.get("translator_update_authorized") is not False:
+        raise ValueError(f"execution {execution_number} authorized translator updates")
+    if state.get("gNB_untouched") is not True:
+        raise ValueError(f"execution {execution_number} changed the gNB")
+    if telemetry["command_index"].duplicated().any():
+        raise ValueError(f"execution {execution_number} contains duplicate command rows")
+    if not telemetry["command_index"].isin(commands["command_index"]).all():
+        raise ValueError(f"execution {execution_number} contains unknown command rows")
+    paired = commands.merge(
+        telemetry,
+        on="command_index",
+        how="left",
+        validate="one_to_one",
+        suffixes=("_protocol", "_observed"),
+    )
+    observed = paired["rsrp_db_per_re_unquantized"].notna()
+    paired = paired.loc[observed].copy()
+    for column in (
+        "trace_row_index",
+        "trace_time_bin",
+        "trace_t_s",
+        "target_relative_rsrp_db",
+        "target_sinr_db",
+        "projected_relative_rsrp_db",
+        "projected_sinr_db",
+        "commanded_gain_db",
+        "commanded_noise_power_db",
+    ):
+        protocol_values = paired[f"{column}_protocol"].to_numpy(dtype=float)
+        observed_values = paired[f"{column}_observed"].to_numpy(dtype=float)
+        if not np.allclose(protocol_values, observed_values, atol=1e-9, rtol=0.0):
+            raise ValueError(f"execution {execution_number} changed {column}")
+        paired[column] = paired[f"{column}_protocol"]
+    clipped_protocol = _boolean_series(paired["clipped_protocol"], "protocol clipped")
+    clipped_observed = _boolean_series(paired["clipped_observed"], "observed clipped")
+    if not clipped_protocol.equals(clipped_observed):
+        raise ValueError(f"execution {execution_number} changed clipping flags")
+    paired["clipped"] = clipped_protocol.to_numpy()
+    if not np.allclose(
+        paired["commanded_gain_db"], paired["applied_gain_db"], atol=1e-6, rtol=0.0
+    ) or not np.allclose(
+        paired["commanded_noise_power_db"],
+        paired["applied_noise_power_db"],
+        atol=1e-6,
+        rtol=0.0,
+    ):
+        raise ValueError(f"execution {execution_number} applied different controls")
+    anchor_medians = (
+        anchors.groupby("anchor_type", as_index=False)[
+            ["rsrp_db_per_re_unquantized", "ss_sinr_db"]
+        ]
+        .median()
+        .set_index("anchor_type")
+    )
+    if set(anchor_medians.index) != {"anchor_start", "anchor_end"}:
+        raise ValueError(f"execution {execution_number} is missing an anchor")
+    anchor_reference = float(anchor_medians["rsrp_db_per_re_unquantized"].mean())
+    paired["observed_relative_rsrp_db"] = (
+        paired["rsrp_db_per_re_unquantized"] - anchor_reference
+    )
+    paired["translator_relative_rsrp_error_db"] = (
+        paired["projected_relative_rsrp_db"] - paired["target_relative_rsrp_db"]
+    )
+    paired["translator_sinr_error_db"] = (
+        paired["projected_sinr_db"] - paired["target_sinr_db"]
+    )
+    paired["dynamic_relative_rsrp_error_db"] = (
+        paired["observed_relative_rsrp_db"] - paired["projected_relative_rsrp_db"]
+    )
+    paired["dynamic_sinr_error_db"] = paired["ss_sinr_db"] - paired["projected_sinr_db"]
+    paired["total_relative_rsrp_error_db"] = (
+        paired["observed_relative_rsrp_db"] - paired["target_relative_rsrp_db"]
+    )
+    paired["total_sinr_error_db"] = paired["ss_sinr_db"] - paired["target_sinr_db"]
+    total = _metric_bundle(paired, target="original")
+    dynamic = _metric_bundle(paired, target="projected")
+    supported = _metric_bundle(_supported_temporal_rows(paired), target="original")
+    rsrp_lag_error = abs(
+        total["observed_relative_rsrp_lag1_correlation"]
+        - total["target_relative_rsrp_lag1_correlation"]
+    )
+    sinr_lag_error = abs(
+        total["observed_sinr_lag1_correlation"]
+        - total["target_sinr_lag1_correlation"]
+    )
+    rsrp_anchor_drift = float(
+        anchor_medians.loc["anchor_end", "rsrp_db_per_re_unquantized"]
+        - anchor_medians.loc["anchor_start", "rsrp_db_per_re_unquantized"]
+    )
+    sinr_anchor_drift = float(
+        anchor_medians.loc["anchor_end", "ss_sinr_db"]
+        - anchor_medians.loc["anchor_start", "ss_sinr_db"]
+    )
+    runtime = config["runtime_gates"]
+    attached = _boolean_series(paired["attached"], "attached")
+    channel_identity = set(
+        zip(
+            paired["channel_family"].astype(str),
+            paired["channel_length"].astype(int),
+            paired["nb_taps"].astype(int),
+            strict=True,
+        )
+    )
+    runtime_gate = bool(
+        len(paired) >= int(runtime["minimum_paired_rows_per_execution"])
+        and attached.all()
+        and float(state["ping_success_fraction"])
+        >= float(runtime["minimum_ping_success_fraction_per_execution"])
+        and float(paired["command_completion_lateness_seconds"].max())
+        <= float(runtime["maximum_command_completion_lateness_seconds"])
+        and state.get("critical_failure_count") == 0
+        and state.get("ue_restart_count") == 0
+        and state.get("gnb_restart_count_change") == 0
+        and state.get("rollback", {}).get("passed") is True
+        and channel_identity == {("AWGN", 1, 1)}
+        and np.allclose(paired["tap_energy_linear"], 1.0, atol=1e-9, rtol=0.0)
+    )
+    fidelity = config["fidelity_gates_per_execution"]
+    fidelity_gate = bool(
+        total["relative_rsrp_mae_db"]
+        <= float(fidelity["maximum_total_relative_rsrp_mae_db"])
+        and total["sinr_mae_db"] <= float(fidelity["maximum_total_sinr_mae_db"])
+        and total["relative_rsrp_pearson_correlation"]
+        >= float(fidelity["minimum_total_relative_rsrp_pearson_correlation"])
+        and total["sinr_pearson_correlation"]
+        >= float(fidelity["minimum_total_sinr_pearson_correlation"])
+        and total["relative_rsrp_wasserstein1_db"]
+        <= float(fidelity["maximum_total_relative_rsrp_wasserstein1_db"])
+        and total["sinr_wasserstein1_db"]
+        <= float(fidelity["maximum_total_sinr_wasserstein1_db"])
+        and total["scaled_joint_energy_distance"]
+        <= float(fidelity["maximum_scaled_joint_energy_distance"])
+        and rsrp_lag_error
+        <= float(fidelity["maximum_relative_rsrp_lag1_correlation_error"])
+        and sinr_lag_error <= float(fidelity["maximum_sinr_lag1_correlation_error"])
+        and total["relative_rsrp_increment_wasserstein1_db"]
+        <= float(fidelity["maximum_relative_rsrp_increment_wasserstein1_db"])
+        and total["sinr_increment_wasserstein1_db"]
+        <= float(fidelity["maximum_sinr_increment_wasserstein1_db"])
+        and abs(rsrp_anchor_drift)
+        <= float(fidelity["maximum_anchor_start_end_relative_rsrp_drift_db"])
+        and abs(sinr_anchor_drift)
+        <= float(fidelity["maximum_anchor_start_end_sinr_drift_db"])
+    )
+    metrics = {
+        "execution_number": execution_number,
+        "execution_id": state["execution_id"],
+        "oai_rng_seed": expected_seed,
+        "paired_rows": len(paired),
+        "missing_rows": len(commands) - len(paired),
+        "clipped_rows": int(paired["clipped"].sum()),
+        **{f"total_{key}": value for key, value in total.items()},
+        **{f"dynamic_{key}": value for key, value in dynamic.items()},
+        **{f"supported_only_{key}": value for key, value in supported.items()},
+        "total_relative_rsrp_lag1_correlation_error": rsrp_lag_error,
+        "total_sinr_lag1_correlation_error": sinr_lag_error,
+        "anchor_rsrp_drift_db": rsrp_anchor_drift,
+        "anchor_sinr_drift_db": sinr_anchor_drift,
+        "maximum_command_completion_lateness_seconds": float(
+            paired["command_completion_lateness_seconds"].max()
+        ),
+        "p95_command_completion_lateness_seconds": float(
+            paired["command_completion_lateness_seconds"].quantile(0.95)
+        ),
+        "runtime_gate_passed": runtime_gate,
+        "fidelity_gate_passed": fidelity_gate,
+        "all_per_execution_gates_passed": runtime_gate and fidelity_gate,
+    }
+    paired.insert(0, "execution_number", execution_number)
+    anchors_output = anchor_medians.reset_index()
+    anchors_output.insert(0, "execution_number", execution_number)
+    diagnostics = _lag_diagnostics(
+        paired, [int(value) for value in fidelity["diagnostic_lags_seconds"]]
+    )
+    diagnostics.insert(0, "execution_number", execution_number)
+    return metrics, paired, anchors_output, diagnostics
+
+
+def analyze_phase3j_full_trace(
+    *,
+    campaign_dirs: list[str | Path],
+    protocol_dir: str | Path,
+    config_path: str | Path,
+    output_dir: str | Path,
+) -> dict[str, str]:
+    if len(campaign_dirs) != 3:
+        raise ValueError("Phase 3J requires exactly three campaign directories")
+    campaigns = [Path(value).resolve() for value in campaign_dirs]
+    if len(set(campaigns)) != 3:
+        raise ValueError("Phase 3J campaign directories must be distinct")
+    protocol_root = Path(protocol_dir).resolve()
+    config_file = Path(config_path).resolve()
+    output = Path(output_dir).resolve()
+    if output.exists():
+        raise FileExistsError(f"Phase 3J analysis output already exists: {output}")
+    config = _read_yaml(config_file)
+    validate_phase3j_config(config)
+    _verify_protocol_checksums(protocol_root)
+    commands_file = protocol_root / "full_trace_commands.csv"
+    protocol_file = protocol_root / "protocol.json"
+    commands = pd.read_csv(commands_file)
+    protocol = _read_json(protocol_file)
+    if tuple(commands.columns) != COMMAND_COLUMNS or len(commands) != 305:
+        raise ValueError("the frozen Phase 3J command table is invalid")
+    if protocol.get("evaluation_status") != config["evaluation_status"]:
+        raise ValueError("the Phase 3J protocol evaluation status changed")
+    command_sha256 = _sha256(commands_file)
+    config_sha256 = _sha256(config_file)
+    metric_rows: list[dict[str, Any]] = []
+    paired_tables: list[pd.DataFrame] = []
+    anchor_tables: list[pd.DataFrame] = []
+    lag_tables: list[pd.DataFrame] = []
+    campaign_hashes: dict[str, dict[str, str]] = {}
+    for execution_number, campaign in enumerate(campaigns, start=1):
+        metrics, paired, anchors, lag_diagnostics = _analyze_phase3j_execution(
+            campaign=campaign,
+            execution_number=execution_number,
+            commands=commands,
+            commands_sha256=command_sha256,
+            config=config,
+            config_sha256=config_sha256,
+        )
+        metric_rows.append(metrics)
+        paired_tables.append(paired)
+        anchor_tables.append(anchors)
+        lag_tables.append(lag_diagnostics)
+        campaign_hashes[f"execution_{execution_number}"] = {
+            name: _sha256(campaign / name)
+            for name in (
+                "execution_state.json",
+                "phase3j_full_trace_telemetry.csv",
+                "phase3j_anchor_telemetry.csv",
+            )
+        }
+    execution_ids = [row["execution_id"] for row in metric_rows]
+    if len(set(execution_ids)) != 3:
+        raise ValueError("Phase 3J execution identifiers must be distinct")
+    paired_all = pd.concat(paired_tables, ignore_index=True)
+    common = paired_all.pivot(
+        index="command_index",
+        columns="execution_number",
+        values=["observed_relative_rsrp_db", "ss_sinr_db"],
+    ).dropna()
+    if len(common) < int(config["runtime_gates"]["minimum_paired_rows_per_execution"]):
+        raise ValueError("too few command indices are present in all three executions")
+    rsrp_values = common["observed_relative_rsrp_db"].to_numpy(dtype=float)
+    sinr_values = common["ss_sinr_db"].to_numpy(dtype=float)
+    rsrp_std = np.std(rsrp_values, axis=1, ddof=1)
+    sinr_std = np.std(sinr_values, axis=1, ddof=1)
+    repeatability_table = pd.DataFrame(
+        {
+            "command_index": common.index.to_numpy(dtype=int),
+            "relative_rsrp_sample_standard_deviation_db": rsrp_std,
+            "sinr_sample_standard_deviation_db": sinr_std,
+        }
+    )
+    rsrp_repeatability = float(np.sqrt(np.mean(np.square(rsrp_std))))
+    sinr_repeatability = float(np.sqrt(np.mean(np.square(sinr_std))))
+    repeatability = config["repeatability_gates"]
+    repeatability_gate = bool(
+        rsrp_repeatability
+        <= float(repeatability["maximum_between_execution_rsrp_standard_deviation_db"])
+        and sinr_repeatability
+        <= float(repeatability["maximum_between_execution_sinr_standard_deviation_db"])
+    )
+    runtime_all = all(bool(row["runtime_gate_passed"]) for row in metric_rows)
+    fidelity_all = all(bool(row["fidelity_gate_passed"]) for row in metric_rows)
+    if not runtime_all:
+        decision_key = "fail_runtime"
+    elif not fidelity_all:
+        decision_key = "fail_fidelity"
+    elif not repeatability_gate:
+        decision_key = "fail_repeatability"
+    else:
+        decision_key = "pass"
+    decision_rule = config["decision_rules"][decision_key]
+    passed = decision_key == "pass"
+    result = {
+        "schema_version": 1,
+        "stage": "phase_3j_complete_test1_development_fidelity_and_repeatability_result",
+        "evaluation_status": config["evaluation_status"],
+        "analysis_repository_revision": _git_revision(),
+        "input_sha256": {
+            "config": config_sha256,
+            "protocol": _sha256(protocol_file),
+            "commands": command_sha256,
+            "campaigns": campaign_hashes,
+        },
+        "campaign": {
+            "executions": 3,
+            "target_rows_per_execution": len(commands),
+            "development_trace": "corrected_test_1_ASUS",
+            "independent_final_validation": False,
+            "test6_accessed": False,
+        },
+        "repeatability": {
+            "common_command_indices": len(common),
+            "relative_rsrp_rms_between_execution_standard_deviation_db": (
+                rsrp_repeatability
+            ),
+            "sinr_rms_between_execution_standard_deviation_db": sinr_repeatability,
+            "gate_passed": repeatability_gate,
+        },
+        "gates": {
+            "all_execution_runtime_gates_passed": runtime_all,
+            "all_execution_fidelity_gates_passed": fidelity_all,
+            "repeatability_gate_passed": repeatability_gate,
+            "all_gates_passed": passed,
+        },
+        "decision_code": decision_rule["code"],
+        "next_action": decision_rule["next_action"],
+        "model_release_freeze_authorized": passed,
+        "translator_update_from_residuals_authorized": False,
+        "test6_access_authorized": False,
+        "test6_accessed": False,
+        "abc_authorized": False,
+    }
+    output.mkdir(parents=True)
+    _write_csv(output / "paired_full_trace_fidelity.csv", paired_all)
+    _write_csv(output / "per_execution_metrics.csv", pd.DataFrame(metric_rows))
+    _write_csv(output / "repeatability_by_command.csv", repeatability_table)
+    _write_csv(output / "anchor_medians.csv", pd.concat(anchor_tables, ignore_index=True))
+    _write_csv(output / "lag_diagnostics.csv", pd.concat(lag_tables, ignore_index=True))
+    _write_json(output / "phase3j_full_trace_decision.json", result)
+    checksums = {
+        path.name: _sha256(path)
+        for path in sorted(output.iterdir())
+        if path.is_file() and path.name != "SHA256SUMS.json"
+    }
+    _write_json(output / "SHA256SUMS.json", checksums)
+    return {
+        "output": str(output),
+        "decision": decision_rule["code"],
+        "executions": "3",
+        "model_release_freeze_authorized": str(passed).lower(),
+        "test6_access_authorized": "false",
         "test6_accessed": "false",
     }

@@ -10,6 +10,7 @@ import pytest
 
 from rfsim_realism.upv_phase3d import _read_yaml, _sha256
 from rfsim_realism.upv_phase3j import (
+    analyze_phase3j_full_trace,
     freeze_phase3j_full_trace,
     validate_phase3j_config,
 )
@@ -70,6 +71,12 @@ def test_phase3j_protocol_freezes_development_and_test6_rules() -> None:
     }
     assert config["runtime_gates"]["missing_row_interpolation"] == "prohibited"
     assert config["clipping_evaluation"]["bridge_across_clipped_rows"] == "prohibited"
+    assert config["metric_definitions"]["primary_metrics_target"] == (
+        "original_measured_target_including_clipped_rows"
+    )
+    assert config["repeatability_gates"]["aggregate_statistic"] == (
+        "root_mean_square_over_command_indices_present_in_all_executions"
+    )
     assert (
         config["model_update_policy"]["translator_update_from_phase3j_residuals"]
         == "prohibited"
@@ -157,4 +164,120 @@ def test_phase3j_rejects_tampered_input(tmp_path: Path) -> None:
             pyproject_path=PYPROJECT,
             uv_lock_path=UV_LOCK,
             output_dir=tmp_path / "output",
+        )
+
+
+def _synthetic_campaign(
+    root: Path,
+    execution_number: int,
+    *,
+    sinr_offset_db: float = 0.0,
+) -> Path:
+    campaign = root / f"campaign-{execution_number}"
+    campaign.mkdir()
+    commands = pd.read_csv(
+        ROOT / "manifests/upv_phase3j_full_trace_v1/full_trace_commands.csv"
+    )
+    telemetry = commands[
+        [
+            "command_index",
+            "trace_row_index",
+            "trace_time_bin",
+            "trace_t_s",
+            "target_relative_rsrp_db",
+            "target_sinr_db",
+            "projected_relative_rsrp_db",
+            "projected_sinr_db",
+            "commanded_gain_db",
+            "commanded_noise_power_db",
+            "clipped",
+        ]
+    ].copy()
+    telemetry["applied_gain_db"] = telemetry["commanded_gain_db"]
+    telemetry["applied_noise_power_db"] = telemetry["commanded_noise_power_db"]
+    telemetry["rsrp_db_per_re_unquantized"] = (
+        telemetry["target_relative_rsrp_db"] + 40.0
+    )
+    telemetry["ss_sinr_db"] = telemetry["target_sinr_db"] + sinr_offset_db
+    telemetry["command_completion_lateness_seconds"] = 0.1
+    telemetry["attached"] = True
+    telemetry["channel_family"] = "AWGN"
+    telemetry["channel_length"] = 1
+    telemetry["nb_taps"] = 1
+    telemetry["tap_energy_linear"] = 1.0
+    telemetry.to_csv(campaign / "phase3j_full_trace_telemetry.csv", index=False)
+    anchors = pd.DataFrame(
+        {
+            "anchor_type": ["anchor_start"] * 10 + ["anchor_end"] * 10,
+            "rsrp_db_per_re_unquantized": [40.0] * 20,
+            "ss_sinr_db": [15.0] * 20,
+        }
+    )
+    anchors.to_csv(campaign / "phase3j_anchor_telemetry.csv", index=False)
+    config_sha256 = _sha256(CONFIG)
+    commands_sha256 = _sha256(
+        ROOT / "manifests/upv_phase3j_full_trace_v1/full_trace_commands.csv"
+    )
+    state = {
+        "stage": "phase_3j_complete_test1_development_fidelity_and_repeatability",
+        "evaluation_status": "development_not_independent_final_validation",
+        "execution_number": execution_number,
+        "execution_id": f"phase3j-test1-execution-{execution_number}",
+        "oai_rng_seed": 47000 + execution_number,
+        "execution_completed": True,
+        "error": None,
+        "commands_sha256": commands_sha256,
+        "research_protocol_sha256": config_sha256,
+        "test6_accessed": False,
+        "translator_update_authorized": False,
+        "gNB_untouched": True,
+        "ping_success_fraction": 1.0,
+        "critical_failure_count": 0,
+        "ue_restart_count": 0,
+        "gnb_restart_count_change": 0,
+        "rollback": {"passed": True},
+    }
+    (campaign / "execution_state.json").write_text(json.dumps(state))
+    return campaign
+
+
+def test_phase3j_analyzer_passes_exact_three_execution_replay(tmp_path: Path) -> None:
+    campaigns = [_synthetic_campaign(tmp_path, number) for number in (1, 2, 3)]
+    output = tmp_path / "analysis"
+    result = analyze_phase3j_full_trace(
+        campaign_dirs=campaigns,
+        protocol_dir=ROOT / "manifests/upv_phase3j_full_trace_v1",
+        config_path=CONFIG,
+        output_dir=output,
+    )
+    decision = json.loads((output / "phase3j_full_trace_decision.json").read_text())
+    metrics = pd.read_csv(output / "per_execution_metrics.csv")
+    repeatability = pd.read_csv(output / "repeatability_by_command.csv")
+    assert result["decision"] == "complete_test1_development_replay_passed"
+    assert result["model_release_freeze_authorized"] == "true"
+    assert result["test6_access_authorized"] == "false"
+    assert len(metrics) == 3
+    assert metrics["runtime_gate_passed"].all()
+    assert metrics["fidelity_gate_passed"].all()
+    assert np.allclose(metrics["total_relative_rsrp_mae_db"], 0.0)
+    assert np.allclose(metrics["total_sinr_mae_db"], 0.0)
+    assert len(repeatability) == 305
+    assert np.allclose(
+        repeatability["relative_rsrp_sample_standard_deviation_db"], 0.0
+    )
+    assert np.allclose(repeatability["sinr_sample_standard_deviation_db"], 0.0)
+    assert decision["evaluation_status"] == "development_not_independent_final_validation"
+    assert decision["model_release_freeze_authorized"] is True
+    assert decision["translator_update_from_residuals_authorized"] is False
+    assert decision["test6_accessed"] is False
+
+
+def test_phase3j_analyzer_rejects_reused_execution_directory(tmp_path: Path) -> None:
+    campaign = _synthetic_campaign(tmp_path, 1)
+    with pytest.raises(ValueError, match="must be distinct"):
+        analyze_phase3j_full_trace(
+            campaign_dirs=[campaign, campaign, campaign],
+            protocol_dir=ROOT / "manifests/upv_phase3j_full_trace_v1",
+            config_path=CONFIG,
+            output_dir=tmp_path / "analysis",
         )
