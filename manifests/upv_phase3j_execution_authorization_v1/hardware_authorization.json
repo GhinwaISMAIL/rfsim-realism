@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3j_complete_test1_hardware_authorization",
+  "decision_code": "three_complete_test1_development_executions_authorized",
+  "evaluation_status": "development_not_independent_final_validation",
+  "authorization_basis": {
+    "complete_trace_support_gate_passed": true,
+    "target_rows": 305,
+    "inside_rows": 297,
+    "clipped_rows": 8,
+    "clipped_fraction": 0.02622950819672131,
+    "maximum_clipping_distance_scaled": 0.672419638881416,
+    "maximum_permitted_clipped_fraction": 0.03,
+    "maximum_permitted_clipping_distance_scaled": 0.75,
+    "research_tests_passed": 189,
+    "profile_tests_passed": 136
+  },
+  "research_package": {
+    "repository_revision": "16117beead9da5a72a862e820a25ea7fee810345",
+    "protocol_config_sha256": "47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b",
+    "protocol_manifest_sha256": "6f254d9c0f9367d637b4a3f6690c102fa89aca2a6f64e11325149af600e63464",
+    "protocol_checksums_sha256": "f44eeb7816fd48aa80949be79b277dd599befb11eb7ed13dd273a01c127ad65d",
+    "commands_sha256": "c25fb55ea78294e7e7f44a9dddf6b985ba50881d09d6f394fbbc96bd074fcc76",
+    "phase3i_pass_decision_sha256": "0f90d01c7e53ffadade336695f87e0aecf910abe26b3d6ce2d1d3419a72c3f49"
+  },
+  "profile_package": {
+    "repository_url": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "feature/rfsim-rsrp-calibration",
+    "revision": "5829c55d704fd8c09d017ffc3b23932bb61d8766",
+    "published": true,
+    "runner_path": "bin/run-phase3j-full-trace.py",
+    "runner_sha256": "bdf63eb1390a0987d8fa81c4099b3e416a2c9698f2796edaade5ae13c5d536dd",
+    "commands_path": "etc/phase3j-full-trace-commands.csv",
+    "commands_sha256": "c25fb55ea78294e7e7f44a9dddf6b985ba50881d09d6f394fbbc96bd074fcc76"
+  },
+  "runtime_identity": {
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "instrumented_image_tag": "oai-nr-ue-rfsim-phase3h:70508eb",
+    "instrumented_image_id": "record_and_verify_on_reserved_node",
+    "compose_sha256": "record_and_pass_to_runner_on_reserved_node",
+    "channel_config_sha256": "record_and_pass_to_runner_on_reserved_node",
+    "ue_config_sha256": "record_and_pass_to_runner_on_reserved_node",
+    "baseline_ue_image_id": "record_before_each_execution_and_verify_after_rollback"
+  },
+  "execution_authorization": {
+    "authorized_execution_numbers": [1, 2, 3],
+    "oai_rng_seeds": [47001, 47002, 47003],
+    "one_complete_trace_per_invocation": true,
+    "fresh_ue_recreation_per_execution": true,
+    "commands_may_adapt_during_execution": false,
+    "minimum_paired_rows_per_execution": 299,
+    "primary_kpi_alignment_seconds": 0,
+    "channel_verification_alignment_seconds": 1,
+    "test6_access": false,
+    "abc": false
+  },
+  "mandatory_preflight": [
+    "verify the profile checkout equals the published revision",
+    "verify runner and command-file checksums",
+    "verify the generated compose, channel and UE configuration checksums and pass them to the runner",
+    "verify the instrumented image exists and carries the pinned OAI revision label",
+    "verify the baseline UE uses the rollback image and is attached",
+    "verify the gNB is healthy",
+    "stop before execution if any identity or health check fails"
+  ],
+  "rollback": {
+    "mandatory_after_each_execution": true,
+    "restore_baseline_ue_with_force_recreate": true,
+    "verify_baseline_image_id": true,
+    "verify_ue_attachment": true,
+    "verify_gnb_restart_count_unchanged": true,
+    "preserve_logs_and_execution_state_on_failure": true,
+    "continue_after_failed_rollback": false
+  },
+  "reservation": {
+    "request_now": true,
+    "preparation_lead_time_minutes": 30,
+    "estimated_active_experiment_minutes": 25,
+    "profile": "oai-5g-ric-v2",
+    "profile_branch": "feature/rfsim-rsrp-calibration",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "cell_hardware": "d740"
+  },
+  "claim_limits": {
+    "test1_status": "development_fidelity_and_repeatability_only",
+    "independent_final_validation": "not_claimed",
+    "test6_access": "prohibited",
+    "translator_updates_from_phase3j_residuals": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "physical_channel_reconstruction": "prohibited"
+  }
+}

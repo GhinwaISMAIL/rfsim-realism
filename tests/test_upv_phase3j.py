@@ -281,3 +281,34 @@ def test_phase3j_analyzer_rejects_reused_execution_directory(tmp_path: Path) -> 
             config_path=CONFIG,
             output_dir=tmp_path / "analysis",
         )
+
+
+def test_phase3j_hardware_authorization_matches_frozen_packages() -> None:
+    authorization_root = ROOT / "manifests/upv_phase3j_execution_authorization_v1"
+    authorization = json.loads(
+        (authorization_root / "hardware_authorization.json").read_text()
+    )
+    checksums = json.loads((authorization_root / "SHA256SUMS.json").read_text())
+    assert checksums["hardware_authorization.json"] == _sha256(
+        authorization_root / "hardware_authorization.json"
+    )
+    assert authorization["research_package"]["repository_revision"] == (
+        "16117beead9da5a72a862e820a25ea7fee810345"
+    )
+    assert authorization["research_package"]["protocol_config_sha256"] == _sha256(
+        CONFIG
+    )
+    assert authorization["research_package"]["protocol_manifest_sha256"] == _sha256(
+        ROOT / "manifests/upv_phase3j_full_trace_v1/protocol.json"
+    )
+    assert authorization["research_package"]["commands_sha256"] == _sha256(
+        ROOT / "manifests/upv_phase3j_full_trace_v1/full_trace_commands.csv"
+    )
+    assert authorization["execution_authorization"]["authorized_execution_numbers"] == [
+        1,
+        2,
+        3,
+    ]
+    assert authorization["rollback"]["mandatory_after_each_execution"] is True
+    assert authorization["reservation"]["request_now"] is True
+    assert authorization["claim_limits"]["test6_access"] == "prohibited"
