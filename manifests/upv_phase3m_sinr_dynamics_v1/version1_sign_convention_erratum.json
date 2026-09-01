@@ -1,0 +1,19 @@
+{
+  "absolute_metrics_affected": false,
+  "canonical_equations": {
+    "clipping_error": "projected_feasible_target_minus_original_target",
+    "dynamic_error": "oai_output_minus_projected_feasible_target",
+    "identity": "total_error_equals_clipping_error_plus_dynamic_error",
+    "total_error": "oai_output_minus_original_target"
+  },
+  "declared_config_convention": "original_target_minus_projected_feasible_target",
+  "frozen_outputs_recomputed": false,
+  "implemented_and_canonical_convention": "projected_feasible_target_minus_original_target",
+  "schema_version": 1,
+  "scope": "documentation_sign_only",
+  "status": "documentation_sign_convention_erratum_only",
+  "thresholds_changed": false,
+  "version1_analyzer_sha256": "e2c441ed1e6e7cf2fdfe79654734beec6426524f3b9501bb876971dd72b04630",
+  "version1_config_sha256": "be6dc98df9bd0985168a79dfc52665bb431039b78c58d838a065eb13264f3f85",
+  "version1_scientific_status_changed": false
+}

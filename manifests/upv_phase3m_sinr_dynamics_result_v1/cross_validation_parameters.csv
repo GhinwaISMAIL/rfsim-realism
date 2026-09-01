@@ -1,0 +1,13 @@
+fold,held_out_execution,model,training_executions,alpha,a,b,training_mse
+1,phase3j_test1_execution_1,static,"phase3j_test1_execution_2,phase3j_test1_execution_3,phase3l_test6_execution_1",0,2.69438613335,0.815075004188,3.80279753359
+1,phase3j_test1_execution_1,memory_only,"phase3j_test1_execution_2,phase3j_test1_execution_3,phase3l_test6_execution_1",0.517,0,1,3.07594618052
+1,phase3j_test1_execution_1,combined,"phase3j_test1_execution_2,phase3j_test1_execution_3,phase3l_test6_execution_1",0.5,0.346991739894,0.963936969796,3.01671682189
+2,phase3j_test1_execution_2,static,"phase3j_test1_execution_1,phase3j_test1_execution_3,phase3l_test6_execution_1",0,2.5683000194,0.828421291051,4.01604925778
+2,phase3j_test1_execution_2,memory_only,"phase3j_test1_execution_1,phase3j_test1_execution_3,phase3l_test6_execution_1",0.492,0,1,3.29030252866
+2,phase3j_test1_execution_2,combined,"phase3j_test1_execution_1,phase3j_test1_execution_3,phase3l_test6_execution_1",0.478,0.342436867856,0.969573832894,3.26412545891
+3,phase3j_test1_execution_3,static,"phase3j_test1_execution_1,phase3j_test1_execution_2,phase3l_test6_execution_1",0,2.69180248709,0.811162972521,4.10134041049
+3,phase3j_test1_execution_3,memory_only,"phase3j_test1_execution_1,phase3j_test1_execution_2,phase3l_test6_execution_1",0.495,0,1,3.49994609994
+3,phase3j_test1_execution_3,combined,"phase3j_test1_execution_1,phase3j_test1_execution_2,phase3l_test6_execution_1",0.471,0.557544678428,0.946505542426,3.39511876318
+4,phase3l_test6_execution_1,static,"phase3j_test1_execution_1,phase3j_test1_execution_2,phase3j_test1_execution_3",0,2.45833896372,0.821955018612,4.05535020766
+4,phase3l_test6_execution_1,memory_only,"phase3j_test1_execution_1,phase3j_test1_execution_2,phase3j_test1_execution_3",0.509,0,1,3.33639150599
+4,phase3l_test6_execution_1,combined,"phase3j_test1_execution_1,phase3j_test1_execution_2,phase3j_test1_execution_3",0.504,-0.151395881473,0.988032595926,3.22019620608

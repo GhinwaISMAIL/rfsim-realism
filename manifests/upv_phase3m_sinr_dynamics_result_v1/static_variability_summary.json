@@ -1,0 +1,16 @@
+{
+  "executions": 39,
+  "included_stages": [
+    "boundary",
+    "factorial"
+  ],
+  "interpretation": "diagnostic_reference_not_an_irreducible_error_proof",
+  "mean_within_execution_sinr_sd_db": 0.5139811726375159,
+  "median_within_execution_mean_absolute_deviation_db": 0.4043852266666669,
+  "median_within_execution_sinr_sd_db": 0.49887807902919223,
+  "p95_within_execution_sinr_sd_db": 0.6922855700314176,
+  "pooled_between_execution_mean_sinr_sd_db": 0.2826573569132764,
+  "repeated_control_states": 13,
+  "samples": 585,
+  "schema_version": 1
+}

@@ -1,0 +1,156 @@
+{
+  "analysis_repository_revision": {
+    "revision": "8967cd19da4dc80375bbaec9d073241d83d9085b",
+    "tracked_worktree_dirty": false
+  },
+  "candidate_gates_against_static": {
+    "maximum_alpha_range_across_folds": 0.25,
+    "maximum_b_range_across_folds": 0.3,
+    "maximum_single_fold_mae_degradation_db": 0.1,
+    "minimum_absolute_mae_improvement_db": 0.15,
+    "minimum_absolute_p95_improvement_db": 0.2,
+    "minimum_mean_absolute_residual_lag1_reduction": 0.05,
+    "minimum_relative_mae_improvement_fraction": 0.1,
+    "minimum_relative_p95_improvement_fraction": 0.08,
+    "parameter_boundary_tolerance": 0.005
+  },
+  "claim_limits": {
+    "cross_device_or_population_generalization": "prohibited",
+    "final_version2_validation": "prohibited",
+    "online_feedback": "prohibited",
+    "physical_channel_dynamics": "prohibited",
+    "physical_noise_or_path_loss_inference": "prohibited",
+    "predictive_radio_condition_model": "prohibited",
+    "version1_confirmatory_status_changed": "prohibited",
+    "version2_hardware_commands": "prohibited"
+  },
+  "config_sha256": "d0c019a907778f38c6244eec4b4e0d6dee5e3c4c92ae1e0ce37684bc944a0f6d",
+  "cross_validation": {
+    "equal_execution_weight_in_training": true,
+    "folds": 4,
+    "method": "leave_one_complete_execution_out",
+    "metrics": [
+      "mae_db",
+      "rmse_db",
+      "p95_absolute_error_db",
+      "maximum_absolute_error_db",
+      "signed_bias_db",
+      "residual_lag1_correlation"
+    ],
+    "model_selection_order": [
+      "memory_only",
+      "combined"
+    ],
+    "selection_rule": "simplest_candidate_meeting_all_predeclared_gates"
+  },
+  "decision_rules": {
+    "candidate_supported": {
+      "code": "version2_forward_sinr_model_supported_for_separate_inverse_design",
+      "next_action": "freeze_a_separate_bounded_joint_inverse_command_design_without_hardware"
+    },
+    "invalid": {
+      "code": "version2_offline_diagnostic_invalid",
+      "next_action": "stop_without_model_or_hardware_changes"
+    },
+    "no_candidate_supported": {
+      "code": "version2_dynamic_compensation_not_supported_by_complete_execution_cross_validation",
+      "next_action": "retain_version1_and_report_sinr_variability_without_command_compensation"
+    }
+  },
+  "development_data": {
+    "clipped_row_forward_input": "projected_feasible_sinr",
+    "execution_unit": "complete_hardware_replay",
+    "final_version2_validation_data": "not_yet_selected",
+    "first_row_scored": false,
+    "observed_output": "ss_sinr_db",
+    "phase3j_test1_executions": 3,
+    "phase3l_test6_executions": 1,
+    "random_row_splitting": "prohibited",
+    "temporal_order_preserved": true,
+    "test6_role": "posthoc_held_out_trajectory_now_reclassified_as_version2_development"
+  },
+  "evaluation_status": "posthoc_offline_development_not_final_validation",
+  "frozen_inputs": {
+    "phase3g_campaign": {
+      "path": "data/model_runs/upv_phase3g_bounded_response_v1/phase3g-bounded-response-20260831T132110Z",
+      "telemetry_files": 45
+    },
+    "phase3g_execution_medians": {
+      "path": "manifests/upv_phase3g_response_v1/execution_medians.csv",
+      "sha256": "c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f"
+    },
+    "phase3j_analyzer": {
+      "path": "src/rfsim_realism/upv_phase3j.py",
+      "sha256": "e2c441ed1e6e7cf2fdfe79654734beec6426524f3b9501bb876971dd72b04630"
+    },
+    "phase3j_paired_fidelity": {
+      "path": "manifests/upv_phase3j_full_trace_result_v1/paired_full_trace_fidelity.csv",
+      "sha256": "57108f7c407caa59754c5394dfab5d62058c2ac5cd303d4f92c06d1065784093"
+    },
+    "phase3j_result_checksums": {
+      "path": "manifests/upv_phase3j_full_trace_result_v1/SHA256SUMS.json",
+      "sha256": "5015e6fd726f2d4997efe0c5cfae581e19628d0e4622628f9b2ff4a5992945b0"
+    },
+    "phase3l_config": {
+      "path": "configs/upv_phase3l_test6_exploratory_v1.yaml",
+      "sha256": "be6dc98df9bd0985168a79dfc52665bb431039b78c58d838a065eb13264f3f85"
+    },
+    "phase3l_paired_fidelity": {
+      "path": "manifests/upv_phase3l_test6_exploratory_result_v1/paired_test6_fidelity.csv",
+      "sha256": "da6b66be9be8e764cefd0876452fe1c24f1875227cf535efa2d978393e9360fd"
+    },
+    "phase3l_result_checksums": {
+      "path": "manifests/upv_phase3l_test6_exploratory_result_v1/SHA256SUMS.json",
+      "sha256": "bdb6e4bfd2dccd9661b66255670c02218a382813813796ddd528ad5d62e3f0f5"
+    }
+  },
+  "hardware_execution_authorized": false,
+  "inverse_command_generation_authorized": false,
+  "models": {
+    "a_db": {
+      "maximum": 10.0,
+      "minimum": -10.0
+    },
+    "alpha": {
+      "grid_step": 0.001,
+      "maximum": 0.95,
+      "minimum": 0.0
+    },
+    "b": {
+      "maximum": 1.5,
+      "minimum": 0.5
+    },
+    "combined": {
+      "equation": "predicted_t_equals_alpha_times_predicted_previous_plus_one_minus_alpha_times_a_plus_b_times_projected_t"
+    },
+    "fitting_loss": "execution_balanced_mean_squared_error",
+    "memory_only": {
+      "a_fixed": 0.0,
+      "b_fixed": 1.0,
+      "equation": "predicted_t_equals_alpha_times_predicted_previous_plus_one_minus_alpha_times_projected_t"
+    },
+    "observed_previous_output_as_predictor": "prohibited",
+    "prediction_mode": "recursive_open_loop",
+    "recursion_initialization": "model_steady_output_at_first_projected_target",
+    "static": {
+      "alpha_fixed": 0.0,
+      "equation": "predicted_sinr_t_equals_a_plus_b_times_projected_sinr_t"
+    }
+  },
+  "phase3g_telemetry_inventory_sha256": "81e0f717ac512e489451b9cbc557a1ad58fe4d3113fdb3b7cd2a7459f7993a59",
+  "protocol_revision": "1.0",
+  "reservation_requested": false,
+  "schema_version": 1,
+  "stage": "phase_3m_version2_sinr_dynamics_offline_development",
+  "static_variability_reference": {
+    "between_execution_statistic": "pooled_sd_of_execution_medians_for_states_with_at_least_three_repetitions",
+    "exclude_safety_stages": true,
+    "included_stages": [
+      "factorial",
+      "boundary"
+    ],
+    "interpretation": "diagnostic_reference_not_an_irreducible_error_proof",
+    "within_execution_statistic": "per_second_sinr_about_execution_mean"
+  },
+  "version1_erratum_sha256": "589f680df7de8dd8ec917857334666a86669d3647f678cdff5598768b0ad0f18"
+}

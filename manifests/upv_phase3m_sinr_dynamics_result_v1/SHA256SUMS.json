@@ -1,0 +1,10 @@
+{
+  "candidate_gate_evaluation.csv": "313d335c6e1e003d4744cac81bc14f9264a7aa18b39e5ca442485a6720f191c2",
+  "cross_validation_fold_metrics.csv": "017d4475f478f365efc0b0a32c3582268b9d8ecfb6e5d5a6f0a9a0f740ebdaf8",
+  "cross_validation_parameters.csv": "64d1f3704eb8718f9323c85ff8ceaa1a17d2968c72b3a43ab09e929d6a7d838f",
+  "cross_validation_predictions.csv": "b06fc044a05b8938a01aeaae8ab4f40cc88a528d8fabdba036e4489fc1afdd25",
+  "model_summary.csv": "0c846393a72e41dd36862ced73db4bcf0775efa25a401aaf9eca412408f07269",
+  "phase3m_decision.json": "12cf3ba3f8cb5137b4924194e59952059d2851cf6ea61e248cfd57f33bca7807",
+  "static_variability_by_execution.csv": "cc300b920a965f0030bb60930adbe9ca61d12a961d7abd84f17feb873209310b",
+  "static_variability_summary.json": "2b09afede0f548614f18efca8c656ec948028836b27b104fbed654a24b202e83"
+}

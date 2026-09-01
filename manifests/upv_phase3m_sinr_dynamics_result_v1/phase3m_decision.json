@@ -1,0 +1,36 @@
+{
+  "analysis_repository_revision": {
+    "revision": "8967cd19da4dc80375bbaec9d073241d83d9085b",
+    "tracked_worktree_dirty": false
+  },
+  "candidate_supported": false,
+  "claim_limits": {
+    "cross_device_or_population_generalization": "prohibited",
+    "final_version2_validation": "prohibited",
+    "online_feedback": "prohibited",
+    "physical_channel_dynamics": "prohibited",
+    "physical_noise_or_path_loss_inference": "prohibited",
+    "predictive_radio_condition_model": "prohibited",
+    "version1_confirmatory_status_changed": "prohibited",
+    "version2_hardware_commands": "prohibited"
+  },
+  "complete_execution_folds": 4,
+  "decision_code": "version2_dynamic_compensation_not_supported_by_complete_execution_cross_validation",
+  "evaluation_status": "posthoc_offline_development_not_final_validation",
+  "final_version2_validation_performed": false,
+  "hardware_execution_authorized": false,
+  "input_sha256": {
+    "config": "d0c019a907778f38c6244eec4b4e0d6dee5e3c4c92ae1e0ce37684bc944a0f6d",
+    "phase3g_telemetry_inventory": "81e0f717ac512e489451b9cbc557a1ad58fe4d3113fdb3b7cd2a7459f7993a59",
+    "phase3j_paired_fidelity": "57108f7c407caa59754c5394dfab5d62058c2ac5cd303d4f92c06d1065784093",
+    "phase3l_paired_fidelity": "da6b66be9be8e764cefd0876452fe1c24f1875227cf535efa2d978393e9360fd",
+    "protocol": "7c1b69e33a24ea3498e5388377d08cf34b2917a1e3e814d9b44e3a154deb50e2"
+  },
+  "inverse_command_generation_authorized": false,
+  "next_action": "retain_version1_and_report_sinr_variability_without_command_compensation",
+  "schema_version": 1,
+  "selected_candidate": null,
+  "stage": "phase_3m_version2_sinr_dynamics_offline_result",
+  "test6_role": "posthoc_held_out_trajectory_now_reclassified_as_version2_development",
+  "version1_status_changed": false
+}
