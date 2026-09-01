@@ -1,4 +1,0 @@
-app,observations,primary_supported,candidate_supported,both_supported,primary_only,candidate_only,union_supported,primary_supported_fraction,candidate_supported_fraction,both_supported_fraction,primary_only_fraction,candidate_only_fraction,union_supported_fraction
-Amazon_Prime,669,321,335,321,0,14,335,0.479820627803,0.500747384155,0.479820627803,0,0.0209267563528,0.500747384155
-Download,798,198,125,123,75,2,200,0.248120300752,0.15664160401,0.154135338346,0.093984962406,0.00250626566416,0.250626566416
-Netflix,1510,273,257,219,54,38,311,0.180794701987,0.170198675497,0.145033112583,0.035761589404,0.0251655629139,0.205960264901

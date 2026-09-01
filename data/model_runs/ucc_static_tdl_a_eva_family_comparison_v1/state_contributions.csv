@@ -1,6 +1,0 @@
-family,role,mapped_control_state_id,mapped_ploss,mapped_noise_power_dB,assigned_observations,supported_observations,unique_over_other_observations
-TDL_A,primary,ploss=-5|noise_power_dB=-30,-5,-30,446,115,85
-TDL_A,primary,ploss=0|noise_power_dB=-10,0,-10,400,296,8
-TDL_A,primary,ploss=0|noise_power_dB=-30,0,-30,2131,381,36
-EVA,candidate,ploss=0|noise_power_dB=-10,0,-10,190,8,0
-EVA,candidate,ploss=0|noise_power_dB=-5,0,-5,2787,709,54

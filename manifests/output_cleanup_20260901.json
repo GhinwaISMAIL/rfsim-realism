@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "cleanup_date": "2026-09-01",
+  "method": "moved_to_macos_trash",
+  "recoverable_until_trash_is_emptied": true,
+  "approximate_bytes_moved_to_trash": 154776809,
+  "audited_targets_moved_to_trash": 75,
+  "policy": "retain_only_raw_inputs_and_executions_required_to_audit_the_final_version1_emulator",
+  "preserved_local_raw_evidence": [
+    "data/raw/upv_remote_driving_n40_v1.zip",
+    "data/curated/upv_protocol_v1",
+    "data/model_runs/upv_phase3c13_static_tdlb_v1/static_tdlb_pilot_evaluation_amended.json",
+    "data/model_runs/upv_phase3g_direct_trace_v1/direct_test1_target_trace.csv",
+    "data/model_runs/upv_phase3g_bounded_response_v1/phase3g-bounded-response-20260831T132110Z",
+    "data/model_runs/upv_phase3j_full_trace_v1/phase3j-full-trace-20260901T103113Z",
+    "data/model_runs/upv_phase3j_full_trace_v1/phase3j-full-trace-20260901T103904Z",
+    "data/model_runs/upv_phase3j_full_trace_v1/phase3j-full-trace-20260901T112939Z",
+    "data/model_runs/upv_phase3l_test6_exploratory_v1/phase3l-test6-exploratory-20260901T121613Z"
+  ],
+  "preserved_tracked_evidence": [
+    "configs",
+    "src",
+    "tests",
+    "manifests",
+    "reports/UPV_VERSION1_FINAL_RESULT.md",
+    "reports/figures/upv_version1"
+  ],
+  "removed_categories": [
+    "abandoned_pre_UPV_UCC_and_ABC_outputs",
+    "failed_or_superseded_CIRDB_and_TDL_runs",
+    "superseded_scalar_noise_and_short_trace_runs",
+    "unused_Phase3J_attempts_and_duplicate_evaluation_output",
+    "obsolete_calibration_run_exports",
+    "unused_5G_production_dataset_archive",
+    "stale_precanonical_Version1_generation_snapshot"
+  ],
+  "verification": {
+    "phase3g_calibration_executions_verified": 45,
+    "phase3j_final_executions_verified": 3,
+    "phase3l_final_executions_verified": 1,
+    "historical_test_fixtures_verified": 2,
+    "final_release_bundle_verified": true,
+    "tracked_UPV_evidence_removed": false
+  },
+  "git_recovery_point_before_cleanup": "ded5450"
+}
