@@ -1,0 +1,21 @@
+{
+  "allowed": [
+    "deterministic_kpi_level_trace_replay",
+    "relative_rsrp_and_device_conditioned_sinr_fidelity",
+    "test1_complete_trace_development_repeatability",
+    "test6_held_out_exploratory_fidelity",
+    "ue_attachment_ip_reachability_command_timing_and_rollback_integrity"
+  ],
+  "prohibited": [
+    "absolute_rsrp_calibration",
+    "physical_path_loss_or_noise_inference",
+    "multipath_or_doppler_reconstruction",
+    "physical_channel_reconstruction",
+    "confirmatory_test6_validation",
+    "cross_device_or_population_generalization",
+    "attachment_distribution_validation",
+    "throughput_calibration",
+    "predictive_radio_condition_generation",
+    "online_feedback_control"
+  ]
+}

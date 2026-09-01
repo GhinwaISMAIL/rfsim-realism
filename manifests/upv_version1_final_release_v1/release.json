@@ -1,0 +1,52 @@
+{
+  "analysis_repository": {
+    "revision": "6b94c6a6f86d9a35f2c6425bd57ba452bac685c9",
+    "tracked_worktree_dirty": false
+  },
+  "canonical_revisions": {
+    "oai": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "phase3j_profile": "86180671da37b1943e80cdec7d817678d4cc94f7",
+    "phase3l_exploratory_wrapper": "c41e55857782fd15559a4cf4099dd14d17664ed9"
+  },
+  "evidence_roles": {
+    "phase3m": "rejected_posthoc_version2_ablation",
+    "test1": "complete_trace_development_fidelity_and_three_execution_repeatability",
+    "test6": "posthoc_held_out_exploratory_replay_not_confirmatory_validation"
+  },
+  "figures": [
+    "reports/figures/upv_version1/test1_complete_replay.png",
+    "reports/figures/upv_version1/test1_complete_replay.pdf",
+    "reports/figures/upv_version1/test6_exploratory_replay.png",
+    "reports/figures/upv_version1/test6_exploratory_replay.pdf",
+    "reports/figures/upv_version1/test6_error_decomposition.png",
+    "reports/figures/upv_version1/test6_error_decomposition.pdf",
+    "reports/figures/upv_version1/phase3m_ablation.png",
+    "reports/figures/upv_version1/phase3m_ablation.pdf"
+  ],
+  "phase3m_disposition": {
+    "decision": "version2_dynamic_compensation_not_supported",
+    "inverse_compensation_authorized": false,
+    "report_as": "ablation_and_negative_result",
+    "version1_changed": false
+  },
+  "release_status": "final_supported_version1_kpi_level_emulator",
+  "report": "reports/UPV_VERSION1_FINAL_RESULT.md",
+  "reservation_required": false,
+  "runtime_model": {
+    "channel_family": "AWGN",
+    "clipping": "nearest_validated_hull_boundary",
+    "command_interval_seconds": 1.0,
+    "controls": [
+      "scalar_gain_db",
+      "effective_noise_power_db"
+    ],
+    "dynamic_compensation": "prohibited",
+    "extrapolation": "prohibited",
+    "online_adaptation": "prohibited",
+    "target": "synchronized_relative_rsrp_and_device_conditioned_sinr",
+    "translator": "bounded_piecewise_affine_interpolation"
+  },
+  "schema_version": 1,
+  "source_bundles_verified": 8,
+  "stage": "version1_final_supported_kpi_emulator_release"
+}
