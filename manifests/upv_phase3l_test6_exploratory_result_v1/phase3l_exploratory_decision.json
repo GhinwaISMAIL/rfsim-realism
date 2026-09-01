@@ -1,0 +1,45 @@
+{
+  "analysis_repository_revision": {
+    "revision": "8b396e9efa48ecedf0c9a967671a3a6cb8802500",
+    "tracked_worktree_dirty": false
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "confirmatory_test6_support_pass": "prohibited",
+    "cross_device_or_population_generalization": "prohibited",
+    "independent_final_validation": "prohibited",
+    "multipath_or_doppler_reconstruction": "prohibited",
+    "physical_channel_reconstruction": "prohibited",
+    "physical_noise_or_path_loss_inference": "prohibited",
+    "threshold_specific_xapp_behavior": "prohibited"
+  },
+  "confirmatory_support_pass_claimed": false,
+  "decision_code": "exploratory_test6_replay_completed_runtime_valid",
+  "evaluation_status": "posthoc_exploratory_not_confirmatory_validation",
+  "exploratory_execution": {
+    "clipped_rows": 21,
+    "paired_rows": 297,
+    "phase3j_reference_fidelity_limits_met": true,
+    "reference_limits_are_acceptance_gates": false,
+    "runtime_valid": true,
+    "target_rows": 297
+  },
+  "independent_final_validation_claimed": false,
+  "input_sha256": {
+    "campaign": {
+      "execution_state.json": "4485c443d9d7e672520d9d62a9de850513a5cffed3a46bdc6d5fc22f9815c291",
+      "phase3l_anchor_telemetry.csv": "0bc30b317a80094a9e0b01a6067ec96afc020ba44538b1e3416c3614a0ef479f",
+      "phase3l_test6_telemetry.csv": "ebd4ae541c53172771a5efcb9cd96740a97383239c80d878bda8a747b72ac862"
+    },
+    "commands": "f79d244e8c054a95ee895f83f0655dc6136b694c1c8f2db5417043a1cf2bbedc",
+    "config": "be6dc98df9bd0985168a79dfc52665bb431039b78c58d838a065eb13264f3f85",
+    "protocol": "691ce2ef5e1034acfd44196904f4996c7368b9dd6c3887dded919cbad7dbc1a0"
+  },
+  "next_action": "report_supported_only_complete_trace_and_error_decomposition_without_confirmatory_claim",
+  "official_phase3k_support_status": "unsupported_under_version_1_protocol",
+  "schema_version": 1,
+  "stage": "phase_3l_posthoc_test6_exploratory_replay_result",
+  "threshold_specific_xapp_behavior_claimed": false,
+  "translator_changed": false
+}
