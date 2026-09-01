@@ -66,6 +66,16 @@ def validate_phase3j_config(config: dict[str, Any]) -> None:
         raise ValueError("the Test 6 maximum clipping distance must be positive")
     if test6.get("hardware_execution_if_unsupported") != "prohibited":
         raise ValueError("unsupported Test 6 trajectories may not be executed")
+    if test6.get("missing_telemetry_interpolation") != "prohibited":
+        raise ValueError("Test 6 missing telemetry may not be interpolated")
+    if test6.get("temporal_gap_rule") != "split_at_missing_rows_and_never_bridge":
+        raise ValueError("Test 6 temporal metrics must split at missing telemetry")
+    if test6.get("primary_kpi_alignment_seconds") != 0:
+        raise ValueError("Test 6 primary KPI alignment must remain zero lag")
+    if test6.get("channel_verification_alignment_seconds") != 1:
+        raise ValueError("Test 6 channel verification must use the following second")
+    if test6.get("post_hoc_lag_selection") != "prohibited":
+        raise ValueError("Test 6 may not use post-hoc lag selection")
     clipping = config["clipping_evaluation"]
     if clipping.get("bridge_across_clipped_rows") != "prohibited":
         raise ValueError("temporal metrics may not bridge clipped rows")
@@ -74,6 +84,10 @@ def validate_phase3j_config(config: dict[str, Any]) -> None:
         raise ValueError("missing telemetry may not be interpolated")
     if runtime.get("temporal_gap_rule") != "split_at_missing_rows_and_never_bridge":
         raise ValueError("temporal metrics must split at missing telemetry")
+    if int(test6.get("minimum_paired_rows", 0)) != int(
+        runtime["minimum_paired_rows_per_execution"]
+    ):
+        raise ValueError("Test 6 and development missing-telemetry gates must agree")
     if (
         config["model_update_policy"].get("translator_update_from_phase3j_residuals")
         != "prohibited"

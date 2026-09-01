@@ -57,6 +57,16 @@ def test_phase3j_protocol_freezes_development_and_test6_rules() -> None:
         "maximum_clipping_distance_scaled": 1.0,
         "excessive_out_of_hull_status": "unsupported_not_emulator_failure",
         "hardware_execution_if_unsupported": "prohibited",
+        "primary_temporal_metrics": "include_clipped_rows_against_original_target",
+        "supported_only_temporal_metrics": (
+            "exclude_clipped_rows_and_adjacent_crossing_pairs"
+        ),
+        "minimum_paired_rows": 299,
+        "missing_telemetry_interpolation": "prohibited",
+        "temporal_gap_rule": "split_at_missing_rows_and_never_bridge",
+        "primary_kpi_alignment_seconds": 0,
+        "channel_verification_alignment_seconds": 1,
+        "post_hoc_lag_selection": "prohibited",
     }
     assert config["runtime_gates"]["missing_row_interpolation"] == "prohibited"
     assert config["clipping_evaluation"]["bridge_across_clipped_rows"] == "prohibited"
