@@ -1,0 +1,57 @@
+{
+  "abc_authorized": false,
+  "analysis_repository_revision": {
+    "revision": "d28e580092e2140189658f6f305e3e245bfb330b",
+    "tracked_worktree_dirty": false
+  },
+  "campaign": {
+    "development_trace": "corrected_test_1_ASUS",
+    "executions": 3,
+    "independent_final_validation": false,
+    "target_rows_per_execution": 305,
+    "test6_accessed": false
+  },
+  "decision_code": "complete_test1_development_replay_passed",
+  "evaluation_status": "development_not_independent_final_validation",
+  "gates": {
+    "all_execution_fidelity_gates_passed": true,
+    "all_execution_runtime_gates_passed": true,
+    "all_gates_passed": true,
+    "repeatability_gate_passed": true
+  },
+  "input_sha256": {
+    "campaigns": {
+      "execution_1": {
+        "execution_state.json": "fde253200b20a0191686d9df5e980eff5e6438dad4f6e821f0c20a4f1211eda9",
+        "phase3j_anchor_telemetry.csv": "c2e6664209749ee49df5e24ad824adcc7bc6409a6ed3c33b2466a6cca36738b3",
+        "phase3j_full_trace_telemetry.csv": "f25cb4efa07a5bf96f071762c05ad080095c3e9eb7e2cd2a8ec1d7e6c21c4008"
+      },
+      "execution_2": {
+        "execution_state.json": "9150e68f14b6051315dc881a2ccece135c1c03021982bc7da6be5554c578628a",
+        "phase3j_anchor_telemetry.csv": "b410f241587e07c9b3f2a65af5edc9b564278e9ee97da8888e0dd5a5e665203c",
+        "phase3j_full_trace_telemetry.csv": "a341cfbca9647a42041e485f828f343a8593530fb0fdbd67183d82ca0e289825"
+      },
+      "execution_3": {
+        "execution_state.json": "974a07dc1e17a0b02152f3fb69c19b2d47e0efd5764367def38e0bf6662fccea",
+        "phase3j_anchor_telemetry.csv": "f16dbab430469ba87036d8de5b43633a6b9cec3c9e8603d57bfe3235f7dd2331",
+        "phase3j_full_trace_telemetry.csv": "9b0db78ce2b20d58b861360042ce6280f9a601667d890b02c7b5d3cfe77059f9"
+      }
+    },
+    "commands": "c25fb55ea78294e7e7f44a9dddf6b985ba50881d09d6f394fbbc96bd074fcc76",
+    "config": "47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b",
+    "protocol": "6f254d9c0f9367d637b4a3f6690c102fa89aca2a6f64e11325149af600e63464"
+  },
+  "model_release_freeze_authorized": true,
+  "next_action": "freeze_model_release_then_authorize_predeclared_test6_support_check",
+  "repeatability": {
+    "common_command_indices": 305,
+    "gate_passed": true,
+    "relative_rsrp_rms_between_execution_standard_deviation_db": 0.06082249961407287,
+    "sinr_rms_between_execution_standard_deviation_db": 0.9109774509703155
+  },
+  "schema_version": 1,
+  "stage": "phase_3j_complete_test1_development_fidelity_and_repeatability_result",
+  "test6_access_authorized": false,
+  "test6_accessed": false,
+  "translator_update_from_residuals_authorized": false
+}

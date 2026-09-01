@@ -1,0 +1,8 @@
+{
+  "anchor_medians.csv": "14c440598fdbf75c8dc8122e53442d4ce83cf8b81f457ec392a20706c9affd7d",
+  "lag_diagnostics.csv": "3f4479003448be3d6d6e7be0abd318592fcc81b47088c4993346b30fe528de78",
+  "paired_full_trace_fidelity.csv": "57108f7c407caa59754c5394dfab5d62058c2ac5cd303d4f92c06d1065784093",
+  "per_execution_metrics.csv": "3c8425abf435c5b0a034c36d258a0d4875f84d178f6f74623a9f624680ef8676",
+  "phase3j_full_trace_decision.json": "2d4bc0de7862595ef97c0f0fb970b102c375211a230b1f8e91a8f6e99403b8e9",
+  "repeatability_by_command.csv": "59422f2b5aeac7973a8625b5ffb572ff82b86883c3f961ddee2c33482e7a5695"
+}

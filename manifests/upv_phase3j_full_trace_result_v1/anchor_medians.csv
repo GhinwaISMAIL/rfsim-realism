@@ -1,0 +1,7 @@
+execution_number,anchor_type,rsrp_db_per_re_unquantized,ss_sinr_db
+1,anchor_end,41.398005,15.6126195
+1,anchor_start,41.379458,14.614286
+2,anchor_end,41.3562,15.0214285
+2,anchor_start,41.390123,15.382143
+3,anchor_end,41.391113,15.3666665
+3,anchor_start,41.3635855,14.672143
