@@ -41,6 +41,7 @@ from .upv_phase3m import analyze_phase3m_sinr_dynamics, freeze_phase3m_sinr_dyna
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
+from .upv_version1_release import finalize_upv_version1_release
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -388,6 +389,12 @@ def _parser() -> argparse.ArgumentParser:
     phase3m_analyze.add_argument("--phase3l-result-dir", required=True)
     phase3m_analyze.add_argument("--phase3g-campaign-dir", required=True)
     phase3m_analyze.add_argument("--output", required=True)
+
+    version1_release = commands.add_parser("finalize-upv-version1-release")
+    version1_release.add_argument("--config", required=True)
+    version1_release.add_argument("--output", required=True)
+    version1_release.add_argument("--figures", required=True)
+    version1_release.add_argument("--report", required=True)
     return parser
 
 
@@ -862,6 +869,15 @@ def main() -> None:
             phase3l_result_dir=args.phase3l_result_dir,
             phase3g_campaign_dir=args.phase3g_campaign_dir,
             output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "finalize-upv-version1-release":
+        result = finalize_upv_version1_release(
+            config_path=args.config,
+            output_dir=args.output,
+            figures_dir=args.figures,
+            report_path=args.report,
         )
         print(json.dumps(result, sort_keys=True))
         return

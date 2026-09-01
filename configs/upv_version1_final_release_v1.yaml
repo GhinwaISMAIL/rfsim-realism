@@ -1,0 +1,85 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_version1_final_release_v1
+stage: version1_final_supported_kpi_emulator_release
+release_status: final_supported_version1_kpi_level_emulator
+objective: >-
+  Freeze the deterministic measurement-driven RFsim Version 1 emulator,
+  consolidate its development and held-out exploratory evidence, and publish
+  reproducible figures, metrics, claim limits, and artifact provenance.
+
+runtime_model:
+  target: synchronized_relative_rsrp_and_device_conditioned_sinr
+  translator: bounded_piecewise_affine_interpolation
+  channel_family: AWGN
+  controls: [scalar_gain_db, effective_noise_power_db]
+  command_interval_seconds: 1.0
+  extrapolation: prohibited
+  clipping: nearest_validated_hull_boundary
+  online_adaptation: prohibited
+  dynamic_compensation: prohibited
+
+evidence_roles:
+  test1: complete_trace_development_fidelity_and_three_execution_repeatability
+  test6: posthoc_held_out_exploratory_replay_not_confirmatory_validation
+  phase3m: rejected_posthoc_version2_ablation
+
+frozen_inputs:
+  phase3j_protocol:
+    path: manifests/upv_phase3j_full_trace_v1
+    manifest_sha256: f44eeb7816fd48aa80949be79b277dd599befb11eb7ed13dd273a01c127ad65d
+  phase3j_result:
+    path: manifests/upv_phase3j_full_trace_result_v1
+    manifest_sha256: 5015e6fd726f2d4997efe0c5cfae581e19628d0e4622628f9b2ff4a5992945b0
+  phase3k_model_release:
+    path: manifests/upv_phase3k_model_release_v1
+    manifest_sha256: 7704b33e7c6e393c78c7968878966074fe1ccad835a4e53b53f738b33e932d83
+  phase3k_test6_support:
+    path: manifests/upv_phase3k_test6_support_result_v1
+    manifest_sha256: a375c26c80bdde80ae675f9439f8d2038bebdfd5708c5faa267038729840527e
+  phase3l_protocol:
+    path: manifests/upv_phase3l_test6_exploratory_v1
+    manifest_sha256: 279c83a3f3689843e4030e5dbcbf14a8bf8aa6eb0e6256375d86f98a4e966b07
+  phase3l_result:
+    path: manifests/upv_phase3l_test6_exploratory_result_v1
+    manifest_sha256: bdb6e4bfd2dccd9661b66255670c02218a382813813796ddd528ad5d62e3f0f5
+  phase3m_protocol:
+    path: manifests/upv_phase3m_sinr_dynamics_v1
+    manifest_sha256: c09b0efe5b37aabb66564ac2146231e183b41b950b891843067c7cf7e8d7d17f
+  phase3m_result:
+    path: manifests/upv_phase3m_sinr_dynamics_result_v1
+    manifest_sha256: f4dce99fd9ed57fe7753a15fdc174453b4f0e1fbb02b01f9ea19845ba875022c
+
+canonical_revisions:
+  oai: 70508ebaf52f2aae420566d380c6537f2efb9f0c
+  phase3j_profile: 86180671da37b1943e80cdec7d817678d4cc94f7
+  phase3l_exploratory_wrapper: c41e55857782fd15559a4cf4099dd14d17664ed9
+
+claim_scope:
+  allowed:
+    - deterministic_kpi_level_trace_replay
+    - relative_rsrp_and_device_conditioned_sinr_fidelity
+    - test1_complete_trace_development_repeatability
+    - test6_held_out_exploratory_fidelity
+    - ue_attachment_ip_reachability_command_timing_and_rollback_integrity
+  prohibited:
+    - absolute_rsrp_calibration
+    - physical_path_loss_or_noise_inference
+    - multipath_or_doppler_reconstruction
+    - physical_channel_reconstruction
+    - confirmatory_test6_validation
+    - cross_device_or_population_generalization
+    - attachment_distribution_validation
+    - throughput_calibration
+    - predictive_radio_condition_generation
+    - online_feedback_control
+
+phase3m_disposition:
+  decision: version2_dynamic_compensation_not_supported
+  version1_changed: false
+  inverse_compensation_authorized: false
+  report_as: ablation_and_negative_result
+
+reservation:
+  request_now: false
+  additional_hardware_required_for_release: false
