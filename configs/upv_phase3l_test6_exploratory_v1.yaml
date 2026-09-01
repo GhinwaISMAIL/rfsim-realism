@@ -1,0 +1,159 @@
+schema_version: 1
+protocol_revision: "1.0"
+name: upv_phase3l_test6_exploratory_v1
+stage: phase_3l_posthoc_test6_exploratory_replay
+evaluation_status: posthoc_exploratory_not_confirmatory_validation
+objective: replay_test6_with_the_unchanged_frozen_translator_and_explicit_projection
+hardware_execution_authorized: false
+translator_update_authorized: false
+confirmatory_support_pass_claimed: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3k_config_sha256: 146641ec9259e2017e0b8701be21845891b73b7870dacf113d82320051e1d674
+  phase3k_model_release_checksums_sha256: 7704b33e7c6e393c78c7968878966074fe1ccad835a4e53b53f738b33e932d83
+  phase3k_support_result_checksums_sha256: a375c26c80bdde80ae675f9439f8d2038bebdfd5708c5faa267038729840527e
+  phase3k_support_decision_sha256: b9f3fa41ef9ff9f62d41c6352ceedf079242eab786be8a30b783e2e0056c427c
+  test6_commands_sha256: f79d244e8c054a95ee895f83f0655dc6136b694c1c8f2db5417043a1cf2bbedc
+  test6_clipped_targets_sha256: f5b8814cb54f71acc5dc7d5233de28b9fe20814b4b538620fa7cefb402a38ebe
+  phase3j_config_sha256: 47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b
+  required_phase3k_decision: test6_target_unsupported_no_hardware_execution
+
+official_confirmatory_result:
+  protocol: phase3k_version_1
+  support_gate_passed: false
+  status: unsupported_under_version_1_protocol
+  target_rows: 297
+  inside_rows: 276
+  clipped_rows: 21
+  clipped_fraction: 0.0707070707070707
+  maximum_clipping_distance_scaled: 1.0626583375853942
+  immutable: true
+
+exploratory_rationale:
+  selected_after_test6_support_result: true
+  purpose: assess_practical_kpi_replay_utility_under_modest_support_violation
+  changes_confirmatory_result: false
+  new_support_thresholds_defined: false
+  translator_changed: false
+  commands_adapt_during_execution: false
+
+clipping_diagnosis:
+  signed_error_definition: original_target_minus_projected_feasible_target
+  clipped_point_relative_rsrp_mean_absolute_error_db: 0.261338837222
+  clipped_point_relative_rsrp_maximum_absolute_error_db: 0.92527016667
+  clipped_point_sinr_mean_absolute_error_db: 0.479088238714
+  clipped_point_sinr_maximum_absolute_error_db: 1.6926155148
+  complete_trace_projection_only_relative_rsrp_mae_db: 0.0184785038588
+  complete_trace_projection_only_relative_rsrp_rmse_db: 0.106146271959
+  complete_trace_projection_only_sinr_mae_db: 0.0338749267124
+  complete_trace_projection_only_sinr_rmse_db: 0.182964862761
+  longest_consecutive_clipped_intervals_seconds:
+    - [122, 128]
+    - [143, 147]
+
+radio_state_classification:
+  frozen_xapp_threshold_available: false
+  primary_classification_claim: prohibited
+  diagnostic_only_sensitivity_thresholds:
+    sinr_db_integers: [0, 30]
+    relative_rsrp_db_integers: [-10, 12]
+  interpretation: threshold_crossings_are_reported_without_selecting_a_favorable_threshold
+
+execution:
+  independent_execution_unit: complete_trace_after_clean_ue_recreation
+  exploratory_executions: 1
+  oai_rng_seeds: [48001]
+  target_rows: 297
+  command_interval_seconds: 1.0
+  command_start_alignment: next_integer_utc_second_plus_two_seconds
+  primary_kpi_alignment_seconds: 0
+  channel_verification_alignment_seconds: 1
+  post_attachment_stabilization_seconds: 5.0
+  anchor_start_settling_seconds: 5.0
+  anchor_end_settling_seconds: 5.0
+  anchor_usable_seconds: 10.0
+  commands_may_adapt_during_execution: false
+
+runtime_gates:
+  continuous_attachment: required
+  minimum_paired_rows_per_execution: 292
+  minimum_paired_fraction_basis: 299_divided_by_305
+  minimum_ping_success_fraction_per_execution: 0.9
+  maximum_command_completion_lateness_seconds: 0.5
+  maximum_critical_radio_failures: 0
+  maximum_unintended_ue_restarts: 0
+  maximum_gnb_restart_count_change: 0
+  commanded_and_applied_controls_must_match: true
+  duplicate_command_rows: prohibited
+  missing_row_interpolation: prohibited
+  temporal_gap_rule: split_at_missing_rows_and_never_bridge
+  active_channel_family: AWGN
+  channel_length: 1
+  taps: 1
+  tap_energy: 1.0
+
+reference_fidelity_limits_not_acceptance_gates:
+  source: unchanged_phase3j_development_limits
+  maximum_total_relative_rsrp_mae_db: 1.5
+  maximum_total_sinr_mae_db: 3.0
+  minimum_total_relative_rsrp_pearson_correlation: 0.75
+  minimum_total_sinr_pearson_correlation: 0.5
+  maximum_total_relative_rsrp_wasserstein1_db: 1.5
+  maximum_total_sinr_wasserstein1_db: 3.0
+  maximum_scaled_joint_energy_distance: 0.5
+  maximum_relative_rsrp_lag1_correlation_error: 0.2
+  maximum_sinr_lag1_correlation_error: 0.25
+  maximum_relative_rsrp_increment_wasserstein1_db: 1.0
+  maximum_sinr_increment_wasserstein1_db: 2.0
+  maximum_anchor_start_end_relative_rsrp_drift_db: 0.25
+  maximum_anchor_start_end_sinr_drift_db: 1.0
+  primary_alignment: zero_lag_only
+  lag_search_for_gate_selection: prohibited
+  diagnostic_lags_seconds: [-3, -2, -1, 0, 1, 2, 3]
+
+metric_definitions:
+  clipping_error: original_target_minus_projected_feasible_target
+  dynamic_error: oai_output_minus_projected_feasible_target
+  total_error: oai_output_minus_original_target
+  complete_trace_metrics: all_paired_rows_including_clipped_rows
+  supported_only_metrics: exclude_clipped_rows_and_temporal_pairs_touching_them
+  observed_relative_rsrp_reference: mean_of_start_and_end_anchor_medians
+  pearson_correlation: population_moment_formula_on_paired_rows
+  wasserstein1: exact_equal_weight_empirical_one_dimensional
+  scaled_joint_energy_distance: euclidean_energy_distance_after_rsrp_divide_1_and_sinr_divide_2
+  lag1_correlation: pearson_over_consecutive_command_index_pairs_only
+  increments: first_difference_over_consecutive_command_index_pairs_only
+  missing_rows: omit_and_split_without_interpolation_or_bridging
+
+decision_rules:
+  runtime_valid:
+    code: exploratory_test6_replay_completed_runtime_valid
+    next_action: report_supported_only_complete_trace_and_error_decomposition_without_confirmatory_claim
+  runtime_invalid:
+    code: exploratory_test6_replay_runtime_invalid
+    next_action: preserve_evidence_and_stop_without_interpreting_fidelity
+
+claim_limits:
+  confirmatory_test6_support_pass: prohibited
+  independent_final_validation: prohibited
+  threshold_specific_xapp_behavior: prohibited
+  cross_device_or_population_generalization: prohibited
+  absolute_rsrp_calibration: prohibited
+  physical_channel_reconstruction: prohibited
+  multipath_or_doppler_reconstruction: prohibited
+  physical_noise_or_path_loss_inference: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  estimated_active_experiment_minutes: 15
+  profile: oai-5g-ric-v2
+  profile_branch: feature/rfsim-rsrp-calibration
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+  request_only_after: committed_protocol_runner_commands_and_hardware_authorization

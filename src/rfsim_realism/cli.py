@@ -36,6 +36,7 @@ from .upv_phase3i import (
 )
 from .upv_phase3j import analyze_phase3j_full_trace, freeze_phase3j_full_trace
 from .upv_phase3k import check_phase3k_test6_support, freeze_phase3k_model_release
+from .upv_phase3l import analyze_phase3l_exploratory_replay, freeze_phase3l_exploratory_protocol
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -355,6 +356,20 @@ def _parser() -> argparse.ArgumentParser:
     phase3k_support.add_argument("--translator-support", required=True)
     phase3k_support.add_argument("--archive", required=True)
     phase3k_support.add_argument("--output", required=True)
+
+    phase3l_freeze = commands.add_parser("freeze-upv-phase3l-exploratory")
+    phase3l_freeze.add_argument("--config", required=True)
+    phase3l_freeze.add_argument("--phase3k-config", required=True)
+    phase3l_freeze.add_argument("--model-release-dir", required=True)
+    phase3l_freeze.add_argument("--support-result-dir", required=True)
+    phase3l_freeze.add_argument("--phase3j-config", required=True)
+    phase3l_freeze.add_argument("--output", required=True)
+
+    phase3l_analyze = commands.add_parser("analyze-upv-phase3l-exploratory")
+    phase3l_analyze.add_argument("--campaign", required=True)
+    phase3l_analyze.add_argument("--protocol-dir", required=True)
+    phase3l_analyze.add_argument("--config", required=True)
+    phase3l_analyze.add_argument("--output", required=True)
     return parser
 
 
@@ -785,6 +800,26 @@ def main() -> None:
             model_release_dir=args.model_release_dir,
             translator_support_path=args.translator_support,
             archive_path=args.archive,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "freeze-upv-phase3l-exploratory":
+        result = freeze_phase3l_exploratory_protocol(
+            config_path=args.config,
+            phase3k_config_path=args.phase3k_config,
+            model_release_dir=args.model_release_dir,
+            support_result_dir=args.support_result_dir,
+            phase3j_config_path=args.phase3j_config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "analyze-upv-phase3l-exploratory":
+        result = analyze_phase3l_exploratory_replay(
+            campaign_dir=args.campaign,
+            protocol_dir=args.protocol_dir,
+            config_path=args.config,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))

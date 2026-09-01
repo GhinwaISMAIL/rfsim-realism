@@ -569,9 +569,12 @@ def _analyze_phase3j_execution(
     commands_sha256: str,
     config: dict[str, Any],
     config_sha256: str,
+    telemetry_name: str = "phase3j_full_trace_telemetry.csv",
+    anchors_name: str = "phase3j_anchor_telemetry.csv",
+    expected_test6_accessed: bool = False,
 ) -> tuple[dict[str, Any], pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    telemetry_file = campaign / "phase3j_full_trace_telemetry.csv"
-    anchors_file = campaign / "phase3j_anchor_telemetry.csv"
+    telemetry_file = campaign / telemetry_name
+    anchors_file = campaign / anchors_name
     state_file = campaign / "execution_state.json"
     for path in (telemetry_file, anchors_file, state_file):
         if not path.is_file() or path.is_symlink():
@@ -594,8 +597,8 @@ def _analyze_phase3j_execution(
         raise ValueError(f"execution {execution_number} command checksum mismatch")
     if state.get("research_protocol_sha256") != config_sha256:
         raise ValueError(f"execution {execution_number} protocol checksum mismatch")
-    if state.get("test6_accessed") is not False:
-        raise ValueError(f"execution {execution_number} accessed Test 6")
+    if state.get("test6_accessed") is not expected_test6_accessed:
+        raise ValueError(f"execution {execution_number} has the wrong Test 6 access status")
     if state.get("translator_update_authorized") is not False:
         raise ValueError(f"execution {execution_number} authorized translator updates")
     if state.get("gNB_untouched") is not True:
