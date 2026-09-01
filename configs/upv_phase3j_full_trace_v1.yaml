@@ -1,0 +1,162 @@
+schema_version: 1
+protocol_revision: "1.0"
+stage: phase_3j_complete_test1_development_fidelity_and_repeatability
+objective: replay_complete_test1_trace_with_frozen_bounded_translator
+evaluation_status: development_not_independent_final_validation
+execution_authorized: false
+test6_access_authorized: false
+abc_authorized: false
+
+frozen_inputs:
+  phase3i_pass_decision_sha256: 0f90d01c7e53ffadade336695f87e0aecf910abe26b3d6ce2d1d3419a72c3f49
+  required_phase3i_decision: representative_short_trace_replay_passed
+  phase3g_execution_medians_sha256: c9c8eb4a87905fc7dc88fc002505ba52600d5dbc147347c2d77a381f413d783f
+  phase3h_state_validation_sha256: 82aed42046194479a8fef362e007f79d1595dd822212a0329128fd9fab7a058f
+  direct_test1_trace_sha256: ce42a2be606b8dd078fb0d45d5bc0d45f96183bb3c12a337175674e1c8ff240e
+  pyproject_sha256: 620973b2932dc18945ee55a6e6d07913c4020a304c426a38d7d61ec3975e3eb0
+  uv_lock_sha256: 9b51eeac1a9b0e791421723ef962fd2420ff9d6606d338515d4c0609271470f5
+
+target_trace:
+  session_id: corrected_test_1_ASUS
+  rows: 305
+  sampling_interval_seconds: 1.0
+  relative_rsrp_definition: subtract_complete_session_median
+  input_trace_is_development_data: true
+  final_test6_access: false
+
+translator:
+  method: bounded_piecewise_affine_interpolation
+  triangulation: matplotlib_delaunay_in_scaled_output_space
+  support_point_order: source_then_gain_then_noise_ascending
+  phase3g_state_summary: execution_level_mean
+  phase3h_state_summary: mean_of_three_sequence_medians
+  phase3g_relative_rsrp_anchor_control: [-10.0, -25.0]
+  output_space_scaling:
+    relative_rsrp_db: 1.0
+    sinr_db: 2.0
+  outside_hull_rule: project_to_nearest_convex_hull_edge_and_flag_clipped
+  boundary_tie_break: lexicographically_smallest_vertex_pair
+  extrapolation: prohibited
+  command_rounding_decimal_places: 9
+
+development_support_gate:
+  maximum_clipped_fraction: 0.03
+  maximum_clipping_distance_scaled: 0.75
+  failure_status: unsupported_do_not_execute
+
+test6_support_gate:
+  freeze_before_test6_access: true
+  maximum_clipped_fraction: 0.05
+  maximum_clipping_distance_scaled: 1.0
+  excessive_out_of_hull_status: unsupported_not_emulator_failure
+  hardware_execution_if_unsupported: prohibited
+
+clipping_evaluation:
+  translator_error: original_target_minus_projected_feasible_target
+  dynamic_error: oai_output_minus_projected_feasible_target
+  total_error: oai_output_minus_original_target
+  clipped_rows_in_total_metrics: included
+  clipped_rows_in_dynamic_metrics: included_against_projected_target
+  supported_only_metrics: report_separately
+  temporal_supported_only_rule: use_only_contiguous_pairs_or_lags_with_all_rows_unclipped
+  bridge_across_clipped_rows: prohibited
+
+execution:
+  independent_execution_unit: complete_trace_after_clean_ue_recreation
+  repetitions: 3
+  oai_rng_seeds: [47001, 47002, 47003]
+  command_interval_seconds: 1.0
+  command_start_alignment: next_integer_utc_second_plus_two_seconds
+  primary_kpi_alignment_seconds: 0
+  channel_verification_alignment_seconds: 1
+  post_attachment_stabilization_seconds: 5.0
+  anchor_start_settling_seconds: 5.0
+  anchor_end_settling_seconds: 5.0
+  anchor_usable_seconds: 10.0
+  commands_may_adapt_during_execution: false
+
+runtime_gates:
+  continuous_attachment: required
+  minimum_paired_rows_per_execution: 299
+  minimum_ping_success_fraction_per_execution: 0.9
+  maximum_command_completion_lateness_seconds: 0.5
+  maximum_critical_radio_failures: 0
+  maximum_unintended_ue_restarts: 0
+  maximum_gnb_restart_count_change: 0
+  commanded_and_applied_controls_must_match: true
+  duplicate_command_rows: prohibited
+  missing_row_interpolation: prohibited
+  temporal_gap_rule: split_at_missing_rows_and_never_bridge
+  active_channel_family: AWGN
+  channel_length: 1
+  taps: 1
+  tap_energy: 1.0
+
+fidelity_gates_per_execution:
+  maximum_total_relative_rsrp_mae_db: 1.5
+  maximum_total_sinr_mae_db: 3.0
+  minimum_total_relative_rsrp_pearson_correlation: 0.75
+  minimum_total_sinr_pearson_correlation: 0.5
+  maximum_total_relative_rsrp_wasserstein1_db: 1.5
+  maximum_total_sinr_wasserstein1_db: 3.0
+  maximum_scaled_joint_energy_distance: 0.5
+  maximum_relative_rsrp_lag1_correlation_error: 0.2
+  maximum_sinr_lag1_correlation_error: 0.25
+  maximum_relative_rsrp_increment_wasserstein1_db: 1.0
+  maximum_sinr_increment_wasserstein1_db: 2.0
+  maximum_anchor_start_end_relative_rsrp_drift_db: 0.25
+  maximum_anchor_start_end_sinr_drift_db: 1.0
+  primary_alignment: zero_lag_only
+  lag_search_for_gate_selection: prohibited
+  diagnostic_lags_seconds: [-3, -2, -1, 0, 1, 2, 3]
+
+repeatability_gates:
+  maximum_between_execution_rsrp_standard_deviation_db: 0.5
+  maximum_between_execution_sinr_standard_deviation_db: 1.5
+  all_three_executions_must_pass_runtime_and_fidelity: true
+  sample_rows_are_not_independent_execution_units: true
+
+model_update_policy:
+  translator_update_from_phase3j_residuals: prohibited
+  required_if_change_is_needed: new_development_iteration_and_complete_test1_refreeze
+  package_presented_to_test6_must_equal_committed_phase3j_package: true
+
+test6_interpretation:
+  uses_observed_test6_trace_to_generate_commands: true
+  validates_frozen_translator_and_replay_pipeline_on_unseen_target_trajectory: true
+  predicts_test6_without_observing_it: false
+
+decision_rules:
+  pass:
+    code: complete_test1_development_replay_passed
+    next_action: freeze_model_release_then_authorize_predeclared_test6_support_check
+  unsupported:
+    code: target_trajectory_outside_validated_support
+    next_action: report_unsupported_without_hardware_execution
+  fail_runtime:
+    code: complete_test1_runtime_failed
+    next_action: stop_preserve_evidence_and_diagnose_without_tuning_translator
+  fail_fidelity:
+    code: complete_test1_development_fidelity_failed
+    next_action: stop_or_open_formal_new_development_iteration
+
+claim_limits:
+  independent_final_validation: prohibited
+  test6_access: prohibited
+  cross_session_generalization: prohibited
+  cross_scenario_generalization: prohibited
+  absolute_rsrp_calibration: prohibited
+  physical_channel_reconstruction: prohibited
+  environmental_noise_inference: prohibited
+  abc: prohibited
+
+reservation:
+  request_now: false
+  preparation_lead_time_minutes: 30
+  profile: oai-5g-ric-v2
+  cell_nodes_gnbs: 1
+  ues_per_cell: 1
+  channel_family: AWGN
+  core_hardware: d430
+  cell_hardware: d740
+  estimated_hardware_minutes: 30

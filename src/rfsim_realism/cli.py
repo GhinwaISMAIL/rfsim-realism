@@ -34,6 +34,7 @@ from .upv_phase3i import (
     freeze_phase3i_short_trace,
     recover_phase3i_short_trace,
 )
+from .upv_phase3j import freeze_phase3j_full_trace
 from .upv_protocol import prepare_upv_protocol
 from .upv_support import analyze_upv_support
 from .upv_support_v2 import write_upv_support_v2_plan
@@ -316,6 +317,16 @@ def _parser() -> argparse.ArgumentParser:
     phase3i.add_argument("--protocol-dir", required=True)
     phase3i.add_argument("--config", required=True)
     phase3i.add_argument("--output", required=True)
+
+    phase3j_freeze = commands.add_parser("freeze-upv-phase3j-full-trace")
+    phase3j_freeze.add_argument("--config", required=True)
+    phase3j_freeze.add_argument("--phase3i-decision", required=True)
+    phase3j_freeze.add_argument("--phase3g-execution-medians", required=True)
+    phase3j_freeze.add_argument("--phase3h-state-validation", required=True)
+    phase3j_freeze.add_argument("--direct-trace", required=True)
+    phase3j_freeze.add_argument("--pyproject", required=True)
+    phase3j_freeze.add_argument("--uv-lock", required=True)
+    phase3j_freeze.add_argument("--output", required=True)
     return parser
 
 
@@ -697,6 +708,19 @@ def main() -> None:
             campaign_dir=args.campaign_dir,
             protocol_dir=args.protocol_dir,
             config_path=args.config,
+            output_dir=args.output,
+        )
+        print(json.dumps(result, sort_keys=True))
+        return
+    if args.command == "freeze-upv-phase3j-full-trace":
+        result = freeze_phase3j_full_trace(
+            config_path=args.config,
+            phase3i_decision_path=args.phase3i_decision,
+            phase3g_execution_medians_path=args.phase3g_execution_medians,
+            phase3h_state_validation_path=args.phase3h_state_validation,
+            direct_trace_path=args.direct_trace,
+            pyproject_path=args.pyproject,
+            uv_lock_path=args.uv_lock,
             output_dir=args.output,
         )
         print(json.dumps(result, sort_keys=True))
