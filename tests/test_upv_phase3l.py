@@ -20,6 +20,7 @@ PHASE3K_CONFIG = ROOT / "configs/upv_phase3k_test6_validation_v1.yaml"
 MODEL_RELEASE = ROOT / "manifests/upv_phase3k_model_release_v1"
 SUPPORT_RESULT = ROOT / "manifests/upv_phase3k_test6_support_result_v1"
 PHASE3J_CONFIG = ROOT / "configs/upv_phase3j_full_trace_v1.yaml"
+AUTHORIZATION = ROOT / "manifests/upv_phase3l_execution_authorization_v1"
 
 
 def _freeze(output: Path) -> dict[str, str]:
@@ -168,3 +169,23 @@ def test_phase3l_analyzer_reports_exploratory_runtime_without_confirmatory_pass(
     assert metrics["clipped_rows"] == 21
     assert metrics["runtime_gate_passed"]
     assert np.isclose(metrics["total_relative_rsrp_mae_db"], 0.0)
+
+
+def test_phase3l_hardware_authorization_is_exploratory_and_checksums_match() -> None:
+    authorization = json.loads((AUTHORIZATION / "hardware_authorization.json").read_text())
+    checksums = json.loads((AUTHORIZATION / "SHA256SUMS.json").read_text())
+    assert checksums == {
+        "hardware_authorization.json": _sha256(
+            AUTHORIZATION / "hardware_authorization.json"
+        )
+    }
+    assert authorization["official_confirmatory_result"][
+        "phase3k_support_gate_passed"
+    ] is False
+    assert authorization["execution_authorization"]["authorized_execution_numbers"] == [1]
+    assert authorization["execution_authorization"]["oai_rng_seeds"] == [48001]
+    assert authorization["execution_authorization"]["confirmatory_validation"] is False
+    assert authorization["evaluation_contract"][
+        "phase3j_fidelity_limits_are_acceptance_gates"
+    ] is False
+    assert authorization["reservation"]["request_now"] is True

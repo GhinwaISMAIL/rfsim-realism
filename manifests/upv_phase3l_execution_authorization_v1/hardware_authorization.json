@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "stage": "phase_3l_posthoc_test6_exploratory_hardware_authorization",
+  "decision_code": "one_posthoc_exploratory_test6_execution_authorized",
+  "evaluation_status": "posthoc_exploratory_not_confirmatory_validation",
+  "official_confirmatory_result": {
+    "phase3k_support_gate_passed": false,
+    "status": "unsupported_under_version_1_protocol",
+    "clipped_rows": 21,
+    "target_rows": 297,
+    "clipped_fraction": 0.0707070707070707,
+    "maximum_clipping_distance_scaled": 1.0626583375853942,
+    "immutable": true
+  },
+  "exploratory_authorization_basis": {
+    "translator_changed": false,
+    "new_support_thresholds_defined": false,
+    "complete_trace_projection_only_relative_rsrp_mae_db": 0.01847850385875421,
+    "complete_trace_projection_only_sinr_mae_db": 0.03387492671239059,
+    "maximum_absolute_relative_rsrp_clipping_error_db": 0.9252701666699998,
+    "maximum_absolute_sinr_clipping_error_db": 1.6926155148,
+    "research_tests_passed": 198,
+    "profile_tests_passed": 145
+  },
+  "research_package": {
+    "repository_revision": "173936baf3ecc3720620434f80e944df2b95dca1",
+    "protocol_config_sha256": "be6dc98df9bd0985168a79dfc52665bb431039b78c58d838a065eb13264f3f85",
+    "protocol_manifest_sha256": "691ce2ef5e1034acfd44196904f4996c7368b9dd6c3887dded919cbad7dbc1a0",
+    "protocol_checksums_sha256": "279c83a3f3689843e4030e5dbcbf14a8bf8aa6eb0e6256375d86f98a4e966b07",
+    "phase3k_support_decision_sha256": "b9f3fa41ef9ff9f62d41c6352ceedf079242eab786be8a30b783e2e0056c427c",
+    "commands_sha256": "f79d244e8c054a95ee895f83f0655dc6136b694c1c8f2db5417043a1cf2bbedc"
+  },
+  "profile_package": {
+    "repository_url": "https://github.com/GhinwaISMAIL/oai-5g-ric.git",
+    "branch": "feature/rfsim-rsrp-calibration",
+    "revision": "c41e55857782fd15559a4cf4099dd14d17664ed9",
+    "published": true,
+    "runner_path": "bin/run-phase3l-test6-exploratory.py",
+    "runner_sha256": "cb855952d309c7a948d64095e11362471379492658c04f661863bce9d961330e",
+    "commands_path": "etc/phase3l-test6-exploratory-commands.csv",
+    "commands_sha256": "f79d244e8c054a95ee895f83f0655dc6136b694c1c8f2db5417043a1cf2bbedc"
+  },
+  "runtime_identity": {
+    "oai_revision": "70508ebaf52f2aae420566d380c6537f2efb9f0c",
+    "instrumented_image_tag": "oai-nr-ue-rfsim-phase3h:70508eb",
+    "instrumented_image_id": "record_and_verify_on_reserved_node",
+    "compose_sha256": "record_and_pass_to_runner_on_reserved_node",
+    "channel_config_sha256": "record_and_pass_to_runner_on_reserved_node",
+    "ue_config_sha256": "record_and_pass_to_runner_on_reserved_node",
+    "baseline_ue_image_id": "record_before_execution_and_verify_after_rollback"
+  },
+  "execution_authorization": {
+    "authorized_execution_numbers": [1],
+    "oai_rng_seeds": [48001],
+    "one_complete_trace_per_invocation": true,
+    "fresh_ue_recreation": true,
+    "commands_may_adapt_during_execution": false,
+    "translator_update": false,
+    "minimum_paired_rows": 292,
+    "primary_kpi_alignment_seconds": 0,
+    "channel_verification_alignment_seconds": 1,
+    "test6_access": true,
+    "exploratory_replay": true,
+    "confirmatory_validation": false,
+    "abc": false
+  },
+  "evaluation_contract": {
+    "runtime_validity_is_required": true,
+    "phase3j_fidelity_limits_are_reference_only": true,
+    "phase3j_fidelity_limits_are_acceptance_gates": false,
+    "supported_only_rows": 276,
+    "complete_trace_rows": 297,
+    "report_clipping_dynamic_and_total_errors_separately": true,
+    "threshold_specific_xapp_classification": "not_claimed_without_a_preexisting_frozen_threshold"
+  },
+  "mandatory_preflight": [
+    "verify the profile checkout equals the published revision",
+    "verify runner and command-file checksums",
+    "verify generated compose, channel, and UE configuration checksums and pass them to the runner",
+    "verify the instrumented image exists and carries the pinned OAI revision label",
+    "verify the baseline UE uses the rollback image and is attached",
+    "verify the gNB is healthy",
+    "stop before execution if any identity or health check fails"
+  ],
+  "rollback": {
+    "mandatory_after_execution": true,
+    "restore_baseline_ue_with_force_recreate": true,
+    "verify_baseline_image_id": true,
+    "verify_ue_attachment": true,
+    "verify_gnb_restart_count_unchanged": true,
+    "preserve_logs_and_execution_state_on_failure": true
+  },
+  "reservation": {
+    "request_now": true,
+    "preparation_lead_time_minutes": 30,
+    "estimated_active_experiment_minutes": 15,
+    "profile": "oai-5g-ric-v2",
+    "profile_branch": "feature/rfsim-rsrp-calibration",
+    "profile_revision": "c41e55857782fd15559a4cf4099dd14d17664ed9",
+    "cell_nodes_gnbs": 1,
+    "ues_per_cell": 1,
+    "channel_family": "AWGN",
+    "core_hardware": "d430",
+    "cell_hardware": "d740"
+  },
+  "claim_limits": {
+    "official_test6_status": "unsupported_under_version_1_protocol",
+    "exploratory_kpi_replay": "authorized",
+    "confirmatory_test6_support_pass": "prohibited",
+    "independent_final_validation": "not_claimed",
+    "threshold_specific_xapp_behavior": "not_claimed",
+    "translator_update": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "physical_channel_reconstruction": "prohibited"
+  }
+}
