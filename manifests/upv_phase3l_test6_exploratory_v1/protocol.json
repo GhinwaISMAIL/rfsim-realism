@@ -1,0 +1,176 @@
+{
+  "analysis_repository_revision": {
+    "revision": "67caad2c5017fb91f96edfe31c81519a7733fb61",
+    "tracked_worktree_dirty": false
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "confirmatory_test6_support_pass": "prohibited",
+    "cross_device_or_population_generalization": "prohibited",
+    "independent_final_validation": "prohibited",
+    "multipath_or_doppler_reconstruction": "prohibited",
+    "physical_channel_reconstruction": "prohibited",
+    "physical_noise_or_path_loss_inference": "prohibited",
+    "threshold_specific_xapp_behavior": "prohibited"
+  },
+  "clipping_diagnosis": {
+    "clipped_fraction": 0.0707070707070707,
+    "clipped_intervals": 11,
+    "clipped_point_errors": {
+      "relative_rsrp_maximum_absolute_db": 0.9252701666699998,
+      "relative_rsrp_mean_absolute_db": 0.2613388402880953,
+      "sinr_maximum_absolute_db": 1.6926155148,
+      "sinr_mean_absolute_db": 0.47908824921809545
+    },
+    "clipped_rows": 21,
+    "complete_trace_projection_only_errors": {
+      "relative_rsrp_mae_db": 0.01847850385875421,
+      "relative_rsrp_rmse_db": 0.10614627195902873,
+      "sinr_mae_db": 0.03387492671239059,
+      "sinr_rmse_db": 0.18296486276119564
+    },
+    "exploratory_replay_status": "protocol_frozen_hardware_not_yet_authorized",
+    "inside_rows": 276,
+    "longest_clipped_interval_rows": 7,
+    "official_phase3k_status": "unsupported_under_version_1_protocol",
+    "schema_version": 1,
+    "stage": "phase_3l_posthoc_clipping_diagnosis",
+    "target_rows": 297
+  },
+  "confirmatory_support_pass_claimed": false,
+  "decision_rules": {
+    "runtime_invalid": {
+      "code": "exploratory_test6_replay_runtime_invalid",
+      "next_action": "preserve_evidence_and_stop_without_interpreting_fidelity"
+    },
+    "runtime_valid": {
+      "code": "exploratory_test6_replay_completed_runtime_valid",
+      "next_action": "report_supported_only_complete_trace_and_error_decomposition_without_confirmatory_claim"
+    }
+  },
+  "evaluation_status": "posthoc_exploratory_not_confirmatory_validation",
+  "execution": {
+    "anchor_end_settling_seconds": 5.0,
+    "anchor_start_settling_seconds": 5.0,
+    "anchor_usable_seconds": 10.0,
+    "channel_verification_alignment_seconds": 1,
+    "command_interval_seconds": 1.0,
+    "command_start_alignment": "next_integer_utc_second_plus_two_seconds",
+    "commands_may_adapt_during_execution": false,
+    "exploratory_executions": 1,
+    "independent_execution_unit": "complete_trace_after_clean_ue_recreation",
+    "oai_rng_seeds": [
+      48001
+    ],
+    "post_attachment_stabilization_seconds": 5.0,
+    "primary_kpi_alignment_seconds": 0,
+    "target_rows": 297
+  },
+  "exploratory_rationale": {
+    "changes_confirmatory_result": false,
+    "commands_adapt_during_execution": false,
+    "new_support_thresholds_defined": false,
+    "purpose": "assess_practical_kpi_replay_utility_under_modest_support_violation",
+    "selected_after_test6_support_result": true,
+    "translator_changed": false
+  },
+  "hardware_execution_authorized": false,
+  "input_sha256": {
+    "test6_clipped_targets.csv": "f5b8814cb54f71acc5dc7d5233de28b9fe20814b4b538620fa7cefb402a38ebe",
+    "test6_commands.csv": "f79d244e8c054a95ee895f83f0655dc6136b694c1c8f2db5417043a1cf2bbedc",
+    "test6_support_decision.json": "b9f3fa41ef9ff9f62d41c6352ceedf079242eab786be8a30b783e2e0056c427c",
+    "upv_phase3j_full_trace_v1.yaml": "47fd0b90363a254a456ade605a022b4240dc914f22f2d5eb2f56905ff396d45b",
+    "upv_phase3k_test6_validation_v1.yaml": "146641ec9259e2017e0b8701be21845891b73b7870dacf113d82320051e1d674"
+  },
+  "metric_definitions": {
+    "clipping_error": "original_target_minus_projected_feasible_target",
+    "complete_trace_metrics": "all_paired_rows_including_clipped_rows",
+    "dynamic_error": "oai_output_minus_projected_feasible_target",
+    "increments": "first_difference_over_consecutive_command_index_pairs_only",
+    "lag1_correlation": "pearson_over_consecutive_command_index_pairs_only",
+    "missing_rows": "omit_and_split_without_interpolation_or_bridging",
+    "observed_relative_rsrp_reference": "mean_of_start_and_end_anchor_medians",
+    "pearson_correlation": "population_moment_formula_on_paired_rows",
+    "scaled_joint_energy_distance": "euclidean_energy_distance_after_rsrp_divide_1_and_sinr_divide_2",
+    "supported_only_metrics": "exclude_clipped_rows_and_temporal_pairs_touching_them",
+    "total_error": "oai_output_minus_original_target",
+    "wasserstein1": "exact_equal_weight_empirical_one_dimensional"
+  },
+  "official_confirmatory_result": {
+    "clipped_fraction": 0.0707070707070707,
+    "clipped_rows": 21,
+    "immutable": true,
+    "inside_rows": 276,
+    "maximum_clipping_distance_scaled": 1.0626583375853942,
+    "protocol": "phase3k_version_1",
+    "status": "unsupported_under_version_1_protocol",
+    "support_gate_passed": false,
+    "target_rows": 297
+  },
+  "protocol_revision": "1.0",
+  "radio_state_classification": {
+    "diagnostic_only_sensitivity_thresholds": {
+      "relative_rsrp_db_integers": [
+        -10,
+        12
+      ],
+      "sinr_db_integers": [
+        0,
+        30
+      ]
+    },
+    "frozen_xapp_threshold_available": false,
+    "interpretation": "threshold_crossings_are_reported_without_selecting_a_favorable_threshold",
+    "primary_classification_claim": "prohibited"
+  },
+  "reference_fidelity_limits_not_acceptance_gates": {
+    "diagnostic_lags_seconds": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3
+    ],
+    "lag_search_for_gate_selection": "prohibited",
+    "maximum_anchor_start_end_relative_rsrp_drift_db": 0.25,
+    "maximum_anchor_start_end_sinr_drift_db": 1.0,
+    "maximum_relative_rsrp_increment_wasserstein1_db": 1.0,
+    "maximum_relative_rsrp_lag1_correlation_error": 0.2,
+    "maximum_scaled_joint_energy_distance": 0.5,
+    "maximum_sinr_increment_wasserstein1_db": 2.0,
+    "maximum_sinr_lag1_correlation_error": 0.25,
+    "maximum_total_relative_rsrp_mae_db": 1.5,
+    "maximum_total_relative_rsrp_wasserstein1_db": 1.5,
+    "maximum_total_sinr_mae_db": 3.0,
+    "maximum_total_sinr_wasserstein1_db": 3.0,
+    "minimum_total_relative_rsrp_pearson_correlation": 0.75,
+    "minimum_total_sinr_pearson_correlation": 0.5,
+    "primary_alignment": "zero_lag_only",
+    "source": "unchanged_phase3j_development_limits"
+  },
+  "reservation_requested": false,
+  "runtime_gates": {
+    "active_channel_family": "AWGN",
+    "channel_length": 1,
+    "commanded_and_applied_controls_must_match": true,
+    "continuous_attachment": "required",
+    "duplicate_command_rows": "prohibited",
+    "maximum_command_completion_lateness_seconds": 0.5,
+    "maximum_critical_radio_failures": 0,
+    "maximum_gnb_restart_count_change": 0,
+    "maximum_unintended_ue_restarts": 0,
+    "minimum_paired_fraction_basis": "299_divided_by_305",
+    "minimum_paired_rows_per_execution": 292,
+    "minimum_ping_success_fraction_per_execution": 0.9,
+    "missing_row_interpolation": "prohibited",
+    "tap_energy": 1.0,
+    "taps": 1,
+    "temporal_gap_rule": "split_at_missing_rows_and_never_bridge"
+  },
+  "schema_version": 1,
+  "stage": "phase_3l_posthoc_test6_exploratory_replay",
+  "translator_update_authorized": false
+}

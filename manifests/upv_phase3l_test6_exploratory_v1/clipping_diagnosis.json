@@ -1,0 +1,24 @@
+{
+  "clipped_fraction": 0.0707070707070707,
+  "clipped_intervals": 11,
+  "clipped_point_errors": {
+    "relative_rsrp_maximum_absolute_db": 0.9252701666699998,
+    "relative_rsrp_mean_absolute_db": 0.2613388402880953,
+    "sinr_maximum_absolute_db": 1.6926155148,
+    "sinr_mean_absolute_db": 0.47908824921809545
+  },
+  "clipped_rows": 21,
+  "complete_trace_projection_only_errors": {
+    "relative_rsrp_mae_db": 0.01847850385875421,
+    "relative_rsrp_rmse_db": 0.10614627195902873,
+    "sinr_mae_db": 0.03387492671239059,
+    "sinr_rmse_db": 0.18296486276119564
+  },
+  "exploratory_replay_status": "protocol_frozen_hardware_not_yet_authorized",
+  "inside_rows": 276,
+  "longest_clipped_interval_rows": 7,
+  "official_phase3k_status": "unsupported_under_version_1_protocol",
+  "schema_version": 1,
+  "stage": "phase_3l_posthoc_clipping_diagnosis",
+  "target_rows": 297
+}
