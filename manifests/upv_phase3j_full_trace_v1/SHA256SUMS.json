@@ -1,9 +1,9 @@
 {
-  "analysis_manifest.json": "94619755f6bae207209eb235eb8a9c8634f3b02fd8f7f8cda2f76e596395448c",
+  "analysis_manifest.json": "764a214e952b5efe964c089d1a6b539c420a28857744e4e037d44e21ec008ec5",
   "clipped_targets.csv": "9c518ace8395125702cc4b4114a17c383c4d0c937be06594868a3e3275167d2a",
   "complete_test1_target_trace.csv": "a6a5a3eeb471c63dfa2b88196d6e53ddfb66683c499087dd920c6bc6709c2841",
   "full_trace_commands.csv": "c25fb55ea78294e7e7f44a9dddf6b985ba50881d09d6f394fbbc96bd074fcc76",
-  "protocol.json": "a47449747766897fb4e985d9205300688732fc0160a756ab17267d9959600f1d",
+  "protocol.json": "6f254d9c0f9367d637b4a3f6690c102fa89aca2a6f64e11325149af600e63464",
   "support_report.json": "582c51189d8ac1a5d4e626f7abcdd114a168a1106929cdaead709806164c8d34",
   "test6_support_rules.json": "5dcdcdca308abbdf8115849766b85b9eddcfce08839ff578637e5baffc290ebb",
   "translator_support_nodes.csv": "e77995a7f7dd5016303512b37c5e637f7a08eb2f0719654cd4ae970e390253a8"

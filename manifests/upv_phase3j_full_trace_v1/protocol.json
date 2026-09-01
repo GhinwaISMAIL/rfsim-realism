@@ -1,7 +1,7 @@
 {
   "abc_authorized": false,
   "analysis_repository_revision": {
-    "revision": "cf4741a3018be85159655dc1c25c46fe93dc6dc5",
+    "revision": "1164d34bc88147b6cade35feed36858769e1bbfd",
     "tracked_worktree_dirty": false
   },
   "claim_limits": {
@@ -22,12 +22,16 @@
     "supported_only_metrics": "report_separately",
     "temporal_supported_only_rule": "use_only_contiguous_pairs_or_lags_with_all_rows_unclipped",
     "total_error": "oai_output_minus_original_target",
-    "translator_error": "original_target_minus_projected_feasible_target"
+    "translator_error": "projected_feasible_target_minus_original_target"
   },
   "decision_rules": {
     "fail_fidelity": {
       "code": "complete_test1_development_fidelity_failed",
       "next_action": "stop_or_open_formal_new_development_iteration"
+    },
+    "fail_repeatability": {
+      "code": "complete_test1_development_repeatability_failed",
+      "next_action": "stop_and_diagnose_execution_level_variability_without_tuning_translator"
     },
     "fail_runtime": {
       "code": "complete_test1_runtime_failed",
@@ -96,6 +100,18 @@
     "state_translation_validation.csv": "82aed42046194479a8fef362e007f79d1595dd822212a0329128fd9fab7a058f",
     "uv.lock": "9b51eeac1a9b0e791421723ef962fd2420ff9d6606d338515d4c0609271470f5"
   },
+  "metric_definitions": {
+    "dynamic_metrics_target": "projected_feasible_target",
+    "increments": "first_difference_over_consecutive_command_index_pairs_only",
+    "lag1_correlation": "pearson_over_consecutive_command_index_pairs_only",
+    "missing_rows": "omit_and_split_without_interpolation_or_bridging",
+    "observed_relative_rsrp_reference": "mean_of_start_and_end_anchor_medians",
+    "pearson_correlation": "population_moment_formula_on_paired_rows",
+    "primary_metrics_target": "original_measured_target_including_clipped_rows",
+    "scaled_joint_energy_distance": "euclidean_energy_distance_after_rsrp_divide_1_and_sinr_divide_2",
+    "supported_only_metrics": "exclude_clipped_rows_and_all_temporal_pairs_touching_them",
+    "wasserstein1": "exact_equal_weight_empirical_one_dimensional"
+  },
   "model_update_policy": {
     "package_presented_to_test6_must_equal_committed_phase3j_package": true,
     "required_if_change_is_needed": "new_development_iteration_and_complete_test1_refreeze",
@@ -103,9 +119,11 @@
   },
   "protocol_revision": "1.0",
   "repeatability_gates": {
+    "aggregate_statistic": "root_mean_square_over_command_indices_present_in_all_executions",
     "all_three_executions_must_pass_runtime_and_fidelity": true,
     "maximum_between_execution_rsrp_standard_deviation_db": 0.5,
     "maximum_between_execution_sinr_standard_deviation_db": 1.5,
+    "per_command_statistic": "sample_standard_deviation_across_three_executions_ddof_1",
     "sample_rows_are_not_independent_execution_units": true
   },
   "reservation": {
