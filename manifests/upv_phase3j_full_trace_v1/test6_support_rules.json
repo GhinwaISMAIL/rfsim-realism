@@ -1,0 +1,15 @@
+{
+  "channel_verification_alignment_seconds": 1,
+  "excessive_out_of_hull_status": "unsupported_not_emulator_failure",
+  "freeze_before_test6_access": true,
+  "hardware_execution_if_unsupported": "prohibited",
+  "maximum_clipped_fraction": 0.05,
+  "maximum_clipping_distance_scaled": 1.0,
+  "minimum_paired_rows": 299,
+  "missing_telemetry_interpolation": "prohibited",
+  "post_hoc_lag_selection": "prohibited",
+  "primary_kpi_alignment_seconds": 0,
+  "primary_temporal_metrics": "include_clipped_rows_against_original_target",
+  "supported_only_temporal_metrics": "exclude_clipped_rows_and_adjacent_crossing_pairs",
+  "temporal_gap_rule": "split_at_missing_rows_and_never_bridge"
+}

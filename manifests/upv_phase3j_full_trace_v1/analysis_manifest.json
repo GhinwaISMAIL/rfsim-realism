@@ -1,0 +1,22 @@
+{
+  "analysis_repository_revision": {
+    "revision": "cf4741a3018be85159655dc1c25c46fe93dc6dc5",
+    "tracked_worktree_dirty": false
+  },
+  "clipped_rows": 8,
+  "command_rows": 305,
+  "development_support_gate_passed": true,
+  "execution_authorized": false,
+  "schema_version": 1,
+  "software_environment": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "pyproject_sha256": "620973b2932dc18945ee55a6e6d07913c4020a304c426a38d7d61ec3975e3eb0",
+    "python": "3.12.12",
+    "pyyaml": "6.0.3",
+    "uv_lock_sha256": "9b51eeac1a9b0e791421723ef962fd2420ff9d6606d338515d4c0609271470f5"
+  },
+  "stage": "phase_3j_complete_test1_protocol_manifest",
+  "test6_accessed": false
+}

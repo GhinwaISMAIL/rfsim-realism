@@ -1,0 +1,31 @@
+{
+  "clipped_fraction": 0.02622950819672131,
+  "clipped_rows": 8,
+  "development_support_gate": {
+    "failure_status": "unsupported_do_not_execute",
+    "maximum_clipped_fraction": 0.03,
+    "maximum_clipping_distance_scaled": 0.75
+  },
+  "development_support_gate_passed": true,
+  "inside_rows": 297,
+  "maximum_clipping_distance_scaled": 0.672419638881416,
+  "schema_version": 1,
+  "stage": "phase_3j_complete_test1_support_report",
+  "target_rows": 305,
+  "test6_accessed": false,
+  "test6_support_gate_frozen_but_not_applied": {
+    "channel_verification_alignment_seconds": 1,
+    "excessive_out_of_hull_status": "unsupported_not_emulator_failure",
+    "freeze_before_test6_access": true,
+    "hardware_execution_if_unsupported": "prohibited",
+    "maximum_clipped_fraction": 0.05,
+    "maximum_clipping_distance_scaled": 1.0,
+    "minimum_paired_rows": 299,
+    "missing_telemetry_interpolation": "prohibited",
+    "post_hoc_lag_selection": "prohibited",
+    "primary_kpi_alignment_seconds": 0,
+    "primary_temporal_metrics": "include_clipped_rows_against_original_target",
+    "supported_only_temporal_metrics": "exclude_clipped_rows_and_adjacent_crossing_pairs",
+    "temporal_gap_rule": "split_at_missing_rows_and_never_bridge"
+  }
+}
