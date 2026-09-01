@@ -1,0 +1,16 @@
+{
+  "activation_condition": "every model-release file is committed at HEAD with matching checksums and the tracked research worktree is clean",
+  "authorized_operation_after_activation": "open_only_Test_6/Test_6_ASUS.csv_for_the_predeclared_offline_support_check",
+  "hardware_execution_authorized": false,
+  "prohibited_operations": [
+    "translator_fitting_or_update",
+    "threshold_update",
+    "post_hoc_alignment_selection",
+    "hardware_execution",
+    "powder_reservation_request"
+  ],
+  "schema_version": 1,
+  "stage": "phase_3k_offline_test6_access_authorization",
+  "status_before_release_commit": "inactive_pending_commit",
+  "test6_payload_opened": false
+}

@@ -1,0 +1,93 @@
+{
+  "analysis_repository": {
+    "revision": "e24371172e36cc36220d2851cac8b2c905fac566",
+    "tracked_worktree_dirty": false
+  },
+  "claim_limits": {
+    "abc": "prohibited",
+    "absolute_rsrp_calibration": "prohibited",
+    "attachment_distribution_validation": "prohibited",
+    "cross_device_generalization": "prohibited",
+    "multipath_or_doppler_reconstruction": "prohibited",
+    "physical_channel_reconstruction": "prohibited",
+    "physical_noise_or_path_loss_inference": "prohibited",
+    "population_generalization": "prohibited",
+    "prediction_of_test6_without_observing_it": "prohibited"
+  },
+  "evaluation_status": "predesignated_untouched_session_target_trajectory_validation",
+  "hardware_execution_authorized": false,
+  "phase3j_all_gates_passed": true,
+  "phase3j_decision_code": "complete_test1_development_replay_passed",
+  "profile_repository": {
+    "revision": "86180671da37b1943e80cdec7d817678d4cc94f7",
+    "tracked_worktree_dirty": false
+  },
+  "protocol_revision": "1.0",
+  "reservation_requested": false,
+  "schema_version": 1,
+  "stage": "phase_3k_immutable_model_release",
+  "test6_payload_opened": false,
+  "test6_preprocessing": {
+    "aggregation_statistic": "median",
+    "interpolation": "prohibited",
+    "long_gap_rule": "split_sequence_and_never_bridge",
+    "maximum_gap_seconds": 2.0,
+    "minimum_sequence_rows": 20,
+    "paired_missing_value_rule": "drop_row_if_either_relative_rsrp_or_sinr_is_missing",
+    "preserve_synchronized_pairs": true,
+    "relative_rsrp_definition": "subtract_complete_session_median_after_aggregation",
+    "runner_input_requirement": "one_contiguous_one_hz_sequence",
+    "sinr_definition": "empirical_device_conditioned_db_without_offset",
+    "source": "unchanged_from_phase3d_config",
+    "temporal_aggregation_seconds": 1.0
+  },
+  "test6_replay_if_supported": {
+    "commands_may_adapt_during_execution": false,
+    "hardware_authorization_requires_separate_freeze": true,
+    "oai_rng_seeds": [
+      48001,
+      48002,
+      48003
+    ],
+    "repetitions": 3,
+    "runner_and_command_package_must_be_committed_before_reservation": true,
+    "translator_may_change": false
+  },
+  "test6_source_identity": {
+    "archive_sha256": "a8c5a7ab9b683dedc4f770ceab5aebf80eec5d38a99f813808637cb7fa171753",
+    "device": "ASUS",
+    "member_path": "Test_6/Test_6_ASUS.csv",
+    "member_sha256": "88a971aa2c3169862cfb788a65fc5206f8ee94a410b0c2e964a0dbfa3149c1dd",
+    "session_id": "corrected_test_6_ASUS"
+  },
+  "test6_support_gate": {
+    "clipped_rows_in_primary_distribution_metrics": "included_against_original_target",
+    "clipped_rows_in_supported_only_temporal_metrics": "excluded_with_adjacent_crossing_pairs",
+    "excessive_out_of_hull_status": "unsupported_not_emulator_failure",
+    "hardware_execution_if_unsupported": "prohibited",
+    "maximum_clipped_fraction": 0.05,
+    "maximum_clipping_distance_scaled": 1.0,
+    "missing_telemetry_interpolation": "prohibited",
+    "pre_access_runtime_gate_amendment": {
+      "basis": "The absolute 299-row Phase 3J gate was defined for a 305-row Test 1 target. Phase 1 metadata already established before Test 6 KPI access that Test 6 is shorter, so the equivalent paired-coverage fraction is used.",
+      "legacy_absolute_minimum_paired_rows": 299,
+      "minimum_paired_fraction": 0.980327868852459,
+      "minimum_paired_rows_formula": "ceil_minimum_paired_fraction_times_target_rows",
+      "reference_target_rows": 305,
+      "thresholds_selected_from_test6_kpi_distribution": false
+    },
+    "temporal_gap_rule": "split_at_missing_rows_and_never_bridge"
+  },
+  "translator": {
+    "channel_verification_alignment_seconds": 1,
+    "clipping_policy": "nearest_validated_hull_boundary",
+    "deterministic_trace_replay_primary": true,
+    "extrapolation": "prohibited",
+    "post_hoc_lag_selection": "prohibited",
+    "primary_kpi_alignment_seconds": 0,
+    "target_source": "synchronized_measured_relative_rsrp_and_sinr",
+    "translator_method": "bounded_piecewise_affine_interpolation",
+    "translator_updates_from_phase3j_or_test6": "prohibited"
+  },
+  "translator_update_authorized": false
+}
